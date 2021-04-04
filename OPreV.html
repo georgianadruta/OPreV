@@ -23,19 +23,43 @@
 
     <!--CSS FILES-->
     <link rel="stylesheet" href="styles\body_footer.css">
+    <link rel="stylesheet" href="styles\scroll_progress.css">
 
     <!--JAVA SCRIPTS-->
+    <script src="scripts/scroll_progress.js"></script>
+    
+</head>
 
+<body>
 </head>
 
 <body>
     <header>
-        <section>Header section</section>
+        <div class="scrollBar">
+            <div class="progress-container">
+                <div class="progress-bar" id="mySrollBar"></div>
+            </div>
+        </div>
     </header>
 
     <main>
-        <section>Main section</section>
+            <h2>Welcome to OBV!</h2>
+            <p>Our purpose is to provide you with relevant data regarding obesity rates across europe.</p>
+            <p>The indicator measures the share of obese people based on their body mass index (BMI). BMI is defined 
+                as the weight in kilos divided by the square of the height in meters.</p>
+            <p>People aged 18 years or over are considered obese with a BMI equal or greater than 30. Other
+                categories are: underweight (BMI less than 18.5), normal weight (BMI between 18.5 and less than 25),
+                and pre-obese (BMI between 25 and less than 30). The category overweight (BMI equal or greater than
+                25) combines the two categories pre-obese and obese.</p>
+            <h3>Please select one of the fallowing type of charts you want to preview:</h3>
+
+            <div>
+                <p><a href="firstPage.html">Bar Chart</a></p>
+                <p><a href="secondPage.html">Table Chart</a></p>
+                <p><a href="thirdPage.html">Line Chart</a></p>
+            </div>
     </main>
+
 
     <footer>
         <a href="contact.html">
