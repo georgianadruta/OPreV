@@ -1,0 +1,103 @@
+.text {
+    width: 100%;
+    transition: all 1s ease-in-out;
+    animation-name: fadeIn;
+    animation-timing-function: ease-out;
+    animation-duration: 3s;
+    animation-delay: 0;
+    animation-iteration-count: 1;
+}
+
+.text::before {
+    content: "";
+    transform-origin: left;
+    transform: scale(0);
+    transition: all 1s ease-in-out;
+}
+
+.text h2 {
+    font-size: 3em;
+    transition: all 1s ease-in-out;
+}
+
+.text p {
+    font-size: 1.5em;
+    transition: all 1s ease-in-out;
+}
+
+.text h3 {
+    padding-top: 50px;
+    font-size: 1.5em;
+    padding-bottom: 30px;
+    transition: all 1s ease-in-out;
+}
+
+@media screen and (max-height: 880px) {
+    .text h2 {
+        font-size: 2em;
+    }
+    .text p {
+        font-size: 1.1em;
+    }
+    .text h3 {
+        padding-top: 30px;
+        font-size: 1em;
+        padding-bottom: 19px;
+    }
+}
+
+@media screen and (max-height: 670px) {
+    .text h2 {
+        font-size: 1.5em;
+    }
+    .text p {
+        font-size: 0.8em;
+    }
+    .text h3 {
+        padding-top: 20px;
+        font-size: 0.8em;
+        padding-bottom: 15px;
+    }
+}
+
+@media screen and (max-height: 470px) {
+    .text h2 {
+        font-size: 1em;
+    }
+    .text p {
+        font-size: 0.5em;
+    }
+    .text h3 {
+        padding-top: 10px;
+        font-size: 0.5em;
+        padding-bottom: 7px;
+    }
+}
+
+@media screen and (max-width: 850px) {
+    .text h2 {
+        font-size: 1.5em;
+    }
+    .text p {
+        font-size: 1em;
+    }
+    .text h3 {
+        padding-top: 20px;
+        font-size: 1em;
+        padding-bottom: 15px;
+    }
+}
+
+@media screen and (max-width: 540px) {
+    .text h2 {
+        font-size: 1em;
+    }
+    .text p {
+        font-size: 0.5em;
+    }
+    .text h3 {
+        padding-top: 10px;
+        font-size: 0.5em;
+        padding-bottom: 7px;
+    }
+}

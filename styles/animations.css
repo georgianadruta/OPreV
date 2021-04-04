@@ -1,0 +1,23 @@
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes slideInFromLeft {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes changeColorNavBar {
+    0% {background-color: #1f0101; opacity: 1;}
+    50% {opacity: rgb(31, 3, 3); opacity: 0.75; }
+    100% {opacity: #0c0000; opacity: 1;}
+}

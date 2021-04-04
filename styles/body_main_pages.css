@@ -1,0 +1,14 @@
+div.pages {
+    display: block;
+    animation-name: fadeIn;
+    animation-timing-function: ease-out;
+    animation-duration: 3s;
+    animation-delay: 0;
+    animation-iteration-count: 1;
+}
+
+div.pages :target {
+    display: block;
+    border: 2px solid #D4D4D4;
+    background-color: #e5eecc;
+}

@@ -1,0 +1,32 @@
+body {
+    font-family: 'Lucida Console', Monaco, monospace;
+    margin: auto;
+}
+
+main{
+    margin-left: 4em;
+    margin-right: 4em;
+}
+
+.homePageContent, .firstPageContent, .secondPageContent, .thirdPageContent {
+    background-color: transparent;
+    left: 50%;
+    z-index: -1;
+    position: absolute; 
+    text-align: center;
+    width: 90%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@media screen and ( max-height: 370px) {
+    .homePageContent, .firstPageContent, .secondPageContent, .thirdPageContent {
+        padding-top: 100px;
+    }
+}
+
+@media screen and (max-height: 250px) {
+    .homePageContent, .firstPageContent, .secondPageContent, .thirdPageContent {
+        padding-top: 70px;
+    }
+}
