@@ -1,0 +1,80 @@
+nav {
+    background: black;
+    border-top: 1px solid #000;
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    align-items: center;
+    justify-content: flex-end;
+    padding-left: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+nav ul li ul.items {
+    padding: 0 25px;
+    display: flex;
+}
+
+nav ul li ul.items a {
+    text-decoration: none;
+    font-size: 18px;
+    padding: 0 12px;
+}
+
+nav ul li ul.items a:hover {
+    color: cyan;
+}
+
+nav ul li.search-bar-container {
+    line-height: 40px;
+    display: grid;
+    grid-template-columns: 200px 40px;
+    align-self: center;
+    justify-self: center;
+    background: #f2f2f2;
+    border-radius: 5px;
+}
+
+nav ul li.search-bar-container input[type='search'] {
+    height: 100%;
+    width: 200px;
+    border: none;
+    padding: 0 10px;
+    color: #000;
+    font-size: 16px;
+    border-radius: 5px 0 0 5px;
+}
+
+nav ul li.search-bar-container label.icon {
+    width: 40px;
+    line-height: 40px;
+    text-align: center;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+    background-color: white;
+}
+
+nav ul li.search-bar-container label.icon:hover {
+    background: #e6e6e6;
+}
+
+nav ul li.search-bar-container label.icon i {
+    color: #222222;
+    font-size: 18px;
+}
+
+nav ul li ul.items a {
+    margin: auto;
+    padding: 15px;
+    color: #f2f2f2;
+}
