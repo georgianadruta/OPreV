@@ -19,6 +19,30 @@ nav ul {
     margin-bottom: 0;
 }
 
+nav ul li.btn {
+    font-size: 29px;
+    flex: auto;
+    background-color: black;
+    border-color: black;
+    padding-left: 20px;
+    color: white;
+    display: none;
+}
+
+nav ul li.btn span {
+    height: 42px;
+    width: 42px;
+    text-align: center;
+    line-height: 42px;
+    border: 1px solid #151515;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+nav ul li.btn .show {
+    content: '\f00d';
+}
+
 nav ul li.logo {
     z-index: 2;
     flex: 1;
@@ -81,4 +105,81 @@ nav ul li ul.items a {
     margin: auto;
     padding: 15px;
     color: #f2f2f2;
+}
+
+@media screen and (max-width: 1052px) {
+    nav {
+        padding-left: 0;
+        padding-bottom: 10px;
+    }
+    nav ul {
+        display: flex;
+        justify-content: space-between;
+    }
+    nav ul li.logo {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    nav {
+        z-index: 1;
+        padding-left: 0;
+    }
+}
+
+@media screen and (max-width: 550px) {
+    nav ul li ul.items {
+        display: none;
+    }
+    nav ul li.btn {
+        display: flex;
+    }
+}
+
+@media screen and (max-width: 430px) {
+    nav {
+        padding-bottom: 17px;
+    }
+    nav ul li {
+        width: 150px;
+        padding-right: 25px;
+    }
+    nav ul li.search-bar-container {
+        line-height: 30px;
+        grid-template-columns: 150px 30px;
+    }
+    nav ul li.search-bar-container {
+        width: 150px;
+        height: 30px;
+    }
+    nav ul li.search-bar-container input[type='search'] {
+        width: 150px;
+    }
+}
+
+@media screen and (max-width: 300px) {
+    nav ul li.search-bar-container {
+        display: none;
+    }
+}
+
+@media screen and (max-height: 500px) {
+    nav {
+        padding-left: 0;
+        padding-bottom: 10px;
+    }
+    nav ul {
+        display: flex;
+        justify-content: space-between;
+    }
+    nav ul li.logo {
+        display: none;
+    }
+}
+
+@media screen and (max-height: 400px) {
+    nav {
+        padding-bottom: 3px;
+    }
 }
