@@ -7,17 +7,21 @@ nav {
     padding-left: 40px;
     padding-right: 40px;
     padding-top: 10px;
-    padding-bottom: 10px;
 }
 
 nav ul {
     display: flex;
     list-style: none;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: center;
     padding-left: 0;
     margin-top: 0;
     margin-bottom: 0;
+}
+
+nav ul li.logo {
+    z-index: 2;
+    flex: 1;
 }
 
 nav ul li ul.items {
