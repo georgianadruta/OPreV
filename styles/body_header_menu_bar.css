@@ -1,3 +1,8 @@
+header{
+    width: 100%;
+    position: fixed;
+}
+
 nav {
     background: black;
     border-top: 1px solid #000;
@@ -57,6 +62,7 @@ nav ul li ul.items a {
     text-decoration: none;
     font-size: 18px;
     padding: 0 12px;
+    transition: 0.3s ease-in-out;
 }
 
 nav ul li ul.items a:hover {
@@ -81,6 +87,7 @@ nav ul li.search-bar-container input[type='search'] {
     color: #000;
     font-size: 16px;
     border-radius: 5px 0 0 5px;
+    outline: none;
 }
 
 nav ul li.search-bar-container label.icon {
@@ -90,6 +97,7 @@ nav ul li.search-bar-container label.icon {
     border-radius: 0 5px 5px 0;
     cursor: pointer;
     background-color: white;
+    transition: 0.3s ease-in-out;
 }
 
 nav ul li.search-bar-container label.icon:hover {

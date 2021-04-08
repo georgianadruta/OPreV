@@ -9,7 +9,7 @@
     background-color: #111;
     overflow-x: hidden;
     padding-top: 60px;
-    transition: 0.5s;
+    transition: 0.3s ease-in-out;
 }
 
 .sidenav ul {
@@ -27,7 +27,7 @@
     font-size: 1.5em;
     color: #818181;
     display: block;
-    transition: 0.3s;
+    transition: 0.3s ease-in-out;
 }
 
 .sidenav a:hover {

@@ -21,7 +21,7 @@
     bottom: -3px;
     transform-origin: left;
     transform: scale(0);
-    transition: 0.25s linear;
+    transition: 0.3s ease-in-out;
 }
 
 .section_links a span.page_links_effect {
@@ -30,7 +30,7 @@
     text-decoration: none;
     display: flex;
     border-bottom: 3px solid rgb(169, 167, 180);
-    transition: all 0.5s ease-in-out;
+    transition: 0.3s ease-in-out;
     position: relative;
 }
 
