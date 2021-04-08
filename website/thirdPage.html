@@ -31,11 +31,14 @@
     <link rel="stylesheet" href="styles\body_main.css">
     <link rel="stylesheet" href="styles\body_main_pages.css">
     <link rel="stylesheet" href="styles\body_footer.css">
+    <link rel="stylesheet" href="styles/third_page.css">
 
     <!--JAVA SCRIPTS-->
+    <script src="../node_modules/chart.js/dist/chart.js"></script>
     <script src="scripts/scroll_progress.js"></script>
     <script src="scripts/menu_bar.js"></script>
     <script src="scripts/menu_side_bar.js"></script>
+    <script src="scripts/charts/chart_line.js"></script>
 
 </head>
 
@@ -85,15 +88,14 @@
         <div class="backgroundcolor3"></div>
 
         <div class="page-content">
-
+            <canvas id="lineChart" width="900" height="400"></canvas>
         </div>
     </main>
 
-
     <footer>
-            <div class="footer_bar">
-                <span class="footer_bar_arrow">&uArr;</span>
-            </div>
+        <div class="footer_bar">
+            <span class="footer_bar_arrow">&uArr;</span>
+        </div>
 
         <div class="footer_container">
             <div class="left_side">
