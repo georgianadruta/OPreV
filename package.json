@@ -1,0 +1,22 @@
+{
+  "name": "oprev",
+  "version": "1.0.0",
+  "description": "This is the package manager. Future npm packages will be easier to track using this file.",
+  "main": "OpRev.HTML",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/georgianadruta/OPreV.git"
+  },
+  "author": "Martoncă Antonel-Daniel,Barat Narcis Ștefan,Georgiana Druță",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/georgianadruta/OPreV/issues"
+  },
+  "homepage": "https://github.com/georgianadruta/OPreV#readme",
+  "dependencies": {
+    "chart.js": "^3.0.2"
+  }
+}
