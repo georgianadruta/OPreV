@@ -24,21 +24,22 @@
     <!--CSS FILES-->
     <link rel="stylesheet" href="styles/body_header_menu_side_bar.css">
     <link rel="stylesheet" href="styles/body_header_menu_bar.css">
-    <link rel="stylesheet" href="styles\scroll_progress.css">
-    <link rel="stylesheet" href="styles\animations.css">
-    <link rel="stylesheet" href="styles\body_main_background.css">
-    <link rel="stylesheet" href="styles\body_main_page_links.css">
-    <link rel="stylesheet" href="styles\body_main.css">
-    <link rel="stylesheet" href="styles\body_main_pages.css">
-    <link rel="stylesheet" href="styles\body_footer.css">
+    <link rel="stylesheet" href="styles/scroll_progress.css">
+    <link rel="stylesheet" href="styles/animations.css">
+    <link rel="stylesheet" href="styles/body_main_background.css">
+    <link rel="stylesheet" href="styles/body_main_page_links.css">
+    <link rel="stylesheet" href="styles/body_main.css">
+    <link rel="stylesheet" href="styles/body_main_pages.css">
+    <link rel="stylesheet" href="styles/body_footer.css">
+    <link rel="stylesheet" href="styles/bar-chart.css">
 
     <!--JAVA SCRIPTS-->
     <script src="scripts/scroll_progress.js"></script>
     <script src="scripts/menu_bar.js"></script>
     <script src="scripts/menu_side_bar.js"></script>
+    <script src="../node_modules/chart.js/dist/chart.js"></script>
 
 </head>
-
 
 <body>
     <header>
@@ -85,15 +86,25 @@
         <div class="backgroundcolor3"></div>
 
         <div class="page-content">
-
+            <h1>Bar chart</h3>
+            <div class="bar-controller">
+                <p>Choose the year: </h3>
+                <select name="year" id="year" onchange="changeChartDataByYear()">
+                    <option value="2008">2008</option>
+                    <option value="2014">2014</option>
+                    <option value="2017">2017</option>
+                  </select>
+            </div>
+            <div class="chart-container">
+                <canvas id="myChart" ></canvas>
+            </div> 
         </div>
     </main>
 
-
     <footer>
-            <div class="footer_bar">
-                <span class="footer_bar_arrow">&uArr;</span>
-            </div>
+        <div class="footer_bar">
+            <span class="footer_bar_arrow">&uArr;</span>
+        </div>
 
         <div class="footer_container">
             <div class="left_side">
@@ -141,5 +152,8 @@
         </div>
     </footer>
 </body>
+
+<script src="scripts/charts/bar-chart.js"></script>
+
 
 </html>

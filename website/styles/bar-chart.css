@@ -1,0 +1,9 @@
+.bar-controller {
+    display: flex;
+}
+
+.chart-container {
+    position: relative;
+    height: 40vh;
+    width: 80vw;
+}
