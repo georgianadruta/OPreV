@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/georgianadruta/OPreV#readme",
   "dependencies": {
-    "chart.js": "^3.0.2"
+    "chart.js": "^3.0.2",
+    "datatables.net": "^1.10.24",
+    "datatables.net-dt": "^1.10.24"
   }
 }
