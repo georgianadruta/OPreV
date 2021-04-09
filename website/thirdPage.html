@@ -31,6 +31,7 @@
     <link rel="stylesheet" href="styles/body_main.css">
     <link rel="stylesheet" href="styles/body_main_pages.css">
     <link rel="stylesheet" href="styles/body_footer.css">
+    <link rel="stylesheet" href="styles/third_page.css">
 
     <!--JAVA SCRIPTS-->
     <script src="../node_modules/chart.js/dist/chart.js"></script>
@@ -88,15 +89,21 @@
 
         <div class="page-content">
             <canvas id="lineChart" width="900" height="400"></canvas>
-            
+
             <div class="yearsButtonsContainer">
                 <ul class="yearsButtonsList">
-                    <li class="yearButton"><button onclick="changeChartDataByYear('2008')">2008</button></li>
-                    <li class="yearButton"><button onclick="changeChartDataByYear('2014')">2014</button></li>
-                    <li class="yearButton"><button onclick="changeChartDataByYear('2017')">2017</button></li>
+                    <li class="yearButton"><button class="buttonEffect"
+                            onclick="changeChartDataByYear('2008')">2008</button>
+                    </li>
+                    <li class="yearButton"><button class="buttonEffect"
+                            onclick="changeChartDataByYear('2014')">2014</button>
+                    </li>
+                    <li class="yearButton"><button class="buttonEffect"
+                            onclick="changeChartDataByYear('2017')">2017</button>
+                    </li>
                 </ul>
+                <p>Select the year</p>
             </div>
-
         </div>
     </main>
 

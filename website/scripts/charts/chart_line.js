@@ -1,4 +1,4 @@
-const data_labels = ["2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017"];
+const data_labels = ["2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2020", "2021"];
 const dataset2008 = [NaN, NaN, NaN, NaN, 51.1, 51.8, 51.8, 51.8];
 const dataset2014 = [NaN, NaN, NaN, NaN, 55.1, 41.8, 51.8, 91.8];
 const dataset2017 = [NaN, NaN, NaN, NaN, 55.1, 51.8, 61.8, 21.8];
@@ -30,8 +30,8 @@ var config = {
 };
 
 var lineChart;
-window.onload = function(){
-    lineChart=new Chart(document.getElementById('lineChart').getContext('2d'), config);
+window.onload = function () {
+    lineChart = new Chart(document.getElementById('lineChart').getContext('2d'), config);
 };
 
 function changeChartDataByYear(year) {
