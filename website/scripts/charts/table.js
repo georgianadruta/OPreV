@@ -35,13 +35,21 @@ var dataSet = [
     [ "Turkey","50.6","56.5",":" ]
 ];
     $(document).ready(function() {
-    $('#example').DataTable( {
-        data: dataSet,
+
+        table = $('#example').DataTable( {
+            data: dataSet,
         columns: [
             { title: "Country" },
             { title: "2008" },
             { title: "2014" },
             { title: "2017" }
         ]
+        } );
+    
+        $(table)( {
+        paging: false,
+        destroy: true,
+        searching: false,
+        responsive: true
     } );
 });
