@@ -5,11 +5,11 @@
     ;
 }
 
-.yearsButtonsContainer {
+.dataButtonsContainer {
     display: block;
 }
 
-.yearsButtonsContainer p {
+.dataButtonsContainer p {
     display: block;
     justify-content: left;
     position: fixed;
@@ -20,7 +20,7 @@
     font-weight: 500;
 }
 
-ul.yearsButtonsList {
+ul.dataButtonsList {
     display: flex;
     list-style-type: none;
     padding: 0;
@@ -29,7 +29,7 @@ ul.yearsButtonsList {
     margin-bottom: 0;
 }
 
-.yearsButtonsList li button {
+.dataButtonsList li button {
     display: inline-block;
     margin-right: 20px;
     font-size: 1em;
@@ -39,10 +39,10 @@ ul.yearsButtonsList {
     font-weight: 600;
     position: relative;
     text-decoration: none;
-    text-transform: uppercase;
+   
 }
 
-.yearsButtonsList li button:hover {
+.dataButtonsList li button:hover {
     text-decoration: none;
     background: transparent;
 }
