@@ -165,7 +165,7 @@ textarea {
         width: 100%;
     }
     textarea {
-        width: 100%;
+        width: 92%;
     }
     .styled-input {
         margin-bottom: 5px;
@@ -174,13 +174,53 @@ textarea {
 
 @media screen and (max-width: 500px) {
     .finishButtons {
-        padding-left: 0;
-        padding-right: 0;
+        padding: 0;
     }
 }
 
 @media screen and (max-width: 400px) {
     h1 {
         display: none;
+    }
+}
+
+@media screen and (max-height: 800px) {
+    h1 {
+        display: none;
+    }
+}
+
+@media screen and (max-height: 720px) {
+    input {
+        padding: 15px 15px 15px 15px;
+    }
+    .styled-input label {
+        padding: 0;
+        padding-left: 30px;
+        padding-top: 5px;
+    }
+    textarea {
+        width: 95%;
+    }
+}
+
+@media screen and (max-height: 720px) {
+    input {
+        padding: 10px 10px 10px 10px;
+    }
+    .styled-input label {
+        padding: 0;
+        padding-left: 30px;
+        padding-top: 5px;
+    }
+    textarea {
+        width: 95%;
+    }
+}
+
+@media screen and (max-height: 600px) {
+    textarea {
+        min-height: 0;
+        width: 94%;
     }
 }
