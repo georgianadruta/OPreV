@@ -1,13 +1,8 @@
 .table-container {
-    /* position: absolute;
-    height: 40vh;
-    width: 80vh; */
     
+    width: 800px; 
+    top:60px;
     position: absolute;
-    min-height:400px;
-    margin-top:40px;
-    padding-top:580px;
     padding-bottom: 40px;
-    padding-left:20px;
 }
  
