@@ -29,12 +29,6 @@ input:focus~label, textarea:focus~label, input:valid~label, textarea:valid~label
     border-radius: 4px;
 }
 
-@media only screen and (max-width: 768px) {
-    .styled-input {
-        width: 100%;
-    }
-}
-
 .styled-input label {
     color: #999;
     padding: 1.3rem 30px 1rem 30px;
@@ -133,4 +127,64 @@ textarea {
 .finishButtons .reset-btn:hover {
     transform: translateY(1px);
     box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.10), 0 1px 1px 0 rgba(0, 0, 0, 0.09);
+}
+
+@media only screen and (max-width: 768px) {
+    .styled-input {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 950px) {
+    h1 {
+        font-size: 30px;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    input {
+        padding: 15px 15px 15px 15px;
+    }
+    .styled-input label {
+        padding: 0;
+        padding-left: 30px;
+        padding-top: 5px;
+    }
+    textarea {
+        width: 95%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .tel {
+        margin-left: 0;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .container {
+        width: 70%;
+    }
+    input {
+        width: 100%;
+    }
+    textarea {
+        width: 100%;
+    }
+    .styled-input {
+        margin-bottom: 5px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .finishButtons {
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    h1 {
+        display: none;
+    }
 }
