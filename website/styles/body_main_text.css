@@ -74,6 +74,12 @@
     }
 }
 
+@media screen and (max-height: 400px) {
+    .text p {
+        display: none;
+    }
+}
+
 @media screen and (max-width: 850px) {
     .text h2 {
         font-size: 1.5em;

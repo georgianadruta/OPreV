@@ -22,6 +22,7 @@ input:focus~label, textarea:focus~label, input:valid~label, textarea:valid~label
     float: left;
     width: 293px;
     margin: 1rem 0;
+    margin-right: 1rem;
     position: relative;
     border-radius: 4px;
 }
@@ -67,4 +68,9 @@ input[type=checkbox]+label {
 
 input[type=checkbox]:checked+label {
     color: black;
+}
+
+.tel{
+    left: auto;
+    margin-left: 50px;
 }

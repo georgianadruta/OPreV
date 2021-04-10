@@ -19,7 +19,7 @@ footer:hover .footer_bar {
 }
 
 footer:hover {
-  height: 230px;
+  height: 180px;
   transition: 1s ease-in-out;
 }
 
@@ -42,7 +42,7 @@ footer:hover {
   padding: 10px 20px;
 }
 
-.footer_container .right_side.contact_footer{
+.footer_container .right_side.contact_footer {
   flex-basis: 100%;
 }
 
@@ -168,12 +168,10 @@ footer .footerNavText {
 }
 
 @media screen and (max-width: 900px) {
-    footer {
-      display: none;
-    }
-
-    footer.contact_footer {
-      display: block;
-    }
-    
+  footer {
+    display: none;
+  }
+  footer.contact_footer {
+    display: block;
+  }
 }
