@@ -1,8 +1,10 @@
 .page-content {
-    width: 80%;
-    height: fit-content;
+    width: 70%;
+    height: 500px;
     display: block;
-    ;
+    position: absolute;
+    top: 130px;
+    padding-bottom: 50px;
 }
 
 .dataButtonsContainer {
@@ -39,7 +41,6 @@ ul.dataButtonsList {
     font-weight: 600;
     position: relative;
     text-decoration: none;
-   
 }
 
 .dataButtonsList li button:hover {
@@ -88,4 +89,44 @@ ul.dataButtonsList {
     left: 120%;
     -webkit-transform: rotate(40deg);
     transform: rotate(40deg);
+}
+
+@media screen and (max-height: 700px) {
+    .page-content {
+        width: 60%;
+        height: 400px;
+        top: 130px;
+    }
+    .dataButtonsList li button {
+        font-size: 1em;
+        letter-spacing: 0;
+        line-height: 13px;
+    }
+}
+
+@media screen and (max-height: 570px) {
+    .page-content {
+        width: 40%;
+        top: 100px;
+    }
+    .dataButtonsList li button {
+        font-size: 0.6em;
+        letter-spacing: 0;
+        line-height: 8px;
+    }
+}
+
+@media screen and (max-width: 1150px) {
+    .dataButtonsList li button {
+        font-size: 1em;
+        letter-spacing: 0;
+        line-height: 13px;
+    }
+}
+
+@media screen and (max-width: 980px) {
+    .dataButtonsList li button {
+        font-size: 0.6em;
+        line-height: 8px;
+    }
 }

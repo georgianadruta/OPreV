@@ -3,7 +3,6 @@ body {
     height: 100vh;
 }
 
-
 main {
     margin: 0 2em;
     height: 100%;
@@ -13,19 +12,11 @@ main {
     align-items: center;
 }
 
-.page-content{
+.page-content {
     background-color: transparent;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-}
-
-@media screen and (max-width: 900px) {
-    main {
-        display: block;
-        padding-top: 70px;
-        height: auto;
-    }
 }
