@@ -33,7 +33,8 @@ ul.dataButtonsList {
 
 .dataButtonsList li button {
     display: inline-block;
-    margin-right: 20px;
+    margin-right: 10px;
+    margin-left: 10px;
     font-size: 1em;
     letter-spacing: 0.1em;
     cursor: pointer;
@@ -41,6 +42,11 @@ ul.dataButtonsList {
     font-weight: 600;
     position: relative;
     text-decoration: none;
+    animation-name: fadeIn;
+    animation-timing-function: ease-in;
+    animation-duration: 3s;
+    animation-delay: 0;
+    animation-iteration-count: 1;
 }
 
 .dataButtonsList li button:hover {

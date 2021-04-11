@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="styles/body_header_menu_bar.css">
     <link rel="stylesheet" href="styles/scroll_progress.css">
     <link rel="stylesheet" href="styles/animations.css">
+    <link rel="stylesheet" href="styles/download_buttons.css">
     <link rel="stylesheet" href="styles/body_main_background.css">
     <link rel="stylesheet" href="styles/body_main_page_links.css">
     <link rel="stylesheet" href="styles/body_main.css">
@@ -35,10 +36,15 @@
 
     <!--JAVA SCRIPTS-->
     <script src="../node_modules/chart.js/dist/chart.js"></script>
+    <script src="../node_modules/html2canvas/dist/html2canvas.js"></script>
+    <script src="../node_modules/file-saver/src/FileSaver.js"></script>
     <script src="scripts/scroll_progress.js"></script>
     <script src="scripts/menu_bar.js"></script>
     <script src="scripts/menu_side_bar.js"></script>
     <script src="scripts/charts/chart_line.js"></script>
+    <script src="scripts/download_buttons/download_button.js"></script>
+    <script src="scripts/download_buttons/download_csv.js"></script>
+    <script src="scripts/download_buttons/download_png.js"></script>
 
 </head>
 
@@ -93,6 +99,15 @@
 
             <div class="dataButtonsContainer">
                 <ul class="dataButtonsList">
+                    <li class="dropdown">
+                        <button onclick="downloadDataFunction()" class="download_data_button buttonEffect">Download
+                            data</button>
+                        <div id="dropdownFormats" class="dropdown-content">
+                            <button class="buttonEffect" onclick="download_csv_file()">CSV</button>
+                            <button class="buttonEffect" onclick="download_png_file('#lineChart')">PNG</button>
+                            <button class="buttonEffect" onclick="download_svg_file()">SVG</button>
+                        </div>
+                    </li>
                     <li class="dataButton"><button class="buttonEffect"
                             onclick="changeChartData('European Union - 27 countries (from 2020)')">European Union - 27
                             countries (from 2020)</button>
@@ -102,6 +117,8 @@
                             (from 2015)</button>
                     </li>
                 </ul>
+
+
             </div>
         </div>
     </main>

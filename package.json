@@ -19,6 +19,8 @@
   "dependencies": {
     "chart.js": "^3.0.2",
     "datatables.net": "^1.10.24",
-    "datatables.net-dt": "^1.10.24"
+    "datatables.net-dt": "^1.10.24",
+    "file-saver": "^2.0.5",
+    "html2canvas": "^1.0.0-rc.7"
   }
 }
