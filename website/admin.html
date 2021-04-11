@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-US">
 
 <head>
     <!--meta-->
@@ -15,7 +15,6 @@
     <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
     <!-- default favicon -->
     <link rel="icon" href="images/favicon.png" sizes="32x32" type="image/png">
-    <!-- wideley used favicon -->
 
     <!-- Add icon library -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -23,21 +22,25 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap">
 
     <!--CSS FILES-->
-    <link rel="stylesheet" href="styles/body_header_menu_bar.css">
-    <link rel="stylesheet" href="styles/body_header_menu_side_bar.css">
-    <link rel="stylesheet" href="styles/body_header_scroll_indicator.css">
-    <link rel="stylesheet" href="styles/body_main_background.css">
-    <link rel="stylesheet" href="styles/body_main.css">
-    <link rel="stylesheet" href="styles/contact.css">
-    <link rel="stylesheet" href="styles/body_footer.css">
-    <link rel="stylesheet" href="styles/animations.css">
+    <link rel="stylesheet" href="styles\body_header_menu_side_bar.css">
+    <link rel="stylesheet" href="styles\body_header_menu_bar.css">
+    <link rel="stylesheet" href="styles\scroll_progress.css">
+    <link rel="stylesheet" href="styles\animations.css">
+    <link rel="stylesheet" href="styles\body_main_background.css">
+    <link rel="stylesheet" href="styles\body_main_page_links.css">
+    <link rel="stylesheet" href="styles\body_main_text.css">
+    <link rel="stylesheet" href="styles\body_main.css">
+    <link rel="stylesheet" href="styles\body_main_pages.css">
+    <link rel="stylesheet" href="styles\body_footer.css">
 
     <!--JAVA SCRIPTS-->
+    <script src="scripts/scroll_progress.js"></script>
     <script src="scripts/menu_bar.js"></script>
-    <script src="scripts/home_button.js"></script>
-    <script src="scripts/scroll_indicator.js"></script>
     <script src="scripts/menu_side_bar.js"></script>
+    <script src="scripts/admin.js"></script>
+
 </head>
+
 
 <body>
     <header>
@@ -82,55 +85,15 @@
 
     </header>
 
-
     <main>
-        <div class="backgroundcolor1"></div>
-        <div class="backgroundcolor2"></div>
-        <div class="backgroundcolor3"></div>
 
         <div class="container">
-
-            <div class="row">
-                <h1>Leave us a message 😊</h1>
-            </div>
-            <form>
-                <div class="row input-container">
-                    <div class="col-xs-12">
-                        <div class="styled-input wide">
-                            <input type="text" required />
-                            <label for="fullName">Full Name</label>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-sm-12">
-                        <div class="styled-input">
-                            <input type="email" required />
-                            <label>Email</label>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-sm-12">
-                        <div class="styled-input tel">
-                            <input type="tel" required />
-                            <label>Phone Number</label>
-                        </div>
-                    </div>
-                    <div class="col-xs-12">
-                        <div class="styled-input wide">
-                            <textarea required></textarea>
-                            <label>Message</label>
-                        </div>
-                    </div>
-                    <div class="col-xs-12">
-                        <div class="finishButtons">
-                            <input class="btn-lrg reset-btn" type="reset">
-                            <input class="btn-lrg submit-btn" type="submit">
-                        </div>
-                    </div>
-                </div>
-            </form>
+            <select id="country" name="country">
+            </select>
 
         </div>
-
     </main>
+
 
     <footer>
         <div class="footer_bar">
