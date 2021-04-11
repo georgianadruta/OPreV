@@ -5,6 +5,7 @@ body {
 h1 {
     display: flex;
     justify-content: center;
+    padding-left: 40px;
 }
 
 select {
@@ -13,11 +14,11 @@ select {
     font-size: 1em;
 }
 
-ul {
+ul.addValuesList {
     list-style-type: none;
 }
 
-li {
+ul.addValuesList>li {
     display: flex;
     justify-content: center;
     align-items: center;
