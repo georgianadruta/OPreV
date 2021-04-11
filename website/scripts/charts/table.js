@@ -45,7 +45,7 @@
 //             { title: "2017" }
 //         ]
 //         } );
-    
+
 //         $(table)( {
 //         paging: false,
 //         destroy: true,
@@ -149,3 +149,5 @@ function tableFromJson() {
     divShowData.innerHTML = "";
     divShowData.appendChild(table);
 }
+
+window.onload = tableFromJson;

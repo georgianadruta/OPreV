@@ -34,7 +34,7 @@
     <link rel="stylesheet" href="styles/table.css">
     <link rel="stylesheet" href="styles/download_buttons.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
-   
+
 
     <!--JAVA SCRIPTS-->
     <script src="scripts/scroll_progress.js"></script>
@@ -43,11 +43,15 @@
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
     <script src="scripts/charts/table.js"></script>
+    <script src="scripts/download_buttons/download_button.js"></script>
+    <script src="scripts/download_buttons/download_csv.js"></script>
+    <script src="scripts/download_buttons/download_png.js"></script>
+    <script src="scripts/download_buttons/download_svg.js"></script>
 
 </head>
 
 
-<body onLoad="tableFromJson()">
+<body>
     <header>
         <div class="scrollBar">
             <div class="progress-container">
@@ -95,8 +99,8 @@
         <div class="backgroundcolor2"></div>
         <div class="backgroundcolor3"></div>
 
-        
-            <!-- <div class="table-container">
+
+        <!-- <div class="table-container">
                 <h1>Table chart</h1>
                 <div class="dropdown">
                     <button class="dropbtn">Save as</button>
@@ -108,25 +112,31 @@
                   </div>
                 <table id="example" class="display"></table>
             </div> -->
-            <div>
-                <h4>Obesity rate by body mass index (BMI)</h4>
-                <div id='table'></div>    
-                <div class="dropdown">
-                    <button onclick="downloadDataFunction()" class="download_data_button">Download as</button>
-                    <div id="dropdownFormats" class="dropdown-content">
-                        <button onclick="download_csv_file()">CSV</button>
-                        <button onclick="download_png_file()">PNG</button>
-                        <button onclick="download_svg_file()">SVG</button>
-                    </div>
+        <div class="page-container">
+            <h4>Obesity rate by body mass index (BMI)</h4>
+
+            <div id='table'></div>
+
+            <div class="dropdown">
+                <button onclick="downloadDataFunction()" class="download_data_button buttonEffect">Download
+                    data</button>
+                <div id="dropdownFormats" class="dropdown-content">
+                    <button class="buttonEffect" onclick="download_csv_file()">CSV</button>
+                    <button class="buttonEffect" onclick="download_png_file('#lineChart')">PNG</button>
+                    <button class="buttonEffect" onclick="download_svg_file('#lineChart')">SVG</button>
                 </div>
             </div>
+        </div>
+
+
+        </div>
     </main>
 
 
     <footer>
-            <div class="footer_bar">
-                <span class="footer_bar_arrow">&uArr;</span>
-            </div>
+        <div class="footer_bar">
+            <span class="footer_bar_arrow">&uArr;</span>
+        </div>
 
         <div class="footer_container">
             <div class="left_side">

@@ -3,6 +3,7 @@
     position: absolute;
     padding-bottom: 40px;
 } */
+
 table, th, td {
     border: solid 3px rgb(0, 0, 0);
     border-collapse: collapse;
@@ -23,6 +24,7 @@ th {
     animation-duration: 10s;
     animation-delay: 0;
     animation-iteration-count: 1;
+    margin-bottom: 10px;
 }
 
 h4 {
