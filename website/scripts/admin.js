@@ -60,4 +60,9 @@ function addOption(item, index) {
 window.onload = function () {
     select = document.getElementById("country");
     countries.forEach(addOption);
+    document.getElementById("sendButton").value = "Send data";
+}
+
+function sendData() {
+
 }

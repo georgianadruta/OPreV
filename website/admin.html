@@ -32,6 +32,7 @@
     <link rel="stylesheet" href="styles\body_main.css">
     <link rel="stylesheet" href="styles\body_main_pages.css">
     <link rel="stylesheet" href="styles\body_footer.css">
+    <link rel="stylesheet" href="styles\admin.css">
 
     <!--JAVA SCRIPTS-->
     <script src="scripts/scroll_progress.js"></script>
@@ -86,10 +87,29 @@
     </header>
 
     <main>
+        <div class="backgroundcolor1"></div>
+        <div class="backgroundcolor2"></div>
+        <div class="backgroundcolor3"></div>
 
         <div class="container">
-            <select id="country" name="country">
-            </select>
+
+            <h1>Add BMI in the database</h1>
+            <ul>
+                <li class="contryInput">
+                    <label>Country:</label>
+                    <select id="country" name="country">
+                    </select>
+                </li>
+                <li class="BMI">
+                    <input type="number" id="BMI" name="BMI" required placeholder="BMI">
+                </li>
+                <li class="year">
+                    <input type="number" id="year" name="year" required placeholder="Choose the year">
+                </li>
+                <li class="finishButtons">
+                    <input onclick="sendData()" id="sendButton" class="btn-lrg submit-btn" type="submit">
+                </li>
+            </ul>
 
         </div>
     </main>
