@@ -80,6 +80,20 @@
     }
 }
 
+@media screen and (max-width: 1170px) {
+    .text h2 {
+        font-size: 1.7em;
+    }
+    .text p {
+        font-size: 1.2em;
+    }
+    .text h3 {
+        padding-top: 25px;
+        font-size: 1.2em;
+        padding-bottom: 25px;
+    }
+}
+
 @media screen and (max-width: 850px) {
     .text h2 {
         font-size: 1.5em;
