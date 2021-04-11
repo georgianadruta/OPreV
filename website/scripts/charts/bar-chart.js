@@ -31,10 +31,11 @@ const config = {
     }
 };
 
-var myChart = new Chart(
-    document.getElementById('myChart'),
-    config
-);
+
+var lineChart;
+window.onload = function () {
+    myChart = new Chart(document.getElementById('myChart').getContext('2d'), config);
+};
 
 function changeChartDataByYear() {
     var year = document.getElementById("year").value;
