@@ -34,7 +34,7 @@ const config = {
 
 var lineChart;
 window.onload = function () {
-    myChart = new Chart(document.getElementById('myChart').getContext('2d'), config);
+    myChart = new Chart(document.getElementById('barChart').getContext('2d'), config);
 };
 
 function changeChartDataByYear() {
