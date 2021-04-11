@@ -38,6 +38,7 @@
     <script src="../node_modules/chart.js/dist/chart.js"></script>
     <script src="../node_modules/html2canvas/dist/html2canvas.js"></script>
     <script src="../node_modules/file-saver/src/FileSaver.js"></script>
+    <script src="../node_modules/canvas2svg/canvas2svg.js"></script>
     <script src="scripts/scroll_progress.js"></script>
     <script src="scripts/menu_bar.js"></script>
     <script src="scripts/menu_side_bar.js"></script>
@@ -45,6 +46,7 @@
     <script src="scripts/download_buttons/download_button.js"></script>
     <script src="scripts/download_buttons/download_csv.js"></script>
     <script src="scripts/download_buttons/download_png.js"></script>
+    <script src="scripts/download_buttons/download_svg.js"></script>
 
 </head>
 
@@ -104,7 +106,7 @@
                         <div id="dropdownFormats" class="dropdown-content">
                             <button class="buttonEffect" onclick="download_csv_file()">CSV</button>
                             <button class="buttonEffect" onclick="download_png_file('#lineChart')">PNG</button>
-                            <button class="buttonEffect" onclick="download_svg_file()">SVG</button>
+                            <button class="buttonEffect" onclick="download_svg_file('#lineChart')">SVG</button>
                         </div>
                     </li>
                     <li class="dataButton"><button class="buttonEffect"
