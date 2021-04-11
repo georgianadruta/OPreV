@@ -26,27 +26,21 @@
     <link rel="stylesheet" href="styles/body_header_menu_bar.css">
     <link rel="stylesheet" href="styles/scroll_progress.css">
     <link rel="stylesheet" href="styles/animations.css">
-    <link rel="stylesheet" href="styles/download_buttons.css">
     <link rel="stylesheet" href="styles/body_main_background.css">
     <link rel="stylesheet" href="styles/body_main_page_links.css">
     <link rel="stylesheet" href="styles/body_main.css">
     <link rel="stylesheet" href="styles/body_main_pages.css">
     <link rel="stylesheet" href="styles/body_footer.css">
-    <link rel="stylesheet" href="styles/third_page.css">
+    <link rel="stylesheet" href="styles/table.css">
+    <link rel="stylesheet" href="styles/login.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+   
 
     <!--JAVA SCRIPTS-->
-    <script src="../node_modules/chart.js/dist/chart.js"></script>
-    <script src="../node_modules/html2canvas/dist/html2canvas.js"></script>
-    <script src="../node_modules/file-saver/src/FileSaver.js"></script>
-    <script src="../node_modules/canvas2svg/canvas2svg.js"></script>
     <script src="scripts/scroll_progress.js"></script>
     <script src="scripts/menu_bar.js"></script>
     <script src="scripts/menu_side_bar.js"></script>
-    <script src="scripts/charts/chart_line.js"></script>
-    <script src="scripts/download_buttons/download_button.js"></script>
-    <script src="scripts/download_buttons/download_csv.js"></script>
-    <script src="scripts/download_buttons/download_png.js"></script>
-    <script src="scripts/download_buttons/download_svg.js"></script>
+    <script src="scripts/register.js"></script>
 
 </head>
 
@@ -88,7 +82,6 @@
             </ul>
         </div>
 
-
     </header>
 
     <main>
@@ -96,39 +89,25 @@
         <div class="backgroundcolor2"></div>
         <div class="backgroundcolor3"></div>
 
-        <div class="page-content">
-            <canvas id="lineChart"></canvas>
-
-            <div class="dataButtonsContainer">
-                <ul class="dataButtonsList">
-                    <li class="dropdown">
-                        <button onclick="downloadDataFunction()" class="download_data_button buttonEffect">Download
-                            data</button>
-                        <div id="dropdownFormats" class="dropdown-content">
-                            <button class="buttonEffect" onclick="download_csv_file()">CSV</button>
-                            <button class="buttonEffect" onclick="download_png_file('#lineChart')">PNG</button>
-                            <button class="buttonEffect" onclick="download_svg_file('#lineChart')">SVG</button>
-                        </div>
-                    </li>
-                    <li class="dataButton"><button class="buttonEffect"
-                            onclick="changeChartData('European Union - 27 countries (from 2020)')">European Union - 27
-                            countries (from 2020)</button>
-                    </li>
-                    <li class="dataButton"><button class="buttonEffect"
-                            onclick="changeChartData('Euro area - 19 countries  (from 2015)')">Euro area - 19 countries
-                            (from 2015)</button>
-                    </li>
-                </ul>
-
-
-            </div>
-        </div>
+        <div class="login">
+            <h1>Register to Web App</h1>
+            <form method="post" action="">
+              <p><input type="text" name="login" required="" placeholder="Username"></p>
+              <input type="password" id="myInput" placeholder="Password">
+              <i class="far fa-eye" id="togglePassword" onclick="myFunction()"></i> 
+              <input type="password" id="anotherInput" placeholder="Confirm password">
+              <i class="far fa-eye" id="togglePassword" onclick="anotherFunction()"></i>
+              <p><input type="text" name="login" required="" placeholder="Email adress"></p>
+              <p class="submit"><input type="submit" name="commit" value="Register"></p>
+            </form>
+          </div>
     </main>
 
+
     <footer>
-        <div class="footer_bar">
-            <span class="footer_bar_arrow">&uArr;</span>
-        </div>
+            <div class="footer_bar">
+                <span class="footer_bar_arrow">&uArr;</span>
+            </div>
 
         <div class="footer_container">
             <div class="left_side">
