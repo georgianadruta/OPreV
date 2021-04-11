@@ -1,5 +1,34 @@
-.table-container {
+/* .table-container {
     top:60px;
     position: absolute;
     padding-bottom: 40px;
+} */
+table, th, td {
+    border: solid 3px rgb(0, 0, 0);
+    border-collapse: collapse;
+    padding: 10px 10px;
+    text-align: center;
+}
+
+th {
+    font-weight: bolder;
+}
+
+#table {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation-name: fadeIn;
+    animation-timing-function: ease-out;
+    animation-duration: 10s;
+    animation-delay: 0;
+    animation-iteration-count: 1;
+}
+
+h4 {
+    animation-name: fadeIn;
+    animation-timing-function: ease-out;
+    animation-duration: 3s;
+    animation-delay: 0;
+    animation-iteration-count: 1;
 }
