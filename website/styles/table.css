@@ -1,8 +1,10 @@
-/* .table-container {
-    top:60px;
-    position: absolute;
-    padding-bottom: 40px;
-} */
+main {
+    height: unset;
+}
+
+.page-container {
+    margin-top: 70px;
+}
 
 table, th, td {
     border: solid 3px rgb(0, 0, 0);
