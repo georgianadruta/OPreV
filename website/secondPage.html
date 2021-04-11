@@ -32,6 +32,7 @@
     <link rel="stylesheet" href="styles/body_main_pages.css">
     <link rel="stylesheet" href="styles/body_footer.css">
     <link rel="stylesheet" href="styles/table.css">
+    <link rel="stylesheet" href="styles/download_buttons.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
    
 
@@ -93,8 +94,18 @@
         <div class="page-content">
             <div class="table-container">
                 <h1>Table chart</h1>
+                <div class="dropdown">
+                    <button class="dropbtn">Save as</button>
+                    <div class="dropdown-content">
+                      <a href="#">CSV</a>
+                      <a href="#">PNG</a>
+                      <a href="#">SVG</a>
+                    </div>
+                  </div>
                 <table id="example" class="display"></table>
             </div>
+
+           
         </div>
     </main>
 
