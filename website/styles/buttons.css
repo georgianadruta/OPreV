@@ -29,7 +29,7 @@
 
 
 .dropdown-content-downloads, .dropdown-content-datasets {
-    display: flex;
+    display: block;
     justify-content: space-between;
     visibility: hidden;
     opacity: 0;
