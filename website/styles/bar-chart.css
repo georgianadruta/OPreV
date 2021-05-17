@@ -1,10 +1,17 @@
 .bar-controller {
     display: flex;
+    flex-direction: column;
     margin-bottom: 20px;
 }
 
-.bar-controller span {
-    margin-right: 10px;
+.bar-title{
+    margin: 0px;
+    font-weight: 700;
+}
+
+.bar-actions{
+    margin-top: 10px;
+    margin-bottom: 20px;
 }
 
 .chart-container {
