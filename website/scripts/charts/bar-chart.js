@@ -1,5 +1,5 @@
 const labels = [
-    'Belgium', 'Bulgaria', 'Czechia', 'Denmark', 'Estonia', 'Ireland', 'Greece', 'Spain', 'France', 'Croatia', 'Italy', 'Germany (until 1990 former territory of the FRG)', 'European Union - 27 countries (from 2020)', 'European Union - 28 countries (2013-2020)', 'European Union - 27 countries (2007-2013)', 'Euro area - 19 countries  (from 2015)', 'Euro area - 18 countries (2014)', 'Cyprus', 'Latvia', 'Lithuania', 'Luxembourg', 'Hungary', 'Malta', 'Netherlands', 'Austria', 'Poland', 'Portugal', 'Romania', 'Slovenia', 'Slovakia', 'Finland', 'Sweden', 'Iceland', 'Norway', 'Switzerland', 'United Kingdom', 'North Macedonia', 'Serbia', 'Turkey'
+    'Belgium', 'Bulgaria', 'Czechia', 'Denmark', 'Estonia', 'Ireland', 'Greece', 'Spain', 'France', 'Croatia', 'Italy', 'Germany', 'European Union - 27 countries (from 2020)', 'European Union - 28 countries (2013-2020)', 'European Union - 27 countries (2007-2013)', 'Euro area - 19 countries  (from 2015)', 'Euro area - 18 countries (2014)', 'Cyprus', 'Latvia', 'Lithuania', 'Luxembourg', 'Hungary', 'Malta', 'Netherlands', 'Austria', 'Poland', 'Portugal', 'Romania', 'Slovenia', 'Slovakia', 'Finland', 'Sweden', 'Iceland', 'Norway', 'Switzerland', 'United Kingdom', 'North Macedonia', 'Serbia', 'Turkey'
 ];
 
 const dataset2008 = [14.0, 11.5, 18.3, 0, 15.8, 0, 0, 0, 0, 0, 18.5, 0, 17.6, 15.7, 12.2, 0, 0, 15.6, 16.9, 0, 0, 20.0, 22.9, 0, 12.8, 16.4, 0, 7.9, 16.8, 15.1, 0, 0, 0, 0, 0, 0, 0, 0, 16.2];
@@ -9,11 +9,22 @@ const dataset2017 = [14.7, 14.6, 14.1, 20.5, 0, 14.9, 15.2, 15.2, 14.6, 0, 21.0,
 const data = {
     labels: labels,
     datasets: [{
-        label: 'Obesity rate by body mass index (BMI)',
-        backgroundColor: 'rgb(255, 99, 132)',
-        borderColor: 'rgb(255, 99, 132)',
+        label: 'Year 2008',
+        backgroundColor: 'rgb(41, 128, 185)',
+        borderColor: 'rgb(41, 128, 185)',
         data: dataset2008,
-    }]
+    }, {
+        label: 'Year 2014',
+        backgroundColor: 'rgb(39, 174, 96)',
+        borderColor: 'rgb(39, 174, 96)',
+        data: dataset2014,
+    }, {
+        label: 'Year 2017',
+        backgroundColor: 'rgb(243, 156, 18)',
+        borderColor: 'rgb(243, 156, 18)',
+        data: dataset2017,
+    },
+    ]
 };
 
 const config = {
@@ -34,23 +45,29 @@ const config = {
 var lineChart;
 window.onload = function () {
     myChart = new Chart(document.getElementById('barChart').getContext('2d'), config);
+    createCheckboxes();
 };
 
-function changeChartDataByYear() {
-    var year = document.getElementById("year").value;
-    switch (year) {
-        case '2008': {
-            myChart.data.datasets[0].data = dataset2008;
-            break;
-        }
-        case '2014': {
-            myChart.data.datasets[0].data = dataset2014;
-            break;
-        }
-        case '2017': {
-            myChart.data.datasets[0].data = dataset2017;
-            break;
-        }
+function createCheckboxes() {
+    var container = document.getElementById('countries');
+    for (var i = 0; i < labels.length; i++) {
+        var parent = document.createElement('div');
+        parent.className = 'country';
+
+        var checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.id = 'country' + i;
+        checkbox.name = labels[i];
+        checkbox.value = labels[i];
+        checkbox.checked = true;
+
+        var label = document.createElement('label')
+        label.htmlFor = 'country' + i;
+        label.appendChild(document.createTextNode(labels[i]));
+
+        parent.appendChild(checkbox);
+        parent.appendChild(label);
+
+        container.appendChild(parent);
     }
-    myChart.update();
 }

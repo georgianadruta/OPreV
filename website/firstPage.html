@@ -102,12 +102,24 @@
     <div class="page-content">
         <h1>Bar chart</h1>
         <div class="bar-controller">
-            <span>Choose the year:</span>
-            <label for="year"></label><select name="year" id="year" onchange="changeChartDataByYear()">
-            <option value="2008">2008</option>
-            <option value="2014">2014</option>
-            <option value="2017">2017</option>
-        </select>
+            <div class="dropdown">
+                <button onclick="chooseDatasetFunction()" class="set_dataset_button buttonEffect">
+                    Choose dataset
+                </button>
+                <div id="dropdownFormats-dataset" class="dropdown-content-datasets">
+                    <button class="buttonEffect" onclick="">Eurostat</button>
+                    <button class="buttonEffect" onclick="">Who</button>
+                </div>
+            </div>
+
+            <h3  class="bar-title">Choose the countries:</h3>
+            <div class="bar-actions">
+                <input type="checkbox" id="select-all">
+                <label for="select-all">Select all countries</label>
+                <input type="checkbox" id="deselect-all">
+                <label for="deselect-all">Deselect all countries</label>
+            </div>
+            <div id="countries"></div>
         </div>
 
         <div class="chart-container">
@@ -115,7 +127,6 @@
         </div>
 
         <div class="inline">
-
             <div class="dropdown">
                 <button onclick="downloadDataFunction()" class="download_data_button buttonEffect">
                     Download data
@@ -124,16 +135,6 @@
                     <button class="buttonEffect" onclick="exportCSV()">CSV</button>
                     <button class="buttonEffect" onclick="exportPNG()">PNG</button>
                     <button class="buttonEffect" onclick="exportSVG()">SVG</button>
-                </div>
-            </div>
-
-            <div class="dropdown">
-                <button onclick="chooseDatasetFunction()" class="set_dataset_button buttonEffect">
-                    Choose dataset
-                </button>
-                <div id="dropdownFormats-dataset" class="dropdown-content-datasets">
-                    <button class="buttonEffect" onclick="">Eurostat</button>
-                    <button class="buttonEffect" onclick="">Who</button>
                 </div>
             </div>
         </div>
@@ -195,3 +196,17 @@
 </body>
 
 </html>
+<style>
+    #countries {
+  display: flex;
+  flex-wrap: wrap;
+  padding-left: 0;
+}
+
+#countries .country{
+    text-align:left;
+  list-style: none;
+  flex: 0 0 20%;
+}
+
+</style>
