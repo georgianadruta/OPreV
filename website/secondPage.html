@@ -34,6 +34,7 @@
     <link rel="stylesheet" href="styles/table.css">
     <link rel="stylesheet" href="styles/buttons.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="styles/buttons.css"/>
 
 
     <!--JAVA SCRIPTS-->
@@ -47,6 +48,8 @@
     <script src="scripts/buttons/download_csv.js"></script>
     <script src="scripts/buttons/download_png.js"></script>
     <script src="scripts/buttons/download_svg.js"></script>
+    <script src="scripts/buttons/download_button.js"></script>
+    <script src="scripts/buttons/dataset_button.js"></script>
 
 </head>
 
@@ -65,14 +68,16 @@
                 <li class="logo"> <a href="OPreV.html"> <img src="images/Logo.png" alt="obesityLogo"></a></li>
                 <li>
                     <ul class="items">
-                        <li><a href="OPrev.html">Home</a></li>
+                        <li><a href="OPreV.html">Home</a></li>
                         <li><a href="login.html">Login</a></li>
                         <li><a href="admin.html">Admin Page</a></li>
                         <li><a href="contact.html" target="_self">Contact</a></li>
                     </ul>
                 </li>
                 <li class="search-bar-container">
-                    <input type="search" placeholder="Search">
+                    <label>
+                        <input type="search" placeholder="Search">
+                    </label>
                     <label class="icon">
                         <i class="fas fa-search"></i>
                     </label>
@@ -84,7 +89,7 @@
             <a href="javascript:void(0)" class="closebtn" onclick="closeSideNavBar()"><i class="fa fa-times"
                     aria-hidden="true"></i></a>
             <ul>
-                <li><a href="OPrev.html">Home</a></li>
+                <li><a href="OPreV.html">Home</a></li>
                 <li><a href="login.html">Login</a></li>
                 <li><a href="admin.html">Admin Page</a></li>
                 <li><a href="contact.html" target="_self">Contact</a></li>
@@ -116,17 +121,33 @@
             <h4>Obesity rate by body mass index (BMI)</h4>
 
             <div id='table'></div>
+        </div>
+
+
+        <div class="inline">
 
             <div class="dropdown">
-                <button onclick="downloadDataFunction()" class="download_data_button buttonEffect">Download
-                    data</button>
-                <div id="dropdownFormats" class="dropdown-content">
-                    <button class="buttonEffect" onclick="download_csv_file()">CSV</button>
-                    <button class="buttonEffect" onclick="download_png_file('#lineChart')">PNG</button>
-                    <button class="buttonEffect" onclick="download_svg_file('#lineChart')">SVG</button>
+                <button onclick="downloadDataFunction()" class="download_data_button buttonEffect">
+                    Download data
+                </button>
+                <div id="dropdownFormats-downloads" class="dropdown-content-downloads">
+                    <button class="buttonEffect" onclick="exportCSV()">CSV</button>
+                    <button class="buttonEffect" onclick="exportPNG()">PNG</button>
+                    <button class="buttonEffect" onclick="exportSVG()">SVG</button>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <button onclick="chooseDatasetFunction()" class="set_dataset_button buttonEffect">
+                    Choose dataset
+                </button>
+                <div id="dropdownFormats-dataset" class="dropdown-content-datasets">
+                    <button class="buttonEffect" onclick="">Eurostat</button>
+                    <button class="buttonEffect" onclick="">Who</button>
                 </div>
             </div>
         </div>
+
     </main>
 
 
