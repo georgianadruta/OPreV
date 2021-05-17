@@ -49,10 +49,10 @@ const countries = ["Albania",
     "United Kingdom",
     "Vatican City",];
 
-var select;
+let select;
 
-function addOption(item, index) {
-    var option = document.createElement("option");
+function addOption(item) {
+    const option = document.createElement("option");
     option.text = item;
     select.add(option);
 }
@@ -64,5 +64,9 @@ window.onload = function () {
 }
 
 function sendData() {
+
+}
+
+function changePreviewDataset(datasetName) {
 
 }

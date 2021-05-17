@@ -2,7 +2,42 @@ body {
     background-color: #444442;
 }
 
-h1 {
+.datasetContainer ul.dataButtonsList {
+    display: flex;
+    list-style-type: none;
+    margin-top: 5px;
+    margin-left: 10px;
+    margin-bottom: 0;
+}
+
+.datasetContainer .dataButtonsList li button {
+    display: inline-block;
+    margin-right: 10px;
+    margin-left: 10px;
+    font-size: 1em;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    line-height: 20px;
+    font-weight: 600;
+    position: relative;
+    text-decoration: none;
+    animation-name: fadeIn;
+    animation-timing-function: ease-in;
+    animation-duration: 3s;
+    animation-delay: 0s;
+    animation-iteration-count: 1;
+}
+
+.datasetContainer .dataButtonsList li button:hover {
+    text-decoration: none;
+    background: transparent;
+}
+
+.addValuesContainer {
+    display: none;
+}
+
+.addValuesContainer h1 {
     display: flex;
     justify-content: center;
     padding-left: 40px;
@@ -14,11 +49,11 @@ select {
     font-size: 1em;
 }
 
-ul.addValuesList {
+.addValuesContainer ul.addValuesList {
     list-style-type: none;
 }
 
-ul.addValuesList>li {
+.addValuesContainer ul.addValuesList > li {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -29,7 +64,7 @@ label {
     font-weight: bold;
 }
 
-li.contryInput, li.BMI, li.year, li.finishButtons {
+li.countryInput, li.BMI, li.year, li.finishButtons {
     padding-top: 2px;
     padding-bottom: 2px;
 }
@@ -45,17 +80,17 @@ input:focus, textarea:focus {
     outline: 0;
 }
 
-input:focus~span, textarea:focus~span {
+input:focus ~ span, textarea:focus ~ span {
     width: 100%;
     -webkit-transition: all 0.075s ease;
     transition: all 0.075s ease;
 }
 
-input[type=checkbox]+label {
+input[type=checkbox] + label {
     color: #ccc;
 }
 
-input[type=checkbox]:checked+label {
+input[type=checkbox]:checked + label {
     color: black;
 }
 
@@ -79,3 +114,6 @@ input[type=checkbox]:checked+label {
     transform: translateY(1px);
     box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.10), 0 1px 1px 0 rgba(0, 0, 0, 0.09);
 }
+
+
+
