@@ -68,5 +68,7 @@ function sendData() {
 }
 
 function changePreviewDataset(datasetName) {
-
+    //hide header
+    document.getElementById("chooseDataSetHeading").style.display = "none";
+    document.getElementById("datasetPreview").style.display = "block";
 }

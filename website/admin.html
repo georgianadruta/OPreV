@@ -99,23 +99,22 @@
     <div class="pageContainer">
 
         <div class="datasetContainer">
-            <h1>Choose a dataset to preview:</h1>
+            <h1 id="chooseDataSetHeading">Choose a dataset to preview:</h1>
 
             <ul class="dataButtonsList">
                 <li class="dataButton">
                     <button class="buttonEffect"
-                            onclick="">Who dataset
+                            onclick="changePreviewDataset('WHO-dataset.csv')">Who dataset
                     </button>
                 </li>
-                <li class="dataButton">
+                <li class=" dataButton">
                     <button class="buttonEffect"
-                            onclick="">EuroStat dataset
+                            onclick="changePreviewDataset('EuroStat-dataset.csv')">EuroStat dataset
                     </button>
                 </li>
             </ul>
 
-            <div class="dataTable">
-
+            <div id="datasetPreview">
             </div>
         </div>
 
