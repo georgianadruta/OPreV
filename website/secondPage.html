@@ -104,52 +104,37 @@
         <div class="backgroundcolor2"></div>
         <div class="backgroundcolor3"></div>
 
-
-        <!-- <div class="table-container">
+        <div class="page-content">
+            <div class="table-container">
                 <h1>Table chart</h1>
-                <div class="dropdown">
-                    <button class="dropbtn">Save as</button>
-                    <div class="dropdown-content">
-                      <a href="#">CSV</a>
-                      <a href="#">PNG</a>
-                      <a href="#">SVG</a>
-                    </div>
-                  </div>
                 <table id="example" class="display"></table>
-            </div> -->
-        <div class="page-container">
-            <h4>Obesity rate by body mass index (BMI)</h4>
-
-            <div id='table'></div>
-        </div>
 
 
-        <div class="inline">
+            <div class="inline">
+                <div class="dropdown">
+                    <button onclick="downloadDataFunction()" class="download_data_button buttonEffect">
+                        Download data
+                    </button>
+                    <div id="dropdownFormats-downloads" class="dropdown-content-downloads">
+                        <button class="buttonEffect" onclick="exportCSV()">CSV</button>
+                        <button class="buttonEffect" onclick="exportPNG()">PNG</button>
+                        <button class="buttonEffect" onclick="exportSVG()">SVG</button>
+                    </div>
+                </div>
 
-            <div class="dropdown">
-                <button onclick="downloadDataFunction()" class="download_data_button buttonEffect">
-                    Download data
-                </button>
-                <div id="dropdownFormats-downloads" class="dropdown-content-downloads">
-                    <button class="buttonEffect" onclick="exportCSV()">CSV</button>
-                    <button class="buttonEffect" onclick="exportPNG()">PNG</button>
-                    <button class="buttonEffect" onclick="exportSVG()">SVG</button>
+                <div class="dropdown">
+                    <button onclick="chooseDatasetFunction()" class="set_dataset_button buttonEffect">
+                        Choose dataset
+                    </button>
+                    <div id="dropdownFormats-dataset" class="dropdown-content-datasets">
+                        <button class="buttonEffect" onclick="">Eurostat</button>
+                        <button class="buttonEffect" onclick="">Who</button>
+                    </div>
                 </div>
             </div>
-
-            <div class="dropdown">
-                <button onclick="chooseDatasetFunction()" class="set_dataset_button buttonEffect">
-                    Choose dataset
-                </button>
-                <div id="dropdownFormats-dataset" class="dropdown-content-datasets">
-                    <button class="buttonEffect" onclick="">Eurostat</button>
-                    <button class="buttonEffect" onclick="">Who</button>
-                </div>
             </div>
         </div>
-
     </main>
-
 
     <footer>
         <div class="footer_bar">

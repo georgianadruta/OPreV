@@ -27,7 +27,6 @@
     background: transparent;
 }
 
-
 .dropdown-content-downloads, .dropdown-content-datasets {
     display: block;
     justify-content: space-between;
@@ -86,7 +85,7 @@
     box-shadow: 0 0 0 1px #000 inset;
     background-color: #000;
     overflow: hidden;
-    position: relative;
+    position: center;
     transition: all 0.3s ease-in-out;
 }
 
