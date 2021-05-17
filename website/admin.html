@@ -97,7 +97,6 @@
     <div class="backgroundcolor3"></div>
 
     <div class="pageContainer">
-
         <div class="datasetContainer">
             <h1 id="chooseDataSetHeading">Choose a dataset to preview:</h1>
 
@@ -114,20 +113,40 @@
                 </li>
             </ul>
 
-            <div id="datasetPreview">
-            </div>
-        </div>
+            <div id="datasetPreview"></div>
 
-        <div class="addValuesContainer">
-            <h1>Add BMI in the database</h1>
-            <ul class="addValuesList">
+            <div id="dataManipulationButtons">
+                <ul class="dataButtonsList">
+                    <li class="dataButton">
+                        <button class="buttonEffect" onclick="showAdminForm('add')">Add
+                        </button>
+                    </li>
+                    <li class="dataButton">
+                        <button class="buttonEffect" onclick="showAdminForm('modify')">Modify
+                        </button>
+                    </li>
+                    <li class="dataButton">
+                        <button class="buttonEffect" onclick="showAdminForm('delete')">Delete
+                        </button>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+        <div class="dataManipulationContainer" id="dataManipulationForm">
+            <h1 id="addValues">Add BMI in the database</h1>
+            <h1 id="modifyValues">Modify BMI in the database</h1>
+            <h1 id="deleteValues">Delete BMI in the database</h1>
+
+            <ul class="dataManipulationList">
                 <li class="countryInput">
                     <label>Country:</label>
                     <label for="country"></label><select id="country" name="country">
                 </select>
                 </li>
                 <li class="BMI">
-                    <label for="BMI"></label><input type="number" id="BMI" name="BMI" required placeholder="BMI">
+                    <label for="BMI"></label><input type="number" id="BMI" name="BMI" required
+                                                    placeholder="BMI">
                 </li>
                 <li class="year">
                     <label for="year"></label><input type="number" id="year" name="year" required
@@ -146,9 +165,7 @@
                 </li>
             </ul>
         </div>
-
     </div>
-
 </main>
 
 

@@ -13,8 +13,8 @@ body {
 .datasetContainer ul.dataButtonsList {
     display: flex;
     list-style-type: none;
+    justify-content: center;
     margin-top: 5px;
-    margin-left: 10px;
     margin-bottom: 0;
 }
 
@@ -41,19 +41,26 @@ body {
     background: transparent;
 }
 
+
 #datasetPreview {
     display: none;
     background-color: white;
     margin-top: 15px;
+    margin-bottom: 15px;
     height: 600px;
     width: 900px;
 }
 
-.addValuesContainer {
+#dataManipulationButtons {
+    display: none;
+    justify-content: center;
+}
+
+.dataManipulationContainer {
     display: none;
 }
 
-.addValuesContainer h1 {
+.dataManipulationContainer h1 {
     display: flex;
     justify-content: center;
     padding-left: 40px;
@@ -65,11 +72,11 @@ select {
     font-size: 1em;
 }
 
-.addValuesContainer ul.addValuesList {
+.dataManipulationContainer ul.dataManipulationList {
     list-style-type: none;
 }
 
-.addValuesContainer ul.addValuesList > li {
+.dataManipulationContainer ul.dataManipulationList > li {
     display: flex;
     justify-content: center;
     align-items: center;

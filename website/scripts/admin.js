@@ -67,8 +67,25 @@ function sendData() {
 
 }
 
-function changePreviewDataset(datasetName) {
+function changePreviewDataset() {
     //hide header
     document.getElementById("chooseDataSetHeading").style.display = "none";
     document.getElementById("datasetPreview").style.display = "block";
+    document.getElementById("dataManipulationButtons").style.display = "flex";
+
+    
+}
+
+function showAdminForm(operation) {
+    document.getElementById("dataManipulationForm").style.display = "block";
+    document.getElementById("addValues").style.display = "none";
+    document.getElementById("modifyValues").style.display = "none";
+    document.getElementById("deleteValues").style.display = "none";
+
+    if (operation === 'add')
+        document.getElementById("addValues").style.display = "block";
+    if (operation === 'modify')
+        document.getElementById("modifyValues").style.display = "block";
+    if (operation === 'delete')
+        document.getElementById("deleteValues").style.display = "block";
 }
