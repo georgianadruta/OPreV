@@ -1,5 +1,38 @@
-.table-container {
-    top:60px;
-    position: absolute;
-    padding-bottom: 40px;
+main {
+    height: unset;
+}
+
+.page-container {
+    margin-top: 70px;
+}
+
+table, th, td {
+    border: solid 3px rgb(0, 0, 0);
+    border-collapse: collapse;
+    padding: 10px 10px;
+    text-align: center;
+}
+
+th {
+    font-weight: bolder;
+}
+
+#table {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation-name: fadeIn;
+    animation-timing-function: ease-out;
+    animation-duration: 10s;
+    animation-delay: 0s;
+    animation-iteration-count: 1;
+    margin-bottom: 10px;
+}
+
+h4 {
+    animation-name: fadeIn;
+    animation-timing-function: ease-out;
+    animation-duration: 3s;
+    animation-delay: 0s;
+    animation-iteration-count: 1;
 }

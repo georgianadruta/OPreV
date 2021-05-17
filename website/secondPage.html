@@ -16,11 +16,6 @@
     <!-- default favicon -->
     <link rel="icon" href="images/favicon.png" sizes="32x32" type="image/png">
 
-    <!-- Add icon library -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap">
-
     <!--CSS FILES-->
     <link rel="stylesheet" href="styles/body_header_menu_side_bar.css">
     <link rel="stylesheet" href="styles/body_header_menu_bar.css">
@@ -33,16 +28,12 @@
     <link rel="stylesheet" href="styles/body_footer.css">
     <link rel="stylesheet" href="styles/table.css">
     <link rel="stylesheet" href="styles/buttons.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="styles/buttons.css"/>
 
 
     <!--JAVA SCRIPTS-->
     <script src="scripts/scroll_progress.js"></script>
     <script src="scripts/menu_bar.js"></script>
     <script src="scripts/menu_side_bar.js"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
     <script src="scripts/charts/table.js"></script>
     <script src="scripts/buttons/download_button.js"></script>
     <script src="scripts/buttons/download_csv.js"></script>
@@ -50,6 +41,8 @@
     <script src="scripts/buttons/download_svg.js"></script>
     <script src="scripts/buttons/download_button.js"></script>
     <script src="scripts/buttons/dataset_button.js"></script>
+    <script src="scripts/buttons/sort_button.js"></script>
+    <script src="scripts/buttons/by_button.js"></script>
 
 </head>
 
@@ -58,7 +51,7 @@
     <header>
         <div class="scrollBar">
             <div class="progress-container">
-                <div class="progress-bar" id="mySrollBar"></div>
+                <div class="progress-bar" id="myScrollBar"></div>
             </div>
         </div>
 
@@ -105,10 +98,7 @@
         <div class="backgroundcolor3"></div>
 
         <div class="page-content">
-            <div class="table-container">
-                <h1>Table chart</h1>
-                <table id="example" class="display"></table>
-
+               <h4>Obesity rate by body mass index (BMI)</h4>
 
             <div class="inline">
                 <div class="dropdown">
@@ -131,9 +121,33 @@
                         <button class="buttonEffect" onclick="">Who</button>
                     </div>
                 </div>
+
+                <div class="dropdown">
+                    <button onclick="sortFunction()" class="sort_button buttonEffect">
+                        Sort
+                    </button>
+                    <div id="dropdownFormats-sort" class="dropdown-content-sort">
+                        <button class="buttonEffect" onclick="">Ascending</button>
+                        <button class="buttonEffect" onclick="">Descending</button>
+                    </div>
+                </div>
+
+                <div class="dropdown">
+                    <button onclick="byFunction()" class="by_button buttonEffect">
+                       by
+                    </button>
+                    <div id="dropdownFormats-by" class="dropdown-content-by">
+                        <button class="buttonEffect" onclick="">All</button>
+                        <button class="buttonEffect" onclick="">First field</button>
+                        <button class="buttonEffect" onclick="">Second field</button>
+                        <button class="buttonEffect" onclick="">Third field</button>
+                    </div>
+                </div>
+
             </div>
+            <div id='table'></div>
             </div>
-        </div>
+
     </main>
 
     <footer>

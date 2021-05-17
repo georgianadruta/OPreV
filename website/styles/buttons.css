@@ -1,4 +1,4 @@
-.download_data_button, .set_dataset_button, .dropdown-content {
+.download_data_button, .set_dataset_button, .sort_button, .by_button, .dropdown-content {
     font-size: 1em;
     margin:30px;
     letter-spacing: 0.1em;
@@ -22,12 +22,12 @@
     display: flex;
 }
 
-.download_data_button:hover, .set_dataset_button:hover {
+.download_data_button:hover, .set_dataset_button:hover, .sort_button:hover, .by_button:hover {
     text-decoration: none;
     background: transparent;
 }
 
-.dropdown-content-downloads, .dropdown-content-datasets {
+.dropdown-content-downloads, .dropdown-content-datasets, .dropdown-content-sort, .dropdown-content-by {
     display: block;
     justify-content: space-between;
     visibility: hidden;
@@ -43,7 +43,7 @@
     justify-content: center;
 }
 
-.dropdown-content-downloads button, .dropdown-content-datasets button {
+.dropdown-content-downloads button, .dropdown-content-datasets button, .dropdown-content-sort button, .dropdown-content-by button  {
     font-size: 1em;
     letter-spacing: 0.1em;
     cursor: pointer;
