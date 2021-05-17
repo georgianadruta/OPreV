@@ -1,4 +1,4 @@
-function downloadDataFunction() {
+function chooseDatasetFunction() {
     document.getElementById("dropdownFormats").classList.toggle("show");
   }
   
