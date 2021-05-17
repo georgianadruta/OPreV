@@ -109,30 +109,37 @@
         </select>
       </div>
 
-      <div class="chart-container">
-        <canvas id="barChart"></canvas>
-      </div>
-     
-      <div class="inline">
-        <div class="dropdown">
-          <button onclick="downloadDataFunction()" class="custom_button buttonEffect">Select database</button>
-          <div id="dropdownFormats" class="dropdown-content">
-            <button class="buttonEffect"  onclick="exportCSV()">Eurostat</button>
-            <button class="buttonEffect"  onclick="exportCSV()">Who</button>
-          </div>
+        <div class="chart-container">
+            <canvas id="barChart"></canvas>
         </div>
 
-        <!-- <div class="dropdown">
-          <button onclick="downloadDataFunction()" class="custom_button buttonEffect">Download data</button>
-          <div id="dropdownFormats" class="dropdown-content">
-            <button class="buttonEffect" onclick="exportCSV()">CSV</button>
-            <button class="buttonEffect" onclick="exportPNG()">PNG</button>
-            <button class="buttonEffect" onclick="exportSVG()">SVG</button>
-          </div>
-        </div> -->
-      </div>
+        <div class="inline">
+
+            <div class="dropdown">
+                <button onclick="downloadDataFunction()" class="download_data_button buttonEffect">
+                    Download data
+                </button>
+                <div id="dropdownFormats-downloads" class="dropdown-content-downloads">
+                    <button class="buttonEffect" onclick="exportCSV()">CSV</button>
+                    <button class="buttonEffect" onclick="exportPNG()">PNG</button>
+                    <button class="buttonEffect" onclick="exportSVG()">SVG</button>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <button onclick="chooseDatasetFunction()" class="set_dataset_button buttonEffect">
+                    Choose dataset
+                </button>
+                <div id="dropdownFormats-dataset" class="dropdown-content-datasets">
+                    <button class="buttonEffect" onclick="">Eurostat</button>
+                    <button class="buttonEffect" onclick="">Who</button>
+                </div>
+            </div>
+        </div>
+
+
     </div>
-  </main>
+</main>
 
   <footer>
     <div class="footer_bar">
