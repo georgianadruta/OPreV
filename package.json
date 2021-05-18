@@ -2,7 +2,7 @@
   "name": "oprev",
   "version": "1.0.0",
   "description": "This is the package manager. Future npm packages will be easier to track using this file.",
-  "main": "OpRev.HTML",
+  "main": "OPreV.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
