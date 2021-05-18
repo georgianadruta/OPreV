@@ -1,1 +1,1 @@
-web: npm start
+web: node REST-API/api.js
