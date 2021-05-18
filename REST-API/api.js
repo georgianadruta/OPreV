@@ -49,7 +49,7 @@ http.createServer(function (request, response) {
     //create file path
     let filePath = '.' + request.url;
     if (filePath === './')
-        filePath = './index.html';
+        filePath = './OPreV.html';
 
     try {
         if (fs.existsSync(filePath)) {
