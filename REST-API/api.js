@@ -1,6 +1,6 @@
 let PORT = process.env.PORT;
 if (PORT == null || PORT === "") {
-    port = 8000;
+    PORT = 8081;
 }
 
 const http = require('http');
