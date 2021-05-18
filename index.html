@@ -1,225 +1,227 @@
 <!DOCTYPE html>
 <html lang="en-US">
-  <head>
+<head>
     <!--meta-->
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta
-      name="author"
-      content="Barat Narcis Ștefan, Martoncă Daniel, Georgiana Druță"
+            name="author"
+            content="Barat Narcis Ștefan, Martoncă Daniel, Georgiana Druță"
     />
     <meta
-      name="description"
-      content="This site's goal is to visualise and compare obesity rate's across Europe. It contains several graphs, charts and a map in order to visualise informations much clearer."
+            name="description"
+            content="This site's goal is to visualise and compare obesity rate's across Europe. It contains several graphs, charts and a map in order to visualise informations much clearer."
     />
 
     <title>Obesity Prevalence Visualizer</title>
 
     <!--icons-->
     <link
-      rel="shortcut icon"
-      href="website/images/favicon.ico"
-      type="image/x-icon"
+            rel="shortcut icon"
+            href="website/images/favicon.ico"
+            type="image/x-icon"
     />
     <!-- default favicon -->
     <link
-      rel="icon"
-      href="website/images/favicon.png"
-      sizes="32x32"
-      type="image/png"
+            rel="icon"
+            href="website/images/favicon.png"
+            sizes="32x32"
+            type="image/png"
     />
 
     <!-- Add icon library -->
     <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
     <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
     />
     <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap"
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap"
     />
 
     <!--CSS FILES-->
     <link
-      rel="stylesheet"
-      href="website/styles/body_header_menu_side_bar.css"
+            rel="stylesheet"
+            href="website/styles/body_header_menu_side_bar.css"
     />
-    <link rel="stylesheet" href="website/styles/body_header_menu_bar.css" />
-    <link rel="stylesheet" href="website/styles/scroll_progress.css" />
-    <link rel="stylesheet" href="website/styles/animations.css" />
-    <link rel="stylesheet" href="website/styles/body_main_page_links.css" />
-    <link rel="stylesheet" href="website/styles/body_main.css" />
-    <link rel="stylesheet" href="website/styles/body_footer.css" />
+    <link rel="stylesheet" href="website/styles/body_header_menu_bar.css"/>
+    <link rel="stylesheet" href="website/styles/scroll_progress.css"/>
+    <link rel="stylesheet" href="website/styles/animations.css"/>
+    <link rel="stylesheet" href="website/styles/body_main_page_links.css"/>
+    <link rel="stylesheet" href="website/styles/body_main.css"/>
+    <link rel="stylesheet" href="website/styles/body_footer.css"/>
 
     <!--JAVA SCRIPTS-->
     <script src="website/scripts/menu_bar.js"></script>
     <script src="website/scripts/menu_side_bar.js"></script>
-  </head>
+</head>
 
-  <body>
-    <header>
-      <div class="scrollBar">
+<body>
+<header>
+    <div class="scrollBar">
         <div class="progress-container">
-          <div class="progress-bar" id="myScrollBar"></div>
+            <div class="progress-bar" id="myScrollBar"></div>
         </div>
-      </div>
+    </div>
 
-      <nav id="navBar">
+    <nav id="navBar">
         <ul>
-          <li class="btn">
-            <button onclick="openSideNavBar()">
-              <i class="fa fa-bars"></i>
-            </button>
-          </li>
-          <li class="logo">
-            <a href="index.html">
-              <img src="website/images/Logo.png" alt="obesityLogo"
-            /></a>
-          </li>
-          <li>
-            <ul class="items">
-              <li><a href="index.html">Home</a></li>
-              <li><a href="login.html">Login</a></li>
-              <li><a href="admin.html">Admin Page</a></li>
-              <li><a href="contact.html" target="_self">Contact</a></li>
-            </ul>
-          </li>
-          <li class="search-bar-container">
-            <label>
-              <input type="search" placeholder="Search" />
-            </label>
-            <label class="icon">
-              <i class="fas fa-search"></i>
-            </label>
-          </li>
+            <li class="btn">
+                <button onclick="openSideNavBar()">
+                    <i class="fa fa-bars"></i>
+                </button>
+            </li>
+            <li class="logo">
+                <a href="index.html">
+                    <img src="website/images/Logo.png" alt="obesityLogo"
+                    /></a>
+            </li>
+            <li>
+                <ul class="items">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="login.html">Login</a></li>
+                    <li><a href="admin.html">Admin Page</a></li>
+                    <li><a href="contact.html" target="_self">Contact</a></li>
+                </ul>
+            </li>
+            <li class="search-bar-container">
+                <label>
+                    <input type="search" placeholder="Search"/>
+                </label>
+                <label class="icon">
+                    <i class="fas fa-search"></i>
+                </label>
+            </li>
         </ul>
-      </nav>
+    </nav>
 
-      <div id="sideNavBar" class="sidenav">
+    <div id="sideNavBar" class="sidenav">
         <a
-          href="javascript:void(0)"
-          class="closebtn"
-          onclick="closeSideNavBar()"
-          ><i class="fa fa-times" aria-hidden="true"></i
+                href="javascript:void(0)"
+                class="closebtn"
+                onclick="closeSideNavBar()"
+        ><i class="fa fa-times" aria-hidden="true"></i
         ></a>
         <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="login.html">Login</a></li>
-          <li><a href="admin.html">Admin Page</a></li>
-          <li><a href="contact.html" target="_self">Contact</a></li>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="login.html">Login</a></li>
+            <li><a href="admin.html">Admin Page</a></li>
+            <li><a href="contact.html" target="_self">Contact</a></li>
         </ul>
-      </div>
-    </header>
+    </div>
+</header>
 
-    <main>
-      <div class="page-content">
+<main>
+    <div class="page-content">
         <h1 class="title">Welcome to OBV!</h1>
         <p>
-          Our purpose is to provide you with relevant data regarding obesity
-          rates across europe.
+            Our purpose is to provide you with relevant data regarding obesity
+            rates across europe.
         </p>
         <p>
-          The indicator measures the share of obese people based on their body
-          mass index (BMI). BMI is defined as the weight in kilos divided by the
-          square of the height in meters.
+            The indicator measures the share of obese people based on their body
+            mass index (BMI). BMI is defined as the weight in kilos divided by the
+            square of the height in meters.
         </p>
         <p>
-          People aged 18 years or over are considered obese with a BMI equal or
-          greater than 30. Other categories are: underweight (BMI less than
-          18.5), normal weight (BMI between 18.5 and less than 25), and
-          pre-obese (BMI between 25 and less than 30). The category overweight
-          (BMI equal or greater than 25) combines the two categories pre-obese
-          and obese.
+            People aged 18 years or over are considered obese with a BMI equal or
+            greater than 30. Other categories are: underweight (BMI less than
+            18.5), normal weight (BMI between 18.5 and less than 25), and
+            pre-obese (BMI between 25 and less than 30). The category overweight
+            (BMI equal or greater than 25) combines the two categories pre-obese
+            and obese.
+
         </p>
         <h3>
-          Please select one of the following type of charts you want to preview:
+            Please select one of the following type of charts you want to preview:
         </h3>
-      </div>
+    </div>
 
-      <div class="section_links">
+    <div class="section_links">
         <p>
-          <a href="bar-chart.html"
+            <a href="bar-chart.html"
             ><span class="page_links_effect">Bar Chart</span></a
-          >
+            >
         </p>
         <p>
-          <a href="table-chart.html"
+            <a href="table-chart.html"
             ><span class="page_links_effect">Table Chart</span></a
-          >
+            >
         </p>
         <p>
-          <a href="line-chart.html"
+            <a href="line-chart.html"
             ><span class="page_links_effect">Line Chart</span></a
-          >
+            >
         </p>
-      </div>
-    </main>
+    </div>
 
-    <footer>
-      <div class="footer_bar">
+</main>
+
+<footer>
+    <div class="footer_bar">
         <span class="footer_bar_arrow">&uArr;</span>
-      </div>
+    </div>
 
-      <div class="footer_container">
+    <div class="footer_container">
         <div class="left_side">
-          <span class="footerNavText">About the site</span>
-          <div class="content">
-            <p>
-              This site provide you with relevant data regarding obesity rates
-              across Europe. Worldwide, at least 2.8 million people die each
-              year as a result of being overweight or obese, and an estimated
-              35.8 million (2.3%) of global DALYs are caused by overweight or
-              obesity.
-            </p>
-          </div>
+            <span class="footerNavText">About the site</span>
+            <div class="content">
+                <p>
+                    This site provide you with relevant data regarding obesity rates
+                    across Europe. Worldwide, at least 2.8 million people die each
+                    year as a result of being overweight or obese, and an estimated
+                    35.8 million (2.3%) of global DALYs are caused by overweight or
+                    obesity.
+                </p>
+            </div>
         </div>
 
         <div class="right_side">
-          <span class="footerNavText">Address</span>
-          <div class="content">
-            <div class="email">
-              <a href="mailto:OBVisualizer@gmail.com">
-                <span class="fas fa-envelope"></span>
-              </a>
-              <span class="text">OBVisualizer@gmail.com</span>
+            <span class="footerNavText">Address</span>
+            <div class="content">
+                <div class="email">
+                    <a href="mailto:OBVisualizer@gmail.com">
+                        <span class="fas fa-envelope"></span>
+                    </a>
+                    <span class="text">OBVisualizer@gmail.com</span>
+                </div>
+                <div class="phone">
+                    <a href="tel:0700769112"></a>
+                    <span class="fas fa-phone-alt"></span>
+                    <span class="text">+0700769112</span>
+                </div>
+                <div class="place">
+                    <a
+                            href="https://www.google.ro/maps/place/Ia%C8%99i/@47.1562327,27.5169309,12z/data=!4m5!3m4!1s0x40cafb7cf639ddbb:0x7ccb80da5426f53c!8m2!3d47.1584549!4d27.6014418"
+                    >
+                        <span class="fas fa-map-marker-alt"></span>
+                    </a>
+                    <span class="text">Iasi, Romania</span>
+                </div>
+                <div class="socialButtons">
+                    <a href="https://facebook.com/obesityprevalence.visualizer"
+                    ><span class="fab fa-facebook-f"></span
+                    ></a>
+                    <a href="https://twitter.com/ObesityV"
+                    ><span class="fab fa-twitter"></span
+                    ></a>
+                    <a href="https://instagram.com/obvisualizer/"
+                    ><span class="fab fa-instagram"></span
+                    ></a>
+                    <a href="https://youtube.com/channel/UCupLkx3ZtZUENb4bEfSpLNQ"
+                    ><span class="fab fa-youtube"></span
+                    ></a>
+                </div>
             </div>
-            <div class="phone">
-              <a href="tel:0700769112"></a>
-              <span class="fas fa-phone-alt"></span>
-              <span class="text">+0700769112</span>
-            </div>
-            <div class="place">
-              <a
-                href="https://www.google.ro/maps/place/Ia%C8%99i/@47.1562327,27.5169309,12z/data=!4m5!3m4!1s0x40cafb7cf639ddbb:0x7ccb80da5426f53c!8m2!3d47.1584549!4d27.6014418"
-              >
-                <span class="fas fa-map-marker-alt"></span>
-              </a>
-              <span class="text">Iasi, Romania</span>
-            </div>
-            <div class="socialButtons">
-              <a href="https://facebook.com/obesityprevalence.visualizer"
-                ><span class="fab fa-facebook-f"></span
-              ></a>
-              <a href="https://twitter.com/ObesityV"
-                ><span class="fab fa-twitter"></span
-              ></a>
-              <a href="https://instagram.com/obvisualizer/"
-                ><span class="fab fa-instagram"></span
-              ></a>
-              <a href="https://youtube.com/channel/UCupLkx3ZtZUENb4bEfSpLNQ"
-                ><span class="fab fa-youtube"></span
-              ></a>
-            </div>
-          </div>
         </div>
-      </div>
-    </footer>
-  </body>
+    </div>
+</footer>
+</body>
 
-  <!--JAVA SCRIPTS-->
-  <script src="website/scripts/scroll_progress.js"></script>
+<!--JAVA SCRIPTS-->
+<script src="website/scripts/scroll_progress.js"></script>
 </html>
