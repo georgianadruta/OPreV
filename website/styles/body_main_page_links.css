@@ -1,126 +1,23 @@
-
 .section_links a {
-    text-decoration: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    animation-name: fadeIn;
-    animation-timing-function: ease-out;
-    animation-duration: 3s;
-    animation-delay: 0s;
-    animation-iteration-count: 1;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation-name: fadeIn;
+  animation-timing-function: ease-out;
+  animation-duration: 3s;
+  animation-delay: 0s;
+  animation-iteration-count: 1;
 }
 
-.section_links a span.page_links_effect:before {
-    content: "";
-    width: 100%;
-    height: 3px;
-    background-color: #5435d1;
-    position: absolute;
-    left: 0;
-    bottom: -3px;
-    transform-origin: left;
-    transform: scale(0);
-    transition: 0.3s ease-in-out;
+.page_links_effect {
+  font-size: 40px;
+  color: black;
+  box-shadow: inset 0 -1px 0 0 black;
+  transition: 0.3s ease-in-out;
 }
 
-.section_links a span.page_links_effect {
-    font-size: 2.5em;
-    color: rgb(0, 0, 0);
-    text-decoration: none;
-    display: flex;
-    border-bottom: 3px solid rgb(169, 167, 180);
-    transition: 0.3s ease-in-out;
-    position: relative;
-}
-
-.section_links a span.page_links_effect:hover:before {
-    transform: scale(1);
-}
-
-.section_links a span.page_links_effect:hover {
-    color: #5435d1;
-    font-size: 4em;
-    background-color: transparent;
-}
-
-@media screen and (max-height: 880px) {
-    .section_links a span.page_links_effect {
-        font-size: 1.5em;
-        border-bottom: 1.5px solid rgb(169, 167, 180);
-    }
-
-    .section_links a span.page_links_effect:hover {
-        font-size: 2em;
-    }
-}
-
-@media screen and (max-height: 670px) {
-    .section_links a span.page_links_effect {
-        font-size: 1em;
-        border-bottom: 1.5px solid rgb(169, 167, 180);
-    }
-
-    .section_links a span.page_links_effect:hover {
-        font-size: 1.5em;
-    }
-}
-
-@media screen and (max-height: 470px) {
-    .section_links a span.page_links_effect {
-        font-size: 0.7em;
-        border-bottom: 1.5px solid rgb(169, 167, 180);
-    }
-
-    .section_links a span.page_links_effect:hover {
-        font-size: 1em;
-    }
-}
-
-@media screen and (max-height: 300px) {
-    .section_links a span.page_links_effect {
-        font-size: 0.5em;
-        border-bottom: 1.5px solid rgb(169, 167, 180);
-    }
-
-    .section_links a span.page_links_effect:hover {
-        font-size: 0.7em;
-    }
-
-    .text p:nth-child(2), .text p:nth-child(3) {
-        display: none;
-    }
-}
-
-@media screen and (max-width: 220px) {
-    .section_links a span.page_links_effect {
-        font-size: 0.5em;
-        border-bottom: 1.5px solid rgb(169, 167, 180);
-    }
-
-    .section_links a span.page_links_effect:hover {
-        font-size: 0.8em;
-    }
-}
-
-@media screen and (max-width: 540px) {
-    .section_links a span.page_links_effect {
-        font-size: 1em;
-        border-bottom: 1.5px solid rgb(169, 167, 180);
-    }
-
-    .section_links a span.page_links_effect:hover {
-        font-size: 1.2em;
-    }
-}
-
-@media screen and (max-width: 220px) {
-    .section_links a span.page_links_effect {
-        font-size: 0.5em;
-        border-bottom: 1.5px solid rgb(169, 167, 180);
-    }
-
-    .section_links a span.page_links_effect:hover {
-        font-size: 0.8em;
-    }
+.page_links_effect:hover {
+  color: #3498db;
+  box-shadow: inset 0 -2px 0 0 #3498db;
 }

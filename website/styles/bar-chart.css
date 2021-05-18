@@ -1,33 +1,34 @@
 .bar-controller {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
 }
 
 .bar-title {
-    margin: 0;
-    font-weight: 700;
+  margin: 0;
+  font-weight: 700;
 }
 
 .bar-actions {
-    margin-top: 10px;
-    margin-bottom: 20px;
+  margin-top: 10px;
+  margin-bottom: 20px;
 }
 
 .chart-container {
-    position: relative;
-    height: 40vh;
-    width: 80vw;
+  position: relative;
+  height: 40vh;
+  width: 60vw;
+  margin: auto;
 }
 
 #countries {
-    display: flex;
-    flex-wrap: wrap;
-    padding-left: 0;
+  display: flex;
+  flex-wrap: wrap;
+  padding-left: 0;
 }
 
 #countries .country {
-    text-align: left;
-    list-style: none;
-    flex: 0 0 20%;
+  text-align: left;
+  list-style: none;
+  flex: 0 0 25%;
 }

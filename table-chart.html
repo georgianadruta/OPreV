@@ -29,20 +29,6 @@
       type="image/png"
     />
 
-    <!-- Add icon library -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap"
-    />
-
     <!--CSS FILES-->
     <link
       rel="stylesheet"
@@ -55,13 +41,18 @@
     <link rel="stylesheet" href="website/styles/body_main.css" />
     <link rel="stylesheet" href="website/styles/body_footer.css" />
     <link rel="stylesheet" href="website/styles/table.css" />
-    <link rel="stylesheet" href="website/styles/account.css" />
     <link rel="stylesheet" href="website/styles/buttons.css" />
 
     <!--JAVA SCRIPTS-->
-    <script src="website/scripts/scroll_progress.js"></script>
     <script src="website/scripts/menu_bar.js"></script>
     <script src="website/scripts/menu_side_bar.js"></script>
+    <script src="website/scripts/charts/table.js"></script>
+    <script src="website/scripts/buttons/download_button.js"></script>
+    <script src="website/scripts/buttons/download_csv.js"></script>
+    <script src="website/scripts/buttons/download_png.js"></script>
+    <script src="website/scripts/buttons/download_svg.js"></script>
+    <script src="website/scripts/buttons/download_button.js"></script>
+    <script src="website/scripts/buttons/dataset_button.js"></script>
   </head>
 
   <body>
@@ -121,27 +112,56 @@
 
     <main>
       <div class="page-content">
-        <h1>Welcome to OBV!</h1>
+        <h1>Table chart</h1>
 
-        <form class="form-container">
-          <div class="form-header">
-            <a href="#" class="form-link active">Login</a>
-            <a href="register.html" class="form-link">Register</a>
-          </div>
-          <div class="form-body">
-            <div class="form-group">
-              <label for="username">Username</label>
-              <input type="text" name="username" id="username" required />
-            </div>
-            <div class="form-group">
-              <label for="password">Password</label>
-              <input type="password" name="password" id="password" required />
+        <h4>Obesity rate by body mass index (BMI)</h4>
+
+        <div class="dropdown-actions">
+          <div class="dropdown-container">
+            <div class="dropdown">
+              <button class="dropbtn">Download data</button>
+              <div class="dropdown-content">
+                <div class="dropdown-btn" onclick="exportCSV()">CSV</div>
+                <div class="dropdown-btn" onclick="exportPNG()">PNG</div>
+                <div class="dropdown-btn" onclick="exportSVG()">SVG</div>
+              </div>
             </div>
           </div>
-          <div class="form-footer">
-            <button class="button" type="submit">Login</button>
+
+          <div class="dropdown-container">
+            <div class="dropdown">
+              <button class="dropbtn">Choose dataset</button>
+              <div class="dropdown-content">
+                <div class="dropdown-btn">Eurostat</div>
+                <div class="dropdown-btn">Who</div>
+              </div>
+            </div>
           </div>
-        </form>
+
+          <div class="dropdown-container">
+            <div class="dropdown">
+              <button class="dropbtn">Sort</button>
+              <div class="dropdown-content">
+                <div class="dropdown-btn">Ascending</div>
+                <div class="dropdown-btn">Descending</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="dropdown-container">
+            <div class="dropdown">
+              <button class="dropbtn">By</button>
+              <div class="dropdown-content">
+                <div class="dropdown-btn">Country</div>
+                <div class="dropdown-btn">First year</div>
+                <div class="dropdown-btn">Second year</div>
+                <div class="dropdown-btn">Third year</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="table"></div>
       </div>
     </main>
 
@@ -205,4 +225,6 @@
       </div>
     </footer>
   </body>
+
+  <script src="website/scripts/scroll_progress.js"></script>
 </html>
