@@ -54,14 +54,17 @@
     <link rel="stylesheet" href="website/styles/body_main_page_links.css" />
     <link rel="stylesheet" href="website/styles/body_main.css" />
     <link rel="stylesheet" href="website/styles/body_footer.css" />
-    <link rel="stylesheet" href="website/styles/table.css" />
-    <link rel="stylesheet" href="website/styles/account.css" />
+    <link rel="stylesheet" href="website/styles/bar-chart.css" />
     <link rel="stylesheet" href="website/styles/buttons.css" />
 
     <!--JAVA SCRIPTS-->
-    <script src="website/scripts/scroll_progress.js"></script>
     <script src="website/scripts/menu_bar.js"></script>
     <script src="website/scripts/menu_side_bar.js"></script>
+    <script src="node_modules/chart.js/dist/chart.js"></script>
+    <script src="website/scripts/charts/bar-chart.js"></script>
+    <script src="website/scripts/buttons/download_button.js"></script>
+    <script src="website/scripts/buttons/dataset_button.js"></script>
+    <script src="website/scripts/buttons/export.js"></script>
   </head>
 
   <body>
@@ -121,27 +124,42 @@
 
     <main>
       <div class="page-content">
-        <h1>Welcome to OBV!</h1>
+        <h1>Bar chart</h1>
+        <div class="bar-controller">
+          <div class="dropdown-container">
+            <div class="dropdown">
+              <button class="dropbtn">Choose dataset</button>
+              <div class="dropdown-content">
+                <div class="dropdown-btn">Eurostat</div>
+                <div class="dropdown-btn">Who</div>
+              </div>
+            </div>
+          </div>
 
-        <form class="form-container">
-          <div class="form-header">
-            <a href="#" class="form-link active">Login</a>
-            <a href="register.html" class="form-link">Register</a>
+          <h3 class="bar-title">Choose the countries:</h3>
+          <div class="bar-actions">
+            <input type="checkbox" id="select-all" />
+            <label for="select-all">Select all countries</label>
+            <input type="checkbox" id="deselect-all" />
+            <label for="deselect-all">Deselect all countries</label>
           </div>
-          <div class="form-body">
-            <div class="form-group">
-              <label for="username">Username</label>
-              <input type="text" name="username" id="username" required />
+          <div id="countries"></div>
+        </div>
+
+        <div class="chart-container">
+          <canvas id="barChart"></canvas>
+        </div>
+
+        <div class="dropdown-container">
+          <div class="dropdown">
+            <button class="dropbtn">Download data</button>
+            <div class="dropdown-content">
+              <div class="dropdown-btn" onclick="exportCSV()">CSV</div>
+              <div class="dropdown-btn" onclick="exportPNG()">PNG</div>
+              <div class="dropdown-btn" onclick="exportSVG()">SVG</div>
             </div>
-            <div class="form-group">
-              <label for="password">Password</label>
-              <input type="password" name="password" id="password" required />
-            </div>
           </div>
-          <div class="form-footer">
-            <button class="button" type="submit">Login</button>
-          </div>
-        </form>
+        </div>
       </div>
     </main>
 
@@ -205,4 +223,7 @@
       </div>
     </footer>
   </body>
+
+  <!--JAVA SCRIPTS-->
+  <script src="website/scripts/scroll_progress.js"></script>
 </html>
