@@ -4,12 +4,12 @@
     margin-bottom: 20px;
 }
 
-.bar-title{
-    margin: 0px;
+.bar-title {
+    margin: 0;
     font-weight: 700;
 }
 
-.bar-actions{
+.bar-actions {
     margin-top: 10px;
     margin-bottom: 20px;
 }
@@ -18,4 +18,16 @@
     position: relative;
     height: 40vh;
     width: 80vw;
+}
+
+#countries {
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 0;
+}
+
+#countries .country {
+    text-align: left;
+    list-style: none;
+    flex: 0 0 20%;
 }

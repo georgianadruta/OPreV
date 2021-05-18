@@ -73,7 +73,7 @@ function changePreviewDataset() {
     document.getElementById("datasetPreview").style.display = "block";
     document.getElementById("dataManipulationButtons").style.display = "flex";
 
-    
+
 }
 
 function showAdminForm(operation) {

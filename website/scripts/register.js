@@ -1,5 +1,5 @@
 function myFunction() {
-    var x = document.getElementById("myInput");
+    const x = document.getElementById("myInput");
     if (x.type === "password") {
       x.type = "text";
     } else {
@@ -9,7 +9,7 @@ function myFunction() {
 }
 
 function anotherFunction() {
-    var x = document.getElementById("anotherInput");
+    const x = document.getElementById("anotherInput");
     if (x.type === "password") {
       x.type = "text";
     } else {

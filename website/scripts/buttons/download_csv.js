@@ -1,5 +1,5 @@
 //create CSV file data in an array
-var csvFileData = [
+const csvFileData = [
     ['Alan Walker', 'Singer'],
     ['Cristiano Ronaldo', 'Footballer'],
     ['Saina Nehwal', 'Badminton Player'],
@@ -11,7 +11,7 @@ var csvFileData = [
 function download_csv_file() {
 
     //define the heading for each row of the data
-    var csv = 'Country Name,Obesity Rate\n';
+    let csv = 'Country Name,Obesity Rate\n';
 
     //merge the data with CSV
     csvFileData.forEach(function (row) {
@@ -19,7 +19,7 @@ function download_csv_file() {
         csv += "\n";
     });
 
-    var hiddenElement = document.createElement('a');
+    const hiddenElement = document.createElement('a');
     hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
     hiddenElement.target = '_blank';
 

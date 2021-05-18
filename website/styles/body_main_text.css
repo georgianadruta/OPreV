@@ -4,7 +4,7 @@
     animation-name: fadeIn;
     animation-timing-function: ease-out;
     animation-duration: 3s;
-    animation-delay: 0;
+    animation-delay: 0s;
     animation-iteration-count: 1;
 }
 
@@ -36,9 +36,11 @@
     .text h2 {
         font-size: 2em;
     }
+
     .text p {
         font-size: 1.1em;
     }
+
     .text h3 {
         padding-top: 30px;
         font-size: 1em;
@@ -50,9 +52,11 @@
     .text h2 {
         font-size: 1.5em;
     }
+
     .text p {
         font-size: 0.8em;
     }
+
     .text h3 {
         padding-top: 20px;
         font-size: 0.8em;
@@ -64,9 +68,11 @@
     .text h2 {
         font-size: 1em;
     }
+
     .text p {
         font-size: 0.5em;
     }
+
     .text h3 {
         padding-top: 10px;
         font-size: 0.5em;
@@ -84,9 +90,11 @@
     .text h2 {
         font-size: 1.7em;
     }
+
     .text p {
         font-size: 1.2em;
     }
+
     .text h3 {
         padding-top: 25px;
         font-size: 1.2em;
@@ -98,9 +106,11 @@
     .text h2 {
         font-size: 1.5em;
     }
+
     .text p {
         font-size: 1em;
     }
+
     .text h3 {
         padding-top: 20px;
         font-size: 1em;
@@ -112,9 +122,11 @@
     .text h2 {
         font-size: 1em;
     }
+
     .text p {
         font-size: 0.5em;
     }
+
     .text h3 {
         padding-top: 10px;
         font-size: 0.5em;

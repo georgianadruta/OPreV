@@ -1,9 +1,9 @@
 function myFunction() {
-    var x = document.getElementById("myInput");
+    const x = document.getElementById("myInput");
     if (x.type === "password") {
-      x.type = "text";
+        x.type = "text";
     } else {
-      x.type = "password";
+        x.type = "password";
     }
     this.classList.toggle('fa-eye-slash');
 }

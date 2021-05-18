@@ -45,7 +45,7 @@ ul.dataButtonsList {
     animation-name: fadeIn;
     animation-timing-function: ease-in;
     animation-duration: 3s;
-    animation-delay: 0;
+    animation-delay: 0s;
     animation-iteration-count: 1;
 }
 
@@ -60,6 +60,7 @@ ul.dataButtonsList {
         height: 400px;
         top: 130px;
     }
+
     .dataButtonsList li button {
         font-size: 1em;
         letter-spacing: 0;
@@ -72,6 +73,7 @@ ul.dataButtonsList {
         width: 40%;
         top: 100px;
     }
+
     .dataButtonsList li button {
         font-size: 0.6em;
         letter-spacing: 0;

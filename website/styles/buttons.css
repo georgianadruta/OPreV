@@ -1,6 +1,6 @@
 .download_data_button, .set_dataset_button, .sort_button, .by_button, .dropdown-content {
     font-size: 1em;
-    margin:30px;
+    margin: 30px;
     letter-spacing: 0.1em;
     cursor: pointer;
     line-height: 25px;
@@ -43,7 +43,7 @@
     justify-content: center;
 }
 
-.dropdown-content-downloads button, .dropdown-content-datasets button, .dropdown-content-sort button, .dropdown-content-by button  {
+.dropdown-content-downloads button, .dropdown-content-datasets button, .dropdown-content-sort button, .dropdown-content-by button {
     font-size: 1em;
     letter-spacing: 0.1em;
     cursor: pointer;

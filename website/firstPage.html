@@ -48,21 +48,16 @@
 <header>
     <div class="scrollBar">
         <div class="progress-container">
-            <div class="progress-bar" id="mySrollBar"></div>
+            <div class="progress-bar" id="myScrollBar"></div>
         </div>
     </div>
 
     <nav id="navBar">
         <ul>
             <li class="btn">
-                <button onclick="openSideNavBar()">
-                    <i class="fa fa-bars"></i>
-                </button>
+                <button onclick="openSideNavBar()"><i class="fa fa-bars"></i></button>
             </li>
-            <li class="logo">
-                <a href="OPreV.html">
-                    <img src="images/Logo.png" alt="obesityLogo"/></a>
-            </li>
+            <li class="logo"><a href="OPreV.html"> <img src="images/Logo.png" alt="obesityLogo"></a></li>
             <li>
                 <ul class="items">
                     <li><a href="OPreV.html">Home</a></li>
@@ -73,7 +68,7 @@
             </li>
             <li class="search-bar-container">
                 <label>
-                    <input type="search" placeholder="Search"/>
+                    <input type="search" placeholder="Search">
                 </label>
                 <label class="icon">
                     <i class="fas fa-search"></i>
@@ -92,6 +87,8 @@
             <li><a href="contact.html" target="_self">Contact</a></li>
         </ul>
     </div>
+
+
 </header>
 
 <main>
@@ -112,7 +109,7 @@
                 </div>
             </div>
 
-            <h3  class="bar-title">Choose the countries:</h3>
+            <h3 class="bar-title">Choose the countries:</h3>
             <div class="bar-actions">
                 <input type="checkbox" id="select-all">
                 <label for="select-all">Select all countries</label>
@@ -196,17 +193,3 @@
 </body>
 
 </html>
-<style>
-    #countries {
-  display: flex;
-  flex-wrap: wrap;
-  padding-left: 0;
-}
-
-#countries .country{
-    text-align:left;
-  list-style: none;
-  flex: 0 0 20%;
-}
-
-</style>

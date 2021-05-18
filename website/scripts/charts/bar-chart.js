@@ -49,19 +49,19 @@ window.onload = function () {
 };
 
 function createCheckboxes() {
-    var container = document.getElementById('countries');
-    for (var i = 0; i < labels.length; i++) {
-        var parent = document.createElement('div');
+    const container = document.getElementById('countries');
+    for (let i = 0; i < labels.length; i++) {
+        const parent = document.createElement('div');
         parent.className = 'country';
 
-        var checkbox = document.createElement('input');
+        const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
         checkbox.id = 'country' + i;
         checkbox.name = labels[i];
         checkbox.value = labels[i];
         checkbox.checked = true;
 
-        var label = document.createElement('label')
+        const label = document.createElement('label');
         label.htmlFor = 'country' + i;
         label.appendChild(document.createTextNode(labels[i]));
 

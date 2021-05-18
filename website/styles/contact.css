@@ -13,7 +13,7 @@ h1 {
 
 /* ///// inputs /////*/
 
-input:focus~label, textarea:focus~label, input:valid~label, textarea:valid~label {
+input:focus ~ label, textarea:focus ~ label, input:valid ~ label, textarea:valid ~ label {
     font-size: 0.75em;
     color: #999;
     top: -5px;
@@ -29,7 +29,7 @@ input:focus~label, textarea:focus~label, input:valid~label, textarea:valid~label
     border-radius: 4px;
 }
 
-.styled-input label {
+.styled-input label.customLabel {
     color: #999;
     padding: 1.3rem 30px 1rem 30px;
     position: absolute;
@@ -59,17 +59,17 @@ input:focus, textarea:focus {
     outline: 0;
 }
 
-input:focus~span, textarea:focus~span {
+input:focus ~ span, textarea:focus ~ span {
     width: 100%;
     -webkit-transition: all 0.075s ease;
     transition: all 0.075s ease;
 }
 
-input[type=checkbox]+label {
+input[type=checkbox] + label {
     color: #ccc;
 }
 
-input[type=checkbox]:checked+label {
+input[type=checkbox]:checked + label {
     color: black;
 }
 
@@ -141,11 +141,11 @@ textarea {
     input {
         padding: 15px 15px 15px 15px;
     }
+
     .styled-input label {
-        padding: 0;
-        padding-left: 30px;
-        padding-top: 5px;
+        padding: 5px 0 0 30px;
     }
+
     textarea {
         width: 95%;
     }
@@ -161,12 +161,15 @@ textarea {
     .container {
         width: 70%;
     }
+
     input {
         width: 100%;
     }
+
     textarea {
         width: 92%;
     }
+
     .styled-input {
         margin-bottom: 5px;
     }
@@ -194,11 +197,11 @@ textarea {
     input {
         padding: 15px 15px 15px 15px;
     }
+
     .styled-input label {
-        padding: 0;
-        padding-left: 30px;
-        padding-top: 5px;
+        padding: 5px 0 0 30px;
     }
+
     textarea {
         width: 95%;
     }
@@ -208,11 +211,11 @@ textarea {
     input {
         padding: 10px 10px 10px 10px;
     }
+
     .styled-input label {
-        padding: 0;
-        padding-left: 30px;
-        padding-top: 5px;
+        padding: 5px 0 0 30px;
     }
+
     textarea {
         width: 95%;
     }

@@ -3,7 +3,7 @@ div.pages {
     animation-name: fadeIn;
     animation-timing-function: ease-out;
     animation-duration: 3s;
-    animation-delay: 0;
+    animation-delay: 0s;
     animation-iteration-count: 1;
 }
 
