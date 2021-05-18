@@ -12,7 +12,7 @@ http.createServer(function (request, response) {
     console.log(request.method, request.url);
 
     let filePath = '.' + request.url;
-    if (filePath === './') {
+    if (filePath === './' || filePath === "/") {
         filePath = './OPrev.html';
     }
 
