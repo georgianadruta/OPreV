@@ -13,7 +13,7 @@ http.createServer(function (request, response) {
 
     let filePath = '.' + request.url;
     if (filePath === './' || filePath === "/") {
-        filePath = './OPrev.html';
+        filePath = './index.html';
     }
 
     const extname = String(path.extname(filePath)).toLowerCase();
