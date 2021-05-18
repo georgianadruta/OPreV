@@ -1,4 +1,8 @@
-const PORT = 8125;
+let PORT = process.env.PORT;
+if (PORT == null || PORT === "") {
+    port = 8000;
+}
+
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
@@ -43,5 +47,4 @@ http.createServer(function (request, response) {
     });
 
 }).listen(PORT);
-// }).listen(process.env.PORT || port);
 console.log('Server running at http://127.0.0.1:' + PORT);

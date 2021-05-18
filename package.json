@@ -3,8 +3,12 @@
   "version": "1.0.0",
   "description": "This is the package manager. Future npm packages will be easier to track using this file.",
   "main": "OPreV.html",
+  "engines": {
+    "node": "14.16.0"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node REST-API/api.js"
   },
   "repository": {
     "type": "git",
