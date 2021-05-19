@@ -71,3 +71,19 @@ function createCheckboxes() {
         container.appendChild(parent);
     }
 }
+
+function selectAll() {
+    for (let i = 0; i < labels.length; i++) {
+        const checkbox = document.getElementById('country' + i);
+        checkbox.type = 'checkbox';
+        checkbox.checked = true;
+    }
+}
+
+function deselectAll() {
+    for (let i = 0; i < labels.length; i++) {
+        const checkbox = document.getElementById('country' + i);
+        checkbox.type = 'checkbox';
+        checkbox.checked = false;
+    }
+}

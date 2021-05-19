@@ -90,6 +90,16 @@
           <li>
             <ul class="items">
               <li><a href="index.html">Home</a></li>
+              <li>
+                <div class="dropdown">
+                <a class="nav-dropbtn">Charts</a>
+                <div class="nav-dropdown-content">
+                  <a class="dropdown-btn" href="bar-chart.html">Bar Chart</a>
+                  <a class="dropdown-btn" href="table-chart.html">Table Chart</a>
+                  <a class="dropdown-btn" href="line-chart.html">Line Chart</a>
+                </div>
+              </div>
+              </li>
               <li><a href="login.html">Login</a></li>
               <li><a href="admin.html">Admin Page</a></li>
               <li><a href="contact.html" target="_self">Contact</a></li>
@@ -136,12 +146,21 @@
             </div>
           </div>
 
+          <div class="dropdown-container">
+            <div class="dropdown">
+              <button class="dropbtn">Body Mass</button>
+              <div class="dropdown-content">
+                <div class="dropdown-btn">Overweight</div>
+                <div class="dropdown-btn">Pre-obese</div>
+                <div class="dropdown-btn">Obese</div>
+              </div>
+            </div>
+          </div>
+
           <h3 class="bar-title">Choose the countries:</h3>
           <div class="bar-actions">
-            <input type="checkbox" id="select-all" />
-            <label for="select-all">Select all countries</label>
-            <input type="checkbox" id="deselect-all" />
-            <label for="deselect-all">Deselect all countries</label>
+            <button class="button" onclick="selectAll()">Select all</button>
+            <button class="button" onclick="deselectAll()">Deselect all</button>
           </div>
           <div id="countries"></div>
         </div>
