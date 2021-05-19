@@ -1,5 +1,4 @@
-var dataSet = [
-    ["Country", "2007","2008", "2009"],
+const dataSet = [
     ["Belgium", "47.5", "49.3", "48.7"],
     ["Bulgaria", "50.8", "54.0", "59.5"],
     ["Germany", "52.1", "52.1", "0"],
@@ -15,7 +14,7 @@ var dataSet = [
     ["Cyprus", "51.3", "48.3", "52.7"],
     ["Latvia", "54.9", "56.5", "57.0"],
     ["Lithuania", "0", "55.6", "56.2"],
-    ["Luxemburg", "0", "48.0", "49.3"],
+    ["Luxembourg", "0", "48.0", "49.3"],
     ["Hungary", "54.9", "55.2", "56.3"],
     ["Malta", "59.7", "61.0", "62.2"],
     ["Netherlands", "0", "49.4", "47.0"],
@@ -37,36 +36,61 @@ var dataSet = [
 ];
 
 function tableFromJson() {
-    var col = [];
-    for (var i = 0; i < dataSet.length; i++) {
-        for (var key in dataSet[i]) {
-            if (col.indexOf(key) === -1) {
-                col.push(key);
-            }
+    const table = document.getElementById("table");
+
+    for (let i = 0; i < dataSet.length; i++) {
+        let tr = table.insertRow(-1);
+        for (let j = 0; j < dataSet[i].length; j++) {
+            const th = document.createElement("td");
+            th.innerHTML = dataSet[i][j];
+            tr.appendChild(th);
         }
+        table.appendChild(tr);
     }
-
-    var table = document.createElement("table");
-
-    var tr = table.insertRow(-1);
-
-    for (i = 5; i < col.length; i++) {
-        var th = document.createElement("th");
-        th.innerHTML = col[i];
-        tr.appendChild(th);
-    }
-
-    for (i = 0; i < dataSet.length; i++) {
-        tr = table.insertRow(-1);
-        for (var j = 0; j < col.length; j++) {
-            var tabCell = tr.insertCell(-1);
-            tabCell.innerHTML = dataSet[i][col[j]];
-        }
-    }
-
-    var divShowdataSet = document.getElementById('table');
-    divShowdataSet.innerHTML = "";
-    divShowdataSet.appendChild(table);
 }
 
-window.onload = tableFromJson;
+window.onload = function () {
+    tableFromJson();
+    createCheckboxes();
+}
+
+function createCheckboxes() {
+    const container = document.getElementById('countries');
+    for (let i = 0; i < dataSet.length; i++) {
+        const parent = document.createElement('div');
+        parent.className = 'country';
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.id = 'country' + i;
+        checkbox.name = dataSet[i][0];
+        checkbox.value = dataSet[i][0];
+        checkbox.checked = true;
+
+        const label = document.createElement('label');
+        label.htmlFor = 'country' + i;
+        label.appendChild(document.createTextNode(dataSet[i][0]));
+
+        parent.appendChild(checkbox);
+        parent.appendChild(label);
+
+        container.appendChild(parent);
+    }
+}
+
+function selectAll() {
+    for (let i = 0; i < dataSet.length; i++) {
+        const checkbox = document.getElementById('country' + i);
+        checkbox.type = 'checkbox';
+        checkbox.checked = true;
+    }
+}
+
+function deselectAll() {
+    for (let i = 0; i < dataSet.length; i++) {
+        const checkbox = document.getElementById('country' + i);
+        checkbox.type = 'checkbox';
+        checkbox.checked = false;
+    }
+}
+

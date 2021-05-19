@@ -1,20 +1,44 @@
-table,
-th,
-td {
-  border: solid 3px rgb(0, 0, 0);
-  border-collapse: collapse;
-  padding: 10px 10px;
-  text-align: center;
-}
-
-th {
-  font-weight: bolder;
-}
-
-#table {
-  padding-bottom: 30px;
+.table-container{
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 10px;
+  max-width: 600px;
+  margin: auto;
+  padding-bottom: 70px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+table td, table th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+table tr:nth-child(even){background-color: #f2f2f2;}
+
+table tr:hover {background-color: #ddd;}
+
+table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  background-color: #3498db;
+  color: white;
+}
+
+#countries {
+  display: flex;
+  flex-wrap: wrap;
+  padding-left: 0;
+  padding-top: 15px;
+  padding-bottom: 25px;
+}
+
+#countries .country {
+  text-align: left;
+  list-style: none;
+  flex: 0 0 25%;
 }
