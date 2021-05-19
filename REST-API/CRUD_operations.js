@@ -2,8 +2,8 @@ const MongoClient = require('mongodb').MongoClient;
 const uri = "mongodb+srv://admin:parola@cluster0.ibcsn.mongodb.net/OPreVDB?retryWrites=true&w=majority";
 const client = new MongoClient(uri, {useNewUrlParser: true, useUnifiedTopology: true});
 
-var database = "OPreVDB";
-var collectionName = "test";
+const database = "OPreVDB";
+const collectionName = "test";
 
 const addObject = function (jsonObjectString) {
     client.connect().then(() => {

@@ -13,6 +13,7 @@ nav {
     padding-left: 40px;
     padding-right: 40px;
     padding-top: 10px;
+    max-height: 70px;
 }
 
 nav ul {
