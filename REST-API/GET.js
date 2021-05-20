@@ -16,7 +16,7 @@ const mimeTypes = {
  * TODO IMPLEMENTATION
  * @param response
  */
-let hardcoded_response = function (response) {
+let hardcoded_response = function (response, cookie) {
     const responseBody = 'Dataset request accepted.';
     response
         .writeHead(200, {
@@ -38,21 +38,19 @@ function displayNLine(N, path) {
     });
 }
 
-function checkRequirementDataset(url, response) {
-    const str = url.split("/");
+function checkRequirementDataset(request, response) {
+    const str = request.url.split("/");
 
     if (str[str.length - 1] === "dataset") {
         console.log("which dataset?")
     } else {
         if (str[str.length - 2] === "dataset") {
             if (str[str.length - 1] === "who") {
-                CRUD_operations.changeConnectionDatabase("who");
-                hardcoded_response(response);//TODO generate the actual response
+                hardcoded_response(response, request.cookie);//TODO generate the actual response
                 return true;
             } else {
                 if (str[str.length - 1] === "eurostat") {
-                    CRUD_operations.changeConnectionDatabase("eurostat");
-                    hardcoded_response(response); //TODO generate the actual response
+                    hardcoded_response(response, request.cookie); //TODO generate the actual response
                     return true;
                 }
             }
@@ -91,7 +89,7 @@ function GET(request, response) {
     // Nothing will happen if you modify response itself.
     // But modifying it's fields (ex:response.name,response.head) will change response.
 
-    if (checkRequirementDataset(request.url, response) === true)
+    if (checkRequirementDataset(request, response) === true)
         return;
 
     //create file path

@@ -1,6 +1,5 @@
-const mysql = require('mysql');
-
 function getConnection(cookie) {
+    const mysql = require('mysql');
     return mysql.createConnection({
         host: "localhost",
         user: "root",
@@ -9,22 +8,22 @@ function getConnection(cookie) {
     });
 }
 
-function addObjectByJsonString(jsonObjectString, cookie) {
+function addObjectByJsonString(jsonObjectAsString, cookie) {
     let con = getConnection(cookie);
     const table = cookie.databaseTable;
     try {
         con.connect(function (err) {
             if (err) throw err;
 
-            const jsonObject = JSON.parse(jsonObjectString);
+            const jsonObject = JSON.parse(jsonObjectAsString);
             const sql = "INSERT INTO " + table + " VALUES (" + jsonObject.id + ",'" + jsonObject.name + "');";
 
             con.query(sql, function (err, result) {
                 if (err) {
-                    console.log("Failed to add " + jsonObjectString + " to database.");
+                    console.log("Failed to add " + jsonObjectAsString + " to database.");
                     throw err;
                 }
-                console.log("Added " + jsonObjectString + " to database.");
+                console.log("Added " + jsonObjectAsString + " to database.");
             });
         });
     } catch (error) {
@@ -32,7 +31,7 @@ function addObjectByJsonString(jsonObjectString, cookie) {
     }
 };
 
-const deleteObjectByID = function (jsonObjectString, cookie) {
+const deleteObjectByID = function (jsonObjectAsString, cookie) {
     let con = getConnection(cookie);
     const table = cookie.databaseTable;
     try {
@@ -40,15 +39,15 @@ const deleteObjectByID = function (jsonObjectString, cookie) {
             if (err) throw err;
             console.log("Connected to mysql database.");
 
-            const jsonObject = JSON.parse(jsonObjectString);
+            const jsonObject = JSON.parse(jsonObjectAsString);
 
             const sql = "DELETE FROM ? WHERE";//TODO CHANGE QUERY
             con.query(sql, function (err, result) {
                 if (err) {
-                    console.log("Failed to delete " + jsonObjectString + " from the database.");
+                    console.log("Failed to delete " + jsonObjectAsString + " from the database.");
                     throw err;
                 }
-                console.log("Deleted " + jsonObjectString + " from the database.");
+                console.log("Deleted " + jsonObjectAsString + " from the database.");
             });
         });
     } catch (error) {
@@ -56,7 +55,7 @@ const deleteObjectByID = function (jsonObjectString, cookie) {
     }
 };
 
-const updateObjectByID = function (jsonObjectString, cookie) {
+const updateObjectByID = function (jsonObjectAsString, cookie) {
     let con = getConnection(cookie);
     const table = cookie.databaseTable;
     try {
@@ -64,14 +63,14 @@ const updateObjectByID = function (jsonObjectString, cookie) {
             if (err) throw err;
             console.log("Connected to mysql database.");
 
-            const jsonObject = JSON.parse(jsonObjectString);
+            const jsonObject = JSON.parse(jsonObjectAsString);
             const sql = "UPDATE .... SET ... = '...' WHERE .... = '...'";//TODO CHANGE QUERY
             con.query(sql, function (err, result) {
                 if (err) {
-                    console.log("Failed to add " + jsonObjectString + " to database.");
+                    console.log("Failed to add " + jsonObjectAsString + " to database.");
                     throw err;
                 }
-                console.log("Added " + jsonObjectString + " to database.");
+                console.log("Added " + jsonObjectAsString + " to database.");
             });
         });
     } catch (error) {
@@ -101,5 +100,5 @@ const selectFromDatabase = function (selectFields = "*", whereClause = null) {
     }
 }
 
-addObjectByJsonString('{"id":5, "name":"John"}', {"database": "test", "databaseTable": "testtable"});
+// addObjectByJsonString('{"id":5, "name":"John"}', {"database": "test", "databaseTable": "testtable"});
 

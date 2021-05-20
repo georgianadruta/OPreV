@@ -9,7 +9,7 @@ const PORT = 8081;
  */
 let datasetHTTPRequest = function (datasetName) {
     const HTTP = new XMLHttpRequest();
-    const url = SERVER_HOST + PORT + "/dataset/" + datasetName;
+    const url = SERVER_HOST + ':' + PORT + "/dataset/" + datasetName;
     HTTP.open("GET", url);
     HTTP.send();
     HTTP.onreadystatechange = () => {
