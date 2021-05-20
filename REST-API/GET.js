@@ -20,41 +20,29 @@ function GET(request, response) {
     // But modifying it's fields (ex:response.name,response.head) will change response.
 
 
-    //if we find /dataset in url
-    if (String(request.url).search(datasetPath) !== -1) {
-        //TODO logic if url contains /dataset
-    } else {
+    //create file path
+    let filePath = '.' + request.url;
+    if (filePath === './')
+        filePath = './OPreV.html';
 
-        //create file path
-        let filePath = './website' + request.url;
-        if (filePath === './website/')
-            filePath = './website/OPreV.html';//first page to load
-
-
-        const extname = String(path.extname(filePath)).toLowerCase();
-        const contentType = mimeTypes[extname] || 'application/octet-stream';// octet-stream is the default value if no mimeTypes is found
-
-        try {
-            if (fs.existsSync(filePath)) {
-                //check if it's valid
-                fs.readFile(filePath, function (error, content) {
-                    if (error) {
-                        console.log("ERROR reading the file: " + filePath);
-                        response.writeHead(404, {'Content-Type': contentType});
-                        response.end(content, 'utf-8');
-                    } else {
-                        response.writeHead(200, {'Content-Type': contentType});
-                        response.end(content, 'utf-8');
-                    }
-                });
-            }
-        } catch (err) {
-            console.error(err);
-
-            console.log("ERROR reading the file: " + filePath);
-            response.writeHead(404, {'Content-Type': contentType});
-            response.end("file doesnt exist.", 'utf-8');
+    try {
+        if (fs.existsSync(filePath)) {
+            //check if it's valid
+            const extname = String(path.extname(filePath)).toLowerCase();
+            const contentType = mimeTypes[extname] || 'application/octet-stream';// octet-stream is the default value if no mimeTypes is found
+            fs.readFile(filePath, function (error, content) {
+                if (error) {
+                    console.log("ERROR reading the file: " + filePath);
+                    response.writeHead(404, {'Content-Type': contentType});
+                    response.end(content, 'utf-8');
+                } else {
+                    response.writeHead(200, {'Content-Type': contentType});
+                    response.end(content, 'utf-8');
+                }
+            });
         }
+    } catch (err) {
+        console.error(err)
     }
 }
 

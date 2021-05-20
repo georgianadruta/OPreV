@@ -9,6 +9,7 @@ const {DELETE} = require('./DELETE')
 http.createServer(function (request, response) {
 
     console.log(request.method, request.url);
+
     switch (request.method) {
         case "GET": {
             GET(request, response);

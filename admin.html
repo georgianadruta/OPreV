@@ -10,7 +10,7 @@
     />
     <meta
       name="description"
-      content="This site's goal is to visualise and compare obesity rate's across Europe. It contains several graphs, charts and a map in order to visualise informations much clearer."
+      content="This site's goal is to visualise and compare obesity rate's across Europe. It contains several graphs, charts and a map in order to visualise information much clearer."
     />
 
     <title>Obesity Prevalence Visualizer</title>
@@ -18,13 +18,13 @@
     <!--icons-->
     <link
       rel="shortcut icon"
-      href="images/favicon.ico"
+      href="website/images/favicon.ico"
       type="image/x-icon"
     />
     <!-- default favicon -->
     <link
       rel="icon"
-      href="images/favicon.png"
+      href="website/images/favicon.png"
       sizes="32x32"
       type="image/png"
     />
@@ -46,22 +46,22 @@
     <!--CSS FILES-->
     <link
       rel="stylesheet"
-      href="styles/body_header_menu_side_bar.css"
+      href="website/styles/body_header_menu_side_bar.css"
     />
-    <link rel="stylesheet" href="styles/body_header_menu_bar.css" />
-    <link rel="stylesheet" href="styles/scroll_progress.css" />
-    <link rel="stylesheet" href="styles/animations.css" />
-    <link rel="stylesheet" href="styles/body_main_page_links.css" />
-    <link rel="stylesheet" href="styles/body_main.css" />
-    <link rel="stylesheet" href="styles/body_footer.css" />
-    <link rel="stylesheet" href="styles/table.css" />
-    <link rel="stylesheet" href="styles/account.css" />
-    <link rel="stylesheet" href="styles/buttons.css" />
+    <link rel="stylesheet" href="website/styles/body_header_menu_bar.css" />
+    <link rel="stylesheet" href="website/styles/scroll_progress.css" />
+    <link rel="stylesheet" href="website/styles/animations.css" />
+    <link rel="stylesheet" href="website/styles/body_main_page_links.css" />
+    <link rel="stylesheet" href="website/styles/body_main.css" />
+    <link rel="stylesheet" href="website/styles/body_footer.css" />
+    <link rel="stylesheet" href="website/styles/buttons-admin.css" />
+    <link rel="stylesheet" href="website/styles/admin.css" />
+    <link rel="stylesheet" href="website/styles/buttons.css" />
 
     <!--JAVA SCRIPTS-->
-    <script src="scripts/scroll_progress.js"></script>
-    <script src="scripts/menu_bar.js"></script>
-    <script src="scripts/menu_side_bar.js"></script>
+    <script src="website/scripts/menu_bar.js"></script>
+    <script src="website/scripts/menu_side_bar.js"></script>
+    <script src="website/scripts/admin.js"></script>
   </head>
 
   <body>
@@ -81,7 +81,7 @@
           </li>
           <li class="logo">
             <a href="OPreV.html">
-              <img src="images/Logo.png" alt="obesityLogo"
+              <img src="website/images/Logo.png" alt="obesityLogo"
             /></a>
           </li>
           <li>
@@ -129,33 +129,103 @@
       </div>
     </header>
 
-    <div class="page-content">
-      <h1>Welcome to OBV!</h1>
+    <main>
+      <div class="pageContainer">
+        <div class="datasetContainer">
+          <h1 id="chooseDataSetHeading">Choose a dataset to preview:</h1>
 
-      <form class="form-container">
-        <div class="form-header">
-          <a href="login.html" class="form-link">Login</a>
-          <a href="#" class="form-link active">Register</a>
-        </div>
-        <div class="form-body">
-          <div class="form-group">
-            <label for="username">Username</label>
-            <input type="text" name="username" id="username" required />
+          <ul class="dataButtonsList">
+            <li class="dataButton">
+              <button
+                class="buttonEffect"
+                onclick="changePreviewDataset('WHO-dataset.csv')"
+              >
+                Who dataset
+              </button>
+            </li>
+            <li class="dataButton">
+              <button
+                class="buttonEffect"
+                onclick="changePreviewDataset('EuroStat-dataset.csv')"
+              >
+                EuroStat dataset
+              </button>
+            </li>
+          </ul>
+
+          <div id="datasetPreview"></div>
+
+          <div id="dataManipulationButtons">
+            <ul class="dataButtonsList">
+              <li class="dataButton">
+                <button class="buttonEffect" onclick="showAdminForm('add')">
+                  Add
+                </button>
+              </li>
+              <li class="dataButton">
+                <button class="buttonEffect" onclick="showAdminForm('modify')">
+                  Modify
+                </button>
+              </li>
+              <li class="dataButton">
+                <button class="buttonEffect" onclick="showAdminForm('delete')">
+                  Delete
+                </button>
+              </li>
+            </ul>
           </div>
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" name="email" id="email" required />
-          </div>
-          <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" name="password" id="password" required />
-          </div>
         </div>
-        <div class="form-footer">
-          <button class="button" type="submit">Register</button>
+        <div class="dataManipulationContainer" id="dataManipulationForm">
+          <h1 id="addValues">Add BMI in the database</h1>
+          <h1 id="modifyValues">Modify BMI in the database</h1>
+          <h1 id="deleteValues">Delete BMI in the database</h1>
+
+          <ul class="dataManipulationList">
+            <li class="countryInput">
+              <label>Country:</label>
+              <label for="country"></label
+              ><select id="country" name="country"></select>
+            </li>
+            <li class="BMI">
+              <label for="BMI"></label
+              ><input
+                type="number"
+                id="BMI"
+                name="BMI"
+                required
+                placeholder="BMI"
+              />
+            </li>
+            <li class="year">
+              <label for="year"></label
+              ><input
+                type="number"
+                id="year"
+                name="year"
+                required
+                placeholder="Choose the year"
+              />
+            </li>
+            <li class="datasetInput">
+              <label>Choose the dataset:</label>
+              <label for="dataset"></label>
+              <select id="dataset" name="dataset">
+                <option value="dataset_eurostat">EuroStat dataset</option>
+                <option value="dataset_who">Who.it dataset</option>
+              </select>
+            </li>
+            <li class="finishButtons">
+              <input
+                onclick="sendData()"
+                id="sendButton"
+                class="btn-lrg submit-btn"
+                type="submit"
+              />
+            </li>
+          </ul>
         </div>
-      </form>
-    </div>
+      </div>
+    </main>
 
     <footer>
       <div class="footer_bar">
@@ -217,4 +287,7 @@
       </div>
     </footer>
   </body>
+
+  <!--JAVA SCRIPTS-->
+  <script src="website/scripts/scroll_progress.js"></script>
 </html>
