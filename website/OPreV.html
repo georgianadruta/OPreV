@@ -18,13 +18,13 @@
     <!--icons-->
     <link
             rel="shortcut icon"
-            href="website/images/favicon.ico"
+            href="images/favicon.ico"
             type="image/x-icon"
     />
     <!-- default favicon -->
     <link
             rel="icon"
-            href="website/images/favicon.png"
+            href="images/favicon.png"
             sizes="32x32"
             type="image/png"
     />
@@ -46,27 +46,19 @@
     <!--CSS FILES-->
     <link
             rel="stylesheet"
-            href="website/styles/body_header_menu_side_bar.css"
+            href="styles/body_header_menu_side_bar.css"
     />
-    <link rel="stylesheet" href="website/styles/body_header_menu_bar.css"/>
-    <link rel="stylesheet" href="website/styles/scroll_progress.css"/>
-    <link rel="stylesheet" href="website/styles/animations.css"/>
-    <link rel="stylesheet" href="website/styles/body_main_page_links.css"/>
-    <link rel="stylesheet" href="website/styles/body_main.css"/>
-    <link rel="stylesheet" href="website/styles/body_footer.css"/>
-    <link rel="stylesheet" href="website/styles/table.css"/>
-    <link rel="stylesheet" href="website/styles/buttons.css"/>
+    <link rel="stylesheet" href="styles/body_header_menu_bar.css"/>
+    <link rel="stylesheet" href="styles/scroll_progress.css"/>
+    <link rel="stylesheet" href="styles/animations.css"/>
+    <link rel="stylesheet" href="styles/body_main_page_links.css"/>
+    <link rel="stylesheet" href="styles/body_main.css"/>
+    <link rel="stylesheet" href="styles/body_footer.css"/>
+    <link rel="stylesheet" href="styles/buttons.css"/>
 
     <!--JAVA SCRIPTS-->
-    <script src="website/scripts/menu_bar.js"></script>
-    <script src="website/scripts/menu_side_bar.js"></script>
-    <script src="website/scripts/charts/table.js"></script>
-    <script src="website/scripts/buttons/download_button.js"></script>
-    <script src="website/scripts/buttons/download_csv.js"></script>
-    <script src="website/scripts/buttons/download_png.js"></script>
-    <script src="website/scripts/buttons/download_svg.js"></script>
-    <script src="website/scripts/buttons/download_button.js"></script>
-    <script src="website/scripts/buttons/dataset_button.js"></script>
+    <script src="scripts/menu_bar.js"></script>
+    <script src="scripts/menu_side_bar.js"></script>
 </head>
 
 <body>
@@ -86,7 +78,7 @@
             </li>
             <li class="logo">
                 <a href="OPreV.html">
-                    <img src="website/images/Logo.png" alt="obesityLogo"
+                    <img src="images/Logo.png" alt="obesityLogo"
                     /></a>
             </li>
             <li>
@@ -136,89 +128,48 @@
 
 <main>
     <div class="page-content">
-        <h1>Table chart</h1>
+        <h1 class="title">Welcome to OBV!</h1>
+        <p>
+            Our purpose is to provide you with relevant data regarding obesity
+            rates across europe.
+        </p>
+        <p>
+            The indicator measures the share of obese people based on their body
+            mass index (BMI). BMI is defined as the weight in kilos divided by the
+            square of the height in meters.
+        </p>
+        <p>
+            People aged 18 years or over are considered obese with a BMI equal or
+            greater than 30. Other categories are: underweight (BMI less than
+            18.5), normal weight (BMI between 18.5 and less than 25), and
+            pre-obese (BMI between 25 and less than 30). The category overweight
+            (BMI equal or greater than 25) combines the two categories pre-obese
+            and obese.
 
-        <h4>Obesity rate by body mass index (BMI)</h4>
-
-        <div class="dropdown-actions">
-            <div class="dropdown-container">
-                <div class="dropdown">
-                    <button class="dropbtn">Choose dataset</button>
-                    <div class="dropdown-content">
-                        <div class="dropdown-btn">Eurostat</div>
-                        <div class="dropdown-btn">Who</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <h3 class="bar-title">Choose the countries:</h3>
-        <div class="bar-actions">
-            <button class="button" onclick="selectAll()">Select all</button>
-            <button class="button" onclick="deselectAll()">Deselect all</button>
-        </div>
-        <div id="countries"></div>
-
-        <div class="dropdown-actions">
-            <div class="dropdown-container">
-                <div class="dropdown">
-                    <button class="dropbtn">Body Mass</button>
-                    <div class="dropdown-content">
-                        <div class="dropdown-btn">Overweight</div>
-                        <div class="dropdown-btn">Pre-obese</div>
-                        <div class="dropdown-btn">Obese</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="dropdown-container">
-                <div class="dropdown">
-                    <button class="dropbtn">Sort</button>
-                    <div class="dropdown-content">
-                        <div class="dropdown-btn">Ascending</div>
-                        <div class="dropdown-btn">Descending</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="dropdown-container">
-                <div class="dropdown">
-                    <button class="dropbtn">By</button>
-                    <div class="dropdown-content">
-                        <div class="dropdown-btn">Country</div>
-                        <div class="dropdown-btn">2008</div>
-                        <div class="dropdown-btn">2014</div>
-                        <div class="dropdown-btn">2017</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="table-container">
-            <table>
-                <thead>
-                <tr>
-                    <th>Country</th>
-                    <th>2008</th>
-                    <th>2014</th>
-                    <th>2017</th>
-                </tr>
-                </thead>
-                <tbody id="table"></tbody>
-            </table>
-        </div>
-
-        <div class="dropdown-container">
-            <div class="dropdown">
-                <button class="dropbtn">Download data</button>
-                <div class="dropdown-content">
-                    <div class="dropdown-btn" onclick="exportCSV()">CSV</div>
-                    <div class="dropdown-btn" onclick="exportPNG()">PNG</div>
-                    <div class="dropdown-btn" onclick="exportSVG()">SVG</div>
-                </div>
-            </div>
-        </div>
+        </p>
+        <h3>
+            Please select one of the following type of charts you want to preview:
+        </h3>
     </div>
+
+    <div class="section_links">
+        <p>
+            <a href="bar-chart.html"
+            ><span class="page_links_effect">Bar Chart</span></a
+            >
+        </p>
+        <p>
+            <a href="table-chart.html"
+            ><span class="page_links_effect">Table Chart</span></a
+            >
+        </p>
+        <p>
+            <a href="line-chart.html"
+            ><span class="page_links_effect">Line Chart</span></a
+            >
+        </p>
+    </div>
+
 </main>
 
 <footer>
@@ -282,5 +233,6 @@
 </footer>
 </body>
 
-<script src="website/scripts/scroll_progress.js"></script>
+<!--JAVA SCRIPTS-->
+<script src="scripts/scroll_progress.js"></script>
 </html>

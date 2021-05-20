@@ -18,13 +18,13 @@
     <!--icons-->
     <link
       rel="shortcut icon"
-      href="website/images/favicon.ico"
+      href="images/favicon.ico"
       type="image/x-icon"
     />
     <!-- default favicon -->
     <link
       rel="icon"
-      href="website/images/favicon.png"
+      href="images/favicon.png"
       sizes="32x32"
       type="image/png"
     />
@@ -46,31 +46,22 @@
     <!--CSS FILES-->
     <link
       rel="stylesheet"
-      href="website/styles/body_header_menu_side_bar.css"
+      href="styles/body_header_menu_side_bar.css"
     />
-    <link rel="stylesheet" href="website/styles/body_header_menu_bar.css" />
-    <link rel="stylesheet" href="website/styles/scroll_progress.css" />
-    <link rel="stylesheet" href="website/styles/animations.css" />
-    <link rel="stylesheet" href="website/styles/buttons.css" />
-    <link rel="stylesheet" href="website/styles/body_main_page_links.css" />
-    <link rel="stylesheet" href="website/styles/body_main.css" />
-    <link rel="stylesheet" href="website/styles/body_footer.css" />
-    <link rel="stylesheet" href="website/styles/third_page.css" />
+    <link rel="stylesheet" href="styles/body_header_menu_bar.css" />
+    <link rel="stylesheet" href="styles/scroll_progress.css" />
+    <link rel="stylesheet" href="styles/animations.css" />
+    <link rel="stylesheet" href="styles/body_main_page_links.css" />
+    <link rel="stylesheet" href="styles/body_main.css" />
+    <link rel="stylesheet" href="styles/body_footer.css" />
+    <link rel="stylesheet" href="styles/table.css" />
+    <link rel="stylesheet" href="styles/account.css" />
+    <link rel="stylesheet" href="styles/buttons.css" />
 
     <!--JAVA SCRIPTS-->
-    <script src="node_modules/chart.js/dist/chart.js"></script>
-    <script src="node_modules/html2canvas/dist/html2canvas.js"></script>
-    <script src="node_modules/file-saver/src/FileSaver.js"></script>
-    <script src="node_modules/canvas2svg/canvas2svg.js"></script>
-    <script src="website/scripts/menu_bar.js"></script>
-    <script src="website/scripts/menu_side_bar.js"></script>
-    <script src="website/scripts/charts/chart_line.js"></script>
-    <script src="website/scripts/buttons/download_button.js"></script>
-    <script src="website/scripts/buttons/download_csv.js"></script>
-    <script src="website/scripts/buttons/download_png.js"></script>
-    <script src="website/scripts/buttons/download_svg.js"></script>
-    <script src="website/scripts/buttons/dataset_button.js"></script>
-    <script src="website/scripts/buttons/export.js"></script>
+    <script src="scripts/scroll_progress.js"></script>
+    <script src="scripts/menu_bar.js"></script>
+    <script src="scripts/menu_side_bar.js"></script>
   </head>
 
   <body>
@@ -90,7 +81,7 @@
           </li>
           <li class="logo">
             <a href="OPreV.html">
-              <img src="website/images/Logo.png" alt="obesityLogo"
+              <img src="images/Logo.png" alt="obesityLogo"
             /></a>
           </li>
           <li>
@@ -140,54 +131,27 @@
 
     <main>
       <div class="page-content">
-        <h1>Line chart</h1>
+        <h1>Welcome to OBV!</h1>
 
-        <canvas id="lineChart"></canvas>
-
-        <div class="dropdown-actions">
-          <div class="dropdown-container">
-            <div class="dropdown">
-              <button class="dropbtn">Download data</button>
-              <div class="dropdown-content">
-                <div class="dropdown-btn" onclick="exportCSV()">CSV</div>
-                <div class="dropdown-btn" onclick="exportPNG()">PNG</div>
-                <div class="dropdown-btn" onclick="exportSVG()">SVG</div>
-              </div>
+        <form class="form-container">
+          <div class="form-header">
+            <a href="#" class="form-link active">Login</a>
+            <a href="register.html" class="form-link">Register</a>
+          </div>
+          <div class="form-body">
+            <div class="form-group">
+              <label for="username">Username</label>
+              <input type="text" name="username" id="username" required />
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" name="password" id="password" required />
             </div>
           </div>
-
-          <div class="dropdown-container">
-            <div class="dropdown">
-              <button class="dropbtn">Choose dataset</button>
-              <div class="dropdown-content">
-                <div class="dropdown-btn">Eurostat</div>
-                <div class="dropdown-btn">Who</div>
-              </div>
-            </div>
+          <div class="form-footer">
+            <button class="button" type="submit">Login</button>
           </div>
-
-          <div class="dropdown-container">
-            <div class="dropdown">
-              <button
-                class="dropbtn"
-                onclick="changeChartData('European Union - 27 countries (from 2020)')"
-              >
-                European Union - 27 countries (from 2020)
-              </button>
-            </div>
-          </div>
-
-          <div class="dropdown-container">
-            <div class="dropdown">
-              <button
-                class="dropbtn"
-                onclick="changeChartData('Euro area - 19 countries  (from 2015)')"
-              >
-                Euro area - 19 countries (from 2015)
-              </button>
-            </div>
-          </div>
-        </div>
+        </form>
       </div>
     </main>
 
@@ -251,7 +215,4 @@
       </div>
     </footer>
   </body>
-
-  <!--JAVA SCRIPTS-->
-  <script src="website/scripts/scroll_progress.js"></script>
 </html>
