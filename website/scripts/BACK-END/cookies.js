@@ -5,9 +5,12 @@
  * @param expireMinutes an expiration date on minutes. Default no expiry date (session cookie)
  */
 function setCookie(cookieName, cookieValue, expireMinutes = null) {
-    const d = new Date();
-    d.setTime(d.getTime() + (expireMinutes * 60 * 60 * 1000));
-    const expires = "expires=" + d.toUTCString();
+    let expires;
+    if (expireMinutes != null) {
+        const d = new Date();
+        d.setTime(d.getTime() + (expireMinutes * 60 * 60 * 1000));
+        expires = "expires=" + d.toUTCString();
+    }
     document.cookie = cookieName + "=" + cookieValue + ";" + expires + ";path=/";
 }
 

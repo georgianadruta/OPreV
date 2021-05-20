@@ -58,14 +58,16 @@
     <link rel="stylesheet" href="website/styles/buttons.css"/>
 
     <!--JAVA SCRIPTS-->
+    <script src="website/scripts/BACK-END/cookies.js"></script>
     <script src="website/scripts/BACK-END/charts/data.js"></script>
     <script src="website/scripts/FRONT-END/menu_bar.js"></script>
     <script src="website/scripts/FRONT-END/menu_side_bar.js"></script>
-    <script src="node_modules/chart.js/dist/chart.js"></script>
     <script src="website/scripts/BACK-END/charts/chart_bar.js"></script>
     <script src="website/scripts/BACK-END/buttons/download_button.js"></script>
     <script src="website/scripts/BACK-END/buttons/dataset_button.js"></script>
     <script src="website/scripts/BACK-END/buttons/export.js"></script>
+    <script src="node_modules/chart.js/dist/chart.js"></script>
+
 </head>
 
 <body>
@@ -142,8 +144,8 @@
                 <div class="dropdown">
                     <button class="dropbtn">Choose dataset</button>
                     <div class="dropdown-content">
-                        <a class="dropdown-btn" onclick="loadDataSet('eurostat')">Eurostat</a>
-                        <a class="dropdown-btn" onclick="loadDataSet('who')">Who</a>
+                        <a class="dropdown-btn" onclick="loadDataSet()">Eurostat</a>
+                        <a class="dropdown-btn" onclick="loadDataSet()">Who</a>
                     </div>
                 </div>
             </div>

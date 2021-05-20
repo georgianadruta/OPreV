@@ -4,10 +4,11 @@ const PORT = 8081;
 // let dataset;
 
 /**
- * Send HTTP request with url SERVER_HOST+PORT+"/dataset/+ datasetName (who/eurostat) and work with the data.
- * @param datasetName either "eurostat" or "who"
+ * Send HTTP request with url SERVER_HOST+':'+PORT+"/dataset/+ datasetName (who/eurostat) based on the cookie and work with the data.
  */
-let datasetHTTPRequest = function (datasetName) {
+let datasetHTTPRequest = function () {
+    const cookie = getCookie("dataset");
+    const datasetName = cookie.substring(cookie.indexOf("=") + 1, cookie.indexOf(";") - 1);
     const HTTP = new XMLHttpRequest();
     const url = SERVER_HOST + ':' + PORT + "/dataset/" + datasetName;
     HTTP.open("GET", url);
@@ -20,24 +21,10 @@ let datasetHTTPRequest = function (datasetName) {
 
 /**
  * This function's purpose is to load the specified dataset
- * @param datasetName either "eurostat" or "who"
  */
-function loadDataSet(datasetName) {
-    if (datasetName.toLowerCase() === "eurostat") {
-        datasetHTTPRequest("eurostat");
-    }
-    if (datasetName.toLowerCase() === "who") {
-        datasetHTTPRequest("who");
-    }
+function loadDataSet() {
+    datasetHTTPRequest();
 }
-
-/**
- * By default load eurostat.
- */
-window.addEventListener("load", function () {
-    loadDataSet("eurostat");
-});
-
 
 /**
  * This method's purpose is to return the dataset based on the datasetNr parameter
@@ -115,3 +102,11 @@ const generateDatasetLineChart = function (datasetNr) {
             },
         ]
 }
+
+/**
+ * By default load eurostat.
+ */
+window.addEventListener("load", function () {
+    setCookie("dataset", "eurostat");
+    datasetHTTPRequest();
+});
