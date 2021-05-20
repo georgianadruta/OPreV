@@ -15,9 +15,26 @@ const mimeTypes = {
  * TODO IMPLEMENTATION
  * @param response
  */
-let fakeResponse = function (response) {
-    response.writeHead(200, {'Content-Type': 'text/plain'});
-    response.end("Request accepted.", 'utf-8');
+let hardcoded_response = function (response) {
+    const responseBody = 'Dataset request accepted.';
+    response
+        .writeHead(200, {
+            'Content-Length': Buffer.byteLength(responseBody),
+            'Content-Type': 'application/json'
+        })
+        .end(responseBody, "utf-8");
+}
+
+function displayNLine(N, path) {
+    const lineReader = require('line-reader');
+    let nr = -1;
+    lineReader.eachLine(path, function (line) {
+        nr++;
+        if (nr === N) {
+            console.log(line);
+            return true;
+        }
+    });
 }
 
 function checkRequirementDataset(url, response) {
@@ -29,31 +46,45 @@ function checkRequirementDataset(url, response) {
         if (str[str.length - 2] === "dataset") {
             if (str[str.length - 1] === "who") {
                 console.log("display who dataset");
-                fakeResponse(response);//TODO generate the actual response
+                hardcoded_response(response);//TODO generate the actual response
                 return true;
             } else {
                 if (str[str.length - 1] === "eurostat") {
                     console.log("display eurostat dataset")
-                    fakeResponse(response); //TODO generate the actual response
+                    hardcoded_response(response); //TODO generate the actual response
                     return true;
                 }
             }
         } else {
             if (str[str.length - 3] === "dataset") {
-                if (str[str.length - 2] === "eurostat" || str[str.length - 2] === "who") {
+                if (str[str.length - 2] === "eurostat") {
                     if (parseInt(str[str.length - 1]) >= 0) {
                         console.log("display " + parseInt(str[str.length - 1]) +
                             " element from " + str[str.length - 2] + " dataset");
+
+                        displayNLine(parseInt(str[str.length - 1]), './Dataset/EuroStat-dataset.csv');
+
                     }
                 } else {
-                    console.log("invalid dataset");
+                    if (str[str.length - 2] === "who") {
+                        if (parseInt(str[str.length - 1]) >= 0) {
+                            console.log("display " + parseInt(str[str.length - 1]) +
+                                " element from " + str[str.length - 2] + " dataset");
 
+                            //path hardcoded
+                            displayNLine(parseInt(str[str.length - 1]), './Dataset/who.csv');
+
+                        }
+                    } else {
+                        console.log("invalid dataset");
+                    }
                 }
             }
         }
     }
     return false;
 }
+
 
 function GET(request, response) {
     //TODO logic of working with a get response
@@ -91,3 +122,6 @@ function GET(request, response) {
 }
 
 module.exports.GET = GET;
+
+
+
