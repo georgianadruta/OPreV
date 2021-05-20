@@ -59,7 +59,7 @@
 
     <!--JAVA SCRIPTS-->
     <script src="website/scripts/BACK-END/cookies.js"></script>
-    <script src="website/scripts/BACK-END/charts/data.js"></script>
+    <script src="website/scripts/BACK-END/data.js"></script>
     <script src="website/scripts/FRONT-END/menu_bar.js"></script>
     <script src="website/scripts/FRONT-END/menu_side_bar.js"></script>
     <script src="website/scripts/BACK-END/charts/chart_bar.js"></script>
@@ -154,9 +154,9 @@
                 <div class="dropdown">
                     <button class="dropbtn">Body Mass</button>
                     <div class="dropdown-content" id="bodyMassButton">
-                        <div class="dropdown-btn">Overweight</div>
-                        <div class="dropdown-btn">Pre-obese</div>
-                        <div class="dropdown-btn">Obese</div>
+                        <div class="dropdown-btn" onclick="loadBodyMass('overweight')">Overweight</div>
+                        <div class="dropdown-btn" onclick="loadBodyMass('pre-obese')">Pre-obese</div>
+                        <div class="dropdown-btn" onclick="loadBodyMass('obese')">Obese</div>
                     </div>
                 </div>
             </div>

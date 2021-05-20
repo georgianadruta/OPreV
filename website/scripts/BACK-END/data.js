@@ -11,6 +11,7 @@ let datasetHTTPRequest = function () {
     if (datasetName == null) console.error("dataset cookie error! Got cookie value: '" + datasetName + "' from cookie named 'dataset'.");
 
     const HTTP = new XMLHttpRequest();
+    HTTP.setRequestHeader("Cookies", document.cookie);
     const url = SERVER_HOST + ':' + PORT + "/dataset/" + datasetName;
     HTTP.open("GET", url);
     HTTP.send();
@@ -22,7 +23,7 @@ let datasetHTTPRequest = function () {
 
 /**
  * This function's purpose is to load the specified dataset.
- * Sets to cookie
+ * Sets the cookie
  * @param datasetName either 'who' or 'eurostat'
  */
 function loadDataSet(datasetName) {
@@ -31,6 +32,21 @@ function loadDataSet(datasetName) {
     else {
         setCookie("dataset", 'eurostat');
         console.error("ERROR: wrong call on loadDataSet function: loadDataset(" + datasetName + ").")
+    }
+    datasetHTTPRequest();
+}
+
+/**
+ * This function's purpose is to load the specified body mass.
+ * Sets the cookie
+ * @param bodyMassName either 'overweight' 'pre-obese' or 'obese'
+ */
+function loadBodyMass(bodyMassName) {
+    if (bodyMassName === 'overweight' || bodyMassName === 'pre-obese' || bodyMassName === 'obese')
+        setCookie("bodyMass", bodyMassName);
+    else {
+        setCookie("bodyMass", 'overweight');
+        console.error("ERROR: wrong call on loadBodyMass function: loadBodyMass(" + bodyMassName + ").")
     }
     datasetHTTPRequest();
 }
@@ -117,5 +133,6 @@ const generateDatasetLineChart = function (datasetNr) {
  */
 window.addEventListener("load", function () {
     setCookie("dataset", "eurostat");
+    setCookie("bodyMass", 'overweight');
     datasetHTTPRequest();
 });

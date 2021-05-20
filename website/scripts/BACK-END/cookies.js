@@ -4,7 +4,7 @@
  * @param cookieValue the value of the cooke
  * @param expireMinutes an expiration date on minutes. Default no expiry date (session cookie)
  */
-function setCookie(cookieName, cookieValue, expireMinutes = null) {
+function setCookie(cookieName, cookieValue, expireMinutes = 1) {
     let expires;
     if (expireMinutes != null) {
         const d = new Date();
