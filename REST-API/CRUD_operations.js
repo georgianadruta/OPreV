@@ -1,29 +1,23 @@
 const mysql = require('mysql');
 
-let con = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "parola",
-    database: "test"
-});
-
-const table = "test"
-
-/**
- * this function changes the connection to the specified database
- * @param database the database
- */
-function changeConnectionDatabase(database) {
-    con.database = database;
+function getConnection(cookie) {
+    return mysql.createConnection({
+        host: "localhost",
+        user: "root",
+        password: "parola",
+        database: cookie.database
+    });
 }
 
-const addObjectByJsonString = function (jsonObjectString) {
+function addObjectByJsonString(jsonObjectString, cookie) {
+    let con = getConnection(cookie);
+    const table = cookie.databaseTable;
     try {
         con.connect(function (err) {
             if (err) throw err;
 
             const jsonObject = JSON.parse(jsonObjectString);
-            const sql = "INSERT INTO" + table + "VALUES (" + jsonObject.id + ",'" + jsonObject.name + "');";
+            const sql = "INSERT INTO " + table + " VALUES (" + jsonObject.id + ",'" + jsonObject.name + "');";
 
             con.query(sql, function (err, result) {
                 if (err) {
@@ -38,7 +32,9 @@ const addObjectByJsonString = function (jsonObjectString) {
     }
 };
 
-const deleteObjectByID = function (jsonObjectString) {
+const deleteObjectByID = function (jsonObjectString, cookie) {
+    let con = getConnection(cookie);
+    const table = cookie.databaseTable;
     try {
         con.connect(function (err) {
             if (err) throw err;
@@ -46,7 +42,7 @@ const deleteObjectByID = function (jsonObjectString) {
 
             const jsonObject = JSON.parse(jsonObjectString);
 
-            const sql = "DELETE FROM ? WHERE";
+            const sql = "DELETE FROM ? WHERE";//TODO CHANGE QUERY
             con.query(sql, function (err, result) {
                 if (err) {
                     console.log("Failed to delete " + jsonObjectString + " from the database.");
@@ -60,14 +56,16 @@ const deleteObjectByID = function (jsonObjectString) {
     }
 };
 
-const updateObjectByID = function (jsonObjectString) {
+const updateObjectByID = function (jsonObjectString, cookie) {
+    let con = getConnection(cookie);
+    const table = cookie.databaseTable;
     try {
         con.connect(function (err) {
             if (err) throw err;
             console.log("Connected to mysql database.");
 
             const jsonObject = JSON.parse(jsonObjectString);
-            const sql = "UPDATE .... SET ... = '...' WHERE .... = '...'";
+            const sql = "UPDATE .... SET ... = '...' WHERE .... = '...'";//TODO CHANGE QUERY
             con.query(sql, function (err, result) {
                 if (err) {
                     console.log("Failed to add " + jsonObjectString + " to database.");
@@ -81,6 +79,11 @@ const updateObjectByID = function (jsonObjectString) {
     }
 };
 
+/**
+ * TODO WHOLE FUNCTION
+ * @param selectFields
+ * @param whereClause
+ */
 const selectFromDatabase = function (selectFields = "*", whereClause = null) {
     try {
         con.connect(function (err) {
@@ -98,6 +101,5 @@ const selectFromDatabase = function (selectFields = "*", whereClause = null) {
     }
 }
 
-// ``addObjectByJsonString('{"id":3, "name":"John"}');``
+addObjectByJsonString('{"id":5, "name":"John"}', {"database": "test", "databaseTable": "testtable"});
 
-module.exports.changeConnectionDatabase = changeConnectionDatabase;
