@@ -34,6 +34,6 @@ function loadDataSet(datasetName) {
 /**
  * By default load eurostat.
  */
-window.onload = function () {
+window.addEventListener("load", function (event) {
     loadDataSet("eurostat");
-}
+});

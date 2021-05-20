@@ -58,10 +58,11 @@ const config = {
 };
 
 let lineChart;
-window.onload = function () {
+window.addEventListener("load", function (event) {
     lineChart = new Chart(document.getElementById('lineChart').getContext('2d'), config);
     // createCheckboxes();
-};
+});
+
 
 function changeChartData(data_origin) {
     switch (data_origin) {
