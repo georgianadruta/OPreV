@@ -22,10 +22,10 @@
     "chart.js": "^3.0.2",
     "file-saver": "^2.0.5",
     "html2canvas": "^1.0.0-rc.7",
+    "mysql": "^2.18.1",
     "valid-url": "^1.0.9"
   },
   "devDependencies": {
-    "line-reader": "^0.4.0",
-    "mongodb": "^3.6.7"
+    "line-reader": "^0.4.0"
   }
 }

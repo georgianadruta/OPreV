@@ -1,81 +1,103 @@
-const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://admin:parola@cluster0.ibcsn.mongodb.net/OPreVDB?retryWrites=true&w=majority";
-const client = new MongoClient(uri, {useNewUrlParser: true, useUnifiedTopology: true});
+const mysql = require('mysql');
 
-const database = "OPreVDB";
-const collectionName = "test";
+let con = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "parola",
+    database: "test"
+});
 
-const addObject = function (jsonObjectString) {
-    client.connect().then(() => {
-        const collection = client.db(database).collection(collectionName);
-        // perform actions on the collection object
-        const jsonObject = JSON.parse(jsonObjectString);
-        collection.insertOne(jsonObject).then(function () {
-            console.log("Added " + jsonObjectString + " to database '" + database + "' in collection '" + collectionName + "'.");
-            client.close();
-        }).catch(function () {
-            console.log("Failed to add " + jsonObjectString + " to database '" + database + "' in collection '" + collectionName + "'.");
-            client.close();
+const table = "test"
+
+/**
+ * this function changes the connection to the specified database
+ * @param database the database
+ */
+function changeConnectionDatabase(database) {
+    con.database = database;
+}
+
+const addObjectByJsonString = function (jsonObjectString) {
+    try {
+        con.connect(function (err) {
+            if (err) throw err;
+
+            const jsonObject = JSON.parse(jsonObjectString);
+            const sql = "INSERT INTO" + table + "VALUES (" + jsonObject.id + ",'" + jsonObject.name + "');";
+
+            con.query(sql, function (err, result) {
+                if (err) {
+                    console.log("Failed to add " + jsonObjectString + " to database.");
+                    throw err;
+                }
+                console.log("Added " + jsonObjectString + " to database.");
+            });
         });
-    }).catch(() => console.log("Failed to connect client."));
+    } catch (error) {
+        console.error(error);
+    }
 };
 
 const deleteObjectByID = function (jsonObjectString) {
-    client.connect().then(() => {
-        const collection = client.db(database).collection(collectionName);
-        // perform actions on the collection object
-        const jsonObject = JSON.parse(jsonObjectString);
-        collection.deleteOne({"id": jsonObject.id}).then(function () {
-            console.log("Deleted " + jsonObjectString + " in database '" + database + "' in collection '" + collectionName + "'.");
-            client.close();
-        }).catch(function () {
-            console.log("Failed to delete " + jsonObjectString + " in database '" + database + "' in collection '" + collectionName + "'.");
-            client.close();
+    try {
+        con.connect(function (err) {
+            if (err) throw err;
+            console.log("Connected to mysql database.");
+
+            const jsonObject = JSON.parse(jsonObjectString);
+
+            const sql = "DELETE FROM ? WHERE";
+            con.query(sql, function (err, result) {
+                if (err) {
+                    console.log("Failed to delete " + jsonObjectString + " from the database.");
+                    throw err;
+                }
+                console.log("Deleted " + jsonObjectString + " from the database.");
+            });
         });
-    }).catch(() => console.log("Failed to connect client."));
+    } catch (error) {
+        console.error(error);
+    }
 };
 
 const updateObjectByID = function (jsonObjectString) {
-    client.connect().then(() => {
-        const collection = client.db(database).collection(collectionName);
-        // perform actions on the collection object
-        const jsonObject = JSON.parse(jsonObjectString);
-        collection.updateOne({"id": jsonObject.id}, {
-            $set: {
-                name:
-                jsonObject.name,
-            },//TODO add other fields
-        }).then(function () {
-            console.log("Updated " + jsonObjectString + " in database '" + database + "' in collection '" + collectionName + "'.");
-            client.close();
-        }).catch(function () {
-            console.log("Failed to update " + jsonObjectString + " in database '" + database + "' in collection '" + collectionName + "'.");
-            addObject(jsonObjectString);
-            client.close();
+    try {
+        con.connect(function (err) {
+            if (err) throw err;
+            console.log("Connected to mysql database.");
+
+            const jsonObject = JSON.parse(jsonObjectString);
+            const sql = "UPDATE .... SET ... = '...' WHERE .... = '...'";
+            con.query(sql, function (err, result) {
+                if (err) {
+                    console.log("Failed to add " + jsonObjectString + " to database.");
+                    throw err;
+                }
+                console.log("Added " + jsonObjectString + " to database.");
+            });
         });
-    }).catch(() => console.log("Failed to connect client."));
+    } catch (error) {
+        console.error(error);
+    }
 };
 
+const selectFromDatabase = function (selectFields = "*", whereClause = null) {
+    try {
+        con.connect(function (err) {
+            if (err) throw err;
+            console.log("Connected to mysql database.");
+            con.query("SELECT " + selectFields + " FROM " + table + whereClause + ";", function (err, result, fields) {
+                if (err) {
+                    console.log("Failed to select '" + selectFields + "'" + "with clause: " + whereClause + " from database " + con.database + ".");
+                    throw err;
+                }
+            });
+        });
+    } catch (error) {
+        console.error(error);
+    }
+}
 
-// let globalVar = "{}";
-// const getObjectByID_JSON = function (jsonObjectString) {
-//     client.connect().then(() => {
-//         const collection = client.db(database).collection(collectionName);
-//         // perform actions on the collection object
-//         const jsonObject = JSON.parse(jsonObjectString);
-//         globalVar = collection.findOne({"id": {$eq: jsonObject.id}}
-//         ).then(function () {
-//             console.log("Found " + jsonObjectString + " in database '" + database + "' in collection '" + collectionName + "'.");
-//             client.close();
-//         }).catch(function () {
-//             console.log("Failed to get " + jsonObjectString + " in database '" + database + "' in collection '" + collectionName + "'.");
-//             client.close();
-//         });
-//     }).catch(() => console.log("Failed to connect client."));
-// }
-// ;
+// ``addObjectByJsonString('{"id":3, "name":"John"}');``
 
-// addObject('{"id":2, "name":"John"}');
-// updateObjectByID('{"id":2, "name":"Maria"}');
-
-// getObjectByID_JSON('{"id":2}');
+module.exports.changeConnectionDatabase = changeConnectionDatabase;

@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const CRUD_operations = require("./CRUD_operations");
 
 const mimeTypes = {
     '.html': 'text/html',
@@ -45,10 +46,12 @@ function checkRequirementDataset(url, response) {
     } else {
         if (str[str.length - 2] === "dataset") {
             if (str[str.length - 1] === "who") {
+                CRUD_operations.changeConnectionDatabase("who");
                 hardcoded_response(response);//TODO generate the actual response
                 return true;
             } else {
                 if (str[str.length - 1] === "eurostat") {
+                    CRUD_operations.changeConnectionDatabase("eurostat");
                     hardcoded_response(response); //TODO generate the actual response
                     return true;
                 }
@@ -59,9 +62,7 @@ function checkRequirementDataset(url, response) {
                     if (parseInt(str[str.length - 1]) >= 0) {
                         console.log("display " + parseInt(str[str.length - 1]) +
                             " element from " + str[str.length - 2] + " dataset");
-
                         displayNLine(parseInt(str[str.length - 1]), './Dataset/EuroStat-dataset.csv');
-
                     }
                 } else {
                     if (str[str.length - 2] === "who") {
