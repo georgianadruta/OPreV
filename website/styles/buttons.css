@@ -147,13 +147,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    padding-bottom: 220px;
 }
 
 .datasetContainer ul.dataButtonsList {
     display: flex;
     list-style-type: none;
     justify-content: center;
-    margin-top: -90px;
+    margin-top: -150px;
     margin-bottom: 0;
 }
 

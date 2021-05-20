@@ -49,6 +49,7 @@
 #dataManipulationButtons {
     display: none;
     justify-content: center;
+    padding-bottom: 100px;
 }
 
 .dataManipulationContainer {
