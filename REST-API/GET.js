@@ -20,6 +20,18 @@ let fakeResponse = function (response) {
     response.end("Request accepted.", 'utf-8');
 }
 
+function displayNLine(N, path) {
+    const lineReader = require('line-reader');
+    var nr = -1;
+    lineReader.eachLine(path, function (line) {
+        nr++;
+        if (nr === N) {
+            console.log(line);
+            return true;
+        }
+    });
+}
+
 function checkRequirementDataset(url, response) {
     const str = url.split("/");
 
@@ -40,14 +52,27 @@ function checkRequirementDataset(url, response) {
             }
         } else {
             if (str[str.length - 3] === "dataset") {
-                if (str[str.length - 2] === "eurostat" || str[str.length - 2] === "who") {
+                if (str[str.length - 2] === "eurostat") {
                     if (parseInt(str[str.length - 1]) >= 0) {
                         console.log("display " + parseInt(str[str.length - 1]) +
                             " element from " + str[str.length - 2] + " dataset");
+
+                        displayNLine(parseInt(str[str.length - 1]), './Dataset/EuroStat-dataset.csv');
+
                     }
                 } else {
-                    console.log("invalid dataset");
+                    if (str[str.length - 2] === "who") {
+                        if (parseInt(str[str.length - 1]) >= 0) {
+                            console.log("display " + parseInt(str[str.length - 1]) +
+                                " element from " + str[str.length - 2] + " dataset");
 
+                            //path harcodat
+                            displayNLine(parseInt(str[str.length - 1]), './Dataset/who.csv');
+
+                        }
+                    } else {
+                        console.log("invalid dataset");
+                    }
                 }
             }
         }

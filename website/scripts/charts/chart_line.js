@@ -59,6 +59,7 @@ const config = {
 
 let lineChart;
 window.addEventListener("load", function (event) {
+    console.log(data)
     lineChart = new Chart(document.getElementById('lineChart').getContext('2d'), config);
     // createCheckboxes();
 });
