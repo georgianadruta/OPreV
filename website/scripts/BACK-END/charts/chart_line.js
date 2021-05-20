@@ -35,12 +35,6 @@ let setConfig = function (configOption) {
     config.data = data;
 }
 
-let lineChart;
-window.addEventListener("load", function (event) {
-    setConfig(1);
-    lineChart = new Chart(document.getElementById('lineChart').getContext('2d'), config);
-    // createCheckboxes();
-});
 
 /**
  * This method's purpose is to call setConfig and update the chart based on the client's preferences specified in data_origin parameter.
@@ -61,3 +55,9 @@ function changeLineChartData(data_origin) {
 }
 
 
+let lineChart;
+window.addEventListener("load", function (event) {
+    setConfig(1);
+    lineChart = new Chart(document.getElementById('lineChart').getContext('2d'), config);
+    // createCheckboxes();
+});

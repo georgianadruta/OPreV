@@ -38,32 +38,6 @@ function tableFromJson(labelsParam, dataset2008Param, dataset2014Param, dataset2
 
 window.onload = function () {
     tableFromJson(labels, dataset2008, dataset2014, dataset2017);
-    createCheckboxes();
 }
 
-function createCheckboxes() {
-    const container = document.getElementById('countries');
-    for (let i = 0; i < labels.length; i++) {
-        const parent = document.createElement('div');
-        parent.className = 'country';
 
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.id = 'country' + i;
-        checkbox.name = labels[i];
-        checkbox.value = labels[i];
-        checkbox.checked = true;
-        checkbox.onclick = function () {
-            removeFromTable(i);
-        }
-
-        const label = document.createElement('label');
-        label.htmlFor = 'country' + i;
-        label.appendChild(document.createTextNode(labels[i]));
-
-        parent.appendChild(checkbox);
-        parent.appendChild(label);
-
-        container.appendChild(parent);
-    }
-}

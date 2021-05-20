@@ -46,34 +46,11 @@ const config = {
 };
 
 window.onload = function () {
-    chart = new Chart(document.getElementById('barChart').getContext('2d'), config);
-    createCheckboxes();
+
 };
 
-function createCheckboxes() {
-    const container = document.getElementById('countries');
-    for (let i = 0; i < labels.length; i++) {
-        const parent = document.createElement('div');
-        parent.className = 'country';
+window.addEventListener("load", function (event) {
+    chart = new Chart(document.getElementById('barChart').getContext('2d'), config);
+});
 
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.id = 'country' + i;
-        checkbox.name = labels[i];
-        checkbox.value = labels[i];
-        checkbox.checked = true;
-        checkbox.onclick = function () {
-            removeFromChart(i)
-        };
-
-        const label = document.createElement('label');
-        label.htmlFor = 'country' + i;
-        label.appendChild(document.createTextNode(labels[i]));
-
-        parent.appendChild(checkbox);
-        parent.appendChild(label);
-
-        container.appendChild(parent);
-    }
-}
 

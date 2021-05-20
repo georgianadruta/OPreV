@@ -14,6 +14,8 @@ function selectAllCountries() {
     chart.data.datasets[2].data = dataset2017;
     chart.update();
     removeCountryIds = [];
+
+    setCookie("countries", "all");
 }
 
 /**
@@ -32,6 +34,8 @@ function deselectAllCountries() {
     chart.data.datasets[2].data = [];
     chart.update();
     removeCountryIds = [...Array(labels.length).keys()];
+
+    setCookie("countries", "none");
 }
 
 function removeFromChart(id) {
@@ -60,3 +64,8 @@ function removeFromChart(id) {
     chart.data.datasets[2].data = dataset2017Copy.filter(x => x !== undefined);
     chart.update();
 }
+
+window.addEventListener("load", function (event) {
+    selectAllCountries();
+});
+
