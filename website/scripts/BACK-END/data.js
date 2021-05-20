@@ -11,9 +11,9 @@ let datasetHTTPRequest = function () {
     if (datasetName == null) console.error("dataset cookie error! Got cookie value: '" + datasetName + "' from cookie named 'dataset'.");
 
     const HTTP = new XMLHttpRequest();
-    HTTP.setRequestHeader("Cookies", document.cookie);
     const url = SERVER_HOST + ':' + PORT + "/dataset/" + datasetName;
     HTTP.open("GET", url);
+    HTTP.setRequestHeader("Cookies", document.cookie);
     HTTP.send();
     HTTP.onreadystatechange = () => {
         console.log(HTTP.responseText)

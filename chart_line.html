@@ -60,6 +60,7 @@
     <!--JAVA SCRIPTS-->
     <script src="website/scripts/BACK-END/cookies.js"></script>
     <script src="website/scripts/BACK-END/data.js"></script>
+    <script src="website/scripts/BACK-END/charts/chart.js"></script>
     <script src="website/scripts/BACK-END/buttons/download_button.js"></script>
     <script src="website/scripts/BACK-END/buttons/download_csv.js"></script>
     <script src="website/scripts/BACK-END/buttons/download_png.js"></script>
@@ -158,7 +159,7 @@
             <div class=" dropdown-container">
                 <div class="dropdown">
                     <button class="dropbtn">Body Mass</button>
-                    <div class="dropdown-content"id="bodyMassButton">
+                    <div class="dropdown-content" id="bodyMassButton">
                         <div class="dropdown-btn" onclick="loadBodyMass('overweight')">Overweight</div>
                         <div class="dropdown-btn" onclick="loadBodyMass('pre-obese')">Pre-obese</div>
                         <div class="dropdown-btn" onclick="loadBodyMass('obese')">Obese</div>
@@ -168,8 +169,8 @@
 
             <h3 class="bar-title">Choose the countries:</h3>
             <div class="bar-actions">
-                <button class="button" onclick="selectAll()">Select all</button>
-                <button class="button" onclick="deselectAll()">Deselect all</button>
+                <button class="button" onclick="selectAllCountries()">Select all</button>
+                <button class="button" onclick="deselectAllCountries()">Deselect all</button>
             </div>
             <div id="countries"></div>
         </div>
