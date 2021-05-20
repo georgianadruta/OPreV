@@ -1,3 +1,6 @@
+let chart;
+let removeCountryIds = [];
+
 const labels = [
     'Belgium', 'Bulgaria', 'Czechia', 'Denmark', 'Estonia', 'Ireland', 'Greece', 'Spain', 'France', 'Croatia', 'Italy', 'Germany', 'European Union - 27 countries (from 2020)', 'European Union - 28 countries (2013-2020)', 'European Union - 27 countries (2007-2013)', 'Euro area - 19 countries  (from 2015)', 'Euro area - 18 countries (2014)', 'Cyprus', 'Latvia', 'Lithuania', 'Luxembourg', 'Hungary', 'Malta', 'Netherlands', 'Austria', 'Poland', 'Portugal', 'Romania', 'Slovenia', 'Slovakia', 'Finland', 'Sweden', 'Iceland', 'Norway', 'Switzerland', 'United Kingdom', 'North Macedonia', 'Serbia', 'Turkey'
 ];
@@ -43,7 +46,7 @@ const config = {
 };
 
 window.onload = function () {
-    new Chart(document.getElementById('barChart').getContext('2d'), config);
+    chart = new Chart(document.getElementById('barChart').getContext('2d'), config);
     createCheckboxes();
 };
 
@@ -59,6 +62,9 @@ function createCheckboxes() {
         checkbox.name = labels[i];
         checkbox.value = labels[i];
         checkbox.checked = true;
+        checkbox.onclick = function () {
+            removeFromChart(i)
+        };
 
         const label = document.createElement('label');
         label.htmlFor = 'country' + i;
@@ -77,6 +83,13 @@ function selectAll() {
         checkbox.type = 'checkbox';
         checkbox.checked = true;
     }
+
+    chart.data.labels = labels;
+    chart.data.datasets[0].data = dataset2008;
+    chart.data.datasets[1].data = dataset2014;
+    chart.data.datasets[2].data = dataset2017;
+    chart.update();
+    removeCountryIds = [];
 }
 
 function deselectAll() {
@@ -85,4 +98,38 @@ function deselectAll() {
         checkbox.type = 'checkbox';
         checkbox.checked = false;
     }
+
+    chart.data.labels = [];
+    chart.data.datasets[0].data = [];
+    chart.data.datasets[1].data = [];
+    chart.data.datasets[2].data = [];
+    chart.update();
+    removeCountryIds = [...Array(labels.length).keys()];
+}
+
+function removeFromChart(id) {
+    if (removeCountryIds.includes(id)) {
+        let index = removeCountryIds.indexOf(id);
+        removeCountryIds.splice(index, 1);
+    } else {
+        removeCountryIds.push(id);
+    }
+
+    let labelsCopy = [...labels];
+    let dataset2008Copy = [...dataset2008];
+    let dataset2014Copy = [...dataset2014];
+    let dataset2017Copy = [...dataset2017];
+
+    for (let i = 0; i < removeCountryIds.length; i++) {
+        labelsCopy[removeCountryIds[i]] = undefined;
+        dataset2008Copy[removeCountryIds[i]] = undefined;
+        dataset2014Copy[removeCountryIds[i]] = undefined;
+        dataset2017Copy[removeCountryIds[i]] = undefined;
+    }
+
+    chart.data.labels = labelsCopy.filter(x => x != undefined);
+    chart.data.datasets[0].data = dataset2008Copy.filter(x => x != undefined);
+    chart.data.datasets[1].data = dataset2014Copy.filter(x => x != undefined);
+    chart.data.datasets[2].data = dataset2017Copy.filter(x => x != undefined);
+    chart.update();
 }

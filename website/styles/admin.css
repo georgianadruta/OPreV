@@ -23,29 +23,6 @@
     margin-bottom: 0;
 }
 
-.datasetContainer .dataButtonsList li button {
-    display: inline-block;
-    margin-right: 10px;
-    margin-left: 10px;
-    font-size: 1em;
-    letter-spacing: 0.1em;
-    cursor: pointer;
-    line-height: 20px;
-    font-weight: 600;
-    position: relative;
-    text-decoration: none;
-    animation-name: fadeIn;
-    animation-timing-function: ease-in;
-    animation-duration: 3s;
-    animation-delay: 0s;
-    animation-iteration-count: 1;
-}
-
-.datasetContainer .dataButtonsList li button:hover {
-    text-decoration: none;
-    background: transparent;
-}
-
 #datasetPreview {
     display: none;
     background-color: black;
@@ -57,7 +34,7 @@
 
 #dataManipulationButtons {
     display: none;
-    justify-content: center;
+    justify-content: space-evenly;
     padding-bottom: 100px;
 }
 
