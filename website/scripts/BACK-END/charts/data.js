@@ -7,8 +7,9 @@ const PORT = 8081;
  * Send HTTP request with url SERVER_HOST+':'+PORT+"/dataset/+ datasetName (who/eurostat) based on the cookie and work with the data.
  */
 let datasetHTTPRequest = function () {
-    const cookie = getCookie("dataset");
-    const datasetName = cookie.substring(cookie.indexOf("=") + 1, cookie.indexOf(";") - 1);
+    const datasetName = getCookie("dataset");
+    if (datasetName == null) console.error("dataset cookie error! Got cookie value: '" + datasetName + "' from cookie named 'dataset'.");
+
     const HTTP = new XMLHttpRequest();
     const url = SERVER_HOST + ':' + PORT + "/dataset/" + datasetName;
     HTTP.open("GET", url);
@@ -20,9 +21,17 @@ let datasetHTTPRequest = function () {
 }
 
 /**
- * This function's purpose is to load the specified dataset
+ * This function's purpose is to load the specified dataset.
+ * Sets to cookie
+ * @param datasetName either 'who' or 'eurostat'
  */
-function loadDataSet() {
+function loadDataSet(datasetName) {
+    if (datasetName === 'who' || datasetName === 'eurostat')
+        setCookie("dataset", datasetName);
+    else {
+        setCookie("dataset", 'eurostat');
+        console.error("ERROR: wrong call on loadDataSet function: loadDataset(" + datasetName + ").")
+    }
     datasetHTTPRequest();
 }
 
