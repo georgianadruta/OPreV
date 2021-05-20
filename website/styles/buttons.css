@@ -30,11 +30,15 @@
     background-color: #000000;
     color: white;
     padding: 10px 20px;
-    font-size: 16px;
+    font-size: 18px;
     border-radius: 5px;
     border: none;
     cursor: pointer;
     transition: 0.3s ease-in-out;
+}
+
+.nav-dropbtn:hover {
+    color: #3498db;
 }
 
 .dropdown {
@@ -66,7 +70,6 @@
     min-width: 160px;
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
     z-index: 1;
-    margin-top: 10px;
 }
 
 .dropdown-content .dropdown-btn {
