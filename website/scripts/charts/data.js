@@ -12,7 +12,7 @@ let datasetHTTPRequest = function (datasetName) {
     const url = SERVER_HOST + PORT + "/dataset/" + datasetName;
     HTTP.open("GET", url);
     HTTP.send();
-    HTTP.onreadystatechange = (e) => {
+    HTTP.onreadystatechange = () => {
         console.log(HTTP.responseText)
         //TODO change dataset object based on the response
     }
@@ -34,7 +34,7 @@ function loadDataSet(datasetName) {
 /**
  * By default load eurostat.
  */
-window.addEventListener("load", function (event) {
+window.addEventListener("load", function () {
     loadDataSet("eurostat");
 });
 
@@ -42,7 +42,7 @@ window.addEventListener("load", function (event) {
 /**
  * This method's purpose is to return the dataset based on the datasetNr parameter
  * TODO HARDCODED. Return actual values from database
- * @param datasetNr number represeting the client's option
+ * @param datasetNr number representing the client's option
  * @returns {[string[], {spanGaps: boolean, borderColor: string, tension: number, pointHoverRadius: number, data: (number|number)[], pointHoverBorderColor: string, label: string, fill: boolean}, {spanGaps: boolean, borderColor: string, tension: number, data: (number|number)[], label: string, fill: boolean}, {spanGaps: boolean, borderColor: string, tension: number, data: (number|number)[], label: string, fill: boolean}]}
  */
 const generateDatasetLineChart = function (datasetNr) {
