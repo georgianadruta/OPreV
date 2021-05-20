@@ -51,6 +51,14 @@
     z-index: 1;
 }
 
+.dropdown-content#datasetButton {
+    right: -5px;
+}
+
+.dropdown-content#bodyMassButton {
+    right: -16px;
+}
+
 .nav-dropdown-content {
     display: none;
     position: absolute;

@@ -145,11 +145,21 @@
         <div class="dropdown-actions">
             <div class="dropdown-container">
                 <div class="dropdown">
-                    <button class="dropbtn">Choose dataset</button>
+                    <button class="dropbtn" id="datasetButton">Choose dataset</button>
                     <div class="dropdown-content">
                         <a class="dropdown-btn" onclick="loadDataSet('eurostat')">Eurostat</a>
                         <a class="dropdown-btn" onclick="loadDataSet('who')">Who</a>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div class=" dropdown-container">
+            <div class="dropdown">
+                <button class="dropbtn">Body Mass</button>
+                <div class="dropdown-content" id="bodyMassButton">
+                    <div class="dropdown-btn">Overweight</div>
+                    <div class="dropdown-btn">Pre-obese</div>
+                    <div class="dropdown-btn">Obese</div>
                 </div>
             </div>
         </div>
