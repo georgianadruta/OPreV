@@ -9,7 +9,7 @@ const PreObese_dataset2 = [NaN, NaN, NaN, 31.1, NaN, 68.8, NaN];
 const Obese_dataset2 = [NaN, NaN, NaN, 11.1, NaN, 62.8, 65.5];
 
 
-var data = {
+const data = {
     labels: data_labels,
     datasets: [{
         label: 'Overweight by BMI',
@@ -22,28 +22,28 @@ var data = {
         pointHoverBorderColor: "black",
         pointHoverRadius: 7
     },
-    {
-        label: 'PreObese BMI',
-        data: PreObese_dataset1,
+        {
+            label: 'PreObese BMI',
+            data: PreObese_dataset1,
 
-        fill: false,
-        borderColor: 'red',
-        tension: 0,
-        spanGaps: true
-    },
-    {
-        label: 'Obese by BMI',
-        data: Obese_dataset1,
+            fill: false,
+            borderColor: 'red',
+            tension: 0,
+            spanGaps: true
+        },
+        {
+            label: 'Obese by BMI',
+            data: Obese_dataset1,
 
-        fill: false,
-        borderColor: 'black',
-        tension: 0,
-        spanGaps: true
-    },
+            fill: false,
+            borderColor: 'black',
+            tension: 0,
+            spanGaps: true
+        },
     ]
 };
 
-var options = {
+const options = {
     scales: {
         y: {
             beginAtZero: true
@@ -51,15 +51,16 @@ var options = {
     }
 };
 
-var config = {
+const config = {
     type: 'line',
     data: data,
     options: options,
 };
 
-var lineChart;
+let lineChart;
 window.onload = function () {
     lineChart = new Chart(document.getElementById('lineChart').getContext('2d'), config);
+    // createCheckboxes();
 };
 
 function changeChartData(data_origin) {
@@ -78,4 +79,28 @@ function changeChartData(data_origin) {
         }
     }
     lineChart.update();
+}
+
+function createCheckboxes() {
+    const container = document.getElementById('countries');
+    for (let i = 0; i < dataSet.length; i++) {
+        const parent = document.createElement('div');
+        parent.className = 'country';
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.id = 'country' + i;
+        checkbox.name = dataSet[i][0];
+        checkbox.value = dataSet[i][0];
+        checkbox.checked = true;
+
+        const label = document.createElement('label');
+        label.htmlFor = 'country' + i;
+        label.appendChild(document.createTextNode(dataSet[i][0]));
+
+        parent.appendChild(checkbox);
+        parent.appendChild(label);
+
+        container.appendChild(parent);
+    }
 }
