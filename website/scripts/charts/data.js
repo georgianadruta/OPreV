@@ -39,6 +39,12 @@ window.addEventListener("load", function (event) {
 });
 
 
+/**
+ * This method's purpose is to return the dataset based on the datasetNr parameter
+ * TODO HARDCODED. Return actual values from database
+ * @param datasetNr number represeting the client's option
+ * @returns {[string[], {spanGaps: boolean, borderColor: string, tension: number, pointHoverRadius: number, data: (number|number)[], pointHoverBorderColor: string, label: string, fill: boolean}, {spanGaps: boolean, borderColor: string, tension: number, data: (number|number)[], label: string, fill: boolean}, {spanGaps: boolean, borderColor: string, tension: number, data: (number|number)[], label: string, fill: boolean}]}
+ */
 const generateDatasetLineChart = function (datasetNr) {
     const data_labels = ["2010", "2012", "2014", "2016", "2018", "2020", "2021-present"]
 
