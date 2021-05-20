@@ -1,6 +1,5 @@
-let chart;
 let removeCountryIds = [];
-
+let chart;
 const data = {
     labels: getDatasetLabels(),
     datasets: [{
@@ -21,7 +20,6 @@ const data = {
     },
     ]
 };
-
 const config = {
     type: 'bar',
     data,

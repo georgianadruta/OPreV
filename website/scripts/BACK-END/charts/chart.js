@@ -28,21 +28,21 @@ function getDatasetDataHTTPRequest() {
 }
 
 /**
- * Getter for dataset object
- * @returns {any[]} dataset array
- */
-function getDatasetData() {
-    //TODO GET DATASET BY HTTP REQUEST
-    return dataset.data;
-}
-
-/**
  * Getter for dataset labels
  * @returns {string[]}
  */
 function getDatasetLabels() {
     //TODO GET LABELS BY HTTP REQUEST
     return dataset.labels;
+}
+
+/**
+ * Getter for dataset object
+ * @returns {any[]} dataset array
+ */
+function getDatasetData() {
+    //TODO GET DATASET BY HTTP REQUEST
+    return dataset.data;
 }
 
 /**
@@ -57,19 +57,31 @@ function selectAllCountries() {
         checkbox.checked = true;
     }
 
-    let chart;
     const path = window.location.pathname;
     const page = path.split("/").pop();
-    if (page === "chart_bar.html")
-        chart = getBarChart();
-    else
-        chart = getTableChart();
+    if (page === "chart_bar.html") {
+        const chart = getBarChart();
+        chart.data.labels = labels;
+        chart.data.datasets[0].data = getDatasetData()[0];
+        chart.data.datasets[1].data = getDatasetData()[1];
+        chart.data.datasets[2].data = getDatasetData()[2];
+        chart.update();
+    } else {
+        const tableData = getTableData();
+        tableData.labels = labels;
+        tableData.data[0] = getDatasetData()[0];
+        tableData.data[1] = getDatasetData()[1];
+        tableData.data[2] = getDatasetData()[2];
+        generateTable();
+    }
 
-    chart.data.labels = labels;
-    chart.data.datasets[0].data = getDatasetData()[0];
-    chart.data.datasets[1].data = getDatasetData()[1];
-    chart.data.datasets[2].data = getDatasetData()[2];
-    chart.update();
+
+    if (page === "chart_bar.html") {
+        chart.update();
+    } else {
+        generateTable();
+    }
+
     removeCountryIds = [];
     setCookie("countries", "all");
 }
