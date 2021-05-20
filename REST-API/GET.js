@@ -13,12 +13,42 @@ const mimeTypes = {
 
 let datasetPath = "/dataset";
 
+function checkRequirementDataset(url) {
+    const str = url.split("/");
+
+    if (str[str.length - 1] === "dataset") {
+        console.log("which dataset?")
+    } else {
+        if (str[str.length - 2] === "dataset") {
+            if (str[str.length - 1] === "who") {
+                console.log("display who dataset")
+            } else {
+                if (str[str.length - 1] === "eurostat") {
+                    console.log("display eurostat dataset")
+                }
+            }
+        } else {
+            if (str[str.length - 3] === "dataset") {
+                if (str[str.length - 2] === "eurostat" || str[str.length - 2] === "who") {
+                    if (parseInt(str[str.length - 1]) >= 0) {
+                        console.log("display " + parseInt(str[str.length - 1]) +
+                            " element from " + str[str.length - 2] + " dataset");
+                    }
+                } else {
+                    console.log("invalid dataset");
+                }
+            }
+        }
+    }
+}
+
 function GET(request, response) {
-    //TODO logic of working with a get response
+    // TODO logic of working with a get response
     // WARNING:
     // Nothing will happen if you modify response itself.
     // But modifying it's fields (ex:response.name,response.head) will change response.
 
+    checkRequirementDataset(request.url);
 
     //create file path
     let filePath = '.' + request.url;
