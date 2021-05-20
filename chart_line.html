@@ -55,19 +55,19 @@
     <link rel="stylesheet" href="website/styles/body_main_page_links.css"/>
     <link rel="stylesheet" href="website/styles/body_main.css"/>
     <link rel="stylesheet" href="website/styles/body_footer.css"/>
-    <link rel="stylesheet" href="website/styles/third_page.css"/>
+    <link rel="stylesheet" href="website/styles/chart.css"/>
 
     <!--JAVA SCRIPTS-->
     <script src="website/scripts/BACK-END/cookies.js"></script>
     <script src="website/scripts/BACK-END/data.js"></script>
+    <script src="website/scripts/BACK-END/buttons/export.js"></script>
     <script src="website/scripts/BACK-END/charts/chart.js"></script>
-    <script src="website/scripts/FRONT-END/download_button.js"></script>
+    <script src="website/scripts/BACK-END/charts/chart_line.js"></script>
     <script src="website/scripts/BACK-END/buttons/download_csv.js"></script>
     <script src="website/scripts/BACK-END/buttons/download_png.js"></script>
     <script src="website/scripts/BACK-END/buttons/download_svg.js"></script>
+    <script src="website/scripts/FRONT-END/download_button.js"></script>
     <script src="website/scripts/FRONT-END/dataset_button.js"></script>
-    <script src="website/scripts/BACK-END/buttons/export.js"></script>
-    <script src="website/scripts/BACK-END/charts/chart_line.js"></script>
     <script src="website/scripts/FRONT-END/menu_bar.js"></script>
     <script src="website/scripts/FRONT-END/menu_side_bar.js"></script>
     <script src="website/scripts/FRONT-END/checkboxes.js"></script>
@@ -168,11 +168,7 @@
                 </div>
             </div>
 
-            <h3 class="bar-title">Choose the countries:</h3>
-            <div class="bar-actions">
-                <button class="button" onclick="selectAllCountries()">Select all</button>
-                <button class="button" onclick="deselectAllCountries()">Deselect all</button>
-            </div>
+            <h3 class="bar-title">Choose a country:</h3>
             <div id="countries"></div>
         </div>
 
@@ -190,37 +186,6 @@
                 </div>
             </div>
 
-            <div class="dropdown-container">
-                <div class="dropdown">
-                    <button class="dropbtn">Choose dataset</button>
-                    <div class="dropdown-content">
-                        <div class="dropdown-btn">Eurostat</div>
-                        <div class="dropdown-btn">Who</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="dropdown-container">
-                <div class="dropdown">
-                    <button
-                            class="dropbtn"
-                            onclick="changeLineChartData('European Union - 27 countries (from 2020)')"
-                    >
-                        European Union - 27 countries (from 2020)
-                    </button>
-                </div>
-            </div>
-
-            <div class="dropdown-container">
-                <div class="dropdown">
-                    <button
-                            class="dropbtn"
-                            onclick="changeLineChartData('Euro area - 19 countries  (from 2015)')"
-                    >
-                        Euro area - 19 countries (from 2015)
-                    </button>
-                </div>
-            </div>
         </div>
     </div>
 </main>
