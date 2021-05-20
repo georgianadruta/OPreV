@@ -104,3 +104,4 @@ function createCheckboxes() {
         container.appendChild(parent);
     }
 }
+

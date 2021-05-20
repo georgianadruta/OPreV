@@ -11,9 +11,16 @@ const mimeTypes = {
     '.ico': 'image/x-icon',
 };
 
-let datasetPath = "/dataset";
+/**
+ * TODO IMPLEMENTATION
+ * @param response
+ */
+let fakeResponse = function (response) {
+    response.writeHead(200, {'Content-Type': 'text/plain'});
+    response.end("Request accepted.", 'utf-8');
+}
 
-function checkRequirementDataset(url) {
+function checkRequirementDataset(url, response) {
     const str = url.split("/");
 
     if (str[str.length - 1] === "dataset") {
@@ -21,10 +28,14 @@ function checkRequirementDataset(url) {
     } else {
         if (str[str.length - 2] === "dataset") {
             if (str[str.length - 1] === "who") {
-                console.log("display who dataset")
+                console.log("display who dataset");
+                fakeResponse(response);//TODO generate the actual response
+                return true;
             } else {
                 if (str[str.length - 1] === "eurostat") {
                     console.log("display eurostat dataset")
+                    fakeResponse(response); //TODO generate the actual response
+                    return true;
                 }
             }
         } else {
@@ -36,19 +47,22 @@ function checkRequirementDataset(url) {
                     }
                 } else {
                     console.log("invalid dataset");
+
                 }
             }
         }
     }
+    return false;
 }
 
 function GET(request, response) {
-    // TODO logic of working with a get response
+    //TODO logic of working with a get response
     // WARNING:
     // Nothing will happen if you modify response itself.
     // But modifying it's fields (ex:response.name,response.head) will change response.
 
-    checkRequirementDataset(request.url);
+    if (checkRequirementDataset(request.url, response) === true)
+        return;
 
     //create file path
     let filePath = '.' + request.url;

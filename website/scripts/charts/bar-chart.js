@@ -43,7 +43,7 @@ const config = {
 };
 
 window.onload = function () {
-    myChart = new Chart(document.getElementById('barChart').getContext('2d'), config);
+    new Chart(document.getElementById('barChart').getContext('2d'), config);
     createCheckboxes();
 };
 
