@@ -10,6 +10,11 @@
     margin-top: 200px;
 }
 
+.datasetContainer .bar-actions {
+    display: flex;
+    justify-content: space-evenly;
+}
+
 .datasetContainer ul.dataButtonsList {
     display: flex;
     list-style-type: none;
