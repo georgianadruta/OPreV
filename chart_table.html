@@ -58,6 +58,7 @@
     <link rel="stylesheet" href="website/styles/buttons.css"/>
 
     <!--JAVA SCRIPTS-->
+    <script src="website/scripts/charts/data.js"></script>
     <script src="website/scripts/menu_bar.js"></script>
     <script src="website/scripts/menu_side_bar.js"></script>
     <script src="website/scripts/charts/chart_table.js"></script>
@@ -67,6 +68,7 @@
     <script src="website/scripts/buttons/download_svg.js"></script>
     <script src="website/scripts/buttons/download_button.js"></script>
     <script src="website/scripts/buttons/dataset_button.js"></script>
+
 </head>
 
 <body>
@@ -145,8 +147,8 @@
                 <div class="dropdown">
                     <button class="dropbtn">Choose dataset</button>
                     <div class="dropdown-content">
-                        <div class="dropdown-btn">Eurostat</div>
-                        <div class="dropdown-btn">Who</div>
+                        <a class="dropdown-btn" onclick="loadDataSet('eurostat')">Eurostat</a>
+                        <a class="dropdown-btn" onclick="loadDataSet('who')">Who</a>
                     </div>
                 </div>
             </div>

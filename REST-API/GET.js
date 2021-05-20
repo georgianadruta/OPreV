@@ -45,12 +45,10 @@ function checkRequirementDataset(url, response) {
     } else {
         if (str[str.length - 2] === "dataset") {
             if (str[str.length - 1] === "who") {
-                console.log("display who dataset");
                 hardcoded_response(response);//TODO generate the actual response
                 return true;
             } else {
                 if (str[str.length - 1] === "eurostat") {
-                    console.log("display eurostat dataset")
                     hardcoded_response(response); //TODO generate the actual response
                     return true;
                 }
