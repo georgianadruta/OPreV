@@ -3,13 +3,13 @@ let tableData = {
     data: getDatasetData(),
 }
 
+function getTableData() {
+    return tableData;
+}
+
 function refreshTableData() {
     tableData.labels = getDatasetLabels();
     tableData.data = getDatasetData();
-}
-
-function getTableData() {
-    return tableData;
 }
 
 function generateTable() {

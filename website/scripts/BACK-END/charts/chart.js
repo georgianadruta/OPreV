@@ -2,7 +2,6 @@ let dataset = {
     labels: null,
     data: Array()
 }
-let removeCountryIds = [];
 
 /**
  * This function's purpose is to do a HTTP request to receive the labels.
@@ -42,6 +41,20 @@ function getDatasetLabels() {
 function getDatasetData() {
     //TODO GET DATASET BY HTTP REQUEST
     return dataset.data;
+}
+
+/**
+ * Setter for dataset.labels object.
+ */
+function setDatasetLabels(newLabels) {
+    dataset.labels = newLabels;
+}
+
+/**
+ * Setter for dataset.data object.
+ */
+function setDatasetData(newData) {
+    dataset.data = newData;
 }
 
 function hardcode() {

@@ -34,8 +34,22 @@ const config = {
     }
 };
 
+/**
+ * Getter for the chart object
+ * @returns {*} the chart object
+ */
 function getBarChart() {
     return chart;
+}
+
+/**
+ * This function's purpose is to refresh the chart data
+ */
+function refreshBarChartData() {
+    data.labels = getDatasetLabels();
+    for (let i = 0; i < data.datasets.length; i++) {
+        data.datasets[i]['data'] = getDatasetData()[i];
+    }
 }
 
 window.addEventListener("load", function () {

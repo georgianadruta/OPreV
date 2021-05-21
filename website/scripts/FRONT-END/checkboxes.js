@@ -1,3 +1,4 @@
+let removeCountryIds = [];
 let currentCheckboxId = 0;
 
 /**
@@ -16,6 +17,8 @@ function createCountriesCheckboxes() {
         checkbox.name = labels[i];
         checkbox.value = labels[i];
         checkbox.checked = false;
+
+        removeCountryIds.push(i);//by default all are removed
 
         const path = window.location.pathname;
         const page = path.split("/").pop();
@@ -110,7 +113,6 @@ function deselectAllCountries() {
     setCookie("countries", "none");
 }
 
-//TODO fix bug after removing one country sometimes it gets bugged on table
 /**
  * This function's purpose is to remove a certain country from the chart for bar and table charts
  * @param id the id of the country of which will be removed from the graph
@@ -120,41 +122,72 @@ function addOrRemoveCountryFromChart(id) {
     if (removeCountryIds.includes(id)) {
         let index = removeCountryIds.indexOf(id);//delete it
         removeCountryIds.splice(index, 1);
+        addDataToDatasetByCountryID(id);
     } else {
         removeCountryIds.push(id);//else add it
-    }
-
-    //reconstruct dataset
-    let labelsCopy = [...getDatasetLabels()];
-    let dataset1Copy = [...getDatasetData()[0]];
-    let dataset2Copy = [...getDatasetData()[1]];
-    let dataset3Copy = [...getDatasetData()[2]];
-
-    for (let i = 0; i < removeCountryIds.length; i++) {
-        labelsCopy[removeCountryIds[i]] = undefined;
-        dataset1Copy[removeCountryIds[i]] = undefined;
-        dataset2Copy[removeCountryIds[i]] = undefined;
-        dataset3Copy[removeCountryIds[i]] = undefined;
+        removeDataToDatasetByCountryID(id);
     }
 
     const path = window.location.pathname;
     const page = path.split("/").pop();
     if (page === "chart_bar.html") {
-        const chart = getBarChart();
-        chart.data.labels = labelsCopy.filter(x => x !== undefined);
-        chart.data.datasets[0].data = dataset1Copy.filter(x => x !== undefined);
-        chart.data.datasets[1].data = dataset2Copy.filter(x => x !== undefined);
-        chart.data.datasets[2].data = dataset3Copy.filter(x => x !== undefined);
-        chart.update();
+        refreshBarChartData();
+        getBarChart().update();
     } else {
-        const tableData = getTableData();
-        tableData.labels = labelsCopy.filter(x => x !== undefined);
-        tableData.data[0] = dataset1Copy.filter(x => x !== undefined);
-        tableData.data[1] = dataset2Copy.filter(x => x !== undefined);
-        tableData.data[2] = dataset3Copy.filter(x => x !== undefined);
+        refreshTableData();
         generateTable();
     }
+}
 
+/**
+ * This function's purpose is to add a country's data to the dataset based on it's id.
+ * @param id the id of the country
+ */
+function addDataToDatasetByCountryID(id) {
+    const labels = getLabelsHTTPRequest();
+    const data = getDatasetDataHTTPRequest();
+
+    let newLabels = getDatasetLabels();
+    if (newLabels == null) newLabels = Array();
+    newLabels.push(labels[id]);
+
+    let newData = getDatasetData();
+    //if datasetData is empty make datasetData.length arrays
+    if (newData.length < 1)
+        for (let i = 0; i < data.length; i++) {
+            newData[i] = Array();
+        }
+    //for each element add corresponding data
+    for (let i = 0; i < data.length; i++) {
+        newData[i].push(data[i][id]);
+    }
+
+    //set the newDataset
+    setDatasetLabels(newLabels);
+    setDatasetData(newData);
+}
+
+/**
+ * This function's purpose is to remove a country's data to the dataset based on it's id.
+ * @param id the id of the country
+ */
+function removeDataToDatasetByCountryID(id) {
+
+    let newLabels = getDatasetLabels();
+    let index = newLabels.indexOf(id);//delete it
+    newLabels.splice(index, 1);
+
+    let newData = getDatasetData();
+
+    //for each element add corresponding data
+    for (let i = 0; i < newData.length; i++) {
+        index = newData[i].indexOf(id);//delete it
+        newData[i].splice(index, 1);
+    }
+
+    //set the newDataset
+    setDatasetLabels(newLabels);
+    setDatasetData(newData);
 }
 
 /**
