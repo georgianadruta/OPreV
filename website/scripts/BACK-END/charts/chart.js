@@ -2,7 +2,7 @@ let dataset = {
     labels: null,
     data: Array()
 }
-
+let removeCountryIds = [];
 let currentCheckboxId = 0;
 
 /**
@@ -65,20 +65,18 @@ function selectAllCountries() {
         chart.data.datasets[0].data = getDatasetData()[0];
         chart.data.datasets[1].data = getDatasetData()[1];
         chart.data.datasets[2].data = getDatasetData()[2];
-        chart.update();
     } else {
         const tableData = getTableData();
         tableData.labels = labels;
         tableData.data[0] = getDatasetData()[0];
         tableData.data[1] = getDatasetData()[1];
         tableData.data[2] = getDatasetData()[2];
-        generateTable();
     }
-
 
     if (page === "chart_bar.html") {
         chart.update();
     } else {
+        refreshTableData();
         generateTable();
     }
 
@@ -97,18 +95,27 @@ function deselectAllCountries() {
             checkbox.type = 'checkbox';
             checkbox.checked = false;
         }
+        const path = window.location.pathname;
+        const page = path.split("/").pop();
+        if (page === "chart_bar.html") {
+            const chart = getBarChart();
+            chart.data.labels = [];
+            chart.data.datasets[0].data = [];
+            chart.data.datasets[1].data = [];
+            chart.data.datasets[2].data = [];
+            chart.update();
 
-        chart.data.labels = [];
-        chart.data.datasets[0].data = [];
-        chart.data.datasets[1].data = [];
-        chart.data.datasets[2].data = [];
-        chart.update();
+        } else {
+            const tableData = getTableData();
+            tableData.data = [];
+            generateTable();
+        }
         removeCountryIds = [...Array(labels.length).keys()];
-
     }
     setCookie("countries", "none");
 }
 
+//TODO fix bug after removing one country sometimes it gets bugged on table
 /**
  * This function's purpose is to remove a certain country from the chart for bar and table charts
  * @param id the id of the country of which will be removed from the graph
@@ -133,11 +140,24 @@ function removeCountryFromChart(id) {
         dataset3Copy[removeCountryIds[i]] = undefined;
     }
 
-    chart.data.labels = labelsCopy.filter(x => x !== undefined);
-    chart.data.datasets[0].data = dataset1Copy.filter(x => x !== undefined);
-    chart.data.datasets[1].data = dataset2Copy.filter(x => x !== undefined);
-    chart.data.datasets[2].data = dataset3Copy.filter(x => x !== undefined);
-    chart.update();
+    const path = window.location.pathname;
+    const page = path.split("/").pop();
+    if (page === "chart_bar.html") {
+        const chart = getBarChart();
+        chart.data.labels = labelsCopy.filter(x => x !== undefined);
+        chart.data.datasets[0].data = dataset1Copy.filter(x => x !== undefined);
+        chart.data.datasets[1].data = dataset2Copy.filter(x => x !== undefined);
+        chart.data.datasets[2].data = dataset3Copy.filter(x => x !== undefined);
+        chart.update();
+    } else {
+        const tableData = getTableData();
+        tableData.labels = labelsCopy.filter(x => x !== undefined);
+        tableData.data[0] = dataset1Copy.filter(x => x !== undefined);
+        tableData.data[1] = dataset2Copy.filter(x => x !== undefined);
+        tableData.data[2] = dataset3Copy.filter(x => x !== undefined);
+        generateTable();
+    }
+
 }
 
 /**

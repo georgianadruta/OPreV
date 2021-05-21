@@ -1,4 +1,3 @@
-let removeCountryIds = [];
 let chart;
 const data = {
     labels: getDatasetLabels(),
