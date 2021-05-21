@@ -42,8 +42,4 @@ function generateTable() {
     }
 }
 
-// window.onload = function () {
-//     generateTable();
-// }
-
 

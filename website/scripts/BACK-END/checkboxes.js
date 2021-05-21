@@ -47,14 +47,14 @@ function createCountriesCheckboxes() {
  * This function's purpose is to select all countries filters.
  */
 function selectAllCountries() {
-    hardcode();//TODO DELETE THIS LATER
+    setDatasetLabels(getLabelsHTTPRequest());
     let labels = getDatasetLabels();
     for (let i = 0; i < labels.length; i++) {
         const checkbox = document.getElementById('country' + i);
         checkbox.type = 'checkbox';
         checkbox.checked = true;
     }
-
+    setDatasetData(getDatasetDataHTTPRequest());
     const path = window.location.pathname;
     const page = path.split("/").pop();
     if (page === "chart_bar.html") {
@@ -86,26 +86,24 @@ function selectAllCountries() {
  * This function's purpose is to deselect all countries filters.
  */
 function deselectAllCountries() {
-    let labels = getDatasetLabels();
+    let labels = getLabelsHTTPRequest();
     if (labels !== null) {
         for (let i = 0; i < labels.length; i++) {
             const checkbox = document.getElementById('country' + i);
             checkbox.type = 'checkbox';
             checkbox.checked = false;
         }
+        setDatasetLabels([])
+        setDatasetData([]);
         const path = window.location.pathname;
         const page = path.split("/").pop();
         if (page === "chart_bar.html") {
             const chart = getBarChart();
-            chart.data.labels = [];
-            chart.data.datasets[0].data = [];
-            chart.data.datasets[1].data = [];
-            chart.data.datasets[2].data = [];
+            refreshBarChartData();
             chart.update();
 
         } else {
-            const tableData = getTableData();
-            tableData.data = [];
+            refreshTableData();
             generateTable();
         }
         removeCountryIds = [...Array(labels.length).keys()];
@@ -172,19 +170,16 @@ function addDataToDatasetByCountryID(id) {
  * @param id the id of the country
  */
 function removeDataToDatasetByCountryID(id) {
-
+    const country = getLabelsHTTPRequest()[id];
     let newLabels = getDatasetLabels();
-    let index = newLabels.indexOf(id);//delete it
+    let index = newLabels.indexOf(country);//delete it
     newLabels.splice(index, 1);
 
     let newData = getDatasetData();
-
     //for each element add corresponding data
     for (let i = 0; i < newData.length; i++) {
-        index = newData[i].indexOf(id);//delete it
         newData[i].splice(index, 1);
     }
-
     //set the newDataset
     setDatasetLabels(newLabels);
     setDatasetData(newData);
