@@ -8,7 +8,7 @@ function getTableData() {
 }
 
 function refreshTableData() {
-    sortDataByLabel();
+    // sortDataByLabel();
     tableData.labels = getDatasetLabels();
     tableData.data = getDatasetData();
 }

@@ -46,7 +46,7 @@ function getBarChart() {
  * This function's purpose is to refresh the chart data
  */
 function refreshBarChartData() {
-    sortDataByLabel();
+    // sortDataByLabel();
     data.labels = getDatasetLabels();
     for (let i = 0; i < data.datasets.length; i++) {
         data.datasets[i]['data'] = getDatasetData()[i];
