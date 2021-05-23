@@ -17,62 +17,20 @@
 // }
 
 //TODO Georgiana js for sort and by buttons in table chart
-const sortByDropdown = document.querySelector(".sort-by");
-const sortOrderDropdown = document.querySelector(".sort-order");
-const container = document.querySelector(".products");
 
-const displayProducts = (products) => {
-    let result = "";
+// click on the column headers to sort ascending, double click for descending
+function sort() {
 
-    data.forEach(({country, first, second, third}) => {
-        result += `
-   <div class="product">
-    <div><strong>Country:</strong><span>${country}</span></div>
-    <div><strong>First year:</strong><span>${first}</div>
-    <div><strong>Second year:</strong><span>${second}</div>
-    <div><strong>Third year:</strong><span>${third}</div>
-   </div>
-  `;
-    });
+    const getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
 
-    container.innerHTML = result;
-};
+    const comparer = (idx, asc) => (a, b) => ((v1, v2) =>
+            v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2)
+    )(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
 
-const ascendingSort = (sortByValue) => {
-    return data.sort((a, b) => {
-        if (a[sortByValue] < b[sortByValue]) return -1;
-        if (a[sortByValue] > b[sortByValue]) return 1;
-        return 0;
-    });
-};
-
-const descendingSort = (sortByValue) => {
-    return data.sort((a, b) => {
-        if (a[sortByValue] < b[sortByValue]) return 1;
-        if (a[sortByValue] > b[sortByValue]) return -1;
-        return 0;
-    });
-};
-
-sortByDropdown.addEventListener("change", () => {
-    const sortByValue = sortByDropdown.value; // price or ram value
-    const sortOrderValue = sortOrderDropdown.value; // asc or desc value
-
-    const sorted =
-        sortOrderValue === "desc"
-            ? descendingSort(sortByValue)
-            : ascendingSort(sortByValue);
-
-    displayProducts(sorted);
-});
-
-sortOrderDropdown.addEventListener("change", () => {
-    const event = new Event("change");
-    const sortByValue = sortByDropdown.value;
-
-    if (sortByValue) {
-        sortByDropdown.dispatchEvent(event);
-    }
-});
-
-displayProducts(products);
+    document.querySelectorAll('th').forEach(th => th.addEventListener('click', (() => {
+        const table = th.closest('table');
+        Array.from(table.querySelectorAll('tr:nth-child(n+2)'))
+            .sort(comparer(Array.from(th.parentNode.children).indexOf(th), this.asc = !this.asc))
+            .forEach(tr => table.appendChild(tr));
+    })));
+}

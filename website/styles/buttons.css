@@ -142,3 +142,17 @@
         margin-right: 0;
     }
 }
+
+.filters {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.filters > div {
+    margin: 10px;
+}
+
+.filters select {
+    margin-left: 10px;
+}
