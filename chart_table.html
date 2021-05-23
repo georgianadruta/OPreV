@@ -176,31 +176,51 @@
         </div>
         <div id="countries"></div>
 
-        <div class="dropdown-actions">
-
+        <div class="filters">
             <div class="dropdown-container">
-                <div class="dropdown">
-                    <button class="dropbtn">Sort</button>
-                    <div class="dropdown-content">
-                        <div class="dropdown-btn">Ascending</div>
-                        <div class="dropdown-btn">Descending</div>
-                    </div>
-                </div>
+                Sort By:
+                <select class="sort-by">
+                    <option value="">Select one</option>
+                    <option value="country">Country</option>
+                    <option value="first">First Year</option>
+                    <option value="second">Second Year</option>
+                    <option value="third">Third Year</option>
+                </select>
+            </div>
+            <div>
+                Sort Order:
+                <select class="sort-order">
+                    <option value="">Select one</option>
+                    <option value="asc">Ascending</option>
+                    <option value="desc">Descending</option>
+                </select>
             </div>
 
-            <div class="dropdown-container">
-                <div class="dropdown">
-                    <button class="dropbtn">By</button>
-                    <div class="dropdown-content">
-                        <div class="dropdown-btn">Country</div>
-                        <div class="dropdown-btn">2008</div>
-                        <div class="dropdown-btn">2014</div>
-                        <div class="dropdown-btn">2017</div>
-                    </div>
-                </div>
-            </div>
+            <!--            <div class="dropdown-container">-->
+            <!--                <div class="dropdown">-->
+            <!--                    <button class="dropbtn">Sort</button>-->
+            <!--                    <div class="dropdown-content">-->
+            <!--                        <div zclass="dropdown-btn" onclick="">Ascending</div>-->
+            <!--                        <div class="dropdown-btn">Descending</div>-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--            </div>-->
+
+            <!--            <div class="dropdown-container">-->
+            <!--                <div class="dropdown">-->
+            <!--                    <button class="dropbtn">By</button>-->
+            <!--                    <div class="dropdown-content">-->
+            <!--                        <div class="dropdown-btn">Country</div>-->
+            <!--                        <div class="dropdown-btn">2008</div>-->
+            <!--                        <div class="dropdown-btn">2014</div>-->
+            <!--                        <div class="dropdown-btn">2017</div>-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--            </div>-->
+            <!--            TODO Georgiana js for sort and by buttons in table chart-->
         </div>
-
+        <div class="products">
+        </div>
         <div class="table-container">
             <table>
                 <thead>

@@ -6,6 +6,12 @@
     margin: 10px 0;
 }
 
+.filters {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .dropdown-container {
     margin-bottom: 10px;
     padding-bottom: 30px;
