@@ -65,7 +65,7 @@
     right: -5px;
 }
 
-.dropdown-content#bodyMassButton {
+.dropdown-content#bodyMassButton, .dropdown-content#sexButton, .dropdown-content#continentButton {
     right: -16px;
 }
 

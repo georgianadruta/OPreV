@@ -56,8 +56,3 @@ function setDatasetLabels(newLabels) {
 function setDatasetData(newData) {
     dataset.data = newData;
 }
-
-function hardcode() {
-    dataset.labels = getLabelsHTTPRequest();
-    dataset.data = getDatasetDataHTTPRequest();
-}

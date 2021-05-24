@@ -1,8 +1,6 @@
 const SERVER_HOST = '127.0.0.1';
 const PORT = 8081;
 
-// let dataset;
-
 /**
  * Send HTTP request with url SERVER_HOST+':'+PORT+"/dataset/+ datasetName (who/eurostat) based on the cookie and work with the data.
  */
@@ -27,9 +25,10 @@ let datasetHTTPRequest = function () {
  * @param datasetName either 'who' or 'eurostat'
  */
 function loadDataSet(datasetName) {
-    if (datasetName === 'who' || datasetName === 'eurostat')
+    if (datasetName === 'who' || datasetName === 'eurostat') {
         setCookie("dataset", datasetName);
-    else {
+        refreshFilters();
+    } else {
         setCookie("dataset", 'eurostat');
         console.error("ERROR: wrong call on loadDataSet function: loadDataset(" + datasetName + ").")
     }
@@ -52,80 +51,47 @@ function loadBodyMass(bodyMassName) {
 }
 
 /**
- * This method's purpose is to return the dataset based on the datasetNr parameter
- * TODO HARDCODED. Return actual values from database
- * @param datasetNr number representing the client's option
- * @returns {[string[], {spanGaps: boolean, borderColor: string, tension: number, pointHoverRadius: number, data: (number|number)[], pointHoverBorderColor: string, label: string, fill: boolean}, {spanGaps: boolean, borderColor: string, tension: number, data: (number|number)[], label: string, fill: boolean}, {spanGaps: boolean, borderColor: string, tension: number, data: (number|number)[], label: string, fill: boolean}]}
+ * TODO get BMI filters via HTTP request
+ * @returns {string[]}  array of strings
  */
-const generateDatasetLineChart = function (datasetNr) {
-    const data_labels = ["2010", "2012", "2014", "2016", "2018", "2020", "2021-present"]
+function getBMIFiltersHTTPRequest() {
+    if (getCookie("dataset").toLowerCase() === "eurostat")
+        return ['Obese', 'Pre-obese', 'Overweight'];
+    if (getCookie("dataset").toLowerCase() === "who")
+        return ['1', '2', '3'];
+}
 
-    const Overweight_dataset1 = [NaN, NaN, NaN, 51.1, NaN, 51.8, NaN];
-    const PreObese_dataset1 = [NaN, NaN, NaN, 35.7, NaN, 36.9, NaN];
-    const Obese_dataset1 = [NaN, NaN, NaN, 15.4, NaN, 14.6, NaN];
+/**
+ * TODO get Years filters via HTTP request
+ * @returns {string[]}  array of strings
+ */
+function getYearsFiltersHTTPRequest() {
+    if (getCookie("dataset").toLowerCase() === "eurostat")
+        return ['2008', '2014', '2017'];
+    if (getCookie("dataset").toLowerCase() === "who")
+        return ['1', '2', '3'];
+}
 
-    const Overweight_dataset2 = [NaN, NaN, NaN, 21.1, NaN, 41.8, NaN];
-    const PreObese_dataset2 = [NaN, NaN, NaN, 31.1, NaN, 68.8, NaN];
-    const Obese_dataset2 = [NaN, NaN, NaN, 11.1, NaN, 62.8, 65.5];
+/**
+ * TODO get Sex filters via HTTP request
+ * @returns {string[]}  array of strings
+ */
+function getSexFiltersHTTPRequest() {
+    if (getCookie("dataset").toLowerCase() === "eurostat")
+        return ["Both sexes"];
+    if (getCookie("dataset").toLowerCase() === "who")
+        return ['Female', 'Male', 'Both sexes'];
+}
 
-    if (datasetNr === 1)
-        return [data_labels,
-            {
-                label: 'Overweight by BMI',
-                data: Overweight_dataset1,
-                fill: false,
-                borderColor: 'rgb(75, 192, 192)',
-                tension: 0,
-                spanGaps: true,
-                pointHoverBorderColor: "black",
-                pointHoverRadius: 7
-            },
-            {
-                label: 'PreObese BMI',
-                data: PreObese_dataset1,
-                fill: false,
-                borderColor: 'red',
-                tension: 0,
-                spanGaps: true
-            },
-            {
-                label: 'Obese by BMI',
-                data: Obese_dataset1,
-                fill: false,
-                borderColor: 'black',
-                tension: 0,
-                spanGaps: true
-            },
-        ]
-    else
-        return [data_labels,
-            {
-                label: 'Overweight by BMI',
-                data: Overweight_dataset2,
-                fill: false,
-                borderColor: 'rgb(75, 192, 192)',
-                tension: 0,
-                spanGaps: true,
-                pointHoverBorderColor: "black",
-                pointHoverRadius: 7
-            },
-            {
-                label: 'PreObese BMI',
-                data: PreObese_dataset2,
-                fill: false,
-                borderColor: 'red',
-                tension: 0,
-                spanGaps: true
-            },
-            {
-                label: 'Obese by BMI',
-                data: Obese_dataset2,
-                fill: false,
-                borderColor: 'black',
-                tension: 0,
-                spanGaps: true
-            },
-        ]
+/**
+ * TODO get Regions filters via HTTP request
+ * @returns {string[]}  array of strings
+ */
+function getRegionsFiltersHTTPRequest() {
+    if (getCookie("dataset").toLowerCase() === "eurostat")
+        return ["Europe"];
+    if (getCookie("dataset").toLowerCase() === "who")
+        return ['Africa', 'Europe', 'TODO add others'];
 }
 
 /**
