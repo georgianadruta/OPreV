@@ -29,7 +29,7 @@ function addObjectByJsonString(jsonObjectAsString, cookie) {
     } catch (error) {
         console.error(error);
     }
-};
+}
 
 const deleteObjectByID = function (jsonObjectAsString, cookie) {
     let con = getConnection(cookie);
@@ -100,5 +100,28 @@ const selectFromDatabase = function (selectFields = "*", whereClause = null) {
     }
 }
 
-// addObjectByJsonString('{"id":5, "name":"John"}', {"database": "test", "databaseTable": "testtable"});
 
+const addRegistrationUser = function (jsonRegistrationAccount) {
+    let con = getConnection({database: "users"})
+    const table = "registration_requests";
+    try {
+        con.connect(function (err) {
+            if (err) throw err;
+            const sql = "INSERT INTO " + table + '(name,password,email)' + " VALUES ('" + jsonRegistrationAccount.username + "','"
+                + jsonRegistrationAccount.password + "','" + jsonRegistrationAccount.email + "')";
+
+            con.query(sql, function (err) {
+                if (err) {
+                    console.log("Failed to add " + jsonRegistrationAccount.username + " to registration requests.");
+                    throw err;
+                }
+                console.log("Added " + jsonRegistrationAccount.username + " to registration requests.");
+                return true;
+            });
+        });
+    } catch (error) {
+        console.error(error);
+        return false;
+    }
+}
+module.exports.addRegistrationUser = addRegistrationUser;

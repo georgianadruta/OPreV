@@ -17,6 +17,26 @@ let postHTTPRequest = function (username, email, password) {
     }
 }
 
+let checkMatches = function (username, email, password) {
+    let usernameRegex = /^[a-zA-Z0-9]+$/;
+    if (usernameRegex.test(username) === false) {
+        alert("Invalid username.")
+        return false;
+    }
+
+    let emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    if (emailRegex.test(email) === false) {
+        alert("Invalid email.")
+        return false;
+    }
+    let passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    if (passwordRegex.test(password) === false) {
+        alert("Invalid password.")
+        return false;
+    } else
+        return true;
+}
+
 /**
  * TODO change alert to some display in html
  * TODO send http post request to the server
@@ -26,23 +46,8 @@ async function register() {
     const password = (document.querySelector("#password").value);
     const email = (document.querySelector("#email").value);
 
-    //TODO uncomment this lines
-
-    // let usernameRegex = /^[a-zA-Z0-9]+$/;
-    // if (usernameRegex.test(username) === false) {
-    //     alert("Invalid username.")
-    //     return;
-    // }
-    //
-    // let emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-    // if (emailRegex.test(email) === false) {
-    //     alert("Invalid email.")
-    //     return;
-    // }
-    // let passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-    // if (passwordRegex.test(password) === false) {
-    //     alert("Invalid password.")
-    // } else
+    if (checkMatches(username, email, password) === false) {
+    }
 
     postHTTPRequest(username, email, password);
 
