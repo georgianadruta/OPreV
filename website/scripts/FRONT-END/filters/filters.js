@@ -26,9 +26,9 @@ function createFilterButton(HTTPRequestFunction, elementID, cookieName) {
  */
 function refreshFilters() {
     createFilterButton(getBMIFiltersHTTPRequest, "bodyMassButton", "BMIFilter");
-    createFilterButton(getYearsFiltersHTTPRequest, "yearsButton", "YearsFilter");
     createFilterButton(getSexFiltersHTTPRequest, "sexButton", "SexFilter");
     createFilterButton(getRegionsFiltersHTTPRequest, "continentButton", "RegionsFilter");
+    createYearsCheckboxes();
     createCountriesCheckboxes();
 }
 

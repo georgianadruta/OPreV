@@ -69,7 +69,8 @@
     <script src="website/scripts/FRONT-END/menu_side_bar.js"></script>
     <script src="website/scripts/FRONT-END/button_download.js"></script>
     <script src="website/scripts/FRONT-END/button_dataset.js"></script>
-    <script src="website/scripts/FRONT-END/filters/countriesCheckboxes.js"></script>
+    <script src="website/scripts/FRONT-END/filters/checkboxes_countries.js"></script>
+    <script src="website/scripts/FRONT-END/filters/checkboxes_years.js"></script>
     <script src="website/scripts/FRONT-END/filters/filters.js"></script>
     <script src="node_modules/chart.js/dist/chart.js"></script>
 
@@ -161,25 +162,23 @@
                     </div>
                 </div>
                 <div class="dropdown">
-                    <button class="dropbtn">Years</button>
-                    <div class="dropdown-content" id="yearsButton">
-                    </div>
-                </div>
-                <div class="dropdown">
                     <button class="dropbtn">Sex</button>
                     <div class="dropdown-content" id="sexButton">
-                        <div class="dropdown-btn" onclick="">Female</div>
-                        <div class="dropdown-btn" onclick="">Male</div>
-                        <div class="dropdown-btn" onclick="">Both sexes</div>
                     </div>
                 </div>
                 <div class="dropdown">
                     <button class="dropbtn">Region</button>
                     <div class="dropdown-content" id="continentButton">
-                        <div class="dropdown-btn" onclick="">Europe</div>
                     </div>
                 </div>
             </div>
+
+            <h3 class="bar-title">Choose the years:</h3>
+            <div class="bar-actions">
+                <button class="button" onclick="selectAllYears()">Select all</button>
+                <button class="button" onclick="deselectAllYears()">Deselect all</button>
+            </div>
+            <div id="yearsCheckboxContainer"></div>
 
             <h3 class="bar-title">Choose the countries:</h3>
             <div class="bar-actions">
