@@ -16,7 +16,7 @@ http.createServer(function (request, response) {
         console.log(request.method, request.url, "Cookies: " + cookies);
     } else
         console.log(request.method, request.url);
-
+    request.setEncoding("utf8");
     switch (request.method) {
         case "GET": {
             GET(request, response);
