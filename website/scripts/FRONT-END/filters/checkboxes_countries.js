@@ -1,5 +1,5 @@
 let removeCountryIds = [];
-let currentCheckboxId = 0;
+let currentCountryCheckboxId = 0;
 
 /**
  * This function's purpose is to create the checkboxes for the countries
@@ -193,7 +193,7 @@ function removeDataToDatasetByCountryID(id) {
 function selectOnlyOneCountryFromChart(id) {
     console.log(id);
     //remove old id
-    const oldCheckbox = document.getElementById('country' + currentCheckboxId);
+    const oldCheckbox = document.getElementById('country' + currentCountryCheckboxId);
     oldCheckbox.type = 'checkbox';
     oldCheckbox.checked = false;
     //set the new checkbox as ticked
@@ -202,7 +202,7 @@ function selectOnlyOneCountryFromChart(id) {
     checkbox.checked = true;
 
     //update currentCheckboxId
-    currentCheckboxId = id;
+    currentCountryCheckboxId = id;
 }
 
 window.addEventListener("load", function () {
