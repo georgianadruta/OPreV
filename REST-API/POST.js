@@ -50,20 +50,14 @@ async function POST(request, response) {
         getEncryptedPassword(registrationAccount.password).then(
             function (encryptedPassword) {
                 registrationAccount.password = encryptedPassword;
-                if (CRUD.addRegistrationUser(registrationAccount) === false) {
-                    console.error("ERROR: " + " failed to add to database" + "request:" + request.method + " " + request.url);
-                    response.writeHead(404, {'Content-Type': 'text/plain'});
-                    response.end("ERROR: " + "failed to add to database", 'utf-8');
-                    return;
-                }
-                CRUD.addRegistrationUser(registrationAccount);
+                CRUD.addRegistrationUser(registrationAccount);//TODO check if it fails
                 response.writeHead(201, {'Content-Type': 'text/plain'});
                 response.end("Added registration user to be verified by the host.", 'utf-8');
             })
             .catch(function (error) {
-                console.error("ERROR: " + error + "Most likely failed password encryption." + "request:" + request.method + " " + request.url);
+                console.error("ERROR: " + error + " Filed to encrypt password." + "request:" + request.method + " " + request.url);
                 response.writeHead(404, {'Content-Type': 'text/plain'});
-                response.end("ERROR: " + error + "Most likely failed password encryption.", 'utf-8');
+                response.end("ERROR: " + error + " Filed to encrypt password.", 'utf-8');
             })
     })
 }
