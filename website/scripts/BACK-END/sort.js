@@ -1,5 +1,5 @@
 /**
- * This method's purpose is to sort the data based on lexicographical order of labels.
+ * This method's purpose is to sort the data based on user-selected options
  */
 
 //TODO Georgiana js for sort and by buttons in table chart
@@ -10,9 +10,11 @@ window.addEventListener("load", function () {
     let tempData = Array();
     let tempDataset = Array();
 
+    // find the user-selected options
     const sortByDropdown = document.querySelector(".sort-by");
     const sortOrderDropdown = document.querySelector(".sort-order");
 
+    // order ascending if sortOrderDropdown==="asc"
     const ascendingSort = (sortByValue) => {
         return tempDataset.sort((a, b) => {
             if (a[sortByValue] < b[sortByValue]) return -1;
@@ -21,6 +23,7 @@ window.addEventListener("load", function () {
         });
     };
 
+    // order descending if sortOrderDropdown==="desc"
     const descendingSort = (sortByValue) => {
         return tempDataset.sort((a, b) => {
             if (a[sortByValue] < b[sortByValue]) return 1;
@@ -30,6 +33,7 @@ window.addEventListener("load", function () {
     };
 
     sortByDropdown.addEventListener("change", () => {
+        // create a json array
         tempLabels = getDatasetLabels();
         tempData = getDatasetData();
         tempDataset = Array();
@@ -51,6 +55,7 @@ window.addEventListener("load", function () {
                 ? descendingSort(sortByValue)
                 : ascendingSort(sortByValue);
 
+        // rearrange the data: arrays for labels and data values
         let arrayLabels = Array();
         let firstData = Array();
         let secondData = Array();
@@ -67,8 +72,23 @@ window.addEventListener("load", function () {
         finalData.push(secondData);
         finalData.push(thirdData);
         setDatasetData(finalData);
-        refreshTableData();
-        generateTable();
+
+        // refresh the chart
+        let path = window.location.pathname;
+        let str = path.split("/");
+        if (str[str.length - 1] === "chart_table.html") {
+            refreshTableData();
+            generateTable();
+        } else {
+            if (str[str.length - 1] === "chart_bar.html") {
+                refreshBarChartData();
+                getBarChart();
+            } else {
+                if (str[str.length - 1] === "chart_line.html") {
+                    //TODO
+                }
+            }
+        }
     });
 
     sortOrderDropdown.addEventListener("change", () => {

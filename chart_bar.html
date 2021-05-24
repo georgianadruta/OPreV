@@ -93,8 +93,7 @@
             </li>
             <li class="logo">
                 <a href="OPreV.html">
-                    <img src="website/images/Logo.png" alt="obesityLogo"
-                    /></a>
+                    <img src="website/images/Logo.png" alt="obesityLogo"/></a>
             </li>
             <li>
                 <ul class="items">
@@ -188,7 +187,26 @@
             </div>
             <div id="countries"></div>
         </div>
-
+        <div class="filters">
+            <div>
+                Sort By:
+                <select class="sort-by">
+                    <option value="">Select one</option>
+                    <option value="country">Country</option>
+                    <option value="first">First year</option>
+                    <option value="second">Second year</option>
+                    <option value="third">Third year</option>
+                </select>
+            </div>
+            <div>
+                Sort Order:
+                <select class="sort-order">
+                    <option value="">Select one</option>
+                    <option value="asc">Ascending</option>
+                    <option value="desc">Descending</option>
+                </select>
+            </div>
+        </div>
         <div class="chart-container">
             <canvas id="barChart"></canvas>
         </div>
