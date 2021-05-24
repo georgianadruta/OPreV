@@ -25,7 +25,7 @@ function download_svg_file(elementID) {
     // canvas2svg 'mock' context
     var svgContext = C2S(600, 300);
     // new chart on 'mock' context fails:
-    var mySvg = new Chart(svgContext, data);
+    var mySvg = new Chart(svgContext, tempData);
     // // Failed to create chart: can't acquire context from the given item
     // svgContext.getSerializedSvg(true);
 
