@@ -16,7 +16,7 @@ let datasetHTTPRequest = function () {
     HTTP.setRequestHeader("Cookies", document.cookie);
     HTTP.send();
     HTTP.onreadystatechange = () => {
-        consolze.log(HTTP.responseText)
+        console.log(HTTP.responseText)
         //TODO change dataset object based on the response
     }
 }

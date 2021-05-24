@@ -1,44 +1,52 @@
-.table-container{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  max-width: 600px;
-  margin: auto;
-  padding-bottom: 70px;
+.table-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 600px;
+    margin: auto;
+    padding-bottom: 70px;
 }
 
 table {
-  border-collapse: collapse;
-  width: 100%;
+    border-collapse: collapse;
+    width: 100%;
 }
 
 table td, table th {
-  border: 1px solid #ddd;
-  padding: 8px;
+    border: 1px solid #ddd;
+    padding: 8px;
 }
 
-table tr:nth-child(even){background-color: #f2f2f2;}
+table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
 
-table tr:hover {background-color: #ddd;}
+table tr:hover {
+    background-color: #ddd;
+}
 
 table th {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  text-align: center;
-  background-color: #3498db;
-  color: white;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color: #3498db;
+    color: white;
+}
+
+table th:hover {
+    background-color: #5834db;
 }
 
 #countries {
-  display: flex;
-  flex-wrap: wrap;
-  padding-left: 0;
-  padding-top: 15px;
-  padding-bottom: 25px;
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 0;
+    padding-top: 15px;
+    padding-bottom: 25px;
 }
 
 #countries .country {
-  text-align: left;
-  list-style: none;
-  flex: 0 0 25%;
+    text-align: left;
+    list-style: none;
+    flex: 0 0 25%;
 }
