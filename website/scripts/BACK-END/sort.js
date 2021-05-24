@@ -6,20 +6,9 @@
 
 window.addEventListener("load", function () {
 
-    const tempLabels = getDatasetLabels();
-    if (tempLabels == null) return;
-    const tempData = getDatasetData();
-
+    let tempLabels = Array();
+    let tempData = Array();
     let tempDataset = Array();
-    for (let i = 0; i < tempLabels.length; i++) {
-        tempDataset.push(
-            {
-                "country": tempLabels[i],
-                "first": tempData[0][i],
-                "second": tempData[1][i],
-                "third": tempData[2][i]
-            });
-    }
 
     const sortByDropdown = document.querySelector(".sort-by");
     const sortOrderDropdown = document.querySelector(".sort-order");
@@ -41,6 +30,19 @@ window.addEventListener("load", function () {
     };
 
     sortByDropdown.addEventListener("change", () => {
+        tempLabels = getDatasetLabels();
+        tempData = getDatasetData();
+        tempDataset = Array();
+        for (let i = 0; i < tempLabels.length; i++) {
+            tempDataset.push(
+                {
+                    "country": tempLabels[i],
+                    "first": tempData[0][i],
+                    "second": tempData[1][i],
+                    "third": tempData[2][i]
+                });
+        }
+
         const sortByValue = sortByDropdown.value; // country or year value
         const sortOrderValue = sortOrderDropdown.value; // asc or desc value
 
