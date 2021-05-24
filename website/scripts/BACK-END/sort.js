@@ -5,8 +5,10 @@
 //TODO Georgiana js for sort and by buttons in table chart
 
 window.addEventListener("load", function () {
-    const tempLabels = getLabelsHTTPRequest();
-    const tempData = getDatasetDataHTTPRequest();
+
+    const tempLabels = getDatasetLabels();
+    if (tempLabels == null) return;
+    const tempData = getDatasetData();
 
     let tempDataset = Array();
     for (let i = 0; i < tempLabels.length; i++) {

@@ -65,8 +65,20 @@
     right: -5px;
 }
 
-.dropdown-content#bodyMassButton, .dropdown-content#sexButton, .dropdown-content#continentButton {
-    right: -16px;
+.dropdown-content#bodyMassButton {
+    right: 10px;
+}
+
+.dropdown-content#yearsButton {
+    right: -35px;
+}
+
+.dropdown-content#sexButton {
+    right: -45px;
+}
+
+.dropdown-content#continentButton {
+    right: -30px;
 }
 
 .nav-dropdown-content {

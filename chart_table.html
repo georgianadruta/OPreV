@@ -64,15 +64,16 @@
     <script src="website/scripts/BACK-END/sort.js"></script>
     <script src="website/scripts/BACK-END/charts/chart.js"></script>
     <script src="website/scripts/BACK-END/charts/chart_table.js"></script>
-    <script src="website/scripts/FRONT-END/button_download.js"></script>
     <script src="website/scripts/BACK-END/buttons/download_csv.js"></script>
     <script src="website/scripts/BACK-END/buttons/download_png.js"></script>
     <script src="website/scripts/BACK-END/buttons/download_svg.js"></script>
+    <script src="website/scripts/FRONT-END/button_download.js"></script>
     <script src="website/scripts/FRONT-END/button_download.js"></script>
     <script src="website/scripts/FRONT-END/button_dataset.js"></script>
     <script src="website/scripts/FRONT-END/menu_bar.js"></script>
     <script src="website/scripts/FRONT-END/menu_side_bar.js"></script>
     <script src="website/scripts/FRONT-END/filters/countriesCheckboxes.js"></script>
+    <script src="website/scripts/FRONT-END/filters/filters.js"></script>
 
 </head>
 
@@ -147,53 +148,74 @@
 
         <h4>Obesity rate by body mass index (BMI)</h4>
 
-        <div class="dropdown-actions">
+        <div class="bar-controller">
             <div class="dropdown-container">
                 <div class="dropdown">
-                    <button class="dropbtn" id="datasetButton">Choose dataset</button>
-                    <div class="dropdown-content">
+                    <button class="dropbtn">Choose dataset</button>
+                    <div class="dropdown-content" id="datasetButton">
                         <a class="dropdown-btn" onclick="loadDataSet('eurostat')">Eurostat</a>
                         <a class="dropdown-btn" onclick="loadDataSet('who')">Who</a>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class=" dropdown-container">
-            <div class="dropdown">
-                <button class="dropbtn">Body Mass</button>
-                <div class="dropdown-content" id="bodyMassButton">
-                    <div class="dropdown-btn" onclick="loadBodyMass('overweight')">Overweight</div>
-                    <div class="dropdown-btn" onclick="loadBodyMass('pre-obese')">Pre-obese</div>
-                    <div class="dropdown-btn" onclick="loadBodyMass('obese')">Obese</div>
+
+            <div class=" dropdown-container">
+                <div class="dropdown">
+                    <button class="dropbtn">Body Mass Indicator</button>
+                    <div class="dropdown-content" id="bodyMassButton">
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <button class="dropbtn">Years</button>
+                    <div class="dropdown-content" id="yearsButton">
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <button class="dropbtn">Sex</button>
+                    <div class="dropdown-content" id="sexButton">
+                        <div class="dropdown-btn" onclick="">Female</div>
+                        <div class="dropdown-btn" onclick="">Male</div>
+                        <div class="dropdown-btn" onclick="">Both sexes</div>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <button class="dropbtn">Region</button>
+                    <div class="dropdown-content" id="continentButton">
+                        <div class="dropdown-btn" onclick="">Europe</div>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <h3 class="bar-title">Choose the countries:</h3>
-        <div class="bar-actions">
-            <button class="button" onclick="selectAllCountries()">Select all</button>
-            <button class="button" onclick="deselectAllCountries()">Deselect all</button>
+            <h3 class="bar-title">Choose the countries:</h3>
+            <div class="bar-actions">
+                <button class="button" onclick="selectAllCountries()">Select all</button>
+                <button class="button" onclick="deselectAllCountries()">Deselect all</button>
+            </div>
+            <div id="countries"></div>
         </div>
-        <div id="countries"></div>
 
         <div class="filters">
             <div>
                 Sort By:
-                <select class="sort-by">
-                    <option value="">Select one</option>
-                    <option value="country">Country</option>
-                    <option value="first">First year</option>
-                    <option value="second">Second year</option>
-                    <option value="third">Third year</option>
-                </select>
+                <label>
+                    <select class="sort-by">
+                        <option value="">Select one</option>
+                        <option value="country">Country</option>
+                        <option value="first">First year</option>
+                        <option value="second">Second year</option>
+                        <option value="third">Third year</option>
+                    </select>
+                </label>
             </div>
             <div>
                 Sort Order:
-                <select class="sort-order">
-                    <option value="">Select one</option>
-                    <option value="asc">Ascending</option>
-                    <option value="desc">Descending</option>
-                </select>
+                <label>
+                    <select class="sort-order">
+                        <option value="">Select one</option>
+                        <option value="asc">Ascending</option>
+                        <option value="desc">Descending</option>
+                    </select>
+                </label>
             </div>
         </div>
 

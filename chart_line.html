@@ -72,6 +72,7 @@
     <script src="website/scripts/FRONT-END/menu_bar.js"></script>
     <script src="website/scripts/FRONT-END/menu_side_bar.js"></script>
     <script src="website/scripts/FRONT-END/filters/countriesCheckboxes.js"></script>
+    <script src="website/scripts/FRONT-END/filters/filters.js"></script>
     <script src="node_modules/chart.js/dist/chart.js"></script>
     <script src="node_modules/html2canvas/dist/html2canvas.js"></script>
     <script src="node_modules/file-saver/src/FileSaver.js"></script>
@@ -160,16 +161,36 @@
 
             <div class=" dropdown-container">
                 <div class="dropdown">
-                    <button class="dropbtn">Body Mass</button>
+                    <button class="dropbtn">Body Mass Indicator</button>
                     <div class="dropdown-content" id="bodyMassButton">
-                        <div class="dropdown-btn" onclick="loadBodyMass('overweight')">Overweight</div>
-                        <div class="dropdown-btn" onclick="loadBodyMass('pre-obese')">Pre-obese</div>
-                        <div class="dropdown-btn" onclick="loadBodyMass('obese')">Obese</div>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <button class="dropbtn">Years</button>
+                    <div class="dropdown-content" id="yearsButton">
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <button class="dropbtn">Sex</button>
+                    <div class="dropdown-content" id="sexButton">
+                        <div class="dropdown-btn" onclick="">Female</div>
+                        <div class="dropdown-btn" onclick="">Male</div>
+                        <div class="dropdown-btn" onclick="">Both sexes</div>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <button class="dropbtn">Region</button>
+                    <div class="dropdown-content" id="continentButton">
+                        <div class="dropdown-btn" onclick="">Europe</div>
                     </div>
                 </div>
             </div>
 
-            <h3 class="bar-title">Choose a country:</h3>
+            <h3 class="bar-title">Choose the countries:</h3>
+            <div class="bar-actions">
+                <button class="button" onclick="selectAllCountries()">Select all</button>
+                <button class="button" onclick="deselectAllCountries()">Deselect all</button>
+            </div>
             <div id="countries"></div>
         </div>
 

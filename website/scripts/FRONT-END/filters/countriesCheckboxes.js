@@ -7,6 +7,7 @@ let currentCheckboxId = 0;
 function createCountriesCheckboxes() {
     let labels = getLabelsHTTPRequest();
     const container = document.getElementById('countries');
+    container.innerHTML = '';//clear content
     for (let i = 0; i < labels.length; i++) {
         const parent = document.createElement('div');
         parent.className = 'country';
