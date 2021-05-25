@@ -35,25 +35,16 @@ function getCookie(cookieName) {
 }
 
 /**
- * This method's purpose is to generate a random UUID.
+ * This method's purpose is to generate a random ID.
  * @returns {string} random UUID
  */
-function generateUUID() { // Public Domain/MIT
-    let d = new Date().getTime();//Timestamp
-    let d2 = (performance && performance.now && (performance.now() * 1000)) || 0;//Time in microseconds since page-load or 0 if unsupported
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-        let r = Math.random() * 16;//random number between 0 and 16
-        if (d > 0) {//Use timestamp until depleted
-            r = (d + r) % 16 | 0;
-            d = Math.floor(d / 16);
-        } else {//Use microseconds since page-load if supported
-            r = (d2 + r) % 16 | 0;
-            d2 = Math.floor(d2 / 16);
-        }
-        return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
-    });
-}
+let generateRandomID = function () {
+    // Math.random should be unique because of its seeding algorithm.
+    // Convert it to base 36 (numbers + letters), and grab the first 9 characters
+    // after the decimal.
+    return '_' + Math.random().toString(36).substr(2, 9);
+};
 
 window.addEventListener("load", function () {
-    setCookie("sessionID", generateUUID());
+    setCookie("sessionID", generateRandomID());
 });

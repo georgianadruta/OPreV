@@ -177,6 +177,32 @@ const clearLoggedUsersTable = function () {
     })
 }
 
+const addUserToLoggedUsersTable = function (jsonUser) {
+    return new Promise((resolve, reject) => {
+        let con = getConnection({database: "users"})
+        const table = "logged_users";
+        con.connect(function (err) {
+            if (err) {
+                console.log(err);
+                reject("Failed to connect to the database.");
+
+            } else {
+                const sql = "INSERT INTO " + table + '(token,IP)' + " VALUES ('" + jsonUser.token + "','" + jsonUser.IP + "')";
+                con.query(sql, function (err) {
+                    if (err) {
+                        console.log("Failed to add " + jsonUser.token + " to logged users." + "\nREASON: " + err.sqlMessage);
+                        reject("Failed to add " + jsonUser.token + " to logged users.");
+                    } else {
+                        console.log("Added " + jsonUser.token + " to logged users.");
+                        resolve("Added " + jsonUser.token + " to logged users.");
+                    }
+                });
+            }
+        });
+    })
+}
+
+module.exports.addUserToLoggedUsersTable = addUserToLoggedUsersTable;
 module.exports.clearLoggedUsersTable = clearLoggedUsersTable;
 module.exports.addRegistrationUser = addRegistrationUser;
 module.exports.getUserHashedPassword = getHashedPasswordOfAdminAccount;

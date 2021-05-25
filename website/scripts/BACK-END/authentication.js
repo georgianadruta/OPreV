@@ -54,8 +54,13 @@ let postHTTPRequest = function (username, password) {
             else
                 changeSpanText(this.responseText, "green");
         }
+        if (HTTP.readyState === HTTP.HEADERS_RECEIVED) {
+            let cookie = this.getResponseHeader("Set-Cookie");
+            console.error(cookie);
+            if (cookie != null)
+                setCookie("logged_in", "true");
+        }
     }
-
     HTTP.open("POST", url, true);
     HTTP.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     HTTP.send(JSON.stringify({"username": username, "password": password,}));
