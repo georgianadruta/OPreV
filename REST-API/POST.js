@@ -70,13 +70,11 @@ let keepUserLoggedIn = async function (request, response) {
         const cookies = rawHeader.substring(rawHeader.indexOf("Cookie") + 7, rawHeader.length);
 
         let indexStart = cookies.indexOf("sessionID=");
-        let indexStop = cookies.indexOf(";", indexStart + 1);
-        let sessionID;
+        let sessionID = cookies.substring(indexStart + 10);
 
+        let indexStop = sessionID.indexOf(";");
         if (indexStop !== -1)
-            sessionID = cookies.substring(indexStart, indexStop);
-        else
-            sessionID = cookies.substring(indexStart + 10);
+            sessionID = sessionID.substring(0, indexStop);
 
         let IP = request.socket.localAddress;
         // 2. store token for user with ip address
@@ -166,10 +164,10 @@ let logout = function (request, response) {
         let token = JSON.parse(body.toString());
         try {
             await CRUD.deleteLoggedUserFromTableByToken(token);
-            request.setHeader("change-cookie", "logged_in=false");
+            response.setHeader("change-cookie", "logged_in=false");
             setSuccessfulRequestResponse(request, response, "Successfully logged out.", 200);
         } catch (err) {
-            setFailedRequestResponse(request, response, err, 409);
+            setFailedRequestResponse(request, response, "Failed to log out.", 409);
         }
     });
 }

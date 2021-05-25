@@ -11,7 +11,7 @@ function setCookie(cookieName, cookieValue, expireMinutes = 1) {
         d.setTime(d.getTime() + (expireMinutes * 60 * 60 * 1000));
         expires = "expires=" + d.toUTCString();
     }
-    document.cookie = cookieName + "=" + cookieValue + ";" + expires + ";path=/";
+    document.cookie = cookieName + "=" + cookieValue + ";" + expires + ';path=/';
 }
 
 /**
@@ -46,5 +46,6 @@ let generateRandomID = function () {
 };
 
 window.addEventListener("load", function () {
-    setCookie("sessionID", generateRandomID());
+    if (getCookie('sessionID') == null) setCookie("sessionID", generateRandomID());
+    if (getCookie('logged_in') == null) setCookie("logged_in", 'false');
 });

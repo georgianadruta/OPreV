@@ -56,7 +56,7 @@ let postLoginHTTPRequest = function (username, password) {
     const url = "/users/login";
     HTTP.onreadystatechange = function () {
         if (HTTP.readyState === HTTP.HEADERS_RECEIVED) {
-            let cookies = HTTP.getResponseHeader("new-cookie")
+            let cookies = HTTP.getResponseHeader("change-cookie")
             if (cookies !== null) {
                 let cookie = cookies.split("=");
                 setCookie(cookie[0], cookie[1]);
@@ -85,8 +85,13 @@ let postLogoutHTTPRequest = function (token) {
     const url = "/users/logout";
     HTTP.onreadystatechange = function () {
         if (HTTP.readyState === HTTP.HEADERS_RECEIVED) {
-            let cookie = HTTP.getResponseHeader("change-cookie").split("=");
-            setCookie(cookie[0], "false", 1);
+            let cookies = HTTP.getResponseHeader("change-cookie")
+            if (cookies != null) {
+                let cookie = cookies.split("=");
+                console.log(cookie);
+                setCookie(cookie[0], "false");
+                alert("Successfully logged out.");
+            }
         }
         if (HTTP.readyState === HTTP.DONE) {
             // TODO implement some effect to know you're logged out so you can login again
@@ -153,8 +158,9 @@ function login() {
  * This method will be called to trigger the logout.
  */
 function logout() {
-    if (getCookie("logged_in") === true)
+    if (getCookie("logged_in") === "true")
         postLogoutHTTPRequest(getCookie("sessionID"));
     else
         alert("You are not logged in. You cannot log out.")
+    return false;
 }

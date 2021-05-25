@@ -60,14 +60,14 @@ nav ul li ul.items {
     display: flex;
 }
 
-nav ul li ul.items a {
+nav ul li ul.items * {
     text-decoration: none;
     font-size: 18px;
     padding: 0 12px;
     transition: 0.3s ease-in-out;
 }
 
-nav ul li ul.items a:hover {
+nav ul li ul.items *:hover {
     color: #3498db;
 }
 

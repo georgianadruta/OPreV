@@ -183,10 +183,10 @@ const clearLoggedUsersTable = function () {
 
 /**
  * This method deletes the token from the logged_users table
- * @param token the token to be deleted
+ * @param jsonToken the token to be deleted
  * @returns {Promise<>} a new promise
  */
-const deleteLoggedUserFromTableByToken = function (token) {
+const deleteLoggedUserFromTableByToken = function (jsonToken) {
     return new Promise((resolve, reject) => {
         let con = getConnection({database: "users"})
         const table = "logged_users";
@@ -196,15 +196,14 @@ const deleteLoggedUserFromTableByToken = function (token) {
                 reject("Failed to connect to the database.");
 
             } else {
-
-                const sql = "DELETE FROM " + table + " WHERE token='" + token + "';";
+                const sql = "DELETE FROM " + table + " WHERE token='" + jsonToken.token + "';";
                 con.query(sql, function (err) {
                     if (err) {
-                        console.log("Failed to delete " + token + " from logged users." + "\nREASON: " + err.sqlMessage);
-                        reject("Failed to delete " + token + " from logged users.");
+                        console.log("Failed to delete " + jsonToken.token + " from logged users." + "\nREASON: " + err.sqlMessage);
+                        reject("Failed to delete " + jsonToken.token + " from logged users.");
                     } else {
-                        console.log("Deleted " + token + " from logged users.");
-                        resolve("Deleted " + token + " from logged users.");
+                        console.log("Deleted " + jsonToken.token + " from logged users.");
+                        resolve("Deleted " + jsonToken.token + " from logged users.");
                     }
                 });
             }
