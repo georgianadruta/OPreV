@@ -1,6 +1,3 @@
-const SERVER_HOST = '127.0.0.1';
-const PORT = 8081;
-
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -8,9 +5,12 @@ function sleep(ms) {
 /**
  * This function's purpose is to change the text based on what happens with the form.
  * @param text the new text
+ * @param color a color to change the text if specified. Or null otherwise
  */
-let changeSpanText = function (text) {
+let changeSpanText = function (text, color = null) {
     document.getElementById("spanTextBox").innerHTML = text;
+    if (color !== null)
+        document.getElementById("spanTextBox").style.color = color;
 }
 
 /**
@@ -23,21 +23,21 @@ let changeSpanText = function (text) {
 let checkMatches = function (username, password, email = null) {
     let usernameRegex = /^[a-zA-Z0-9]+$/;
     if (usernameRegex.test(username) === false) {
-        changeSpanText("Invalid username.")
+        changeSpanText("Invalid username.", "red");
         return false;
     }
 
     if (email != null) {
         let emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
         if (emailRegex.test(email) === false) {
-            changeSpanText("Invalid email.")
+            changeSpanText("Invalid email.", "red")
             return false;
         }
     }
 
-    let passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    let passwordRegex = /^[A-Za-z]\w{7,14}$/;
     if (passwordRegex.test(password) === false) {
-        changeSpanText("Invalid password.")
+        changeSpanText("Invalid password.", "red")
         return false;
     } else
         return true;
@@ -50,14 +50,19 @@ let checkMatches = function (username, password, email = null) {
  */
 let postHTTPRequest = function (username, password) {
     const HTTP = new XMLHttpRequest();
-    const url = SERVER_HOST + ':' + PORT + "/users";
-    HTTP.open("POST", url);
+    const url = "/users";
+    HTTP.onreadystatechange = function () {
+        if (HTTP.readyState === 4) {
+            if (HTTP.status === 200)
+                changeSpanText(this.responseText, "red");
+            else
+                changeSpanText(this.responseText, "green");
+        }
+    }
+
+    HTTP.open("POST", url, true);
     HTTP.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     HTTP.send(JSON.stringify({"username": username, "password": password,}));
-
-    HTTP.onreadystatechange = () => {
-        console.log(HTTP.responseText)
-    }
 }
 
 /**
@@ -68,14 +73,18 @@ let postHTTPRequest = function (username, password) {
  */
 let putHTTPRequest = function (username, email, password) {
     const HTTP = new XMLHttpRequest();
-    const url = SERVER_HOST + ':' + PORT + "/users";
+    const url = "/users";
+    HTTP.onreadystatechange = function () {
+        if (HTTP.readyState === 4) {
+            if (HTTP.status === 200)
+                changeSpanText(this.responseText, "red");
+            else
+                changeSpanText(this.responseText, "green");
+        }
+    }
     HTTP.open("PUT", url);
     HTTP.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     HTTP.send(JSON.stringify({"username": username, "email": email, "password": password,}));
-
-    HTTP.onreadystatechange = () => {
-        console.log(HTTP.responseText)
-    }
 }
 
 /**

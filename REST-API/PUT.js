@@ -80,9 +80,10 @@ let addDatasetData = function (request, response) {
 }
 
 function PUT(request, response) {
-    if (request.url === "/users")
+    let path = request.url.toString().substring(request.url.toString().indexOf("/", 2));
+    if (path === "/users")
         addRegistrationUser(request, response);
-    else if (request.url === "/dataset/eurostat" || (request.url === "/dataset/who"))
+    else if (path === "/dataset/eurostat" || (path === "/dataset/who"))
         addDatasetData(request, response);
     else {
         console.error("ERROR: BAD REQUEST!  request:" + request.method + " " + request.url);

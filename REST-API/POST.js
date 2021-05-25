@@ -8,7 +8,8 @@
 let setFailedRequestResponse = function (request, response, errorMessage, HTTPStatus = 404) {
     console.error("ERROR: " + errorMessage + "request:" + request.method + " " + request.url);
     response.writeHead(HTTPStatus, {'Content-Type': 'text/plain'});
-    response.end("ERROR: " + errorMessage, 'utf-8');
+    response.write("ERROR: " + errorMessage, 'utf-8');
+    response.end();
 }
 
 /**
@@ -26,7 +27,7 @@ let modifyData = function (request, response) {
  * @param response the response
  */
 let login = function (request, response) {
-    setFailedRequestResponse(request, response, "Failed to login.")
+    setFailedRequestResponse(request, response, "Failed to login.", 200)
 }
 
 /**
@@ -35,9 +36,10 @@ let login = function (request, response) {
  * @param response the response
  */
 function POST(request, response) {
-    if (request.url === "/users")
+    let path = request.url.toString().substring(request.url.toString().indexOf("/", 2));
+    if (path === "/users")
         login(request, response)
-    else if (request.url === "/dataset/eurostat" || (request.url === "/dataset/who"))
+    else if (path === "/dataset/eurostat" || (path === "/dataset/who"))
         modifyData(request, response);
     else {
         setFailedRequestResponse(request, response, "Bad POST request.")
