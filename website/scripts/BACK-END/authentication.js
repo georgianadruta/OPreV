@@ -40,6 +40,13 @@ let checkMatches = function (username, password, email = null) {
 }
 
 /**
+ * This method is responsible for visual effects once the user has succesfully logged in.
+ */
+let successfulLoginEffects = function () {
+    window.location = "/";//go to home page
+}
+
+/**
  * Method to send a POST request with the username and password in order to login.
  * @param username the username to login with
  * @param password the password to login with
@@ -49,14 +56,19 @@ let postLoginHTTPRequest = function (username, password) {
     const url = "/users/login";
     HTTP.onreadystatechange = function () {
         if (HTTP.readyState === HTTP.HEADERS_RECEIVED) {
-            let cookie = HTTP.getResponseHeader("new-cookie").split("=");
-            setCookie(cookie[0], cookie[1], 1);
+            let cookies = HTTP.getResponseHeader("new-cookie")
+            if (cookies !== null) {
+                let cookie = cookies.split("=");
+                setCookie(cookie[0], cookie[1]);
+            }
         }
         if (HTTP.readyState === HTTP.DONE) {
             if (HTTP.status >= 400)
                 changeSpanText(this.responseText, "red");
-            else
+            else {
                 changeSpanText(this.responseText, "green");
+                successfulLoginEffects();
+            }
         }
 
     }

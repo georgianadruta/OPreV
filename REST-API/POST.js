@@ -166,7 +166,8 @@ let logout = function (request, response) {
  * @param response the response
  */
 function POST(request, response) {
-    let path = request.url.toString().substring(request.url.toString().indexOf("/", 2));
+    //let path = request.url.toString().substring(request.url.toString().indexOf("/", 2));
+    let path = request.url.toString();
     if (path === "/users/login")
         login(request, response)
     else if (path === "/users/logout")
