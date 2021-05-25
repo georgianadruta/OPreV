@@ -1,5 +1,30 @@
 const bcrypt = require('bcrypt')
 const CRUD = require('./CRUD_operations')
+/**
+ * This method's purpose is to set the error message for the response if it fails.
+ * @param request the request
+ * @param response the response to be edited
+ * @param responseMessage the error message
+ * @param HTTPStatus the HTTP status (default 404)
+ */
+let setSuccessfulRequestResponse = function (request, response, responseMessage, HTTPStatus = 404) {
+    response.writeHead(HTTPStatus, {'Content-Type': 'text/plain'});
+    response.write(responseMessage, 'utf-8');
+    response.end();
+}
+
+/**
+ * This method's purpose is to set the error message for the response if it fails.
+ * @param request the request
+ * @param response the response to be edited
+ * @param errorMessage the error message
+ * @param HTTPStatus the HTTP status (default 404)
+ */
+let setFailedRequestResponse = function (request, response, errorMessage, HTTPStatus = 404) {
+    response.writeHead(HTTPStatus, {'Content-Type': 'text/plain'});
+    response.write(errorMessage, 'utf-8');
+    response.end();
+}
 
 /**
  * This method checks if parameters match the regex patterns.
@@ -13,7 +38,7 @@ let checkMatches = function (username, email, password) {
         throw "Invalid username pattern."
     }
 
-    let emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    let emailRegex = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
     if (emailRegex.test(email) === false) {
         throw "Invalid email pattern."
     }
@@ -30,9 +55,7 @@ let checkMatches = function (username, email, password) {
  */
 let getEncryptedPassword = async function (password) {
     const salt = await bcrypt.genSalt();
-    const encryptedPassword = await bcrypt.hash(password, salt);
-    // console.log(salt, encryptedPassword);
-    return encryptedPassword;
+    return await bcrypt.hash(password, salt);
 }
 
 /**
@@ -46,27 +69,25 @@ let addRegistrationUser = function (request, response) {
         body.push(chunk);
     });
     request.on('end', () => {
-        console.log('Finished processing PUT body');
         let registrationAccount = JSON.parse(body.toString());
         try {
             checkMatches(registrationAccount.username, registrationAccount.email, registrationAccount.password);
         } catch (err) {
-            console.error("ERROR: " + err + "request:" + request.method + " " + request.url);
-            response.writeHead(404, {'Content-Type': 'text/plain'});
-            response.end("ERROR: " + err, 'utf-8');
+            setFailedRequestResponse(err, 406);
             return;
         }
         getEncryptedPassword(registrationAccount.password).then(
-            function (encryptedPassword) {
+            async function (encryptedPassword) {
                 registrationAccount.password = encryptedPassword;
-                CRUD.addRegistrationUser(registrationAccount);//TODO check if it fails
-                response.writeHead(201, {'Content-Type': 'text/plain'});
-                response.end("Added registration user to be verified by the host.", 'utf-8');
+                try {
+                    await CRUD.addRegistrationUser(registrationAccount);
+                    setSuccessfulRequestResponse(request, response, "Added registration user to be verified by the host.", 201);
+                } catch (err) {
+                    setFailedRequestResponse(request, response, err, 409);
+                }
             })
             .catch(function (error) {
-                console.error("ERROR: " + error + " Filed to encrypt password." + "request:" + request.method + " " + request.url);
-                response.writeHead(404, {'Content-Type': 'text/plain'});
-                response.end("ERROR: " + error + " Filed to encrypt password.", 'utf-8');
+                setFailedRequestResponse(request, response, error, 500);
             })
     })
 }
@@ -86,9 +107,7 @@ function PUT(request, response) {
     else if (path === "/dataset/eurostat" || (path === "/dataset/who"))
         addDatasetData(request, response);
     else {
-        console.error("ERROR: BAD REQUEST!  request:" + request.method + " " + request.url);
-        response.writeHead(404, {'Content-Type': 'text/plain'});
-        response.end("Bad PUT request.", 'utf-8');
+        setFailedRequestResponse(request, response, "BAD request", 400)
     }
 }
 

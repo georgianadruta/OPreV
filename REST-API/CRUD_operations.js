@@ -102,37 +102,39 @@ const selectFromDatabase = function (selectFields = "*", whereClause = null) {
 
 
 const addRegistrationUser = function (jsonRegistrationAccount) {
-    let con = getConnection({database: "users"})
-    const table = "registration_requests";
-    let returnValue;
+    return new Promise((resolve, reject) => {
+        let con = getConnection({database: "users"})
+        const table = "registration_requests";
 
-    con.connect(function (err) {
-        if (err) {
-            console.log(err);
-            returnValue = "Failed to connect to the database.";
-            return returnValue;
-        } else {
-            const sql = "INSERT INTO " + table + '(name,password,email)' + " VALUES ('" + jsonRegistrationAccount.username + "','"
-                + jsonRegistrationAccount.password + "','" + jsonRegistrationAccount.email + "')";
+        con.connect(function (err) {
+            if (err) {
+                console.log(err);
+                reject("Failed to connect to the database.");
 
-            con.query(sql, function (err) {
-                if (err) {
-                    console.log("Failed to add " + jsonRegistrationAccount.username + " to registration requests." + "\nREASON: " + err.sqlMessage);
+            } else {
+                const sql = "INSERT INTO " + table + '(name,password,email)' + " VALUES ('" + jsonRegistrationAccount.username + "','"
+                    + jsonRegistrationAccount.password + "','" + jsonRegistrationAccount.email + "')";
 
-                    let msg = err.sqlMessage.toString();
-                    let duplicateFieldIndex = "";
-                    if ((duplicateFieldIndex = msg.indexOf('name')) === -1)
-                        if ((duplicateFieldIndex = msg.indexOf('password')) === -1)
+                con.query(sql, function (err) {
+                    if (err) {
+                        console.log("Failed to add " + jsonRegistrationAccount.username + " to registration requests." + "\nREASON: " + err.sqlMessage);
+
+                        let msg = err.sqlMessage.toString();
+                        let duplicateFieldIndex = "";
+                        if ((duplicateFieldIndex = msg.indexOf('name')) === -1)
                             duplicateFieldIndex = msg.indexOf('email');
-                    let duplicateField = msg.substring(duplicateFieldIndex, msg.indexOf("'", duplicateFieldIndex + 2));
-                    returnValue = "Field " + duplicateField + " already exists.Choose another one.";
-                } else {
-                    console.log("Added " + jsonRegistrationAccount.username + " to registration requests.");
-                    returnValue = "Added " + jsonRegistrationAccount.username + " to registration requests.";
-                }
-                return returnValue;
-            });
-        }
-    });
+                         
+                        let duplicateField = msg.substring(duplicateFieldIndex, msg.indexOf("'", duplicateFieldIndex + 2));
+                        reject("Field " + duplicateField + " already exists.Choose another one.");
+                    } else {
+                        console.log("Added " + jsonRegistrationAccount.username + " to registration requests.");
+                        resolve("Added " + jsonRegistrationAccount.username + " to registration requests.");
+                    }
+                });
+            }
+        });
+    })
 }
+
+
 module.exports.addRegistrationUser = addRegistrationUser;

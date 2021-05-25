@@ -23,21 +23,21 @@ let changeSpanText = function (text, color = null) {
 let checkMatches = function (username, password, email = null) {
     let usernameRegex = /^[a-zA-Z0-9]+$/;
     if (usernameRegex.test(username) === false) {
-        changeSpanText("Invalid username.", "red");
+        changeSpanText("Invalid username format.", "red");
         return false;
     }
 
     if (email != null) {
-        let emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+        let emailRegex = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
         if (emailRegex.test(email) === false) {
-            changeSpanText("Invalid email.", "red")
+            changeSpanText("Invalid email format.", "red")
             return false;
         }
     }
 
     let passwordRegex = /^[A-Za-z]\w{7,14}$/;
     if (passwordRegex.test(password) === false) {
-        changeSpanText("Invalid password.", "red")
+        changeSpanText("Invalid password fromat.", "red")
         return false;
     } else
         return true;
@@ -76,7 +76,7 @@ let putHTTPRequest = function (username, email, password) {
     const url = "/users";
     HTTP.onreadystatechange = function () {
         if (HTTP.readyState === 4) {
-            if (HTTP.status === 200)
+            if (HTTP.status >= 400)
                 changeSpanText(this.responseText, "red");
             else
                 changeSpanText(this.responseText, "green");
