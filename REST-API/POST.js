@@ -27,6 +27,30 @@ let setFailedRequestResponse = function (request, response, errorMessage, HTTPSt
 }
 
 /**
+ * This method checks if the parameters check regex patterns.
+ * @param username the username to check
+ * @param password the password to check
+ * @param email the email to check ( may be absent)
+ * @returns {boolean}
+ */
+let checkMatches = function (username, password, email = null) {
+    let usernameRegex = /^[a-zA-Z0-9]+$/;
+    if (usernameRegex.test(username) === false) {
+        return false;
+    }
+
+    if (email != null) {
+        let emailRegex = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
+        if (emailRegex.test(email) === false) {
+            return false;
+        }
+    }
+
+    let passwordRegex = /^[A-Za-z]\w{7,14}$/;
+    return passwordRegex.test(password) !== false;
+}
+
+/**
  * Method responsible for dataset manipulation behaviour
  * @param request the request
  * @param response the response
@@ -41,7 +65,30 @@ let modifyData = function (request, response) {
  * @param response the response
  */
 let login = function (request, response) {
-    setFailedRequestResponse(request, response, "Failed to login.", 404)
+    let body = [];
+    request.on('data', chunk => {
+        body.push(chunk);
+    });
+    request.on('end', async () => {
+        let loginAccount = JSON.parse(body.toString());
+        try {
+            checkMatches(loginAccount.username, loginAccount.password);
+        } catch (err) {
+            setFailedRequestResponse(err, 406);
+            return;
+        }
+        try {
+            const hashedPassword = await CRUD.getUserHashedPassword(loginAccount);
+            bcrypt.compare(loginAccount.password, hashedPassword, function (err, result) {
+                if (result === true)
+                    setSuccessfulRequestResponse(request, response, "Login approved.", 202);
+                else
+                    setFailedRequestResponse(request, response, "Wrong password.", 401);
+            });
+        } catch (err) {
+            setFailedRequestResponse(request, response, err, 409);
+        }
+    });
 }
 
 /**

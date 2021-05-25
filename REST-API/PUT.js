@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt')
 const CRUD = require('./CRUD_operations')
+
 /**
  * This method's purpose is to set the error message for the response if it fails.
  * @param request the request
@@ -27,25 +28,26 @@ let setFailedRequestResponse = function (request, response, errorMessage, HTTPSt
 }
 
 /**
- * This method checks if parameters match the regex patterns.
- * @param username the username to be checked
- * @param email the email to be checked
- * @param password the password to be checked
+ * This method checks if the parameters check regex patterns.
+ * @param username the username to check
+ * @param password the password to check
+ * @param email the email to check ( may be absent)
+ * @returns {boolean}
  */
-let checkMatches = function (username, email, password) {
+let checkMatches = function (username, password, email = null) {
     let usernameRegex = /^[a-zA-Z0-9]+$/;
     if (usernameRegex.test(username) === false) {
-        throw "Invalid username pattern."
+        return false;
     }
 
-    let emailRegex = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
-    if (emailRegex.test(email) === false) {
-        throw "Invalid email pattern."
+    if (email != null) {
+        let emailRegex = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
+        if (emailRegex.test(email) === false) {
+            return false;
+        }
     }
-    let passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-    if (passwordRegex.test(password) === false) {
-        throw "Invalid password pattern."
-    }
+    let passwordRegex = /^[A-Za-z]\w{7,14}$/;
+    return passwordRegex.test(password) !== false;
 }
 
 /**
@@ -79,6 +81,7 @@ let addRegistrationUser = function (request, response) {
         getEncryptedPassword(registrationAccount.password).then(
             async function (encryptedPassword) {
                 registrationAccount.password = encryptedPassword;
+                console.log("PASSSSSSSS " + encryptedPassword);
                 try {
                     await CRUD.addRegistrationUser(registrationAccount);
                     setSuccessfulRequestResponse(request, response, "Added registration user to be verified by the host.", 201);

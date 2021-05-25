@@ -1,7 +1,3 @@
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 /**
  * This function's purpose is to change the text based on what happens with the form.
  * @param text the new text
@@ -53,7 +49,7 @@ let postHTTPRequest = function (username, password) {
     const url = "/users";
     HTTP.onreadystatechange = function () {
         if (HTTP.readyState === 4) {
-            if (HTTP.status === 200)
+            if (HTTP.status >= 400)
                 changeSpanText(this.responseText, "red");
             else
                 changeSpanText(this.responseText, "green");
