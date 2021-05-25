@@ -204,7 +204,3 @@ function selectOnlyOneCountryFromChart(id) {
     //update currentCheckboxId
     currentCountryCheckboxId = id;
 }
-
-window.addEventListener("load", function () {
-    createCountriesCheckboxes();
-});
