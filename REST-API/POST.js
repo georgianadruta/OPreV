@@ -60,6 +60,22 @@ let modifyData = function (request, response) {
 }
 
 /**
+ * This method is responsible to keep the user logged in.
+ */
+let keepUserLoggedIn = function (request, response) {
+    //get the session ID from the cookie
+    const rawHeader = request.rawHeaders.toString();
+    const cookies = rawHeader.substring(rawHeader.indexOf("Cookie") + 7, rawHeader.length).split("; ");
+    let sessionID = cookies[0].split("=")[1];
+    let IP = request.socket.localAddress;
+    let PORT = request.socket.localPort;
+    console.log(IP + ":" + PORT);
+
+    // TODO 2. storeTokenForUser with ip address
+    // TODO 3. set cookie token user
+}
+
+/**
  * Method responsible for login behaviour
  * @param request the request
  * @param response the response
@@ -80,9 +96,10 @@ let login = function (request, response) {
         try {
             const hashedPassword = await CRUD.getUserHashedPassword(loginAccount);
             bcrypt.compare(loginAccount.password, hashedPassword, function (err, result) {
-                if (result === true)
+                if (result === true) {
+                    keepUserLoggedIn(request, response);
                     setSuccessfulRequestResponse(request, response, "Login approved.", 202);
-                else
+                } else
                     setFailedRequestResponse(request, response, "Wrong password.", 401);
             });
         } catch (err) {

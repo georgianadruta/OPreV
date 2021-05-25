@@ -55,5 +55,5 @@ function generateUUID() { // Public Domain/MIT
 }
 
 window.addEventListener("load", function () {
-    setCookie("clientID", generateUUID());
+    setCookie("sessionID", generateUUID());
 });
