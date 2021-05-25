@@ -153,5 +153,30 @@ const addRegistrationUser = function (jsonRegistrationAccount) {
     })
 }
 
+const clearLoggedUsersTable = function () {
+    return new Promise((resolve, reject) => {
+        let con = getConnection({database: "users"})
+        const table = "logged_users";
+
+        con.connect(function (err) {
+            if (err) {
+                console.log(err);
+                reject("Failed to connect to the database.");
+
+            } else {
+                const sql = "TRUNCATE TABLE " + table;
+                con.query(sql, function (err) {
+                    if (err) {
+                        reject("Failed to clear table '" + table + "' .REASON:" + err);
+                    } else {
+                        resolve("Successfully cleared table '" + table + "'.");
+                    }
+                });
+            }
+        });
+    })
+}
+
+module.exports.clearLoggedUsersTable = clearLoggedUsersTable;
 module.exports.addRegistrationUser = addRegistrationUser;
 module.exports.getUserHashedPassword = getHashedPasswordOfAdminAccount;

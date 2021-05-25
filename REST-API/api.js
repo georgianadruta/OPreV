@@ -7,9 +7,9 @@ const {GET} = require('./GET')
 const {POST} = require('./POST')
 const {PUT} = require('./PUT')
 const {DELETE} = require('./DELETE')
+const CRUD = require('./CRUD_operations')
 
 http.createServer(function (request, response) {
-
     if (DEBUG === 1) {
         const rawHeader = request.rawHeaders.toString();
         const cookies = rawHeader.substring(rawHeader.indexOf("Cookie") + 7, rawHeader.length);
@@ -38,3 +38,13 @@ http.createServer(function (request, response) {
 
 }).listen(PORT);
 console.log('Server running at http://127.0.0.1:' + PORT);
+
+async function clearLoggedUsersTable() {
+    try {
+        await CRUD.clearLoggedUsersTable();
+    } catch (err) {
+        console.log("Failed to clear out logged users table. REASON: " + err);
+    }
+}
+
+clearLoggedUsersTable().then(() => console.log("Cleared out logged users table."));
