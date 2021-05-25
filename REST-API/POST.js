@@ -102,6 +102,20 @@ let keepUserLoggedIn = async function (request, response) {
 }
 
 /**
+ * This function checks whether the user with the given token is logged in or not
+ * @param token the token to check the existence of in logged users table
+ * @return true if user is logged in, false otherwise   !ATTENTION then return value of this function will be placed in .then function
+ */
+let isUserLoggedIn = async function (token) {
+    try {
+        const selectValue = await CRUD.selectTokenFromLoggedUsersTable(token);
+        return token === selectValue;
+    } catch (fail) {
+        return false;
+    }
+}
+
+/**
  * Method responsible for login behaviour
  * @param request the request
  * @param response the response
@@ -180,3 +194,4 @@ function POST(request, response) {
 }
 
 module.exports.POST = POST;
+
