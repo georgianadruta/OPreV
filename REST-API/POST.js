@@ -88,8 +88,7 @@ let keepUserLoggedIn = async function (request, response) {
         try {
             await CRUD.addUserToLoggedUsersTable(jsonObject);
             // 3. set cookie token user
-            response.setHeader('Access-Control-Expose-Headers', 'set-cookie');
-            response.setHeader('Set-Cookie', 'logged_in=true');
+            response.setHeader('new-cookie', 'logged_in=true');
             // this cookie is only a flag
             // to check if it's even worth
             //searching for the user in the logged users database or not
