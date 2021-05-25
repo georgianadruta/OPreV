@@ -104,24 +104,35 @@ const selectFromDatabase = function (selectFields = "*", whereClause = null) {
 const addRegistrationUser = function (jsonRegistrationAccount) {
     let con = getConnection({database: "users"})
     const table = "registration_requests";
-    try {
-        con.connect(function (err) {
-            if (err) throw err;
+    let returnValue;
+
+    con.connect(function (err) {
+        if (err) {
+            console.log(err);
+            returnValue = "Failed to connect to the database.";
+            return returnValue;
+        } else {
             const sql = "INSERT INTO " + table + '(name,password,email)' + " VALUES ('" + jsonRegistrationAccount.username + "','"
                 + jsonRegistrationAccount.password + "','" + jsonRegistrationAccount.email + "')";
 
             con.query(sql, function (err) {
                 if (err) {
-                    console.log("Failed to add " + jsonRegistrationAccount.username + " to registration requests.");
-                    throw err;
+                    console.log("Failed to add " + jsonRegistrationAccount.username + " to registration requests." + "\nREASON: " + err.sqlMessage);
+
+                    let msg = err.sqlMessage.toString();
+                    let duplicateFieldIndex = "";
+                    if ((duplicateFieldIndex = msg.indexOf('name')) === -1)
+                        if ((duplicateFieldIndex = msg.indexOf('password')) === -1)
+                            duplicateFieldIndex = msg.indexOf('email');
+                    let duplicateField = msg.substring(duplicateFieldIndex, msg.indexOf("'", duplicateFieldIndex + 2));
+                    returnValue = "Field " + duplicateField + " already exists.Choose another one.";
+                } else {
+                    console.log("Added " + jsonRegistrationAccount.username + " to registration requests.");
+                    returnValue = "Added " + jsonRegistrationAccount.username + " to registration requests.";
                 }
-                console.log("Added " + jsonRegistrationAccount.username + " to registration requests.");
-                return true;
+                return returnValue;
             });
-        });
-    } catch (error) {
-        console.error(error);
-        return false;
-    }
+        }
+    });
 }
 module.exports.addRegistrationUser = addRegistrationUser;
