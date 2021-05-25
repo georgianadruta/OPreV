@@ -66,4 +66,4 @@ async function clearLoggedUsersTable() {
     }
 }
 
-clearLoggedUsersTable().then(() => console.log("Cleared out logged users table."));
+// clearLoggedUsersTable().then(() => console.log("Cleared out logged users table."));

@@ -153,6 +153,10 @@ const addRegistrationUser = function (jsonRegistrationAccount) {
     })
 }
 
+/**
+ * This method clears the whole logged_users table
+ * @returns {Promise<>} a new promise
+ */
 const clearLoggedUsersTable = function () {
     return new Promise((resolve, reject) => {
         let con = getConnection({database: "users"})
@@ -177,6 +181,42 @@ const clearLoggedUsersTable = function () {
     })
 }
 
+/**
+ * This method deletes the token from the logged_users table
+ * @param token the token to be deleted
+ * @returns {Promise<>} a new promise
+ */
+const deleteLoggedUserFromTableByToken = function (token) {
+    return new Promise((resolve, reject) => {
+        let con = getConnection({database: "users"})
+        const table = "logged_users";
+        con.connect(function (err) {
+            if (err) {
+                console.log(err);
+                reject("Failed to connect to the database.");
+
+            } else {
+
+                const sql = "DELETE FROM " + table + " WHERE token='" + token + "';";
+                con.query(sql, function (err) {
+                    if (err) {
+                        console.log("Failed to delete " + token + " from logged users." + "\nREASON: " + err.sqlMessage);
+                        reject("Failed to delete " + token + " from logged users.");
+                    } else {
+                        console.log("Deleted " + token + " from logged users.");
+                        resolve("Deleted " + token + " from logged users.");
+                    }
+                });
+            }
+        });
+    })
+}
+
+/**
+ * This method adds a new token to the logged_users table
+ * @param jsonUser the user token with IP as json
+ * @returns {Promise<>} a new promise
+ */
 const addUserToLoggedUsersTable = function (jsonUser) {
     return new Promise((resolve, reject) => {
         let con = getConnection({database: "users"})
@@ -202,6 +242,7 @@ const addUserToLoggedUsersTable = function (jsonUser) {
     })
 }
 
+module.exports.deleteLoggedUserFromTableByToken = deleteLoggedUserFromTableByToken;
 module.exports.addUserToLoggedUsersTable = addUserToLoggedUsersTable;
 module.exports.clearLoggedUsersTable = clearLoggedUsersTable;
 module.exports.addRegistrationUser = addRegistrationUser;

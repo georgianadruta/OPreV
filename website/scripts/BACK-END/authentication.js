@@ -44,9 +44,9 @@ let checkMatches = function (username, password, email = null) {
  * @param username the username to login with
  * @param password the password to login with
  */
-let postHTTPRequest = function (username, password) {
+let postLoginHTTPRequest = function (username, password) {
     const HTTP = new XMLHttpRequest();
-    const url = "/users";
+    const url = "/users/login";
     HTTP.onreadystatechange = function () {
         if (HTTP.readyState === HTTP.HEADERS_RECEIVED) {
             let cookie = HTTP.getResponseHeader("new-cookie").split("=");
@@ -63,6 +63,31 @@ let postHTTPRequest = function (username, password) {
     HTTP.open("POST", url, true);
     HTTP.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     HTTP.send(JSON.stringify({"username": username, "password": password,}));
+}
+
+/**
+ * Method to send a POST request with the username and password in order to logout.
+ */
+let postLogoutHTTPRequest = function (token) {
+    const HTTP = new XMLHttpRequest();
+    const url = "/users/logout";
+    HTTP.onreadystatechange = function () {
+        if (HTTP.readyState === HTTP.HEADERS_RECEIVED) {
+            let cookie = HTTP.getResponseHeader("change-cookie").split("=");
+            setCookie(cookie[0], "false", 1);
+        }
+        if (HTTP.readyState === HTTP.DONE) {
+            // TODO implement some effect to know you're logged out so you can login again
+            // if (HTTP.status >= 400)
+            //     changeSpanText(this.responseText, "red");
+            // else
+            //     changeSpanText(this.responseText, "green");
+        }
+
+    }
+    HTTP.open("POST", url, true);
+    HTTP.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    HTTP.send(JSON.stringify({"token": token}));
 }
 
 /**
@@ -101,14 +126,23 @@ function register() {
 }
 
 /**
- * TODO change alert to some display in html
+ * This method will be called to trigger the login.
  */
 function login() {
     const username = (document.querySelector("#username").value);
     const password = (document.querySelector("#password").value);
 
     if (checkMatches(username, password) !== false) {
-        postHTTPRequest(username, password);
+        postLoginHTTPRequest(username, password);
     }
 }
 
+/**
+ * This method will be called to trigger the logout.
+ */
+function logout() {
+    if (getCookie("logged_in") === true)
+        postLogoutHTTPRequest(getCookie("sessionID"));
+    else
+        alert("You are not logged in. You cannot log out.")
+}

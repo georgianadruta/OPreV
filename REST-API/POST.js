@@ -88,7 +88,7 @@ let keepUserLoggedIn = async function (request, response) {
         try {
             await CRUD.addUserToLoggedUsersTable(jsonObject);
             // 3. set cookie token user
-            response.setHeader('new-cookie', 'logged_in=true');
+            response.setHeader('change-cookie', 'logged_in=true');
             // this cookie is only a flag
             // to check if it's even worth
             //searching for the user in the logged users database or not
@@ -139,14 +139,38 @@ let login = function (request, response) {
 }
 
 /**
+ * Method responsible for logout behaviour
+ * @param request the request
+ * @param response the response
+ */
+let logout = function (request, response) {
+    let body = [];
+    request.on('data', chunk => {
+        body.push(chunk);
+    });
+    request.on('end', async () => {
+        let token = JSON.parse(body.toString());
+        try {
+            await CRUD.deleteLoggedUserFromTableByToken(token);
+            request.setHeader("change-cookie", "logged_in=false");
+            setSuccessfulRequestResponse(request, response, "Successfully logged out.", 200);
+        } catch (err) {
+            setFailedRequestResponse(request, response, err, 409);
+        }
+    });
+}
+
+/**
  * Method for the login of any POST request
  * @param request the HTTP request
  * @param response the response
  */
 function POST(request, response) {
     let path = request.url.toString().substring(request.url.toString().indexOf("/", 2));
-    if (path === "/users")
+    if (path === "/users/login")
         login(request, response)
+    else if (path === "/users/logout")
+        logout(request, response)
     else if (path === "/dataset/eurostat" || (path === "/dataset/who"))
         modifyData(request, response);
     else {
