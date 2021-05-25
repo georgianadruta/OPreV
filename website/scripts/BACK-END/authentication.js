@@ -43,6 +43,11 @@ let checkMatches = function (username, password, email = null) {
         return true;
 }
 
+/**
+ * Method to send a POST request with the username and password in order to login.
+ * @param username the username to login with
+ * @param password the password to login with
+ */
 let postHTTPRequest = function (username, password) {
     const HTTP = new XMLHttpRequest();
     const url = SERVER_HOST + ':' + PORT + "/users";
@@ -55,6 +60,12 @@ let postHTTPRequest = function (username, password) {
     }
 }
 
+/**
+ * Method to send a PUT request with the username,email and password in order to register.
+ * @param username the username to register with
+ * @param email the email to register with
+ * @param password the password to register with
+ */
 let putHTTPRequest = function (username, email, password) {
     const HTTP = new XMLHttpRequest();
     const url = SERVER_HOST + ':' + PORT + "/users";
@@ -70,7 +81,7 @@ let putHTTPRequest = function (username, email, password) {
 /**
  * TODO change alert to some display in html
  */
-async function register() {
+function register() {
     const username = (document.querySelector("#username").value);
     const password = (document.querySelector("#password").value);
     const email = (document.querySelector("#email").value);
@@ -83,7 +94,7 @@ async function register() {
 /**
  * TODO change alert to some display in html
  */
-async function login() {
+function login() {
     const username = (document.querySelector("#username").value);
     const password = (document.querySelector("#password").value);
 
