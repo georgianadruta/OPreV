@@ -95,6 +95,44 @@ function getRegionsFiltersHTTPRequest() {
         return ['Africa', 'Europe', 'TODO add others'];
 }
 
+
+/**
+ * TODO
+ * This method is responsible for the HTTP GET request to receive the contact messages.
+ * @return {{tableColumns: string[], dataset: [{phoneNumber: string, fullName: string, message: string, email: string}, {phoneNumber: string, fullName: string, message: string, email: string}]}}
+ */
+function getContactMessagesDatasetHTTPRequest() {
+    return {
+        tableColumns: ["Full Name", "Email", "Phone number", "Message"],
+        dataset: [
+            {fullName: 'dani', email: "123@yahoo.com", phoneNumber: '+072435', message: 'ilSalut fratilSaluilSalut fratilSilSalut f'},
+            {fullName: 'andrei', email: "andutzu7777@yahoo.com", phoneNumber: '+0232732452', message: 'Sal boss'}
+        ]
+    };
+}
+
+/**
+ * TODO
+ * This method is responsible for the HTTP GET request to receive the contact messages.
+ * @return {*[]}
+ */
+function getWhoDatasetHTTPRequest(filters = null) {
+    if (filters !== null)
+        return [];
+    return [];
+}
+
+/** TODO
+ * This method is responsible for the HTTP GET request to receive the contact messages.
+ * @return {*[]}
+ */
+function getEurostatDatasetHTTPRequest(filters = null) {
+    if (filters !== null)
+        return [];
+    return [];
+}
+
+
 /**
  * By default load eurostat.
  */

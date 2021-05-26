@@ -60,6 +60,7 @@
     <!--JAVA SCRIPTS-->
     <script src="website/scripts/BACK-END/cookies.js"></script>
     <script src="website/scripts/BACK-END/authentication.js"></script>
+    <script src="website/scripts/BACK-END/data.js"></script>
     <script src="website/scripts/FRONT-END/menu_bar.js"></script>
     <script src="website/scripts/FRONT-END/menu_side_bar.js"></script>
     <script src="website/scripts/FRONT-END/admin.js"></script>
@@ -137,29 +138,44 @@
 <main>
     <div class="pageContainer">
         <div class="datasetContainer">
-            <h1 id="chooseDataSetHeading">Choose a dataset to preview:</h1>
+            <h1 id="chooseDataSetHeading">Choose what to analyse:</h1>
             <div class="bar-actions">
-                <button class="button" onclick="changePreviewDataset('EuroStat-dataset.csv')">EuroStat dataset</button>
-                <button class="button" onclick="changePreviewDataset('WHO-dataset.csv')">Who dataset</button>
+                <button class="button" onclick="createDataTable('eurostat')">EuroStat dataset</button>
+                <button class="button" onclick="createDataTable('who')">Who dataset</button>
+                <button class="button" onclick="createDataTable('messages')">Contact messages</button>
             </div>
 
-            <div id="datasetPreview"></div>
+            <div id="datasetPreview">
+                <table class="fl-table">
+                    <thead>
+                    <tr>
+                        <th>Header 1</th>
+                        <th>Header 2</th>
+                        <th>Header 3</th>
+                        <th>Header 4</th>
+                        <th class="manipulationButtonsHeader">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Content 1</td>
+                        <td>Content 2</td>
+                        <td>Content 3</td>
+                        <td>Content 4</td>
+                        <td class="manipulationButtons">
+                            <button class="button">Modify</button>
+                            <button class="button">Delete</button>
+                        </td>
+                    </tr>
+                    <tbody>
+                </table>
+            </div>
 
             <div id="dataManipulationButtons">
                 <ul class="dataButtonsList">
                     <li class="dataButton">
-                        <button class="button" onclick="showAdminForm('add')">
+                        <button class="button" onclick="showAddForm()">
                             Add
-                        </button>
-                    </li>
-                    <li class="dataButton">
-                        <button class="button" onclick="showAdminForm('modify')">
-                            Modify
-                        </button>
-                    </li>
-                    <li class="dataButton">
-                        <button class="button" onclick="showAdminForm('delete')">
-                            Delete
                         </button>
                     </li>
                 </ul>
@@ -167,9 +183,6 @@
         </div>
         <div class="dataManipulationContainer" id="dataManipulationForm">
             <h1 id="addValues">Add BMI in the database</h1>
-            <h1 id="modifyValues">Modify BMI in the database</h1>
-            <h1 id="deleteValues">Delete BMI in the database</h1>
-
             <ul class="dataManipulationList">
                 <li class="countryInput">
                     <label>Country:</label>
@@ -206,7 +219,7 @@
                 </li>
                 <li class="finishButtons">
                     <input
-                            onclick="sendData()"
+                            onclick="addData()"
                             id="sendButton"
                             class="btn-lrg submit-btn"
                             type="submit"
