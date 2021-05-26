@@ -106,7 +106,6 @@ function deselectAllCountries() {
             const chart = getBarChart();
             refreshBarChartData();
             chart.update();
-
         } else {
             refreshTableData();
             generateTable();
