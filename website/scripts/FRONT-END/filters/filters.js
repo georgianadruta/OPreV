@@ -2,9 +2,9 @@
  * This function's purpose is to create a filter button CGI
  * @param HTTPRequestFunction the function that will return the text to be added
  * @param elementID the element id in html code
- * @param cookieName the cookie to be set
+ * @param localStorageItemName the cookie to be set
  */
-function createFilterButton(HTTPRequestFunction, elementID, cookieName) {
+function createFilterButton(HTTPRequestFunction, elementID, localStorageItemName) {
     const indicatorsArray = HTTPRequestFunction(dataset);
     const filtersContainer = document.getElementById(elementID);
     filtersContainer.innerHTML = '';
@@ -13,12 +13,12 @@ function createFilterButton(HTTPRequestFunction, elementID, cookieName) {
         const newDiv = document.createElement('div');
         newDiv.className = "dropdown-btn";
         newDiv.onclick = function () {
-            window.localStorage.setItem(cookieName, indicatorsArray[i]);
+            window.localStorage.setItem(localStorageItemName, indicatorsArray[i]);
         }
         newDiv.innerHTML = String(indicatorsArray[i]);
         filtersContainer.appendChild(newDiv);
     }
-    window.localStorage.setItem(cookieName, indicatorsArray[0]);
+    window.localStorage.setItem(localStorageItemName, indicatorsArray[0]);
 }
 
 /**

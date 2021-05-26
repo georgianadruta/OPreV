@@ -10,13 +10,14 @@ let datasetHTTPRequest = function () {
 
     const HTTP = new XMLHttpRequest();
     const url = SERVER_HOST + ':' + PORT + "/dataset/" + datasetName;
+    HTTP.onreadystatechange = () => {
+        if (HTTP.readyState === HTTP.DONE)
+            console.log(HTTP.responseText)
+        //TODO change dataset object based on the response
+    }
     HTTP.open("GET", url);
     HTTP.setRequestHeader("Cookies", document.cookie);
     HTTP.send();
-    HTTP.onreadystatechange = () => {
-        console.log(HTTP.responseText)
-        //TODO change dataset object based on the response
-    }
 }
 
 /**
@@ -99,6 +100,5 @@ function getRegionsFiltersHTTPRequest() {
  */
 window.addEventListener("load", function () {
     if (getCookie("dataset") === null) setCookie("dataset", "eurostat");
-    window.localStorage.setItem("bodyMass", 'overweight');
     datasetHTTPRequest();
 });

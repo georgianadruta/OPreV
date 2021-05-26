@@ -47,10 +47,8 @@ function getBarChart() {
  */
 function refreshBarChartData() {
     data.labels = getDatasetLabels();
-    console.log(data.labels + "\n")
     for (let i = 0; i < data.datasets.length; i++) {
         data.datasets[i]['data'] = getDatasetData()[i];
-        console.log(data.datasets[i]['data'] + "\n")
     }
 }
 
