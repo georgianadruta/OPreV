@@ -65,7 +65,7 @@ const updateObjectByID = function (jsonObjectAsString, cookie) {
 
             const jsonObject = JSON.parse(jsonObjectAsString);
             const sql = "UPDATE .... SET ... = '...' WHERE .... = '...'";//TODO CHANGE QUERY
-            con.query(sql, function (err, result) {
+            con.query(sql, function (err) {
                 if (err) {
                     console.log("Failed to add " + jsonObjectAsString + " to database.");
                     throw err;
@@ -95,7 +95,7 @@ const getHashedPasswordOfAdminAccount = function (jsonLoginAccount) {
 
             } else {
                 const sql = "SELECT password FROM " + table + " WHERE name='" + jsonLoginAccount.username + "'";
-                con.query(sql, function (err, result, fields) {
+                con.query(sql, function (err, result) {
                     if (err) {
                         console.log("SELECT failed!")
                         reject("SELECT failed!");
@@ -242,6 +242,36 @@ const addUserToLoggedUsersTable = function (jsonUser) {
 }
 
 /**
+ * This method adds a new token to the contact_messages table
+ * @param jsonContactFormulary the user token with IP as json
+ * @returns {Promise<>} a new promise
+ */
+const addContactMessageToContactMessagesTable = function (jsonContactFormulary) {
+    return new Promise((resolve, reject) => {
+        let con = getConnection({database: "contact"})
+        const table = "contact_messages";
+        con.connect(function (err) {
+            if (err) {
+                console.log(err);
+                reject("Failed to connect to the database.");
+            } else {
+                const sql = "INSERT INTO " + table + '(fullName,email,phoneNumber,message)' + " VALUES ('" + jsonContactFormulary.fullName + "','" +
+                    jsonContactFormulary.email + "','" + jsonContactFormulary.phoneNumber + "','" + jsonContactFormulary.message + "')";
+                con.query(sql, function (err) {
+                    if (err) {
+                        console.log("Failed to add " + jsonContactFormulary.fullName + "'s message to contact messages table." + "\nREASON: " + err.sqlMessage);
+                        reject("Failed to add " + jsonContactFormulary.fullName + "'s message to contact messages table.");
+                    } else {
+                        console.log("Added " + jsonContactFormulary.fullName + "'s message to contact messages table.");
+                        resolve("Added " + jsonContactFormulary.fullName + "'s message to contact messages table.");
+                    }
+                });
+            }
+        });
+    })
+}
+
+/**
  * This method checks if the token exists in the logged users table.
  * @return Promise<> a promise
  * @param token
@@ -274,6 +304,8 @@ const selectTokenFromLoggedUsersTable = function (token) {
         });
     });
 }
+
+module.exports.addContactMessageToContactMessagesTable = addContactMessageToContactMessagesTable;
 module.exports.selectTokenFromLoggedUsersTable = selectTokenFromLoggedUsersTable;
 module.exports.deleteLoggedUserFromTableByToken = deleteLoggedUserFromTableByToken;
 module.exports.addUserToLoggedUsersTable = addUserToLoggedUsersTable;

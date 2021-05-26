@@ -3,7 +3,7 @@
     max-width: 600px;
     background-color: #bdc3c7;
     border-radius: 5px;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
 
 .form-header {
@@ -11,7 +11,7 @@
 }
 
 .form-header .form-link {
-    padding: 10px 0px;
+    padding: 10px 0;
     flex: 1;
     text-decoration: none;
     font-size: 20px;
@@ -69,7 +69,7 @@
     padding-bottom: 20px;
 }
 
-#spanTextBox {
+#spanTextBox, #spanContactTextBox {
     display: flex;
     justify-content: center;
     align-items: center;
