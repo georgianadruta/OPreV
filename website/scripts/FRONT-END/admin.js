@@ -93,6 +93,17 @@ function hideAddForm() {
     alert("Sent data to the server!")
 }
 
+function deleteFunction() {
+}
+
+function modifyFunction() {
+}
+
+/**
+ * This method is responsible for calling methods to get data and render all data tables.
+ * @param contentOrigin the name of the data to show
+ * @return {Promise<void>} unused
+ */
 async function createDataTable(contentOrigin) {
     changePreviewDataset();
 
@@ -103,6 +114,7 @@ async function createDataTable(contentOrigin) {
         case "messages": {
             await getContactMessagesDatasetHTTPRequest().then(data => {
                 tableInformation = data;
+                window.sessionStorage.setItem("deleteValue", "contact_messages");
             }).catch(fail => {
                 failMessage = fail;
             });
@@ -113,11 +125,15 @@ async function createDataTable(contentOrigin) {
             document.getElementById("addButton").style.display = "flex";
             tableInformation = getWhoDatasetHTTPRequest();
             extraButton = 'Modify';
+            window.sessionStorage.setItem("deleteValue", "who_dataset");
+            window.sessionStorage.setItem("modifyValue", "who_dataset");
             break;
         }
         default: {
             document.getElementById("addButton").style.display = "flex";
             tableInformation = getEurostatDatasetHTTPRequest();
+            window.sessionStorage.setItem("deleteValue", "eurostat_dataset");
+            window.sessionStorage.setItem("modifyValue", "who_dataset");
             break;
         }
     }
@@ -162,11 +178,13 @@ async function createDataTable(contentOrigin) {
         const button1 = document.createElement("button");
         button1.classList.add("button");
         button1.innerHTML = "Delete";
+        // button1.setAttribute("onclick", "deleteFunction(" + value + ')');
         td.append(button1);
         if (extraButton != null) {
             const button2 = document.createElement("button");
             button2.classList.add("button");
             button2.innerHTML = extraButton;
+            // button2.setAttribute("onclick", "modifyFunction(" + value + ')');
             td.append(button2);
         }
         trow.append(td);
