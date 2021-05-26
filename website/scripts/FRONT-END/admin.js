@@ -93,14 +93,18 @@ function hideAddForm() {
     alert("Sent data to the server!")
 }
 
-function createDataTable(contentOrigin) {
+async function createDataTable(contentOrigin) {
     changePreviewDataset();
 
     let tableInformation;
     let extraButton = null;
     switch (contentOrigin) {
         case "messages": {
-            tableInformation = getContactMessagesDatasetHTTPRequest();
+            await getContactMessagesDatasetHTTPRequest().then(data => {
+                tableInformation = data;
+            }).catch(fail => {
+                tableInformation = null;
+            });
             extraButton = 'Modify';
             break;
         }
@@ -114,6 +118,11 @@ function createDataTable(contentOrigin) {
         }
     }
     document.getElementById("datasetPreview").innerHTML = '';
+
+    if (tableInformation === null) {
+        alert("You are not logged in!");
+        return;
+    }
 
     let tableColumns = tableInformation.tableColumns;
     let tableDataset = tableInformation.dataset;

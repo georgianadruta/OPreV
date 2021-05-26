@@ -1,31 +1,8 @@
 const bcrypt = require('bcrypt')
 const CRUD = require('./CRUD_operations')
 
-/**
- * This method's purpose is to set the error message for the response if it fails.
- * @param request the request
- * @param response the response to be edited
- * @param responseMessage the error message
- * @param HTTPStatus the HTTP status (default 404)
- */
-let setSuccessfulRequestResponse = function (request, response, responseMessage, HTTPStatus = 404) {
-    response.writeHead(HTTPStatus, {'Content-Type': 'text/plain'});
-    response.write(responseMessage, 'utf-8');
-    response.end();
-}
-
-/**
- * This method's purpose is to set the error message for the response if it fails.
- * @param request the request
- * @param response the response to be edited
- * @param errorMessage the error message
- * @param HTTPStatus the HTTP status (default 404)
- */
-let setFailedRequestResponse = function (request, response, errorMessage, HTTPStatus = 404) {
-    response.writeHead(HTTPStatus, {'Content-Type': 'text/plain'});
-    response.write(errorMessage, 'utf-8');
-    response.end();
-}
+const {setSuccessfulRequestResponse} = require('./REST_utilities')
+const {setFailedRequestResponse} = require('./REST_utilities')
 
 /**
  * This method checks if the parameters check regex patterns.

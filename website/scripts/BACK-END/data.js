@@ -97,40 +97,43 @@ function getRegionsFiltersHTTPRequest() {
 
 
 /**
- * This method is responsible for the HTTP GET request to receive the contact messages.
- * @return {{tableColumns: string[], dataset: [{phoneNumber: string, fullName: string, message: string, email: string}, {phoneNumber: string, fullName: string, message: string, email: string}]}}
+ *  * This method is responsible for the HTTP GET request to receive the contact messages.
+ * @return {Promise<>}
  */
-function getContactMessagesDatasetHTTPRequest() {
+async function getContactMessagesDatasetHTTPRequest() {
+    return await new Promise((resolve, reject) => {
+        const HTTP = new XMLHttpRequest();
+        const url = "/contact/messages";
 
-    const HTTP = new XMLHttpRequest();
-    const url = "/contact/messages";
-    HTTP.onreadystatechange = () => {
-        if (HTTP.readyState === HTTP.DONE) {
-            if (HTTP.status >= 400) {
-                console.log(HTTP.status, "ERROR")
-            } else {
-                console.log(HTTP.responseText);
+        HTTP.onreadystatechange = () => {
+            if (HTTP.readyState === HTTP.DONE) {
+                if (HTTP.status >= 400) {
+                } else {
+                    if (HTTP.responseText === "User is not logged.") {
+                        reject(HTTP.responseText);
+                        return;
+                    }
+                    let jsonArray = JSON.parse(HTTP.responseText);
+                    if (jsonArray.length > 0)
+                        resolve({
+                            tableColumns: Object.keys(jsonArray[0]),
+                            dataset: jsonArray,
+                        });
+                    else {
+                        resolve({
+                            tableColumns: ["Server messages"],
+                            dataset: ["No new messages"],
+                        });
+                    }
+                }
             }
+
         }
+        HTTP.open("GET", url);
+        HTTP.setRequestHeader("Cookies", document.cookie);
+        HTTP.send();
+    })
 
-    }
-    HTTP.open("GET", url);
-    HTTP.setRequestHeader("Cookies", document.cookie);
-    HTTP.send();
-
-
-    return {
-        tableColumns: ["Full Name", "Email", "Phone number", "Message"],
-        dataset: [
-            {
-                fullName: 'dani',
-                email: "123@yahoo.com",
-                phoneNumber: '+072435',
-                message: 'ilSalut fratilSaluilSalut fratilSilSalut f'
-            },
-            {fullName: 'andrei', email: "andutzu7777@yahoo.com", phoneNumber: '+0232732452', message: 'Sal boss'}
-        ]
-    };
 }
 
 /**

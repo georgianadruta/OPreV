@@ -1,7 +1,9 @@
 const fs = require('fs');
 const PATH = require('path')
 const CRUD = require("./CRUD_operations");
-
+const {getCookieValueFromCookies} = require('./REST_utilities')
+const {setSuccessfulRequestResponse} = require('./REST_utilities')
+const {setFailedRequestResponse} = require('./REST_utilities')
 const mimeTypes = {
     '.html': 'text/html',
     '.js': 'text/javascript',
@@ -11,32 +13,6 @@ const mimeTypes = {
     '.jpg': 'image/jpg',
     '.ico': 'image/x-icon',
 };
-
-/**
- * This method's purpose is to set the error message for the response if it fails.
- * @param request the request
- * @param response the response to be edited
- * @param responseMessage the error message
- * @param HTTPStatus the HTTP status (default 404)
- */
-let setSuccessfulRequestResponse = function (request, response, responseMessage, HTTPStatus = 404) {
-    response.writeHead(HTTPStatus, {'Content-Type': 'text/plain'});
-    response.write(responseMessage, 'utf-8');
-    response.end();
-}
-
-/**
- * This method's purpose is to set the error message for the response if it fails.
- * @param request the request
- * @param response the response to be edited
- * @param errorMessage the error message
- * @param HTTPStatus the HTTP status (default 404)
- */
-let setFailedRequestResponse = function (request, response, errorMessage, HTTPStatus = 404) {
-    response.writeHead(HTTPStatus, {'Content-Type': 'text/plain'});
-    response.write(errorMessage, 'utf-8');
-    response.end();
-}
 
 /**
  * TODO IMPLEMENTATION
@@ -109,6 +85,28 @@ function checkRequirementDataset(request, response) {
     return false;
 }
 
+let getContactMessages = async function (request, response) {
+    let sessionID = getCookieValueFromCookies(request, 'sessionID');
+    try {
+        await CRUD.selectTokenFromLoggedUsersTable(sessionID).then(async foundToken => {
+            if (foundToken === sessionID) {
+                try {
+                    //check if user is logged first
+                    let arrayOfJson = await CRUD.getContactMessagesFromContactMessagesTable();
+                    response.writeHead(200, {'Content-Type': 'application/json'});
+                    response.end(JSON.stringify(arrayOfJson));
+                } catch (failedMessage) {
+                    setFailedRequestResponse(request, response, failedMessage, 404);
+                }
+            } else {
+                response.setHeader("change-cookie", "logged_in=false");
+                setSuccessfulRequestResponse(request, response, "User is not logged.", 200);
+            }
+        });
+    } catch (err) {
+        setFailedRequestResponse(request, response, "Failed to check if users is logged or not.", 409);
+    }
+}
 
 /**
  * Method responsible for all HTTP GET requests
@@ -119,7 +117,7 @@ function GET(request, response) {
     let path = request.url.toString();
     switch (path) {
         case "/contact/messages": {
-            setFailedRequestResponse(request, response, "NOT IMPLEMENTED YET", 200);
+            getContactMessages(request, response);
             break;
         }
         case "/dataset/eurostat": {

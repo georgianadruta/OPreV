@@ -305,6 +305,40 @@ const selectTokenFromLoggedUsersTable = function (token) {
     });
 }
 
+const getContactMessagesFromContactMessagesTable = function () {
+    return new Promise((resolve, reject) => {
+        let con = getConnection({database: "contact"})
+        const table = "contact_messages";
+        con.connect(function (err) {
+            if (err) {
+                console.log(err);
+                reject("Failed to connect to the database.");
+            } else {
+                const sql = "SELECT fullName,email,phoneNumber,message FROM " + table;
+                con.query(sql, function (err, results, fields) {
+                    if (err) {
+                        reject("Failed select all from contact messages table.");
+                    } else {
+                        let jsonArray = [];
+                        results.forEach(rowPacketObject => {
+                                jsonArray.push(
+                                    {
+                                        "fullName": rowPacketObject.fullName,
+                                        "email": rowPacketObject.email,
+                                        "phoneNumber": rowPacketObject.phoneNumber,
+                                        "message": rowPacketObject.message,
+                                    })
+                            }
+                        )
+                        resolve(jsonArray);
+                    }
+                });
+            }
+        });
+    })
+}
+
+module.exports.getContactMessagesFromContactMessagesTable = getContactMessagesFromContactMessagesTable;
 module.exports.addContactMessageToContactMessagesTable = addContactMessageToContactMessagesTable;
 module.exports.selectTokenFromLoggedUsersTable = selectTokenFromLoggedUsersTable;
 module.exports.deleteLoggedUserFromTableByToken = deleteLoggedUserFromTableByToken;
