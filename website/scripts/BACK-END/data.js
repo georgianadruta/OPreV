@@ -26,10 +26,10 @@ let datasetHTTPRequest = function () {
  */
 function loadDataSet(datasetName) {
     if (datasetName === 'who' || datasetName === 'eurostat') {
-        setCookie("dataset", datasetName);
+        window.localStorage.setItem("dataset", datasetName);
         refreshFilters();
     } else {
-        setCookie("dataset", 'eurostat');
+        window.localStorage.setItem("dataset", 'eurostat');
         console.error("ERROR: wrong call on loadDataSet function: loadDataset(" + datasetName + ").")
     }
     datasetHTTPRequest();
@@ -42,9 +42,9 @@ function loadDataSet(datasetName) {
  */
 function loadBodyMass(bodyMassName) {
     if (bodyMassName === 'overweight' || bodyMassName === 'pre-obese' || bodyMassName === 'obese')
-        setCookie("bodyMass", bodyMassName);
+        window.localStorage.setItem("bodyMass", bodyMassName);
     else {
-        setCookie("bodyMass", 'overweight');
+        window.localStorage.setItem("bodyMass", 'overweight');
         console.error("ERROR: wrong call on loadBodyMass function: loadBodyMass(" + bodyMassName + ").")
     }
     datasetHTTPRequest();
@@ -98,7 +98,7 @@ function getRegionsFiltersHTTPRequest() {
  * By default load eurostat.
  */
 window.addEventListener("load", function () {
-    setCookie("dataset", "eurostat");
-    setCookie("bodyMass", 'overweight');
+    if (getCookie("dataset") === null) setCookie("dataset", "eurostat");
+    window.localStorage.setItem("bodyMass", 'overweight');
     datasetHTTPRequest();
 });

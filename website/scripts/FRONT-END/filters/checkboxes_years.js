@@ -68,7 +68,7 @@ function selectAllYears() {
     }
 
     removedYearsIds = [];
-    setCookie("years", "all");
+    window.localStorage.setItem("years","all");
 }
 
 /**
@@ -97,7 +97,7 @@ function deselectAllYears() {
         }
         removedYearsIds = [...Array(years.length).keys()];
     }
-    setCookie("years", "none");
+    window.localStorage.setItem("years","none");
 }
 
 /**

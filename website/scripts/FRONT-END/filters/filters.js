@@ -13,12 +13,12 @@ function createFilterButton(HTTPRequestFunction, elementID, cookieName) {
         const newDiv = document.createElement('div');
         newDiv.className = "dropdown-btn";
         newDiv.onclick = function () {
-            setCookie(cookieName, indicatorsArray[i]);
+            window.localStorage.setItem(cookieName, indicatorsArray[i]);
         }
         newDiv.innerHTML = String(indicatorsArray[i]);
         filtersContainer.appendChild(newDiv);
     }
-    setCookie(cookieName, indicatorsArray[0]);
+    window.localStorage.setItem(cookieName, indicatorsArray[0]);
 }
 
 /**

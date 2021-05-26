@@ -80,7 +80,7 @@ function selectAllCountries() {
     }
 
     removeCountryIds = [];
-    setCookie("countries", "all");
+    window.localStorage.setItem("countries","all");
 }
 
 /**
@@ -109,7 +109,7 @@ function deselectAllCountries() {
         }
         removeCountryIds = [...Array(labels.length).keys()];
     }
-    setCookie("countries", "none");
+    window.localStorage.setItem("countries","none");
 }
 
 /**
