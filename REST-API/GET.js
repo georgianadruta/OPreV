@@ -1,6 +1,6 @@
 const fs = require('fs');
-const path = require('path');
-const CRUD_operations = require("./CRUD_operations");
+const PATH = require('path')
+const CRUD = require("./CRUD_operations");
 
 const mimeTypes = {
     '.html': 'text/html',
@@ -11,6 +11,32 @@ const mimeTypes = {
     '.jpg': 'image/jpg',
     '.ico': 'image/x-icon',
 };
+
+/**
+ * This method's purpose is to set the error message for the response if it fails.
+ * @param request the request
+ * @param response the response to be edited
+ * @param responseMessage the error message
+ * @param HTTPStatus the HTTP status (default 404)
+ */
+let setSuccessfulRequestResponse = function (request, response, responseMessage, HTTPStatus = 404) {
+    response.writeHead(HTTPStatus, {'Content-Type': 'text/plain'});
+    response.write(responseMessage, 'utf-8');
+    response.end();
+}
+
+/**
+ * This method's purpose is to set the error message for the response if it fails.
+ * @param request the request
+ * @param response the response to be edited
+ * @param errorMessage the error message
+ * @param HTTPStatus the HTTP status (default 404)
+ */
+let setFailedRequestResponse = function (request, response, errorMessage, HTTPStatus = 404) {
+    response.writeHead(HTTPStatus, {'Content-Type': 'text/plain'});
+    response.write(errorMessage, 'utf-8');
+    response.end();
+}
 
 /**
  * TODO IMPLEMENTATION
@@ -84,39 +110,70 @@ function checkRequirementDataset(request, response) {
 }
 
 
+/**
+ * Method responsible for all HTTP GET requests
+ * @param request the request
+ * @param response the response
+ */
 function GET(request, response) {
-    //TODO logic of working with a get response
-    // WARNING:
-    // Nothing will happen if you modify response itself.
-    // But modifying it's fields (ex:response.name,response.head) will change response.
-
-    if (checkRequirementDataset(request, response) === true)
-        return;
-
-    //create file path
-    let filePath = '.' + request.url;
-    if (filePath === './')
-        filePath = './OPreV.html';
-
-    try {
-        if (fs.existsSync(filePath)) {
-            //check if it's valid
-            const extname = String(path.extname(filePath)).toLowerCase();
-            const contentType = mimeTypes[extname] || 'application/octet-stream';// octet-stream is the default value if no mimeTypes is found
-            fs.readFile(filePath, function (error, content) {
-                if (error) {
-                    console.log("ERROR reading the file: " + filePath);
-                    response.writeHead(404, {'Content-Type': contentType});
-                    response.end(content, 'utf-8');
-                } else {
-                    response.writeHead(200, {'Content-Type': contentType});
-                    response.end(content, 'utf-8');
-                }
-            });
+    let path = request.url.toString();
+    switch (path) {
+        case "/contact/messages": {
+            setFailedRequestResponse(request, response, "NOT IMPLEMENTED YET", 200);
+            break;
         }
-    } catch (err) {
-        console.error(err)
+        case "/dataset/eurostat": {
+            setFailedRequestResponse(request, response, "NOT IMPLEMENTED YET", 200);
+            break;
+        }
+        case "/dataset/who": {
+            setFailedRequestResponse(request, response, "NOT IMPLEMENTED YET", 200);
+            break;
+        }
+
+        default: {
+            let regex = new RegExp('/database/eurostat/[0-9]+') //if it's of form /database/eurostat/{some_number}
+            if (regex.test(path)) {
+                //TODO logic for /database/eurostat/2
+                return;
+            }
+
+            regex = new RegExp('/database/who/[0-9]+')//if it's of form /database/who/{some_number}
+            if (regex.test(path)) {
+                //TODO logic for /database/eurostat/2
+                return;
+            }
+
+            //create file path
+            let filePath = '.' + request.url;
+            if (filePath === './')
+                filePath = './OPreV.html';
+
+            //check if the file exists
+            try {
+                if (fs.existsSync(filePath)) {
+                    const extname = String(PATH.extname(filePath)).toLowerCase();
+                    const contentType = mimeTypes[extname] || 'application/octet-stream';// octet-stream is the default value if no mimeTypes is found
+                    fs.readFile(filePath, function (error, content) {
+                        if (error) {
+                            console.log("ERROR reading the file: " + filePath);
+                            setFailedRequestResponse(request, response, content, 404);
+                        } else {
+                            response.writeHead(200, {'Content-Type': contentType});
+                            response.end(content, 'utf-8');
+                        }
+                    });
+                } else {    //if the file doesn't exist then it's a bad REQUEST
+                    setFailedRequestResponse(request, response, "BAD GET REQUEST", 400);
+                }
+            } catch (err) {
+                console.error(err)
+                setFailedRequestResponse(request, response, "Failed to read file", 404);
+            }
+        }
     }
+
+
 }
 
 module.exports.GET = GET;
