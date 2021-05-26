@@ -97,19 +97,20 @@ async function createDataTable(contentOrigin) {
     changePreviewDataset();
 
     let tableInformation;
+    let failMessage = null;
     let extraButton = null;
     switch (contentOrigin) {
         case "messages": {
             await getContactMessagesDatasetHTTPRequest().then(data => {
                 tableInformation = data;
             }).catch(fail => {
-                tableInformation = null;
+                failMessage = fail;
             });
-            extraButton = 'Modify';
             break;
         }
         case "who": {
             tableInformation = getWhoDatasetHTTPRequest();
+            extraButton = 'Modify';
             break;
         }
         default: {
@@ -119,8 +120,8 @@ async function createDataTable(contentOrigin) {
     }
     document.getElementById("datasetPreview").innerHTML = '';
 
-    if (tableInformation === null) {
-        alert("You are not logged in!");
+    if (failMessage !== null) {
+        alert(failMessage);
         return;
     }
 
