@@ -41,3 +41,19 @@ function generateTable() {
         }
     }
 }
+
+/**
+ * helpful method to delete columns from table
+ */
+function deleteColumn(name) {
+    let tble = document.getElementById('tbl');
+    let row = tble.rows;
+    for (let i = 0; i < row[0].cells.length; i++) {
+        let str = row[0].cells[i].innerHTML;
+        if (str.search(name) !== -1) {
+            for (let j = 0; j < row.length; j++) {
+                row[j].deleteCell(i);
+            }
+        }
+    }
+}
