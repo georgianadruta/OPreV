@@ -310,6 +310,43 @@ const deleteFromTableByID = function (database, tableName, ID) {
     })
 }
 
+/**
+ * This method is responsible for returning all the data from the given database table with the filters specified.
+ * @param database the database
+ * @param tableName the table
+ * @param filters the filters ( by default 1=1 which is always true so no filters)
+ */
+const getDatasetDataFromTable = function (database, tableName, filters = '1=1') {
+    return new Promise(async (resolve, reject) => {
+        let con = getConnection({database: database})
+        const table = tableName;
+        con.connect(function (err) {
+            if (err) {
+                console.log(err);
+                reject("Failed to connect to the database.");
+            } else {
+                const sql = "SELECT * from " + table + " WHERE " + filters;
+                con.query(sql, function (err, results) {
+                    if (err) {
+                        console.log("Failed to select " + filters + " from " + tableName + "." + "\nREASON: " + err.sqlMessage);
+                        reject("Failed to select " + filters + " from " + tableName + ".");
+                    } else {
+                        if (results.length > 0) {
+                            console.log("Found data in " + tableName + ".");
+                            results = JSON.stringify(results);
+                            resolve(results);
+                        } else {
+                            console.log("There is no " + "data" + " in logged users with filters:" + filters);
+                            resolve(null);
+                        }
+                    }
+                });
+            }
+        });
+    });
+}
+
+module.exports.getDatasetDataFromTable = getDatasetDataFromTable;
 module.exports.deleteFromTableByID = deleteFromTableByID;
 module.exports.getContactMessagesFromContactMessagesTable = getContactMessagesFromContactMessagesTable;
 module.exports.addContactMessageToContactMessagesTable = addContactMessageToContactMessagesTable;
