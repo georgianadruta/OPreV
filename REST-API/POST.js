@@ -105,12 +105,8 @@ let keepUserLoggedIn = async function (request, response) {
  * @return true if user is logged in, false otherwise   !ATTENTION then return value of this function will be placed in .then function
  */
 let isUserLoggedIn = async function (token) {
-    try {
-        const selectValue = await CRUD.selectTokenFromLoggedUsersTable(token);
-        return token === selectValue;
-    } catch (fail) {
-        return false;
-    }
+    const selectValue = await CRUD.selectTokenFromLoggedUsersTable(token);
+    return token === selectValue;
 }
 
 /**
@@ -173,21 +169,60 @@ let logout = function (request, response) {
 }
 
 /**
+ * Method responsible for checking if the user is logged or not by token behaviour
+ * @param request the request
+ * @param response the response
+ */
+let check = function (request, response) {
+    let body = [];
+    request.on('data', chunk => {
+        body.push(chunk);
+    });
+    request.on('end', async () => {
+        let jsonToken = JSON.parse(body.toString());
+        try {
+            await CRUD.selectTokenFromLoggedUsersTable(jsonToken.token).then(foundToken => {
+                if (foundToken === jsonToken.token) {
+                    response.setHeader("change-cookie", "logged_in=true");
+                    setSuccessfulRequestResponse(request, response, "User is logged.", 200);
+                } else {
+                    response.setHeader("change-cookie", "logged_in=false");
+                    setSuccessfulRequestResponse(request, response, "User is not logged.", 200);
+                }
+            });
+        } catch (err) {
+            setFailedRequestResponse(request, response, "Failed to check if users is logged or not.", 409);
+        }
+    });
+}
+
+/**
  * Method for the login of any POST request
  * @param request the HTTP request
  * @param response the response
  */
 function POST(request, response) {
-    //let path = request.url.toString().substring(request.url.toString().indexOf("/", 2));
     let path = request.url.toString();
-    if (path === "/users/login")
-        login(request, response)
-    else if (path === "/users/logout")
-        logout(request, response)
-    else if (path === "/dataset/eurostat" || (path === "/dataset/who"))
-        modifyData(request, response);
-    else {
-        setFailedRequestResponse(request, response, "Bad POST request.", 400);
+    switch (path) {
+        case "/users/login": {
+            login(request, response)
+            break;
+        }
+        case "/users/logout": {
+            logout(request, response)
+            break;
+        }
+        case "/users/check": {
+            check(request, response)
+            break;
+        }
+        case "/dataset/eurostat" || "/dataset/who": {
+            modifyData(request, response);
+            break;
+        }
+        default: {
+            setFailedRequestResponse(request, response, "Bad POST request.", 400);
+        }
     }
 }
 

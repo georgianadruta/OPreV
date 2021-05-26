@@ -88,17 +88,17 @@ let postLogoutHTTPRequest = function (token) {
             let cookies = HTTP.getResponseHeader("change-cookie")
             if (cookies != null) {
                 let cookie = cookies.split("=");
-                console.log(cookie);
                 setCookie(cookie[0], "false");
                 alert("Successfully logged out.");
             }
         }
         if (HTTP.readyState === HTTP.DONE) {
-            // TODO implement some effect to know you're logged out so you can login again
-            // if (HTTP.status >= 400)
-            //     changeSpanText(this.responseText, "red");
-            // else
-            //     changeSpanText(this.responseText, "green");
+            //TODO implement some effect to know you're logged out so you can login again
+            console.error(HTTP.status)
+            if (HTTP.status <= 300) {
+                changeMenuBarBasedOnLoginLogout();
+                document.location.href = "/";
+            }
         }
 
     }
@@ -127,6 +127,31 @@ let putHTTPRequest = function (username, email, password) {
     HTTP.open("PUT", url);
     HTTP.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     HTTP.send(JSON.stringify({"username": username, "email": email, "password": password,}));
+}
+
+/**
+ * Method to send a POST request with a token to check if the user is logged in or not.
+ */
+let postCheckIfUserIsLoggedHTTPRequest = function (token) {
+    const HTTP = new XMLHttpRequest();
+    const url = "/users/check";
+    HTTP.onreadystatechange = function () {
+        if (HTTP.readyState === HTTP.HEADERS_RECEIVED) {
+            let cookies = HTTP.getResponseHeader("change-cookie")
+            if (cookies != null) {
+                let cookie = cookies.split("=");
+                setCookie(cookie[0], cookie[1]);
+            }
+        }
+        if (HTTP.readyState === HTTP.DONE) {
+            if (HTTP.status < 300) {
+                changeMenuBarBasedOnLoginLogout();
+            }
+        }
+    }
+    HTTP.open("POST", url, true);
+    HTTP.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    HTTP.send(JSON.stringify({"token": token}));
 }
 
 /**
@@ -164,3 +189,14 @@ function logout() {
         alert("You are not logged in. You cannot log out.")
     return false;
 }
+
+/**
+ * This method will be called at the start of every session to check if the user is logged or not.
+ */
+function checkIfUserIsLogged() {
+    postCheckIfUserIsLoggedHTTPRequest(getCookie("sessionID"));
+}
+
+window.addEventListener("load", function () {
+    checkIfUserIsLogged();
+})

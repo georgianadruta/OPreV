@@ -1,11 +1,29 @@
 /* When the user scrolls down, hide the navbar. When the user scrolls up, show the navbar */
-let prevScrollpos = window.pageYOffset;
+let prevScrolls = window.pageYOffset;
 window.onscroll = function () {
     const currentScrollPos = window.pageYOffset;
-    if (prevScrollpos > currentScrollPos) {
+    if (prevScrolls > currentScrollPos) {
         document.getElementById("navBar").style.top = "0";
     } else {
         document.getElementById("navBar").style.top = "-50px";
     }
-    prevScrollpos = currentScrollPos;
+    prevScrolls = currentScrollPos;
 }
+
+let changeMenuBarBasedOnLoginLogout = function () {
+    let logged_in = getCookie("logged_in");
+    if (logged_in === null || logged_in === "false") {
+        document.getElementById("logoutAnchor").style.display = "none";
+        document.getElementById("adminPageAnchor").style.display = "none";
+        document.getElementById("loginPageAnchor").style.display = "flex";
+    } else {
+        document.getElementById("logoutAnchor").style.display = "flex";
+        document.getElementById("adminPageAnchor").style.display = "flex";
+        document.getElementById("loginPageAnchor").style.display = "none";
+    }
+}
+
+
+window.addEventListener("load", function () {
+    changeMenuBarBasedOnLoginLogout();
+});

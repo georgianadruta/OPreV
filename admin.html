@@ -58,10 +58,11 @@
     <link rel="stylesheet" href="website/styles/buttons.css"/>
 
     <!--JAVA SCRIPTS-->
+    <script src="website/scripts/BACK-END/cookies.js"></script>
+    <script src="website/scripts/BACK-END/authentication.js"></script>
     <script src="website/scripts/FRONT-END/menu_bar.js"></script>
     <script src="website/scripts/FRONT-END/menu_side_bar.js"></script>
     <script src="website/scripts/FRONT-END/admin.js"></script>
-    <script src="website/scripts/BACK-END/authentication.js"></script>
 </head>
 
 <body>
@@ -97,10 +98,13 @@
                             </div>
                         </div>
                     </li>
-                    <li><a href="login.html" id="loginPageAnchor">Login</a></li>
-                    <li><a href="" id="logoutAnchor" onclick="logout()">Logout</a></li>
-                    <li><a href="admin.html" id="adminPageAnchor">Admin Page</a></li>
                     <li><a href="contact.html" target="_self">Contact</a></li>
+                    <li><a href="login.html" id="loginPageAnchor">Login</a></li>
+                    <li><a href="admin.html" id="adminPageAnchor">Admin Page</a></li>
+                    <li>
+                        <a href="javascript:void(0)" id="logoutAnchor" onclick="logout()">Logout</a>
+                    </li>
+
                 </ul>
             </li>
             <li class="search-bar-container">
