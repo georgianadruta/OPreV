@@ -1,23 +1,12 @@
-const SERVER_HOST = '127.0.0.1';
-const PORT = 8081;
-
 /**
- * Send HTTP request with url SERVER_HOST+':'+PORT+"/dataset/+ datasetName (who/eurostat) based on the cookie and work with the data.
+ * This method's purpose is to return the request URL based on cookies
+ * @return {string} the url
  */
-let datasetHTTPRequest = function () {
-    const datasetName = getCookie("dataset");
-    if (datasetName == null) console.error("dataset cookie error! Got cookie value: '" + datasetName + "' from cookie named 'dataset'.");
-
-    const HTTP = new XMLHttpRequest();
-    const url = "/dataset/" + datasetName;
-    HTTP.onreadystatechange = () => {
-        if (HTTP.readyState === HTTP.DONE)
-            console.log(HTTP.responseText)
-        //TODO change dataset object based on the response
-    }
-    HTTP.open("GET", url);
-    HTTP.setRequestHeader("Cookies", document.cookie);
-    HTTP.send();
+let getURLBasedOnCookies = function () {
+    let url = '/dataset';
+    let dataset = getCookie("dataset");
+    url += '/' + dataset;
+    return url;
 }
 
 /**
@@ -33,22 +22,7 @@ function loadDataSet(datasetName) {
         window.localStorage.setItem("dataset", 'eurostat');
         console.error("ERROR: wrong call on loadDataSet function: loadDataset(" + datasetName + ").")
     }
-    datasetHTTPRequest();
-}
-
-/**
- * This function's purpose is to load the specified body mass.
- * Sets the cookie
- * @param bodyMassName either 'overweight' 'pre-obese' or 'obese'
- */
-function loadBodyMass(bodyMassName) {
-    if (bodyMassName === 'overweight' || bodyMassName === 'pre-obese' || bodyMassName === 'obese')
-        window.localStorage.setItem("bodyMass", bodyMassName);
-    else {
-        window.localStorage.setItem("bodyMass", 'overweight');
-        console.error("ERROR: wrong call on loadBodyMass function: loadBodyMass(" + bodyMassName + ").")
-    }
-    datasetHTTPRequest();
+    getDatasetHTTPRequest();
 }
 
 /**
@@ -182,9 +156,8 @@ async function modifyDataFromAdminPageHTTPRequest(id) {
 
 }
 
-
 /**
- *  * This method is responsible for the HTTP GET request to receive the contact messages.
+ * This method is responsible for the HTTP GET request to receive the contact messages.
  * @return {Promise<>}
  */
 async function getContactMessagesDatasetHTTPRequest() {
@@ -224,24 +197,36 @@ async function getContactMessagesDatasetHTTPRequest() {
 }
 
 /**
- * TODO
- * This method is responsible for the HTTP GET request to receive the contact messages.
- * @return {*[]}
+ * This method is responsible for the HTTP GET request to receive the database data.
+ * @return Promise<>
  */
-function getWhoDatasetHTTPRequest(filters = null) {
-    if (filters !== null)
-        return [];
-    return [];
-}
+async function getDatasetHTTPRequest(filters = null) {
+    return await new Promise((resolve, reject) => {
+        const HTTP = new XMLHttpRequest();
+        const url = getURLBasedOnCookies();
 
-/** TODO
- * This method is responsible for the HTTP GET request to receive the contact messages.
- * @return {*[]}
- */
-function getEurostatDatasetHTTPRequest(filters = null) {
-    if (filters !== null)
-        return [];
-    return [];
+
+        HTTP.onreadystatechange = () => {
+            if (HTTP.readyState === HTTP.DONE) {
+                if (HTTP.status >= 400) {
+                    console.log(HTTP.responseText);
+                    reject();
+                } else {
+                    let data = JSON.parse(HTTP.responseText);
+                    console.log(data);
+                    resolve(data);
+                }
+            }
+
+        }
+        HTTP.open("GET", url);
+        HTTP.setRequestHeader("Cookies", document.cookie);
+
+        if (filters != null)
+            HTTP.send(JSON.stringify(filters));
+        else
+            HTTP.send();
+    })
 }
 
 
@@ -250,5 +235,6 @@ function getEurostatDatasetHTTPRequest(filters = null) {
  */
 window.addEventListener("load", function () {
     if (getCookie("dataset") === null) setCookie("dataset", "eurostat");
-    datasetHTTPRequest();
+    if (getCookie("BMIIndicator") == null) setCookie("BMIIndicator", "obese");
+    getDatasetHTTPRequest();
 });

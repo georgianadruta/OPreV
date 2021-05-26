@@ -15,76 +15,30 @@ const mimeTypes = {
 };
 
 /**
- * TODO IMPLEMENTATION
- * @param response
- * @param cookie
+ * This method is responsible for returning both datasets as HTML response.
+ * @param request the request
+ * @param response the response
+ * @param database the requested database
+ * @param BMIIndicator the indicator (will serve as table name)
+ * @param filters the filters used
+ * @return {Promise<void>} unused promise
  */
-let hardcoded_response = function (response, cookie) {
-    const responseBody = 'Dataset request accepted.';
-    response
-        .writeHead(200, {
-            'Content-Length': Buffer.byteLength(responseBody),
-            'Content-Type': 'application/json'
-        })
-        .end(responseBody, "utf-8");
-}
-
-function displayNLine(N, path) {
-    const lineReader = require('line-reader');
-    let nr = -1;
-    lineReader.eachLine(path, function (line) {
-        nr++;
-        if (nr === N) {
-            console.log(line);
-            return true;
-        }
-    });
-}
-
-function checkRequirementDataset(request, response) {
-    const str = request.url.split("/");
-
-    if (str[str.length - 1] === "dataset") {
-        console.log("which dataset?")
-    } else {
-        if (str[str.length - 2] === "dataset") {
-            if (str[str.length - 1] === "who") {
-                hardcoded_response(response, request.cookie);//TODO generate the actual response
-                return true;
-            } else {
-                if (str[str.length - 1] === "eurostat") {
-                    hardcoded_response(response, request.cookie); //TODO generate the actual response
-                    return true;
-                }
-            }
-        } else {
-            if (str[str.length - 3] === "dataset") {
-                if (str[str.length - 2] === "eurostat") {
-                    if (parseInt(str[str.length - 1]) >= 0) {
-                        console.log("display " + parseInt(str[str.length - 1]) +
-                            " element from " + str[str.length - 2] + " dataset");
-                        displayNLine(parseInt(str[str.length - 1]), './Dataset/EuroStat-dataset.csv');
-                    }
-                } else {
-                    if (str[str.length - 2] === "who") {
-                        if (parseInt(str[str.length - 1]) >= 0) {
-                            console.log("display " + parseInt(str[str.length - 1]) +
-                                " element from " + str[str.length - 2] + " dataset");
-
-                            //path hardcoded
-                            displayNLine(parseInt(str[str.length - 1]), './Dataset/who.csv');
-
-                        }
-                    } else {
-                        console.log("invalid dataset");
-                    }
-                }
-            }
-        }
+let getDataset = async function (request, response, database, BMIIndicator, filters = "1=1") {
+    try {
+        let dataset = await CRUD.getDatasetDataFromTable(database, BMIIndicator, filters);
+        response.writeHead(200, {'Content-Type': 'application/json'});
+        response.end(dataset);
+    } catch (fail) {
+        setFailedRequestResponse(request, response, "Failed to select any data.", 404);
     }
-    return false;
 }
 
+/**
+ * This methods returns all contact messages from the database.
+ * @param request the request
+ * @param response the response
+ * @return {Promise<void>} a promise that resolves in all contact messages
+ */
 let getContactMessages = async function (request, response) {
     let sessionID = getCookieValueFromCookies(request, 'sessionID');
     try {
@@ -121,7 +75,8 @@ function GET(request, response) {
             break;
         }
         case "/dataset/eurostat": {
-            setFailedRequestResponse(request, response, "NOT IMPLEMENTED YET", 200);
+            let BMIIndicator = getCookieValueFromCookies(request, "BMIIndicator");
+            getDataset(request, response, "eurostat", BMIIndicator);
             break;
         }
         case "/dataset/who": {

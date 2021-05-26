@@ -1,53 +1,4 @@
-const countries = ["Albania",
-    "Andorra",
-    "Armenia",
-    "Austria",
-    "Azerbaijan",
-    "Belarus",
-    "Belgium",
-    "Bosnia and Herzegovina",
-    "Bulgaria",
-    "Croatia",
-    "Cyprus",
-    "Czech Republic",
-    "Denmark",
-    "Estonia",
-    "Finland",
-    "France",
-    "Georgia",
-    "Germany",
-    "Greece",
-    "Hungary",
-    "Iceland",
-    "Ireland",
-    "Italy",
-    "Kazakhstan",
-    "Latvia",
-    "Liechtenstein",
-    "Lithuania",
-    "Luxembourg",
-    "Macedonia",
-    "Malta",
-    "Moldova",
-    "Monaco",
-    "Montenegro",
-    "Netherlands",
-    "Norway",
-    "Poland",
-    "Portugal",
-    "Romania",
-    "Russia",
-    "San Marino",
-    "Serbia",
-    "Slovakia",
-    "Slovenia",
-    "Spain",
-    "Sweden",
-    "Switzerland",
-    "Turkey",
-    "Ukraine",
-    "United Kingdom",
-    "Vatican City",];
+const countries = ['Belgium', 'Bulgaria', 'Czechia', 'Denmark', 'Estonia', 'Ireland', 'Greece', 'Spain', 'France', 'Croatia', 'Italy', 'Germany', 'European Union - 27 countries (from 2020)', 'European Union - 28 countries (2013-2020)', 'European Union - 27 countries (2007-2013)', 'Euro area - 19 countries  (from 2015)', 'Euro area - 18 countries (2014)', 'Cyprus', 'Latvia', 'Lithuania', 'Luxembourg', 'Hungary', 'Malta', 'Netherlands', 'Austria', 'Poland', 'Portugal', 'Romania', 'Slovenia', 'Slovakia', 'Finland', 'Sweden', 'Iceland', 'Norway', 'Switzerland', 'United Kingdom', 'North Macedonia', 'Serbia', 'Turkey'];
 
 function addCountriesInSelect() {
     let selectContainer = document.getElementById("country");
@@ -56,6 +7,25 @@ function addCountriesInSelect() {
         option.text = item;
         selectContainer.add(option);
     });
+}
+
+/**
+ * This functions returns the needed type for the createTable function
+ * @param jsonArray the array with the data
+ * @return {{tableColumns: string[], dataset}|{tableColumns: *[], dataset: *[]}} the correct json format
+ */
+function parseDataset(jsonArray) {
+    if (jsonArray.length > 0)
+        return {
+            tableColumns: Object.keys(jsonArray[0]),
+            dataset: jsonArray,
+        };
+    else {
+        return {
+            tableColumns: [],
+            dataset: [],
+        };
+    }
 }
 
 /**
@@ -152,18 +122,36 @@ async function createDataTable(contentOrigin) {
             break;
         }
         case "who": {
+            setCookie("dataset", contentOrigin);
             document.getElementById("addButton").style.display = "flex";
-            tableInformation = getWhoDatasetHTTPRequest();
-            modifyButton = 'Modify';
-            window.sessionStorage.setItem("deleteTable", "who_dataset");
-            window.sessionStorage.setItem("modifyValue", "who_dataset");
+            await getDatasetHTTPRequest().then(data => {
+                tableInformation = parseDataset(data);
+                if (tableInformation.dataset.length > 1) {
+                    deleteButton = 'Delete';
+                    modifyButton = 'Modify';
+                }
+                window.sessionStorage.setItem("deleteTable", "who_dataset");
+                window.sessionStorage.setItem("modifyValue", "who_dataset");
+
+            }).catch(fail => {
+                failMessage = fail;
+            });
             break;
         }
         default: {
+            setCookie("dataset", contentOrigin);
             document.getElementById("addButton").style.display = "flex";
-            tableInformation = getEurostatDatasetHTTPRequest();
-            window.sessionStorage.setItem("deleteTable", "eurostat_dataset");
-            window.sessionStorage.setItem("modifyValue", "who_dataset");
+            await getDatasetHTTPRequest().then(data => {
+                tableInformation = parseDataset(data);
+                if (tableInformation.dataset.length > 1) {
+                    deleteButton = 'Delete';
+                    modifyButton = 'Modify';
+                }
+                window.sessionStorage.setItem("deleteTable", "eurostat_dataset");
+                window.sessionStorage.setItem("modifyValue", "eurostat_dataset");
+            }).catch(fail => {
+                failMessage = fail;
+            });
             break;
         }
     }
@@ -210,8 +198,8 @@ async function createDataTable(contentOrigin) {
         if (deleteButton != null) {
             const button = document.createElement("button");
             button.classList.add("button");
-            button.innerHTML = modifyButton;
-            button.setAttribute("onclick", "modifyFunction(" + id + ",'" + contentOrigin + "')");
+            button.innerHTML = deleteButton;
+            button.setAttribute("onclick", "deleteFunction(" + id + ",'" + contentOrigin + "')");
             td.append(button);
         }
         if (modifyButton != null) {
