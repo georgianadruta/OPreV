@@ -41,3 +41,22 @@ function generateTable() {
         }
     }
 }
+
+/**
+ * helpful method to delete columns from table
+ */
+function deleteColumn() {
+    let tble = document.getElementById('tbl');
+    let row = tble.rows; // Getting the rows
+    for (let i = 0; i < row[0].cells.length; i++) {
+        // Getting the text of columnName
+        let str = row[0].cells[i].innerHTML;
+        // If 'Geek_id' matches with the columnName
+        if (str.search("2008") !== -1) {
+            for (let j = 0; j < row.length; j++) {
+                // Deleting the ith cell of each row
+                row[j].deleteCell(i);
+            }
+        }
+    }
+}
