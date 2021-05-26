@@ -106,18 +106,22 @@ async function createDataTable(contentOrigin) {
             }).catch(fail => {
                 failMessage = fail;
             });
+            document.getElementById("addButton").style.display = "none";
             break;
         }
         case "who": {
+            document.getElementById("addButton").style.display = "flex";
             tableInformation = getWhoDatasetHTTPRequest();
             extraButton = 'Modify';
             break;
         }
         default: {
+            document.getElementById("addButton").style.display = "flex";
             tableInformation = getEurostatDatasetHTTPRequest();
             break;
         }
     }
+
     document.getElementById("datasetPreview").innerHTML = '';
 
     if (failMessage !== null) {

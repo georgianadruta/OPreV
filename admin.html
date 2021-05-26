@@ -145,38 +145,12 @@
                 <button class="button" onclick="createDataTable('messages')">Contact messages</button>
             </div>
 
-            <div id="datasetPreview">
-                <table class="fl-table">
-                    <thead>
-                    <tr>
-                        <th>Header 1</th>
-                        <th>Header 2</th>
-                        <th>Header 3</th>
-                        <th>Header 4</th>
-                        <th class="manipulationButtonsHeader">Action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>Content 1</td>
-                        <td>Content 2</td>
-                        <td>Content 3</td>
-                        <td>Content 4</td>
-                        <td class="manipulationButtons">
-                            <button class="button">Modify</button>
-                            <button class="button">Delete</button>
-                        </td>
-                    </tr>
-                    <tbody>
-                </table>
-            </div>
+            <div id="datasetPreview"></div>
 
             <div id="dataManipulationButtons">
                 <ul class="dataButtonsList">
                     <li class="dataButton">
-                        <button class="button" onclick="showAddForm()">
-                            Add
-                        </button>
+                        <button class="button" id="addButton" onclick="showAddForm()">Add</button>
                     </li>
                 </ul>
             </div>
