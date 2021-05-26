@@ -36,6 +36,7 @@ function getCookie(cookieName) {
 }
 
 /**
+ * TODO Change the function. It's not random.
  * This method's purpose is to generate a random ID.
  * @returns {string} random UUID
  */

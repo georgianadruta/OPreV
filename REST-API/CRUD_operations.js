@@ -243,8 +243,8 @@ const addUserToLoggedUsersTable = function (jsonUser) {
 
 /**
  * This method checks if the token exists in the logged users table.
- * @param token the token to check existence of
  * @return Promise<> a promise
+ * @param token
  */
 const selectTokenFromLoggedUsersTable = function (token) {
     return new Promise(async (resolve, reject) => {
@@ -254,20 +254,19 @@ const selectTokenFromLoggedUsersTable = function (token) {
             if (err) {
                 console.log(err);
                 reject("Failed to connect to the database.");
-
             } else {
                 const sql = "SELECT token from " + table + " WHERE token='" + token + "'";
                 con.query(sql, function (err, result) {
                     if (err) {
-                        console.log("Failed to get " + token + " from logged users." + "\nREASON: " + err.sqlMessage);
-                        reject("Failed to add " + token + " from logged users.");
+                        console.log("Failed to select " + token + " from logged users." + "\nREASON: " + err.sqlMessage);
+                        reject("Failed to select " + token + " from logged users.");
                     } else {
                         if (result.length > 0) {
                             console.log("Found " + token + " in logged users.");
                             resolve(token);
                         } else {
                             console.log("There is no " + token + " in logged users.");
-                            reject("There is no " + token + " in logged users.");
+                            resolve("There is no " + token + " in logged users.");
                         }
                     }
                 });
