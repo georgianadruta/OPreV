@@ -5,14 +5,14 @@
  * @param expireMinutes an expiration date on minutes. Default no expiry date (session cookie)
  * @param path the path. Default all files ("/")
  */
-function setCookie(cookieName, cookieValue, expireMinutes = 0, path = "/") {
+function setCookie(cookieName, cookieValue, expireMinutes = null, path = "/") {
     let expires;
     if (expireMinutes != null) {
         const d = new Date();
         d.setTime(d.getTime() + (expireMinutes * 60 * 60 * 1000));
         expires = "expires=" + d.toUTCString();
     }
-    document.cookie = cookieName + "=" + cookieValue + ";" + expires + ';path=' + path;
+    document.cookie = cookieName + "=" + cookieValue + ";" + expires + ';path=' + path + ';';
 }
 
 /**
@@ -47,6 +47,7 @@ let generateRandomID = function () {
 };
 
 window.addEventListener("load", function () {
+    if (getCookie("dataset") == null) setCookie("dataset", "eurostat");
     if (getCookie('sessionID') == null) setCookie("sessionID", generateRandomID());
     if (getCookie('logged_in') == null) setCookie("logged_in", 'false');
 });

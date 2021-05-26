@@ -7,7 +7,6 @@ let currentYearCheckboxId = 0;
 function createYearsCheckboxes() {
     let years = getYearsFiltersHTTPRequest();
     const container = document.getElementById('yearsCheckboxContainer');
-
     container.innerHTML = '';//clear content
     for (let i = 0; i < years.length; i++) {
         const parent = document.createElement('div');
@@ -35,6 +34,7 @@ function createYearsCheckboxes() {
 
         container.appendChild(parent);
     }
+    window.localStorage.setItem('years', 'none');
 }
 
 /**
@@ -42,22 +42,24 @@ function createYearsCheckboxes() {
  */
 function selectAllYears() {
     let years = getYearsFiltersHTTPRequest();
+    let localStorageYears = String();
     //tick all boxes
     for (let i = 0; i < years.length; i++) {
         const checkbox = document.getElementById('year' + i);
         checkbox.type = 'checkbox';
         checkbox.checked = true;
+        localStorageYears += years[i] + ' ';
     }
-
+    localStorageYears = localStorageYears.slice(0, -1);
 
     const path = window.location.pathname;
     const page = path.split("/").pop();
     if (page === "chart_bar.html") {
         const chart = getBarChart();
-        //update bar chart configuration
+        //TODO update bar chart configuration
     } else {
         const tableData = getTableData();
-        //update table columns
+        //TODO update table columns
     }
 
     if (page === "chart_bar.html") {
@@ -68,7 +70,7 @@ function selectAllYears() {
     }
 
     removedYearsIds = [];
-    window.localStorage.setItem("years","all");
+    window.localStorage.setItem("years", localStorageYears);
 }
 
 /**
@@ -97,7 +99,7 @@ function deselectAllYears() {
         }
         removedYearsIds = [...Array(years.length).keys()];
     }
-    window.localStorage.setItem("years","none");
+    window.localStorage.setItem("years", "none");
 }
 
 /**
@@ -132,6 +134,13 @@ function addOrRemoveYearFromChart(id) {
  */
 function addYearToActiveYearsByID(id) {
     //TODO
+    let year = getYearsFiltersHTTPRequest()[id];
+    let delimiter = ' ';
+    if (window.localStorage.getItem("years").search("none") !== -1) {
+        window.localStorage.setItem("years", '');
+        delimiter = '';
+    }
+    window.localStorage.setItem("years", window.localStorage.getItem("years") + delimiter + year);
 }
 
 /**
@@ -140,8 +149,10 @@ function addYearToActiveYearsByID(id) {
  */
 function removeYearFromActiveYearsByID(id) {
     //TODO
+    let year = getYearsFiltersHTTPRequest()[id];
+    window.localStorage.setItem("years", window.localStorage.getItem("years").replaceAll(year, ''));
+    window.localStorage.setItem("years", window.localStorage.getItem("years").replaceAll("  ", ' '));
+    const regExp = /(\s*[0-9]+\s*)+/g;
+    if (regExp.test(window.localStorage.getItem("years")) === false)
+        window.localStorage.setItem("years", "none");
 }
-
-window.addEventListener("load", function () {
-    createYearsCheckboxes();
-});

@@ -42,6 +42,7 @@ function createCountriesCheckboxes() {
 
         container.appendChild(parent);
     }
+    window.localStorage.setItem('countries', 'none')
 }
 
 /**
@@ -49,12 +50,15 @@ function createCountriesCheckboxes() {
  */
 function selectAllCountries() {
     setDatasetLabels(getLabelsHTTPRequest());
+    let localStorageCountries = String();
     let labels = getDatasetLabels();
     for (let i = 0; i < labels.length; i++) {
         const checkbox = document.getElementById('country' + i);
         checkbox.type = 'checkbox';
         checkbox.checked = true;
+        localStorageCountries += labels[i] + ' ';
     }
+    localStorageCountries = localStorageCountries.slice(0, -1);
     setDatasetData(getDatasetDataHTTPRequest());
     const path = window.location.pathname;
     const page = path.split("/").pop();
@@ -80,7 +84,7 @@ function selectAllCountries() {
     }
 
     removeCountryIds = [];
-    window.localStorage.setItem("countries","all");
+    window.localStorage.setItem("countries", localStorageCountries);
 }
 
 /**
@@ -109,7 +113,7 @@ function deselectAllCountries() {
         }
         removeCountryIds = [...Array(labels.length).keys()];
     }
-    window.localStorage.setItem("countries","none");
+    window.localStorage.setItem("countries", "none");
 }
 
 /**
@@ -149,6 +153,12 @@ function addDataToDatasetByCountryID(id) {
     let newLabels = getDatasetLabels();
     if (newLabels == null) newLabels = Array();
     newLabels.push(labels[id]);
+    let delimiter = ' ';
+    if (window.localStorage.getItem("countries").search("none") !== -1) {
+        window.localStorage.setItem("countries", '');
+        delimiter = '';
+    }
+    window.localStorage.setItem("countries", window.localStorage.getItem("countries") + delimiter + labels[id]);
 
     let newData = getDatasetData();
     //if datasetData is empty make datasetData.length arrays
@@ -175,7 +185,11 @@ function removeDataToDatasetByCountryID(id) {
     let newLabels = getDatasetLabels();
     let index = newLabels.indexOf(country);//delete it
     newLabels.splice(index, 1);
-
+    window.localStorage.setItem("countries", window.localStorage.getItem("countries").replaceAll(country, ''));
+    window.localStorage.setItem("countries", window.localStorage.getItem("countries").replaceAll("  ", ' '));
+    const regExp = /(\s*[a-zA-Z]+\s*)+/g;
+    if (regExp.test(window.localStorage.getItem("countries")) === false)
+        window.localStorage.setItem("countries", "none");
     let newData = getDatasetData();
     //for each element add corresponding data
     for (let i = 0; i < newData.length; i++) {
