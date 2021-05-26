@@ -1,3 +1,8 @@
+/**
+ * This methods returns a new connection to mySQL database
+ * @param cookie in cookie.database we specify which database to connect to.
+ * @return {Connection} a new Connection
+ */
 function getConnection(cookie) {
     const mysql = require('mysql');
     return mysql.createConnection({
@@ -7,76 +12,6 @@ function getConnection(cookie) {
         database: cookie.database
     });
 }
-
-function addObjectByJsonString(jsonObjectAsString, cookie) {
-    let con = getConnection(cookie);
-    const table = cookie.databaseTable;
-    try {
-        con.connect(function (err) {
-            if (err) throw err;
-
-            const jsonObject = JSON.parse(jsonObjectAsString);
-            const sql = "INSERT INTO " + table + " VALUES (" + jsonObject.id + ",'" + jsonObject.name + "');";
-
-            con.query(sql, function (err, result) {
-                if (err) {
-                    console.log("Failed to add " + jsonObjectAsString + " to database.");
-                    throw err;
-                }
-                console.log("Added " + jsonObjectAsString + " to database.");
-            });
-        });
-    } catch (error) {
-        console.error(error);
-    }
-}
-
-const deleteObjectByID = function (jsonObjectAsString, cookie) {
-    let con = getConnection(cookie);
-    const table = cookie.databaseTable;
-    try {
-        con.connect(function (err) {
-            if (err) throw err;
-            console.log("Connected to mysql database.");
-
-            const jsonObject = JSON.parse(jsonObjectAsString);
-
-            const sql = "DELETE FROM ? WHERE";//TODO CHANGE QUERY
-            con.query(sql, function (err, result) {
-                if (err) {
-                    console.log("Failed to delete " + jsonObjectAsString + " from the database.");
-                    throw err;
-                }
-                console.log("Deleted " + jsonObjectAsString + " from the database.");
-            });
-        });
-    } catch (error) {
-        console.error(error);
-    }
-};
-
-const updateObjectByID = function (jsonObjectAsString, cookie) {
-    let con = getConnection(cookie);
-    const table = cookie.databaseTable;
-    try {
-        con.connect(function (err) {
-            if (err) throw err;
-            console.log("Connected to mysql database.");
-
-            const jsonObject = JSON.parse(jsonObjectAsString);
-            const sql = "UPDATE .... SET ... = '...' WHERE .... = '...'";//TODO CHANGE QUERY
-            con.query(sql, function (err, result) {
-                if (err) {
-                    console.log("Failed to add " + jsonObjectAsString + " to database.");
-                    throw err;
-                }
-                console.log("Added " + jsonObjectAsString + " to database.");
-            });
-        });
-    } catch (error) {
-        console.error(error);
-    }
-};
 
 /**
  * This method returns the hashed version of the password of the user if it exists in the database.
@@ -343,6 +278,39 @@ const getContactMessagesFromContactMessagesTable = function () {
     })
 }
 
+/**
+ * This method deletes any record from any table by ID
+ * @param database the database
+ * @param tableName
+ * @param ID the id of which to delete
+ * @returns {Promise<>} a new promise
+ */
+const deleteFromTableByID = function (database, tableName, ID) {
+    return new Promise((resolve, reject) => {
+        let con = getConnection({database: database})
+        const table = tableName;
+        con.connect(function (err) {
+            if (err) {
+                console.log(err);
+                reject("Failed to connect to the database.");
+
+            } else {
+                const sql = "DELETE FROM " + table + " WHERE id='" + ID + "';";
+                con.query(sql, function (err) {
+                    if (err) {
+                        console.log("Failed to delete " + ID + " from " + table + "." + "\nREASON: " + err.sqlMessage);
+                        reject("Failed to delete " + ID + " from " + table + ".");
+                    } else {
+                        console.log("Deleted " + ID + " from " + table + ".");
+                        resolve("Deleted " + ID + " from " + table + ".");
+                    }
+                });
+            }
+        });
+    })
+}
+
+module.exports.deleteFromTableByID = deleteFromTableByID;
 module.exports.getContactMessagesFromContactMessagesTable = getContactMessagesFromContactMessagesTable;
 module.exports.addContactMessageToContactMessagesTable = addContactMessageToContactMessagesTable;
 module.exports.selectTokenFromLoggedUsersTable = selectTokenFromLoggedUsersTable;

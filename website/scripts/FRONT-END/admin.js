@@ -93,12 +93,38 @@ function hideAddForm() {
     alert("Sent data to the server!")
 }
 
-function deleteFunction(id) {
-    createDataTable();
+/**
+ * Method that calls HTTP DELETE request with the given id
+ * @param id the id to be deleted
+ * @param contentOrigin the table to refresh
+ */
+async function deleteFunction(id, contentOrigin) {
+    let jsonObject = {
+        "id": id,
+    };
+    try {
+        alert(await deleteDataFromAdminPageHTTPRequest(jsonObject));
+    } catch (err) {
+        alert(err);
+    }
+    await createDataTable(contentOrigin);
 }
 
-function modifyFunction(id) {
-    createDataTable();
+/**
+ * Method that calls HTTP POST request to modify some data at the given id
+ * @param id the id to be modified
+ * @param contentOrigin the table to refresh
+ */
+async function modifyFunction(id, contentOrigin) {
+    let jsonObject = {
+        "id": id,
+    };
+    try {
+        alert(await modifyDataFromAdminPageHTTPRequest(jsonObject));
+    } catch (err) {
+        alert(err);
+    }
+    await createDataTable(contentOrigin);
 }
 
 /**
@@ -111,12 +137,14 @@ async function createDataTable(contentOrigin) {
 
     let tableInformation;
     let failMessage = null;
-    let extraButton = null;
+    let deleteButton = null;
+    let modifyButton = null;
     switch (contentOrigin) {
         case "messages": {
             await getContactMessagesDatasetHTTPRequest().then(data => {
                 tableInformation = data;
-                window.sessionStorage.setItem("deleteValue", "contact_messages");
+                if (tableInformation.dataset.length > 1) deleteButton = 'Delete';
+                window.sessionStorage.setItem("deleteTable", "contact_messages");
             }).catch(fail => {
                 failMessage = fail;
             });
@@ -126,15 +154,15 @@ async function createDataTable(contentOrigin) {
         case "who": {
             document.getElementById("addButton").style.display = "flex";
             tableInformation = getWhoDatasetHTTPRequest();
-            extraButton = 'Modify';
-            window.sessionStorage.setItem("deleteValue", "who_dataset");
+            modifyButton = 'Modify';
+            window.sessionStorage.setItem("deleteTable", "who_dataset");
             window.sessionStorage.setItem("modifyValue", "who_dataset");
             break;
         }
         default: {
             document.getElementById("addButton").style.display = "flex";
             tableInformation = getEurostatDatasetHTTPRequest();
-            window.sessionStorage.setItem("deleteValue", "eurostat_dataset");
+            window.sessionStorage.setItem("deleteTable", "eurostat_dataset");
             window.sessionStorage.setItem("modifyValue", "who_dataset");
             break;
         }
@@ -179,17 +207,19 @@ async function createDataTable(contentOrigin) {
         })
         const td = document.createElement("td");
         td.classList.add("manipulationButtons");
-        const button1 = document.createElement("button");
-        button1.classList.add("button");
-        button1.innerHTML = "Delete";
-        button1.setAttribute("onclick", "deleteFunction(" + id + ')');
-        td.append(button1);
-        if (extraButton != null) {
-            const button2 = document.createElement("button");
-            button2.classList.add("button");
-            button2.innerHTML = extraButton;
-            button2.setAttribute("onclick", "modifyFunction(" + id + ')');
-            td.append(button2);
+        if (deleteButton != null) {
+            const button = document.createElement("button");
+            button.classList.add("button");
+            button.innerHTML = modifyButton;
+            button.setAttribute("onclick", "modifyFunction(" + id + ",'" + contentOrigin + "')");
+            td.append(button);
+        }
+        if (modifyButton != null) {
+            const button = document.createElement("button");
+            button.classList.add("button");
+            button.innerHTML = modifyButton;
+            button.setAttribute("onclick", "modifyFunction(" + id + ",'" + contentOrigin + "')");
+            td.append(button);
         }
         trow.append(td);
     })

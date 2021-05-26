@@ -97,6 +97,93 @@ function getRegionsFiltersHTTPRequest() {
 
 
 /**
+ *  * This method is responsible for the HTTP DELETE request to delete a certain message by ID.
+ * @return {Promise<>}
+ */
+async function deleteDataFromAdminPageHTTPRequest(jsonObject) {
+    return await new Promise((resolve, reject) => {
+        const HTTP = new XMLHttpRequest();
+        let url;
+        switch (window.sessionStorage.getItem('deleteTable')) {
+            case "contact_messages": {
+                url = "/contact/messages";
+                break;
+            }
+            case"who_dataset": {
+                url = "/dataset/who";
+                break;
+            }
+            case"eurostat_dataset": {
+                url = "/dataset/eurostat";
+                break;
+            }
+            default: {
+                reject("Failed. Invalid table selected.");
+                return;
+            }
+        }
+        HTTP.onreadystatechange = () => {
+            if (HTTP.readyState === HTTP.DONE) {
+                if (HTTP.status >= 400) {
+                    reject("Failed DELETE request");
+                } else {
+                    if (HTTP.responseText === "User is not logged.") {
+                        reject(HTTP.responseText);
+                        return;
+                    }
+                    resolve(HTTP.responseText);
+                }
+            }
+        }
+        HTTP.open("DELETE", url);
+        HTTP.setRequestHeader("Cookies", document.cookie);
+        HTTP.send(JSON.stringify(jsonObject));
+    })
+
+}
+
+/**
+ *  * This method is responsible for the HTTP POST request to delete a certain message by ID.
+ * @return {Promise<>}
+ */
+async function modifyDataFromAdminPageHTTPRequest(id) {
+    return await new Promise((resolve, reject) => {
+        const HTTP = new XMLHttpRequest();
+        const url = "/contact/messages";
+
+        HTTP.onreadystatechange = () => {
+            if (HTTP.readyState === HTTP.DONE) {
+                if (HTTP.status >= 400) {
+                } else {
+                    if (HTTP.responseText === "User is not logged.") {
+                        reject(HTTP.responseText);
+                        return;
+                    }
+                    let jsonArray = JSON.parse(HTTP.responseText);
+                    if (jsonArray.length > 0)
+                        resolve({
+                            tableColumns: Object.keys(jsonArray[0]),
+                            dataset: jsonArray,
+                        });
+                    else {
+                        resolve({
+                            tableColumns: ["Server messages"],
+                            dataset: ["No new messages"],
+                        });
+                    }
+                }
+            }
+
+        }
+        HTTP.open("GET", url);
+        HTTP.setRequestHeader("Cookies", document.cookie);
+        HTTP.send();
+    })
+
+}
+
+
+/**
  *  * This method is responsible for the HTTP GET request to receive the contact messages.
  * @return {Promise<>}
  */
@@ -121,8 +208,8 @@ async function getContactMessagesDatasetHTTPRequest() {
                         });
                     else {
                         resolve({
-                            tableColumns: ["Server messages"],
-                            dataset: ["No new messages"],
+                            tableColumns: ["server_messages"],
+                            dataset: [{server_messages: "No new messages"}],
                         });
                     }
                 }
