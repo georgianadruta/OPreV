@@ -97,15 +97,37 @@ function getRegionsFiltersHTTPRequest() {
 
 
 /**
- * TODO
  * This method is responsible for the HTTP GET request to receive the contact messages.
  * @return {{tableColumns: string[], dataset: [{phoneNumber: string, fullName: string, message: string, email: string}, {phoneNumber: string, fullName: string, message: string, email: string}]}}
  */
 function getContactMessagesDatasetHTTPRequest() {
+
+    const HTTP = new XMLHttpRequest();
+    const url = "/contact/messages";
+    HTTP.onreadystatechange = () => {
+        if (HTTP.readyState === HTTP.DONE) {
+            if (HTTP.status >= 400) {
+                console.log(HTTP.status, "ERROR")
+            } else {
+                console.log(HTTP.responseText);
+            }
+        }
+
+    }
+    HTTP.open("GET", url);
+    HTTP.setRequestHeader("Cookies", document.cookie);
+    HTTP.send();
+
+
     return {
         tableColumns: ["Full Name", "Email", "Phone number", "Message"],
         dataset: [
-            {fullName: 'dani', email: "123@yahoo.com", phoneNumber: '+072435', message: 'ilSalut fratilSaluilSalut fratilSilSalut f'},
+            {
+                fullName: 'dani',
+                email: "123@yahoo.com",
+                phoneNumber: '+072435',
+                message: 'ilSalut fratilSaluilSalut fratilSilSalut f'
+            },
             {fullName: 'andrei', email: "andutzu7777@yahoo.com", phoneNumber: '+0232732452', message: 'Sal boss'}
         ]
     };
