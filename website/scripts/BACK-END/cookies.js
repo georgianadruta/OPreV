@@ -3,15 +3,16 @@
  * @param cookieName the name of the cookie
  * @param cookieValue the value of the cooke
  * @param expireMinutes an expiration date on minutes. Default no expiry date (session cookie)
+ * @param path the path. Default all files ("/")
  */
-function setCookie(cookieName, cookieValue, expireMinutes = 1) {
+function setCookie(cookieName, cookieValue, expireMinutes = 0, path = "/") {
     let expires;
     if (expireMinutes != null) {
         const d = new Date();
         d.setTime(d.getTime() + (expireMinutes * 60 * 60 * 1000));
         expires = "expires=" + d.toUTCString();
     }
-    document.cookie = cookieName + "=" + cookieValue + ";" + expires + ';path=/';
+    document.cookie = cookieName + "=" + cookieValue + ";" + expires + ';path=' + path;
 }
 
 /**
