@@ -17,7 +17,7 @@ function tweakLib() {
     C2S.prototype.addEventListener = function (type, listener, eventListenerOptions) {
         console.log("canvas2svg.addEventListener() not implemented.")
     }
-};
+}
 
 function download_svg_file(elementID) {
 

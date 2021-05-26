@@ -65,7 +65,7 @@ const updateObjectByID = function (jsonObjectAsString, cookie) {
 
             const jsonObject = JSON.parse(jsonObjectAsString);
             const sql = "UPDATE .... SET ... = '...' WHERE .... = '...'";//TODO CHANGE QUERY
-            con.query(sql, function (err) {
+            con.query(sql, function (err, result) {
                 if (err) {
                     console.log("Failed to add " + jsonObjectAsString + " to database.");
                     throw err;

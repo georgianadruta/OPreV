@@ -15,6 +15,7 @@ const mimeTypes = {
 /**
  * TODO IMPLEMENTATION
  * @param response
+ * @param cookie
  */
 let hardcoded_response = function (response, cookie) {
     const responseBody = 'Dataset request accepted.';

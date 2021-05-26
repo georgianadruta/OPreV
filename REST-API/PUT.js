@@ -69,7 +69,7 @@ let checkContactMatches = function (fullName, email, phone, message) {
         return false;
     }
 
-    let phoneRegex = /^([+]{1})?[0-9]+$/;
+    let phoneRegex = /^([+])?[0-9]+$/;
     if (phoneRegex.test(phone) === false) {
         return false;
     }
