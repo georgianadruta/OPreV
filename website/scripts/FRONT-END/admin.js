@@ -93,10 +93,12 @@ function hideAddForm() {
     alert("Sent data to the server!")
 }
 
-function deleteFunction() {
+function deleteFunction(id) {
+    createDataTable();
 }
 
-function modifyFunction() {
+function modifyFunction(id) {
+    createDataTable();
 }
 
 /**
@@ -168,9 +170,11 @@ async function createDataTable(contentOrigin) {
     tableDataset.forEach(item => {
         trow = document.createElement("tr");
         tbody.append(trow);
+        let id;
         Object.keys(item).forEach(function (key) {
             const td = document.createElement("td");
             td.innerHTML = item[key];
+            if (key.toString().toLowerCase() === "id") id = item[key];
             trow.append(td);
         })
         const td = document.createElement("td");
@@ -178,13 +182,13 @@ async function createDataTable(contentOrigin) {
         const button1 = document.createElement("button");
         button1.classList.add("button");
         button1.innerHTML = "Delete";
-        // button1.setAttribute("onclick", "deleteFunction(" + value + ')');
+        button1.setAttribute("onclick", "deleteFunction(" + id + ')');
         td.append(button1);
         if (extraButton != null) {
             const button2 = document.createElement("button");
             button2.classList.add("button");
             button2.innerHTML = extraButton;
-            // button2.setAttribute("onclick", "modifyFunction(" + value + ')');
+            button2.setAttribute("onclick", "modifyFunction(" + id + ')');
             td.append(button2);
         }
         trow.append(td);

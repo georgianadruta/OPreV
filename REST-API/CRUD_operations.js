@@ -305,6 +305,10 @@ const selectTokenFromLoggedUsersTable = function (token) {
     });
 }
 
+/**
+ * This method is responsible for getting all contact messages from the contact messages table.
+ * @return {Promise<>}
+ */
 const getContactMessagesFromContactMessagesTable = function () {
     return new Promise((resolve, reject) => {
         let con = getConnection({database: "contact"})
@@ -314,7 +318,7 @@ const getContactMessagesFromContactMessagesTable = function () {
                 console.log(err);
                 reject("Failed to connect to the database.");
             } else {
-                const sql = "SELECT fullName,email,phoneNumber,message FROM " + table;
+                const sql = "SELECT ID,fullName,email,phoneNumber,message FROM " + table;
                 con.query(sql, function (err, results, fields) {
                     if (err) {
                         reject("Failed select all from contact messages table.");
@@ -323,6 +327,7 @@ const getContactMessagesFromContactMessagesTable = function () {
                         results.forEach(rowPacketObject => {
                                 jsonArray.push(
                                     {
+                                        "id": rowPacketObject.ID,
                                         "fullName": rowPacketObject.fullName,
                                         "email": rowPacketObject.email,
                                         "phoneNumber": rowPacketObject.phoneNumber,
