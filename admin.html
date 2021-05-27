@@ -155,51 +155,76 @@
                 </ul>
             </div>
         </div>
+
         <div class="dataManipulationContainer" id="dataManipulationForm">
-            <h1 id="addValues">Add BMI in the database</h1>
-            <ul class="dataManipulationList">
-                <li class="countryInput">
-                    <label>Country:</label>
-                    <label for="country"></label
-                    ><select id="country" name="country"></select>
-                </li>
-                <li class="BMI">
-                    <label for="BMI"></label
-                    ><input
-                        type="number"
-                        id="BMI"
-                        name="BMI"
-                        required
-                        placeholder="BMI"
-                />
-                </li>
-                <li class="year">
-                    <label for="year"></label
-                    ><input
-                        type="number"
-                        id="year"
-                        name="year"
-                        required
-                        placeholder="Choose the year"
-                />
-                </li>
-                <li class="datasetInput">
-                    <label>Choose the dataset:</label>
-                    <label for="dataset"></label>
-                    <select id="dataset" name="dataset">
-                        <option value="dataset_eurostat">EuroStat dataset</option>
-                        <option value="dataset_who">Who.it dataset</option>
-                    </select>
-                </li>
-                <li class="finishButtons">
-                    <input
-                            onclick="addData()"
-                            id="sendButton"
-                            class="btn-lrg submit-btn"
-                            type="submit"
+
+            <div id="addFormContainer">
+                <h1 id="addValues">Add BMI in the database</h1>
+                <ul class="dataManipulationList">
+                    <li class="countryInput">
+                        <label>Country:</label>
+                        <label for="country"></label
+                        ><select id="country" name="country"></select>
+                    </li>
+                    <li class="BMI">
+                        <label for="BMI"></label
+                        ><input
+                            type="number"
+                            id="BMI"
+                            name="BMI"
+                            required
+                            placeholder="BMI"
                     />
-                </li>
-            </ul>
+                    </li>
+                    <li class="year">
+                        <label for="year"></label
+                        ><input
+                            type="number"
+                            id="year"
+                            name="year"
+                            required
+                            placeholder="Choose the year"
+                    />
+                    </li>
+                    <li class="datasetInput">
+                        <label>Choose the dataset:</label>
+                        <label for="dataset"></label>
+                        <select id="dataset" name="dataset">
+                            <option value="dataset_eurostat">EuroStat dataset</option>
+                            <option value="dataset_who">Who.it dataset</option>
+                        </select>
+                    </li>
+                    <li class="finishButtons">
+                        <input
+                                onclick="addData()"
+                                id="sendButton"
+                                class="btn-lrg submit-btn"
+                                type="submit"
+                        />
+                    </li>
+                </ul>
+            </div>
+
+            <div id="modifyFormContainer">
+                <h1 id="modifyValues">Modify BMI:</h1>
+                <ul class="dataManipulationList">
+                    <li class="countryInput">
+                        Country:
+                    </li>
+                    <li class="BMI">
+                        Current BMI:
+                    </li>
+                    <li class="year">
+                        Current Year:
+                    </li>
+                    <li class="finishButtons">
+                        <button onclick="modifyData()" id="modifyButton" class="btn-lrg submit-btn"
+                                type="submit">Send
+                        </button>
+                    </li>
+                </ul>
+            </div>
+
         </div>
     </div>
 </main>

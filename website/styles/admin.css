@@ -46,8 +46,14 @@
     padding-bottom: 100px;
 }
 
-.dataManipulationContainer {
+#addFormContainer, #modifyFormContainer {
     display: none;
+    flex-direction: column;
+    align-items: center;
+}
+
+.dataManipulationContainer {
+    display: flex;
 }
 
 .dataManipulationContainer h1 {

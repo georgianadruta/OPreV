@@ -54,17 +54,34 @@ function changePreviewDataset() {
  * This method is responsible for showing the form after pressing the Add button
  */
 function showAddForm() {
-    document.getElementById("dataManipulationForm").style.display = "block";
-    document.getElementById("addValues").style.display = "block";
+    hideModifyForm();
+    document.getElementById("addFormContainer").style.display = "flex";
+    document.getElementById("addValues").style.display = "flex";
 }
 
 /**
  * This method is responsible for hiding the form after finishing the http PUT request.
  */
 function hideAddForm() {
-    document.getElementById("dataManipulationForm").style.display = "none";
+    document.getElementById("addFormContainer").style.display = "none";
     document.getElementById("addValues").style.display = "none";
-    alert("Sent data to the server!")
+}
+
+/**
+ * This method is responsible for showing the form after pressing the Modify button
+ */
+function showModifyForm() {
+    hideAddForm();
+    document.getElementById("modifyFormContainer").style.display = "flex";
+    document.getElementById("modifyValues").style.display = "flex";
+}
+
+/**
+ * This method is responsible for hiding the form after finishing the http POST request.
+ */
+function hideModifyForm() {
+    document.getElementById("modifyFormContainer").style.display = "none";
+    document.getElementById("modifyValues").style.display = "none";
 }
 
 /**
@@ -85,19 +102,36 @@ async function deleteFunction(id, contentOrigin) {
 }
 
 /**
- * Method that calls HTTP POST request to modify some data at the given id
+ * This method shows a form where the user can insert the new BMI value for the selected field.
  * @param id the id to be modified
  * @param contentOrigin the table to refresh
  */
 async function modifyFunction(id, contentOrigin) {
+    window.sessionStorage.setItem("id", id);
+    window.sessionStorage.setItem("contentOrigin", contentOrigin);
+    showModifyForm();
+}
+
+/**
+ * Method that calls HTTP POST request to modify some data at the given id
+ * @return {Promise<void>} unused
+ */
+async function modifyData() {
+    let id = window.sessionStorage.getItem("id")
+    let contentOrigin = window.sessionStorage.getItem("contentOrigin");
+    let newBMI = 1;
+    // document.querySelector("").value;
     let jsonObject = {
         "id": id,
+        "newBMI": newBMI,
     };
     try {
-        alert(await modifyDataFromAdminPageHTTPRequest(jsonObject));
+        // alert(await modifyDataFromAdminPageHTTPRequest(jsonObject));
     } catch (err) {
-        alert(err);
+        // alert(err);
     }
+    hideModifyForm();
+    alert("Sent data to the server!")
     await createDataTable(contentOrigin);
 }
 
