@@ -24,8 +24,8 @@ function parseDataset(jsonArray) {
         };
     else {
         return {
-            tableColumns: [],
-            dataset: [],
+            tableColumns: ["server_messages"],
+            dataset: [{server_messages: "No data."}],
             deleteButton: false,
             modifyButton: false,
         };
@@ -115,10 +115,8 @@ async function createDataTable(contentOrigin) {
         case "messages": {
             await getContactMessagesDatasetHTTPRequest().then(data => {
                 tableInformation = data;
-
-                tableInformation.tableColumns[0] === "server_messages" ? tableInformation.delete = false : tableInformation.delete = false;
-                tableInformation.delete = false;
-                tableInformation.modify = false;
+                tableInformation.modifyButton = false;
+                tableInformation.tableColumns[0] === "server_messages" ? tableInformation.deleteButton = false : tableInformation.deleteButton = true;
                 window.sessionStorage.setItem("deleteTable", "contact_messages");
             }).catch(fail => {
                 failMessage = fail;
@@ -174,7 +172,7 @@ async function createDataTable(contentOrigin) {
         th.innerHTML = columnName;
         thead.append(th);
     })
-    if (tableInformation.delete !== false || tableInformation.modify !== false) {
+    if (tableInformation.deleteButton !== false || tableInformation.modifyButton !== false) {
         const th = document.createElement('th');
         th.innerHTML = 'Action';
         thead.append(th);
@@ -194,14 +192,14 @@ async function createDataTable(contentOrigin) {
         })
         const td = document.createElement("td");
         td.classList.add("manipulationButtons");
-        if (tableInformation.delete === true) {
+        if (tableInformation.deleteButton === true) {
             const button = document.createElement("button");
             button.classList.add("button");
             button.innerHTML = 'Delete';
             button.setAttribute("onclick", "deleteFunction(" + id + ",'" + contentOrigin + "')");
             td.append(button);
         }
-        if (tableInformation.modify === true) {
+        if (tableInformation.modifyButton === true) {
             const button = document.createElement("button");
             button.classList.add("button");
             button.innerHTML = 'Modify';

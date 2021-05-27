@@ -213,7 +213,6 @@ async function getDatasetHTTPRequest(filters = null) {
                     reject();
                 } else {
                     let data = JSON.parse(HTTP.responseText);
-                    console.log(data);
                     resolve(data);
                 }
             }
