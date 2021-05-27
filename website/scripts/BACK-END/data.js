@@ -120,7 +120,7 @@ async function deleteDataFromAdminPageHTTPRequest(jsonObject) {
  *  * This method is responsible for the HTTP POST request to delete a certain message by ID.
  * @return {Promise<>}
  */
-async function modifyDataFromAdminPageHTTPRequest(id) {
+async function modifyDataFromAdminPageHTTPRequest(jsonObject) {
     return await new Promise((resolve, reject) => {
         const HTTP = new XMLHttpRequest();
         const url = "/contact/messages";
@@ -128,30 +128,20 @@ async function modifyDataFromAdminPageHTTPRequest(id) {
         HTTP.onreadystatechange = () => {
             if (HTTP.readyState === HTTP.DONE) {
                 if (HTTP.status >= 400) {
+                    console.error(HTTP.responseText);
+                    reject("Fail")
                 } else {
-                    if (HTTP.responseText === "User is not logged.") {
-                        reject(HTTP.responseText);
-                        return;
-                    }
-                    let jsonArray = JSON.parse(HTTP.responseText);
-                    if (jsonArray.length > 0)
-                        resolve({
-                            tableColumns: Object.keys(jsonArray[0]),
-                            dataset: jsonArray,
-                        });
-                    else {
-                        resolve({
-                            tableColumns: ["Server messages"],
-                            dataset: ["No new messages"],
-                        });
-                    }
+                    if (HTTP.responseText === "Success")
+                        resolve();
+                    else
+                        reject();
                 }
             }
 
         }
-        HTTP.open("GET", url);
+        HTTP.open("POST", url);
         HTTP.setRequestHeader("Cookies", document.cookie);
-        HTTP.send();
+        HTTP.send(JSON.stringify(jsonObject));
     })
 
 }

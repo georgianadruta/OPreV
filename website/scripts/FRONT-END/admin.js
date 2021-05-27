@@ -54,17 +54,67 @@ function changePreviewDataset() {
  * This method is responsible for showing the form after pressing the Add button
  */
 function showAddForm() {
-    document.getElementById("dataManipulationForm").style.display = "block";
-    document.getElementById("addValues").style.display = "block";
+    hideModifyForm();
+    document.getElementById("addFormContainer").style.display = "flex";
+    document.getElementById("addValues").style.display = "flex";
 }
 
 /**
  * This method is responsible for hiding the form after finishing the http PUT request.
  */
 function hideAddForm() {
-    document.getElementById("dataManipulationForm").style.display = "none";
+    document.getElementById("addFormContainer").style.display = "none";
     document.getElementById("addValues").style.display = "none";
-    alert("Sent data to the server!")
+}
+
+/**
+ * This method is responsible for showing the form after pressing the Modify button
+ */
+function showModifyForm() {
+    hideAddForm();
+    document.getElementById("modifyFormContainer").style.display = "flex";
+    document.getElementById("modifyValues").style.display = "flex";
+    let id = window.sessionStorage.getItem("id");
+    let children = document.getElementById("trow" + id).children;
+    let country = children[1].textContent;
+    let year = children[2].textContent;
+    let BMI = children[3].textContent;
+
+    document.getElementById("modifyCountry").innerHTML = '';
+    document.getElementById("modifyBmi").innerHTML = '';
+    document.getElementById("modifyYear").innerHTML = '';
+
+    let countryLabel = document.createElement("span");
+    countryLabel.textContent = "Country: ";
+    let yearLabel = document.createElement("span");
+    yearLabel.textContent = "Year: ";
+    let BMILabel = document.createElement("span");
+    BMILabel.textContent = "Current BMI: ";
+
+    let countryIndicator = document.createElement("span");
+    countryIndicator.style.fontSize = "20px"
+    countryIndicator.style.marginLeft = "25px";
+    countryIndicator.textContent = country;
+    let yearIndicator = document.createElement("span");
+    yearIndicator.style.fontSize = "30px"
+    yearIndicator.style.marginLeft = "25px";
+    yearIndicator.textContent = year;
+    let BMIIndicator = document.createElement("span");
+    BMIIndicator.style.fontSize = "40px"
+    BMIIndicator.style.marginLeft = "25px";
+    BMIIndicator.textContent = BMI;
+
+    document.getElementById("modifyCountry").append(countryLabel, countryIndicator);
+    document.getElementById("modifyBmi").append(yearLabel, yearIndicator);
+    document.getElementById("modifyYear").append(BMILabel, BMIIndicator);
+}
+
+/**
+ * This method is responsible for hiding the form after finishing the http POST request.
+ */
+function hideModifyForm() {
+    document.getElementById("modifyFormContainer").style.display = "none";
+    document.getElementById("modifyValues").style.display = "none";
 }
 
 /**
@@ -85,19 +135,34 @@ async function deleteFunction(id, contentOrigin) {
 }
 
 /**
- * Method that calls HTTP POST request to modify some data at the given id
+ * This method shows a form where the user can insert the new BMI value for the selected field.
  * @param id the id to be modified
  * @param contentOrigin the table to refresh
  */
 async function modifyFunction(id, contentOrigin) {
+    window.sessionStorage.setItem("id", id);
+    window.sessionStorage.setItem("contentOrigin", contentOrigin);
+    showModifyForm();
+}
+
+/**
+ * Method that calls HTTP POST request to modify some data at the given id
+ * @return {Promise<void>} unused
+ */
+async function modifyData() {
+    let id = window.sessionStorage.getItem("id")
+    let contentOrigin = window.sessionStorage.getItem("contentOrigin");
+    let newBMI = document.querySelector("#newBMI").value;
     let jsonObject = {
         "id": id,
+        "newBMI": newBMI,
     };
     try {
         alert(await modifyDataFromAdminPageHTTPRequest(jsonObject));
     } catch (err) {
         alert(err);
     }
+    hideModifyForm();
     await createDataTable(contentOrigin);
 }
 
@@ -187,7 +252,10 @@ async function createDataTable(contentOrigin) {
         Object.keys(item).forEach(function (key) {
             const td = document.createElement("td");
             td.innerHTML = item[key];
-            if (key.toString().toLowerCase() === "id") id = item[key];
+            if (key.toString().toLowerCase() === "id") {
+                id = item[key];
+                trow.id = "trow" + id;
+            }
             trow.append(td);
         })
         const td = document.createElement("td");
