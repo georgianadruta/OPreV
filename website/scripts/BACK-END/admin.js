@@ -99,16 +99,16 @@ function addData() {
 /**
  * This functions returns the needed type for the createTable function
  * @param jsonDataset the array with the data
+ * @param message default message
  * @return {{tableColumns: string[], dataset}|{tableColumns: *[], dataset: *[]}} the correct json format
  */
-function parseDataset(jsonDataset) {
-    if (jsonDataset.dataset.length > 0) {
-        jsonDataset.dataset = JSON.parse(jsonDataset.dataset);
+function parseDataset(jsonDataset, message = "No data") {
+    if (jsonDataset.tableColumns.length > 0) {
         jsonDataset.deleteButton = true;
         jsonDataset.modifyButton = true;
     } else {
         jsonDataset.tableColumns = ["server_messages"];
-        jsonDataset.dataset = [{server_messages: "No data."}];
+        jsonDataset.dataset = [{server_messages: message}];
         jsonDataset.deleteButton = false;
         jsonDataset.modifyButton = false;
     }
@@ -256,7 +256,7 @@ async function createDataTable(contentOrigin) {
     switch (contentOrigin) {
         case "messages": {
             await getContactMessagesDatasetHTTPRequest().then(data => {
-                tableInformation = data;
+                tableInformation = parseDataset(data, "No new contact messages.");
                 tableInformation.modifyButton = false;
                 tableInformation.tableColumns[0] === "server_messages" ? tableInformation.deleteButton = false : tableInformation.deleteButton = true;
                 window.sessionStorage.setItem("deleteTable", "contact_messages");

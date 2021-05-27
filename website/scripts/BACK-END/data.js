@@ -71,14 +71,38 @@ function getRegionsHTTPRequest() {
 }
 
 /**
+ * This function returns an array of strings with all the possible values for the given filter
+ * @param filterName the name of the filter. Exactly one of the fallowing: 'countries', 'sexes', 'BMIIndicators','years','regions'
+ * @return {Promise<>} a new Promise
+ */
+async function getAllPossibleValuesOfFilter(filterName) {
+    return await new Promise((resolve, reject) => {
+        const HTTP = new XMLHttpRequest();
+        const url = getURLBasedOnCookies();
+        HTTP.onreadystatechange = () => {
+            if (HTTP.readyState === HTTP.DONE) {
+                if (HTTP.status >= 400) {
+                    console.log(HTTP.responseText);
+                    reject();
+                } else {
+                    let data = JSON.parse(HTTP.responseText);
+                    resolve(data);
+                }
+            }
+        }
+        HTTP.open("GET", url);
+        HTTP.setRequestHeader("Cookies", document.cookie);
+        HTTP.send(JSON.stringify('{"select":"' + filterName + '"}'));
+    })
+}
+
+/**
  * TODO get Countries  via HTTP request
  * TODO HTTP request
  * @returns {string[]} array of strings each representing a label
  */
-function getCountriesHTTPRequest() {
-    if (getCookie("dataset").toLowerCase() === 'eurostat')
-        return ['Belgium', 'Bulgaria', 'Czechia', 'Denmark', 'Estonia', 'Ireland', 'Greece', 'Spain', 'France', 'Croatia', 'Italy', 'Germany', 'European Union - 27 countries (from 2020)', 'European Union - 28 countries (2013-2020)', 'European Union - 27 countries (2007-2013)', 'Euro area - 19 countries  (from 2015)', 'Euro area - 18 countries (2014)', 'Cyprus', 'Latvia', 'Lithuania', 'Luxembourg', 'Hungary', 'Malta', 'Netherlands', 'Austria', 'Poland', 'Portugal', 'Romania', 'Slovenia', 'Slovakia', 'Finland', 'Sweden', 'Iceland', 'Norway', 'Switzerland', 'United Kingdom', 'North Macedonia', 'Serbia', 'Turkey'];
-    else return ["botswana", 'pwl'];
+async function getCountriesHTTPRequest() {
+
 }
 
 
@@ -183,8 +207,8 @@ async function getContactMessagesDatasetHTTPRequest() {
                         });
                     else {
                         resolve({
-                            tableColumns: ["server_messages"],
-                            dataset: [{server_messages: "No new messages"}],
+                            tableColumns: [],
+                            dataset: [],
                         });
                     }
                 }
@@ -220,6 +244,8 @@ async function getDatasetHTTPRequest(filters = null) {
                     reject();
                 } else {
                     let data = JSON.parse(HTTP.responseText);
+                    if (data.tableColumns.length > 0)
+                        data.dataset = JSON.parse(data.dataset);
                     resolve(data);
                 }
             }
