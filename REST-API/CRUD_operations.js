@@ -29,7 +29,7 @@ const getSelectSQLQueryForFilter = function (filter, database, tableName) {
             return "SELECT DISTINCT year as filter FROM " + tableName;
         }
         case 'sexes': {
-            return "SELECT DISTINCT sexes as filter FROM " + tableName;
+            return "SELECT DISTINCT sex as filter FROM " + tableName;
         }
         case 'regions': {
             return "SELECT DISTINCT region as filter FROM " + tableName;

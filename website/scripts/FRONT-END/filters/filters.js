@@ -4,8 +4,11 @@
  * @param elementID the element id in html code
  * @param localStorageItemName the cookie to be set
  */
-function createFilterButton(fieldName, elementID, localStorageItemName) {
-    const indicatorsArray = getAllPossibleValuesOfFilterHTTPRequest(fieldName);
+async function createFilterButton(fieldName, elementID, localStorageItemName) {
+    let indicatorsArray;
+    await getAllPossibleValuesOfFilterHTTPRequest(fieldName).then(indicators => {
+        indicatorsArray = indicators
+    }).catch(err => console.error(err));
     const filtersContainer = document.getElementById(elementID);
     filtersContainer.innerHTML = '';
 
@@ -26,7 +29,7 @@ function createFilterButton(fieldName, elementID, localStorageItemName) {
  */
 function refreshFilters() {
     createFilterButton("BMIIndicators", "bodyMassButton", "BMIFilter");
-    createFilterButton("years", "sexButton", "SexFilter");
+    createFilterButton("sexes", "sexButton", "SexFilter");
     createFilterButton("regions", "continentButton", "RegionsFilter");
     createYearsCheckboxes();
     createCountriesCheckboxes();
