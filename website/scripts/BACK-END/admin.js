@@ -1,3 +1,32 @@
+let tableInformation;
+
+/**
+ * This method is responsible for dynamically generating the input fields for add form based on the cookie 'dataset'
+ */
+function generateFormInputFields() {
+    let dataset = getCookie("dataset");
+    if (dataset === 'eurostat') {
+
+    } else {
+
+    }
+    /*
+      <li class="countryInput">
+          <label>Country:</label>
+          <label for="country"></label>
+          <select id="country" name="country"></select>
+       </li>
+       <li class="year">
+           <label for="year"></label>
+           <input type="number" id="year" name="year" required placeholder="Choose the year"/>
+       </li>
+       <li class="BMI">
+           <label for="BMI"></label>
+           <input type="number" id="BMI" name="BMI" required placeholder="BMI"/>
+       </li>
+     */
+}
+
 /**
  * This method is responsible for adding elements to the select html element dynamically
  */
@@ -15,7 +44,6 @@ function addCountriesInSelect() {
  * This method is responsible for calling a HTTP PUT request and hiding the form afterwards.
  */
 function addData() {
-    addCountriesInSelect()
     hideAddForm();
 }
 
@@ -42,7 +70,6 @@ function parseDataset(jsonArray) {
     }
 }
 
-
 /**
  * This method is responsible for showing the table with preview content upon clicking one of the options.
  */
@@ -58,6 +85,8 @@ function changePreviewDataset() {
  */
 function showAddForm() {
     hideModifyForm();
+    generateFormInputFields();
+    addCountriesInSelect();
     document.getElementById("addFormContainer").style.display = "flex";
     document.getElementById("addValues").style.display = "flex";
 }
@@ -179,7 +208,6 @@ async function modifyData() {
 async function createDataTable(contentOrigin) {
     changePreviewDataset();
 
-    let tableInformation;
     let failMessage = null;
     switch (contentOrigin) {
         case "messages": {
@@ -288,7 +316,6 @@ async function createDataTable(contentOrigin) {
 }
 
 window.addEventListener("load", function () {
-    addCountriesInSelect();
     document.getElementById("sendButton").value = "Send data";
     document.getElementById("sendButton").style.color = "black";
 })
