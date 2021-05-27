@@ -1,30 +1,77 @@
-let tableInformation;
+let tableInformation = {
+    tableColumns: Array(),
+    dataset: Array(),
+    deleteButton: Boolean,
+    modifyButton: Boolean
+}
 
 /**
  * This method is responsible for dynamically generating the input fields for add form based on the cookie 'dataset'
  */
 function generateFormInputFields() {
-    let dataset = getCookie("dataset");
-    if (dataset === 'eurostat') {
-
-    } else {
-
-    }
     /*
-      <li class="countryInput">
-          <label>Country:</label>
-          <label for="country"></label>
-          <select id="country" name="country"></select>
-       </li>
-       <li class="year">
-           <label for="year"></label>
-           <input type="number" id="year" name="year" required placeholder="Choose the year"/>
-       </li>
-       <li class="BMI">
-           <label for="BMI"></label>
-           <input type="number" id="BMI" name="BMI" required placeholder="BMI"/>
-       </li>
-     */
+     <li class="countryInput">
+         <label>Country:</label>
+         <label for="country"></label>
+         <select id="country" name="country"></select>
+      </li>
+      <li class="year">
+          <label for="year"></label>
+          <input type="number" id="year" name="year" required placeholder="Choose the year"/>
+      </li>
+    */
+
+
+    let ul = document.getElementById("addListOfInputs");
+    if (ul === null) return;
+
+    //add select country
+    let columnName = tableInformation.tableColumns[1];
+    let li = document.createElement("li");
+    li.classList.add("countryInput")
+
+    let label = document.createElement("label");
+    label.setAttribute("for", columnName);
+    label.textContent = "Country:";
+
+    let select = document.createElement("select");
+    select.setAttribute("id", "country");
+    select.setAttribute("name", "country")
+    li.append(label, select);
+    ul.append(li);
+
+    //add other countries
+    for (let i = 2; i < tableInformation.tableColumns.length; i++) {
+        columnName = tableInformation.tableColumns[i];
+        li = document.createElement("li");
+        li.classList.add(columnName + "Input")
+
+        label = document.createElement("label");
+        label.setAttribute("for", columnName);
+        label.textContent = columnName + ':';
+
+        let input = document.createElement("input");
+        input.setAttribute("name", columnName);
+        input.setAttribute("required", "true");
+        input.setAttribute("placeholder", "Choose a " + columnName);
+
+        li.append(label, input);
+        ul.append(li);
+    }
+
+    let sendButtonLi = document.createElement("li");
+    sendButtonLi.classList.add("finishButtons")
+    let sendButtonInput = document.createElement("input")
+    sendButtonInput.setAttribute("onclick", "addData()");
+    sendButtonInput.id = "sendButton"
+    sendButtonInput.classList.add("btn-lrg", "submit-btn");
+    sendButtonInput.type = "submit";
+    sendButtonInput.textContent = "Send data";
+    sendButtonInput.style.color = "black";
+    sendButtonLi.append(sendButtonInput)
+    ul.append(sendButtonLi);
+
+    addCountriesInSelect();
 }
 
 /**
@@ -84,7 +131,6 @@ function changePreviewDataset() {
 function showAddForm() {
     hideModifyForm();
     generateFormInputFields();
-    addCountriesInSelect();
     document.getElementById("addFormContainer").style.display = "flex";
     document.getElementById("addValues").style.display = "flex";
 }
@@ -312,8 +358,3 @@ async function createDataTable(contentOrigin) {
     let tableContainer = document.getElementById("datasetPreview");
     tableContainer.append(table);
 }
-
-window.addEventListener("load", function () {
-    document.getElementById("sendButton").value = "Send data";
-    document.getElementById("sendButton").style.color = "black";
-})
