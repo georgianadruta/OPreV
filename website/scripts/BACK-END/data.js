@@ -75,24 +75,27 @@ function getRegionsHTTPRequest() {
  * @param filterName the name of the filter. Exactly one of the fallowing: 'countries', 'sexes', 'BMIIndicators','years','regions'
  * @return {Promise<>} a new Promise
  */
-async function getAllPossibleValuesOfFilter(filterName) {
+async function getAllPossibleValuesOfFilterHTTPRequest(filterName) {
     return await new Promise((resolve, reject) => {
+        setCookie("filter", filterName);
         const HTTP = new XMLHttpRequest();
-        const url = getURLBasedOnCookies();
+        const url = getURLBasedOnCookies() + '/filters';
         HTTP.onreadystatechange = () => {
             if (HTTP.readyState === HTTP.DONE) {
+                deleteCookie("filter");
                 if (HTTP.status >= 400) {
                     console.log(HTTP.responseText);
                     reject();
                 } else {
                     let data = JSON.parse(HTTP.responseText);
+                    console.log(data);
                     resolve(data);
                 }
             }
         }
         HTTP.open("GET", url);
         HTTP.setRequestHeader("Cookies", document.cookie);
-        HTTP.send(JSON.stringify('{"select":"' + filterName + '"}'));
+        HTTP.send();
     })
 }
 
@@ -242,10 +245,10 @@ async function getDatasetHTTPRequest(filters = null) {
     return await new Promise((resolve, reject) => {
         const HTTP = new XMLHttpRequest();
         const url = getURLBasedOnCookies();
-
-
+        setCookie("filters", filters);
         HTTP.onreadystatechange = () => {
             if (HTTP.readyState === HTTP.DONE) {
+                deleteCookie("filters")
                 if (HTTP.status >= 400) {
                     console.log(HTTP.responseText);
                     reject();
@@ -260,11 +263,7 @@ async function getDatasetHTTPRequest(filters = null) {
         }
         HTTP.open("GET", url);
         HTTP.setRequestHeader("Cookies", document.cookie);
-
-        if (filters != null)
-            HTTP.send(JSON.stringify(filters));
-        else
-            HTTP.send();
+        HTTP.send();
     })
 }
 
@@ -275,5 +274,4 @@ async function getDatasetHTTPRequest(filters = null) {
 window.addEventListener("load", function () {
     if (getCookie("dataset") === null) setCookie("dataset", "eurostat");
     if (getCookie("BMIIndicator") == null) setCookie("BMIIndicator", "obese");
-    getDatasetHTTPRequest();
 });

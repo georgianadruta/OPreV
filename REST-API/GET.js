@@ -24,6 +24,7 @@ const mimeTypes = {
 let getDataset = async function (request, response, filters = "1=1") {
     let BMIIndicator = getCookieValueFromCookies(request, "BMIIndicator"); // table name
     let database = getCookieValueFromCookies(request, "dataset");
+    //todo add filters from cookies
     try {
         let dataset = await CRUD.getDatasetDataFromTable(database, BMIIndicator, filters);
         response.writeHead(200, {'Content-Type': 'application/json'});
@@ -63,22 +64,17 @@ let getContactMessages = async function (request, response) {
 }
 
 let getFilters = async function (request, response) {
-    let body = [];
-    request.on('data', chunk => {
-        body.push(chunk);
-    });
-    request.on('end', async () => {
-        let jsonObject = JSON.parse(body.toString());
-        let BMIIndicator = getCookieValueFromCookies(request, "BMIIndicator"); // table name
-        let database = getCookieValueFromCookies(request, "dataset");
-        try {
-            let filters = await CRUD.getFiltersFromDataset(database, BMIIndicator, jsonObject.filter);
-            response.writeHead(200, {'Content-Type': 'application/json'});
-            response.end(JSON.stringify(filters));
-        } catch (fail) {
-            setFailedRequestResponse(request, response, "Failed to select any data.", 404);
-        }
-    });
+    let jsonObject = {filter: getCookieValueFromCookies(request, "filter")};
+    let BMIIndicator = getCookieValueFromCookies(request, "BMIIndicator"); // table name
+    let database = getCookieValueFromCookies(request, "dataset");
+    try {
+        let filters = await CRUD.getFiltersFromDataset(database, BMIIndicator, jsonObject.filter);
+        response.writeHead(200, {'Content-Type': 'application/json'});
+        response.end(JSON.stringify(filters));
+    } catch (fail) {
+        setFailedRequestResponse(request, response, "Failed to select any data.", 404);
+    }
+
 
 }
 

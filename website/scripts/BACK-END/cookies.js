@@ -36,6 +36,14 @@ function getCookie(cookieName) {
 }
 
 /**
+ * This function's purpose is to delete a certain cookie.
+ * @param cookieName the cookie to be deleted
+ */
+function deleteCookie(cookieName) {
+    document.cookie = cookieName + "= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+}
+
+/**
  * TODO Change the function. It's not random.
  * This method's purpose is to generate a random ID.
  * @returns {string} random UUID
