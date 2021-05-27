@@ -27,7 +27,7 @@ async function generateTable() {
     table.innerHTML = '';
 
     if (tableInformation.dataset.length > 0) {
-        for (let i = 0; i < tableInformation.dataset.length; i = i + 2) {
+        for (let i = 0; i < tableInformation.dataset.length - 2; i = i + 2) {
             let tr = table.insertRow(-1);
             tr.id = 'country-' + i;
 
