@@ -200,6 +200,11 @@ async function getContactMessagesDatasetHTTPRequest() {
 
 /**
  * This method is responsible for the HTTP GET request to receive the database data.
+ * In resolve we return an JSON under the fallowing format:
+ * {
+ *     tableColumns: Array(String)      ->  all of the columns from the table
+ *     dataset:Array(JSON objects)      ->  all data under JSON format  {column1: data1, column2:data2,..... }
+ * }
  * @return Promise<>
  */
 async function getDatasetHTTPRequest(filters = null) {

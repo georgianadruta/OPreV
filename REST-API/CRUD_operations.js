@@ -326,14 +326,21 @@ const getDatasetDataFromTable = function (database, tableName, filters = '1=1') 
                 reject("Failed to connect to the database.");
             } else {
                 const sql = "SELECT * from " + table + " WHERE " + filters;
-                con.query(sql, function (err, results) {
+                con.query(sql, function (err, results, fields) {
                     if (err) {
                         console.log("Failed to select " + filters + " from " + tableName + "." + "\nREASON: " + err.sqlMessage);
                         reject("Failed to select " + filters + " from " + tableName + ".");
                     } else {
                         if (results.length > 0) {
                             console.log("Found data in " + tableName + ".");
-                            results = JSON.stringify(results);
+                            let fieldsArray = [];
+                            fields.forEach(field => {
+                                fieldsArray.push(field.name);
+                            })
+                            results = {
+                                tableColumns: fieldsArray,
+                                dataset: JSON.stringify(results),
+                            }
                             resolve(results);
                         } else {
                             console.log("There is no " + "data" + " in logged users with filters:" + filters);

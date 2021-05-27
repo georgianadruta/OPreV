@@ -27,7 +27,7 @@ let getDataset = async function (request, response, database, BMIIndicator, filt
     try {
         let dataset = await CRUD.getDatasetDataFromTable(database, BMIIndicator, filters);
         response.writeHead(200, {'Content-Type': 'application/json'});
-        response.end(dataset);
+        response.end(JSON.stringify(dataset));
     } catch (fail) {
         setFailedRequestResponse(request, response, "Failed to select any data.", 404);
     }
@@ -80,10 +80,9 @@ function GET(request, response) {
             break;
         }
         case "/dataset/who": {
-            setSuccessfulRequestResponse(request, response, ' []', 200);
+            setSuccessfulRequestResponse(request, response, '{"tableColumns": [],"dataset":[]}', 200);
             break;
         }
-
         default: {
             let regex = new RegExp('/database/eurostat/[0-9]+') //if it's of form /database/eurostat/{some_number}
             if (regex.test(path)) {
