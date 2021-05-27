@@ -102,7 +102,14 @@ async function getAllPossibleValuesOfFilter(filterName) {
  * @returns {string[]} array of strings each representing a label
  */
 async function getCountriesHTTPRequest() {
-
+    await getDatasetHTTPRequest().then(result => {
+        tableInformation = result
+    })
+    let countryList = [];
+    for (let i = 0; i < tableInformation.dataset.length; i = i + 3) {
+        countryList.push(tableInformation.dataset[i].country);
+    }
+    return countryList;
 }
 
 
