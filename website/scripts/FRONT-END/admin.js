@@ -194,14 +194,14 @@ async function createDataTable(contentOrigin) {
         })
         const td = document.createElement("td");
         td.classList.add("manipulationButtons");
-        if (tableInformation.delete === true) {
+        if (tableInformation.deleteButton === true) {
             const button = document.createElement("button");
             button.classList.add("button");
             button.innerHTML = 'Delete';
             button.setAttribute("onclick", "deleteFunction(" + id + ",'" + contentOrigin + "')");
             td.append(button);
         }
-        if (tableInformation.modify === true) {
+        if (tableInformation.modifyButton === true) {
             const button = document.createElement("button");
             button.classList.add("button");
             button.innerHTML = 'Modify';
