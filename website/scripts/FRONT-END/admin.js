@@ -19,11 +19,15 @@ function parseDataset(jsonArray) {
         return {
             tableColumns: Object.keys(jsonArray[0]),
             dataset: jsonArray,
+            deleteButton: true,
+            modifyButton: true,
         };
     else {
         return {
             tableColumns: [],
             dataset: [],
+            deleteButton: false,
+            modifyButton: false,
         };
     }
 }
@@ -107,13 +111,14 @@ async function createDataTable(contentOrigin) {
 
     let tableInformation;
     let failMessage = null;
-    let deleteButton = null;
-    let modifyButton = null;
     switch (contentOrigin) {
         case "messages": {
             await getContactMessagesDatasetHTTPRequest().then(data => {
                 tableInformation = data;
-                if (tableInformation.tableColumns[0] !== "server_messages") deleteButton = 'Delete';
+
+                tableInformation.tableColumns[0] === "server_messages" ? tableInformation.delete = false : tableInformation.delete = false;
+                tableInformation.delete = false;
+                tableInformation.modify = false;
                 window.sessionStorage.setItem("deleteTable", "contact_messages");
             }).catch(fail => {
                 failMessage = fail;
@@ -126,10 +131,6 @@ async function createDataTable(contentOrigin) {
             document.getElementById("addButton").style.display = "flex";
             await getDatasetHTTPRequest().then(data => {
                 tableInformation = parseDataset(data);
-                if (tableInformation.dataset.length > 1) {
-                    deleteButton = 'Delete';
-                    modifyButton = 'Modify';
-                }
                 window.sessionStorage.setItem("deleteTable", "who_dataset");
                 window.sessionStorage.setItem("modifyValue", "who_dataset");
 
@@ -143,10 +144,6 @@ async function createDataTable(contentOrigin) {
             document.getElementById("addButton").style.display = "flex";
             await getDatasetHTTPRequest().then(data => {
                 tableInformation = parseDataset(data);
-                if (tableInformation.dataset.length > 1) {
-                    deleteButton = 'Delete';
-                    modifyButton = 'Modify';
-                }
                 window.sessionStorage.setItem("deleteTable", "eurostat_dataset");
                 window.sessionStorage.setItem("modifyValue", "eurostat_dataset");
             }).catch(fail => {
@@ -177,9 +174,11 @@ async function createDataTable(contentOrigin) {
         th.innerHTML = columnName;
         thead.append(th);
     })
-    const th = document.createElement('th');
-    th.innerHTML = 'Action';
-    thead.append(th);
+    if (tableInformation.delete !== false || tableInformation.modify !== false) {
+        const th = document.createElement('th');
+        th.innerHTML = 'Action';
+        thead.append(th);
+    }
     table.append(thead);
 
     let tbody = document.createElement("tbody");
@@ -195,17 +194,17 @@ async function createDataTable(contentOrigin) {
         })
         const td = document.createElement("td");
         td.classList.add("manipulationButtons");
-        if (deleteButton != null) {
+        if (tableInformation.delete === true) {
             const button = document.createElement("button");
             button.classList.add("button");
-            button.innerHTML = deleteButton;
+            button.innerHTML = 'Delete';
             button.setAttribute("onclick", "deleteFunction(" + id + ",'" + contentOrigin + "')");
             td.append(button);
         }
-        if (modifyButton != null) {
+        if (tableInformation.modify === true) {
             const button = document.createElement("button");
             button.classList.add("button");
-            button.innerHTML = modifyButton;
+            button.innerHTML = 'Modify';
             button.setAttribute("onclick", "modifyFunction(" + id + ",'" + contentOrigin + "')");
             td.append(button);
         }
