@@ -113,7 +113,7 @@ async function createDataTable(contentOrigin) {
         case "messages": {
             await getContactMessagesDatasetHTTPRequest().then(data => {
                 tableInformation = data;
-                if (tableInformation.dataset.length > 1) deleteButton = 'Delete';
+                if (tableInformation.tableColumns[0] !== "server_messages") deleteButton = 'Delete';
                 window.sessionStorage.setItem("deleteTable", "contact_messages");
             }).catch(fail => {
                 failMessage = fail;
