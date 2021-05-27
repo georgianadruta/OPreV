@@ -28,14 +28,6 @@ let checkMatches = function (username, password, email = null) {
     return passwordRegex.test(password) !== false;
 }
 
-/**
- * Method responsible for dataset manipulation behaviour
- * @param request the request
- * @param response the response
- */
-let modifyData = function (request, response) {
-    setFailedRequestResponse(request, response, "Failed to modify dataset.")
-}
 
 /**
  * This method is responsible to keep the user logged in.
@@ -154,6 +146,39 @@ let check = function (request, response) {
                 if (foundToken === jsonToken.token) {
                     response.setHeader("change-cookie", "logged_in=true");
                     setSuccessfulRequestResponse(request, response, "User is logged.", 200);
+                } else {
+                    response.setHeader("change-cookie", "logged_in=false");
+                    setSuccessfulRequestResponse(request, response, "User is not logged.", 200);
+                }
+            });
+        } catch (err) {
+            setFailedRequestResponse(request, response, "Failed to check if users is logged or not.", 409);
+        }
+    });
+}
+
+/**
+ * Method responsible for dataset manipulation behaviour
+ * @param request the request
+ * @param response the response
+ */
+let modifyData = function (request, response) {
+    let body = [];
+    request.on('data', chunk => {
+        body.push(chunk);
+    });
+    request.on('end', async () => {
+        let sessionID = getCookieValueFromCookies(request,"sessionID");
+        let jsonObject = JSON.parse(body.toString());
+        try {
+            await CRUD.selectTokenFromLoggedUsersTable(sessionID).then(async foundToken => {
+                if (foundToken === sessionID) {
+                    try {
+                        await CRUD.modifyDataInDataset(getCookieValueFromCookies(request, "dataset"), getCookieValueFromCookies(request,"BMIIndicator"), jsonObject.id, jsonObject.newBMI);
+                        setSuccessfulRequestResponse(request, response, "Success", 200);
+                    } catch (fail) {
+                        setFailedRequestResponse(request, response, "Failed to modify data.", 500);
+                    }
                 } else {
                     response.setHeader("change-cookie", "logged_in=false");
                     setSuccessfulRequestResponse(request, response, "User is not logged.", 200);

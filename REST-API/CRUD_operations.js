@@ -346,6 +346,41 @@ const getDatasetDataFromTable = function (database, tableName, filters = '1=1') 
     });
 }
 
+/**
+ * This method updates any record from any dataset table by ID
+ * @param database the database
+ * @param tableName the name of the table
+ * @param ID the id of which to update
+ * @param newBMI the new BMI
+ * @returns {Promise<>} a new promise
+ */
+const modifyDataInDataset = function (database, tableName, ID, newBMI) {
+    return new Promise((resolve, reject) => {
+        let con = getConnection({database: database})
+        const table = tableName;
+        con.connect(function (err) {
+            if (err) {
+                console.log(err);
+                reject("Failed to connect to the database.");
+
+            } else {
+                //UPDATE eurostat.obese SET BMI_value='1' WHERE ID=id;
+                const sql = "UPDATE " + table + " SET BMI_value='" + newBMI + "' WHERE id='" + ID + "';";
+                con.query(sql, function (err) {
+                    if (err) {
+                        console.log("Failed to update BMI of " + ID + " from " + table + "." + "\nREASON: " + err.sqlMessage);
+                        reject("Failed to update BMI of " + ID + " from " + table + ".");
+                    } else {
+                        console.log("Updated BMI of " + ID + " from " + table + " to " + newBMI + ".");
+                        resolve("Updated BMI of " + ID + " from " + table + " to " + newBMI + ".");
+                    }
+                });
+            }
+        });
+    })
+}
+
+module.exports.modifyDataInDataset = modifyDataInDataset;
 module.exports.getDatasetDataFromTable = getDatasetDataFromTable;
 module.exports.deleteFromTableByID = deleteFromTableByID;
 module.exports.getContactMessagesFromContactMessagesTable = getContactMessagesFromContactMessagesTable;

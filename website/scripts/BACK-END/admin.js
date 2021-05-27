@@ -158,6 +158,8 @@ async function modifyData() {
         "newBMI": newBMI,
     };
     try {
+        //TODO set BMIIndicator cookie
+        //setCookie("BMIIndicator",someValue)
         alert(await modifyDataFromAdminPageHTTPRequest(jsonObject));
     } catch (err) {
         alert(err);

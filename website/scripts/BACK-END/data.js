@@ -123,7 +123,7 @@ async function deleteDataFromAdminPageHTTPRequest(jsonObject) {
 async function modifyDataFromAdminPageHTTPRequest(jsonObject) {
     return await new Promise((resolve, reject) => {
         const HTTP = new XMLHttpRequest();
-        const url = "/contact/messages";
+        const url = getURLBasedOnCookies();
 
         HTTP.onreadystatechange = () => {
             if (HTTP.readyState === HTTP.DONE) {
@@ -132,9 +132,9 @@ async function modifyDataFromAdminPageHTTPRequest(jsonObject) {
                     reject("Fail")
                 } else {
                     if (HTTP.responseText === "Success")
-                        resolve();
+                        resolve("Successfully modified data.");
                     else
-                        reject();
+                        reject("Filed to modify data.");
                 }
             }
 
