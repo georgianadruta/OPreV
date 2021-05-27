@@ -21,8 +21,7 @@ async function refreshTableData() {
 async function generateTable() {
     await getDatasetHTTPRequest().then(result => {
         tableInformation = result
-    })
-    console.log(tableInformation)
+    }).catch(err => console.error(err))
     const table = document.getElementById("table");
     table.innerHTML = '';
 

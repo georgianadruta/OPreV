@@ -5,11 +5,11 @@ let currentCountryCheckboxId = 0;
  * This function's purpose is to create the checkboxes for the countries
  */
 async function createCountriesCheckboxes() {
-    let labels;
-    await getCountriesHTTPRequest().then(result => {
+    let labels = null;
+    await getAllPossibleValuesOfFilterHTTPRequest('countries').then(result => {
         labels = result
-    })
-    console.log(labels)
+    }).catch(err => console.error(err));
+    if (labels == null) return;
     const container = document.getElementById('countries');
     container.innerHTML = '';//clear content
     for (let i = 0; i < labels.length; i++) {
@@ -54,7 +54,7 @@ async function createCountriesCheckboxes() {
  */
 async function selectAllCountries() {
     let countryList;
-    await getCountriesHTTPRequest().then(result => {
+    await getAllPossibleValuesOfFilterHTTPRequest('countries').then(result => {
         countryList = result
     })
     setDatasetLabels(countryList);
@@ -67,29 +67,29 @@ async function selectAllCountries() {
         localStorageCountries += labels[i] + ' ';
     }
     localStorageCountries = localStorageCountries.slice(0, -1);
-    setDatasetData(getDatasetHTTPRequest());
-    const path = window.location.pathname;
-    const page = path.split("/").pop();
-    if (page === "chart_bar.html") {
-        const chart = getBarChart();
-        chart.data.labels = labels;
-        chart.data.datasets[0].data = getDatasetData()[0];
-        chart.data.datasets[1].data = getDatasetData()[1];
-        chart.data.datasets[2].data = getDatasetData()[2];
-    } else {
-        const tableData = getTableData();
-        tableData.tableColumns = labels;
-        tableData.dataset[0] = getDatasetHTTPRequest()[0];
-        tableData.dataset[1] = getDatasetHTTPRequest()[1];
-        tableData.dataset[2] = getDatasetHTTPRequest()[2];
-    }
-
-    if (page === "chart_bar.html") {
-        chart.update();
-    } else {
-        refreshTableData();
-        generateTable();
-    }
+    // setDatasetData(getDatasetHTTPRequest());
+    // const path = window.location.pathname;
+    // const page = path.split("/").pop();
+    // if (page === "chart_bar.html") {
+    //     const chart = getBarChart();
+    //     chart.data.labels = labels;
+    //     chart.data.datasets[0].data = getDatasetData()[0];
+    //     chart.data.datasets[1].data = getDatasetData()[1];
+    //     chart.data.datasets[2].data = getDatasetData()[2];
+    // } else {
+    //     const tableData = getTableData();
+    //     tableData.tableColumns = labels;
+    //     tableData.dataset[0] = getDatasetHTTPRequest()[0];
+    //     tableData.dataset[1] = getDatasetHTTPRequest()[1];
+    //     tableData.dataset[2] = getDatasetHTTPRequest()[2];
+    // }
+    //
+    // if (page === "chart_bar.html") {
+    //     chart.update();
+    // } else {
+    //     refreshTableData();
+    //     generateTable();
+    // }
 
     removeCountryIds = [];
     window.localStorage.setItem("countries", localStorageCountries);
@@ -100,7 +100,7 @@ async function selectAllCountries() {
  */
 async function deselectAllCountries() {
     let labels;
-    await getCountriesHTTPRequest().then(result => {
+    await getAllPossibleValuesOfFilterHTTPRequest('countries').then(result => {
         labels = result
     })
     if (labels !== null) {
@@ -156,8 +156,11 @@ function addOrRemoveCountryFromChart(id) {
  * This function's purpose is to add a country's data to the dataset based on it's id.
  * @param id the id of the country
  */
-function addDataToDatasetByCountryID(id) {
-    const labels = getCountriesHTTPRequest();
+async function addDataToDatasetByCountryID(id) {
+    let labels;
+    await getAllPossibleValuesOfFilterHTTPRequest('countries').then(countriesArray => {
+        labels = countriesArray
+    });
     const data = getDatasetHTTPRequest();
 
     let newLabels = getDatasetLabels();
@@ -190,8 +193,11 @@ function addDataToDatasetByCountryID(id) {
  * This function's purpose is to remove a country's data to the dataset based on it's id.
  * @param id the id of the country
  */
-function removeDataToDatasetByCountryID(id) {
-    const country = getCountriesHTTPRequest()[id];
+async function removeDataToDatasetByCountryID(id) {
+    let country;
+    await getAllPossibleValuesOfFilterHTTPRequest('countries').then(countriesArray => {
+        country = countriesArray[id];
+    });
     let newLabels = getDatasetLabels();
     let index = newLabels.indexOf(country);//delete it
     newLabels.splice(index, 1);
@@ -228,7 +234,3 @@ function selectOnlyOneCountryFromChart(id) {
     //update currentCheckboxId
     currentCountryCheckboxId = id;
 }
-
-window.addEventListener("load", function () {
-    generateTable();
-});

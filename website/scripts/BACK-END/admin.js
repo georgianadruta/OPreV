@@ -77,11 +77,14 @@ function generateFormInputFields() {
 /**
  * This method is responsible for adding elements to the select html element dynamically
  */
-function addCountriesInSelect() {
+async function addCountriesInSelect() {
     let selectContainer = document.getElementById("country");
     if (selectContainer == null)
         return;
-    let countries = getCountriesHTTPRequest();
+    let countries;
+    await getAllPossibleValuesOfFilterHTTPRequest('countries').then(countriesArray => {
+        countries = countriesArray
+    });
     countries.forEach(item => {
         const option = document.createElement("option");
         option.text = item;
