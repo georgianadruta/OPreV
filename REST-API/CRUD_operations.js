@@ -14,6 +14,33 @@ function getConnection(cookie) {
 }
 
 /**
+ * This function returns the sql query for the operation required by the parameter filter
+ * @param filter Exactly one of the fallowing: 'countries', 'sexes', 'BMIIndicators','years','regions'
+ * @param database the database
+ * @param tableName the name of the table
+ * @return {string} the sql query
+ */
+const getSelectSQLQueryForFilter = function (filter, database, tableName) {
+    switch (filter) {
+        case 'countries': {
+            return "SELECT DISTINCT country as filter FROM " + tableName;
+        }
+        case 'years': {
+            return "SELECT DISTINCT year as filter FROM " + tableName;
+        }
+        case 'sexes': {
+            return "SELECT DISTINCT sexes as filter FROM " + tableName;
+        }
+        case 'BMIIndicators': {
+            return "SELECT table_name as filter FROM information_schema.tables WHERE table_schema ='" + database + "'";
+        }
+        default: {
+            break;
+        }
+    }
+}
+
+/**
  * This method returns the hashed version of the password of the user if it exists in the database.
  * @param jsonLoginAccount the account to get the password of
  * @returns {Promise<>} a new promise
@@ -387,6 +414,45 @@ const modifyDataInDataset = function (database, tableName, ID, newBMI) {
     })
 }
 
+
+/**
+ * This method is responsible for returning all the filters from the given database table with the filter specified.
+ * @param database the database
+ * @param tableName the table
+ * @param filter the filter
+ */
+const getFiltersFromDataset = function (database, tableName, filter) {
+    return new Promise(async (resolve, reject) => {
+        let con = getConnection({database: database})
+        con.connect(function (err) {
+            if (err) {
+                console.log(err);
+                reject("Failed to connect to the database.");
+            } else {
+                const sql = getSelectSQLQueryForFilter(filter, database, tableName);
+                con.query(sql, function (err, results) {
+                    if (err) {
+                        console.log("Failed to select " + filter + " from " + tableName + "." + "\nREASON: " + err.sqlMessage);
+                        reject("Failed to select " + filter + " from " + tableName + ".");
+                    } else {
+                        if (results.length > 0) {
+                            let filtersArray = [];
+                            results.forEach(row => {
+                                filtersArray.push(row.filter);
+                            })
+                            resolve(filtersArray);
+                        } else {
+                            console.log("There is no " + "data" + " in logged users with filters:" + filter);
+                            resolve(null);
+                        }
+                    }
+                });
+            }
+        });
+    });
+}
+
+module.exports.getFiltersFromDataset = getFiltersFromDataset;
 module.exports.modifyDataInDataset = modifyDataInDataset;
 module.exports.getDatasetDataFromTable = getDatasetDataFromTable;
 module.exports.deleteFromTableByID = deleteFromTableByID;

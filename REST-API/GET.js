@@ -18,12 +18,12 @@ const mimeTypes = {
  * This method is responsible for returning both datasets as HTML response.
  * @param request the request
  * @param response the response
- * @param database the requested database
- * @param BMIIndicator the indicator (will serve as table name)
  * @param filters the filters used
  * @return {Promise<void>} unused promise
  */
-let getDataset = async function (request, response, database, BMIIndicator, filters = "1=1") {
+let getDataset = async function (request, response, filters = "1=1") {
+    let BMIIndicator = getCookieValueFromCookies(request, "BMIIndicator"); // table name
+    let database = getCookieValueFromCookies(request, "dataset");
     try {
         let dataset = await CRUD.getDatasetDataFromTable(database, BMIIndicator, filters);
         response.writeHead(200, {'Content-Type': 'application/json'});
@@ -62,6 +62,26 @@ let getContactMessages = async function (request, response) {
     }
 }
 
+let getFilters = async function (request, response) {
+    let body = [];
+    request.on('data', chunk => {
+        body.push(chunk);
+    });
+    request.on('end', async () => {
+        let jsonObject = JSON.parse(body.toString());
+        let BMIIndicator = getCookieValueFromCookies(request, "BMIIndicator"); // table name
+        let database = getCookieValueFromCookies(request, "dataset");
+        try {
+            let filters = await CRUD.getFiltersFromDataset(database, BMIIndicator, jsonObject.filter);
+            response.writeHead(200, {'Content-Type': 'application/json'});
+            response.end(JSON.stringify(filters));
+        } catch (fail) {
+            setFailedRequestResponse(request, response, "Failed to select any data.", 404);
+        }
+    });
+
+}
+
 /**
  * Method responsible for all HTTP GET requests
  * @param request the request
@@ -74,13 +94,12 @@ function GET(request, response) {
             getContactMessages(request, response);
             break;
         }
-        case "/dataset/eurostat": {
-            let BMIIndicator = getCookieValueFromCookies(request, "BMIIndicator");
-            getDataset(request, response, "eurostat", BMIIndicator);
+        case "/dataset/eurostat": { //      || "/dataset/who"
+            getDataset(request, response);
             break;
         }
-        case "/dataset/who": {
-            setSuccessfulRequestResponse(request, response, '{"tableColumns": [],"dataset":[]}', 200);
+        case "/dataset/eurostat/filters" : { //     || "/dataset/who/filters"
+            getFilters(request, response);
             break;
         }
         default: {
