@@ -32,6 +32,8 @@ function generateFormInputFields() {
  */
 function addCountriesInSelect() {
     let selectContainer = document.getElementById("country");
+    if (selectContainer == null)
+        return;
     let countries = getCountriesHTTPRequest();
     countries.forEach(item => {
         const option = document.createElement("option");
@@ -49,25 +51,21 @@ function addData() {
 
 /**
  * This functions returns the needed type for the createTable function
- * @param jsonArray the array with the data
+ * @param jsonDataset the array with the data
  * @return {{tableColumns: string[], dataset}|{tableColumns: *[], dataset: *[]}} the correct json format
  */
-function parseDataset(jsonArray) {
-    if (jsonArray.length > 0)
-        return {
-            tableColumns: Object.keys(jsonArray[0]),
-            dataset: jsonArray,
-            deleteButton: true,
-            modifyButton: true,
-        };
-    else {
-        return {
-            tableColumns: ["server_messages"],
-            dataset: [{server_messages: "No data."}],
-            deleteButton: false,
-            modifyButton: false,
-        };
+function parseDataset(jsonDataset) {
+    if (jsonDataset.dataset.length > 0) {
+        jsonDataset.dataset = JSON.parse(jsonDataset.dataset);
+        jsonDataset.deleteButton = true;
+        jsonDataset.modifyButton = true;
+    } else {
+        jsonDataset.tableColumns = ["server_messages"];
+        jsonDataset.dataset = [{server_messages: "No data."}];
+        jsonDataset.deleteButton = false;
+        jsonDataset.modifyButton = false;
     }
+    return jsonDataset;
 }
 
 /**
