@@ -4,17 +4,6 @@ let dataset = {
 }
 
 /**
- * This function's purpose is to do a HTTP request to receive the labels.
- * TODO HTTP request
- * @returns {string[]} array of strings each representing a label
- */
-function getLabelsHTTPRequest() {
-    if (getCookie("dataset").toLowerCase() === 'eurostat')
-        return ['Belgium', 'Bulgaria', 'Czechia', 'Denmark', 'Estonia', 'Ireland', 'Greece', 'Spain', 'France', 'Croatia', 'Italy', 'Germany', 'European Union - 27 countries (from 2020)', 'European Union - 28 countries (2013-2020)', 'European Union - 27 countries (2007-2013)', 'Euro area - 19 countries  (from 2015)', 'Euro area - 18 countries (2014)', 'Cyprus', 'Latvia', 'Lithuania', 'Luxembourg', 'Hungary', 'Malta', 'Netherlands', 'Austria', 'Poland', 'Portugal', 'Romania', 'Slovenia', 'Slovakia', 'Finland', 'Sweden', 'Iceland', 'Norway', 'Switzerland', 'United Kingdom', 'North Macedonia', 'Serbia', 'Turkey'];
-    else return ["botswana", 'pwl'];
-}
-
-/**
  * This function's purpose is to do a HTTP request to receive the data.
  * TODO HTTP request
  * @returns {any[]} array of objects representing data

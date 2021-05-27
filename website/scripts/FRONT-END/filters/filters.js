@@ -25,9 +25,9 @@ function createFilterButton(HTTPRequestFunction, elementID, localStorageItemName
  * This function's purpose is to create the filters based on the dataset used.
  */
 function refreshFilters() {
-    createFilterButton(getBMIFiltersHTTPRequest, "bodyMassButton", "BMIFilter");
-    createFilterButton(getSexFiltersHTTPRequest, "sexButton", "SexFilter");
-    createFilterButton(getRegionsFiltersHTTPRequest, "continentButton", "RegionsFilter");
+    createFilterButton(getBMIIndicatorsHTTPRequest, "bodyMassButton", "BMIFilter");
+    createFilterButton(getSexesHTTPRequest, "sexButton", "SexFilter");
+    createFilterButton(getRegionsHTTPRequest, "continentButton", "RegionsFilter");
     createYearsCheckboxes();
     createCountriesCheckboxes();
 }

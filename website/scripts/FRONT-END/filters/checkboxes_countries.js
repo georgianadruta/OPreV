@@ -5,7 +5,7 @@ let currentCountryCheckboxId = 0;
  * This function's purpose is to create the checkboxes for the countries
  */
 function createCountriesCheckboxes() {
-    let labels = getLabelsHTTPRequest();
+    let labels = getCountriesHTTPRequest();
     const container = document.getElementById('countries');
     container.innerHTML = '';//clear content
     for (let i = 0; i < labels.length; i++) {
@@ -49,7 +49,7 @@ function createCountriesCheckboxes() {
  * This function's purpose is to select all countries filters.
  */
 function selectAllCountries() {
-    setDatasetLabels(getLabelsHTTPRequest());
+    setDatasetLabels(getCountriesHTTPRequest());
     let localStorageCountries = String();
     let labels = getDatasetLabels();
     for (let i = 0; i < labels.length; i++) {
@@ -91,7 +91,7 @@ function selectAllCountries() {
  * This function's purpose is to deselect all countries filters.
  */
 function deselectAllCountries() {
-    let labels = getLabelsHTTPRequest();
+    let labels = getCountriesHTTPRequest();
     if (labels !== null) {
         for (let i = 0; i < labels.length; i++) {
             const checkbox = document.getElementById('country' + i);
@@ -146,7 +146,7 @@ function addOrRemoveCountryFromChart(id) {
  * @param id the id of the country
  */
 function addDataToDatasetByCountryID(id) {
-    const labels = getLabelsHTTPRequest();
+    const labels = getCountriesHTTPRequest();
     const data = getDatasetDataHTTPRequest();
 
     let newLabels = getDatasetLabels();
@@ -180,7 +180,7 @@ function addDataToDatasetByCountryID(id) {
  * @param id the id of the country
  */
 function removeDataToDatasetByCountryID(id) {
-    const country = getLabelsHTTPRequest()[id];
+    const country = getCountriesHTTPRequest()[id];
     let newLabels = getDatasetLabels();
     let index = newLabels.indexOf(country);//delete it
     newLabels.splice(index, 1);

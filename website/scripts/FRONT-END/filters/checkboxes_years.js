@@ -5,7 +5,7 @@ let currentYearCheckboxId = 0;
  * This function's purpose is to create the checkboxes for the years
  */
 function createYearsCheckboxes() {
-    let years = getYearsFiltersHTTPRequest();
+    let years = getYearsHTTPRequest();
     const container = document.getElementById('yearsCheckboxContainer');
     container.innerHTML = '';//clear content
     for (let i = 0; i < years.length; i++) {
@@ -41,7 +41,7 @@ function createYearsCheckboxes() {
  * This function's purpose is to select all years filters.
  */
 function selectAllYears() {
-    let years = getYearsFiltersHTTPRequest();
+    let years = getYearsHTTPRequest();
     let localStorageYears = String();
     //tick all boxes
     for (let i = 0; i < years.length; i++) {
@@ -77,7 +77,7 @@ function selectAllYears() {
  * This function's purpose is to deselect all years filters.
  */
 function deselectAllYears() {
-    let years = getYearsFiltersHTTPRequest();
+    let years = getYearsHTTPRequest();
     if (years !== null) {
         for (let i = 0; i < years.length; i++) {
             const checkbox = document.getElementById('year' + i);
@@ -134,7 +134,7 @@ function addOrRemoveYearFromChart(id) {
  */
 function addYearToActiveYearsByID(id) {
     //TODO
-    let year = getYearsFiltersHTTPRequest()[id];
+    let year = getYearsHTTPRequest()[id];
     let delimiter = ' ';
     if (window.localStorage.getItem("years").search("none") !== -1) {
         window.localStorage.setItem("years", '');
@@ -149,7 +149,7 @@ function addYearToActiveYearsByID(id) {
  */
 function removeYearFromActiveYearsByID(id) {
     //TODO
-    let year = getYearsFiltersHTTPRequest()[id];
+    let year = getYearsHTTPRequest()[id];
     window.localStorage.setItem("years", window.localStorage.getItem("years").replaceAll(year, ''));
     window.localStorage.setItem("years", window.localStorage.getItem("years").replaceAll("  ", ' '));
     const regExp = /(\s*[0-9]+\s*)+/g;

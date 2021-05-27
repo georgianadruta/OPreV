@@ -1,12 +1,22 @@
-const countries = ['Belgium', 'Bulgaria', 'Czechia', 'Denmark', 'Estonia', 'Ireland', 'Greece', 'Spain', 'France', 'Croatia', 'Italy', 'Germany', 'European Union - 27 countries (from 2020)', 'European Union - 28 countries (2013-2020)', 'European Union - 27 countries (2007-2013)', 'Euro area - 19 countries  (from 2015)', 'Euro area - 18 countries (2014)', 'Cyprus', 'Latvia', 'Lithuania', 'Luxembourg', 'Hungary', 'Malta', 'Netherlands', 'Austria', 'Poland', 'Portugal', 'Romania', 'Slovenia', 'Slovakia', 'Finland', 'Sweden', 'Iceland', 'Norway', 'Switzerland', 'United Kingdom', 'North Macedonia', 'Serbia', 'Turkey'];
-
+/**
+ * This method is responsible for adding elements to the select html element dynamically
+ */
 function addCountriesInSelect() {
     let selectContainer = document.getElementById("country");
+    let countries = getCountriesHTTPRequest();
     countries.forEach(item => {
         const option = document.createElement("option");
         option.text = item;
         selectContainer.add(option);
     });
+}
+
+/**
+ * This method is responsible for calling a HTTP PUT request and hiding the form afterwards.
+ */
+function addData() {
+    addCountriesInSelect()
+    hideAddForm();
 }
 
 /**
@@ -32,13 +42,6 @@ function parseDataset(jsonArray) {
     }
 }
 
-/**
- * This method is responsible for calling a HTTP PUT request and hiding the form afterwards.
- */
-function addData() {
-    //TODO send data
-    hideAddForm();
-}
 
 /**
  * This method is responsible for showing the table with preview content upon clicking one of the options.

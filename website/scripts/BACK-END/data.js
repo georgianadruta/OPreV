@@ -25,11 +25,12 @@ function loadDataSet(datasetName) {
     getDatasetHTTPRequest();
 }
 
+
 /**
  * TODO get BMI filters via HTTP request
  * @returns {string[]}  array of strings
  */
-function getBMIFiltersHTTPRequest() {
+function getBMIIndicatorsHTTPRequest() {
     if (getCookie("dataset").toLowerCase() === "eurostat")
         return ['Obese', 'Pre-obese', 'Overweight'];
     if (getCookie("dataset").toLowerCase() === "who")
@@ -40,7 +41,7 @@ function getBMIFiltersHTTPRequest() {
  * TODO get Years filters via HTTP request
  * @returns {string[]}  array of strings
  */
-function getYearsFiltersHTTPRequest() {
+function getYearsHTTPRequest() {
     if (getCookie("dataset").toLowerCase() === "eurostat")
         return ['2008', '2014', '2017'];
     if (getCookie("dataset").toLowerCase() === "who")
@@ -51,7 +52,7 @@ function getYearsFiltersHTTPRequest() {
  * TODO get Sex filters via HTTP request
  * @returns {string[]}  array of strings
  */
-function getSexFiltersHTTPRequest() {
+function getSexesHTTPRequest() {
     if (getCookie("dataset").toLowerCase() === "eurostat")
         return ["Both sexes"];
     if (getCookie("dataset").toLowerCase() === "who")
@@ -62,11 +63,22 @@ function getSexFiltersHTTPRequest() {
  * TODO get Regions filters via HTTP request
  * @returns {string[]}  array of strings
  */
-function getRegionsFiltersHTTPRequest() {
+function getRegionsHTTPRequest() {
     if (getCookie("dataset").toLowerCase() === "eurostat")
         return ["Europe"];
     if (getCookie("dataset").toLowerCase() === "who")
         return ['Africa', 'Europe', 'TODO add others'];
+}
+
+/**
+ * TODO get Countries  via HTTP request
+ * TODO HTTP request
+ * @returns {string[]} array of strings each representing a label
+ */
+function getCountriesHTTPRequest() {
+    if (getCookie("dataset").toLowerCase() === 'eurostat')
+        return ['Belgium', 'Bulgaria', 'Czechia', 'Denmark', 'Estonia', 'Ireland', 'Greece', 'Spain', 'France', 'Croatia', 'Italy', 'Germany', 'European Union - 27 countries (from 2020)', 'European Union - 28 countries (2013-2020)', 'European Union - 27 countries (2007-2013)', 'Euro area - 19 countries  (from 2015)', 'Euro area - 18 countries (2014)', 'Cyprus', 'Latvia', 'Lithuania', 'Luxembourg', 'Hungary', 'Malta', 'Netherlands', 'Austria', 'Poland', 'Portugal', 'Romania', 'Slovenia', 'Slovakia', 'Finland', 'Sweden', 'Iceland', 'Norway', 'Switzerland', 'United Kingdom', 'North Macedonia', 'Serbia', 'Turkey'];
+    else return ["botswana", 'pwl'];
 }
 
 
