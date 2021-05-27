@@ -80,7 +80,7 @@ function GET(request, response) {
             break;
         }
         case "/dataset/who": {
-            setFailedRequestResponse(request, response, "NOT IMPLEMENTED YET", 200);
+            setSuccessfulRequestResponse(request, response, "[{}]", 200);
             break;
         }
 
