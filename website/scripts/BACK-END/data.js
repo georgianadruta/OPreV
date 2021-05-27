@@ -25,70 +25,24 @@ function loadDataSet(datasetName) {
     getDatasetHTTPRequest();
 }
 
-
-/**
- * TODO get BMI filters via HTTP request
- * @returns {string[]}  array of strings
- */
-function getBMIIndicatorsHTTPRequest() {
-    if (getCookie("dataset").toLowerCase() === "eurostat")
-        return ['Obese', 'Pre-obese', 'Overweight'];
-    if (getCookie("dataset").toLowerCase() === "who")
-        return ['1', '2', '3'];
-}
-
-/**
- * TODO get Years filters via HTTP request
- * @returns {string[]}  array of strings
- */
-function getYearsHTTPRequest() {
-    if (getCookie("dataset").toLowerCase() === "eurostat")
-        return ['2008', '2014', '2017'];
-    if (getCookie("dataset").toLowerCase() === "who")
-        return ['1', '2', '3'];
-}
-
-/**
- * TODO get Sex filters via HTTP request
- * @returns {string[]}  array of strings
- */
-function getSexesHTTPRequest() {
-    if (getCookie("dataset").toLowerCase() === "eurostat")
-        return ["Both sexes"];
-    if (getCookie("dataset").toLowerCase() === "who")
-        return ['Female', 'Male', 'Both sexes'];
-}
-
-/**
- * TODO get Regions filters via HTTP request
- * @returns {string[]}  array of strings
- */
-function getRegionsHTTPRequest() {
-    if (getCookie("dataset").toLowerCase() === "eurostat")
-        return ["Europe"];
-    if (getCookie("dataset").toLowerCase() === "who")
-        return ['Africa', 'Europe', 'TODO add others'];
-}
-
 /**
  * This function returns an array of strings with all the possible values for the given filter
- * @param filterName the name of the filter. Exactly one of the fallowing: 'countries', 'sexes', 'BMIIndicators','years','regions'
  * @return {Promise<>} a new Promise
+ * @param fieldName
  */
-async function getAllPossibleValuesOfFilterHTTPRequest(filterName) {
+async function getAllPossibleValuesOfFilterHTTPRequest(fieldName) {
     return await new Promise((resolve, reject) => {
-        setCookie("filter", filterName);
+        setCookie("field", fieldName);
         const HTTP = new XMLHttpRequest();
         const url = getURLBasedOnCookies() + '/filters';
         HTTP.onreadystatechange = () => {
             if (HTTP.readyState === HTTP.DONE) {
-                deleteCookie("filter");
+                deleteCookie("field");
                 if (HTTP.status >= 400) {
                     console.log(HTTP.responseText);
                     reject();
                 } else {
                     let data = JSON.parse(HTTP.responseText);
-                    console.log(data);
                     resolve(data);
                 }
             }
@@ -98,23 +52,6 @@ async function getAllPossibleValuesOfFilterHTTPRequest(filterName) {
         HTTP.send();
     })
 }
-
-/**
- * TODO get Countries  via HTTP request
- * TODO HTTP request
- * @returns {string[]} array of strings each representing a label
- */
-async function getCountriesHTTPRequest() {
-    await getDatasetHTTPRequest().then(result => {
-        tableInformation = result
-    })
-    let countryList = [];
-    for (let i = 0; i < tableInformation.dataset.length; i = i + 3) {
-        countryList.push(tableInformation.dataset[i].country);
-    }
-    return countryList;
-}
-
 
 /**
  *  * This method is responsible for the HTTP DELETE request to delete a certain message by ID.

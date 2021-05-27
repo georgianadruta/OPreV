@@ -1,11 +1,11 @@
 /**
  * This function's purpose is to create a filter button CGI
- * @param HTTPRequestFunction the function that will return the text to be added
+ * @param fieldName
  * @param elementID the element id in html code
  * @param localStorageItemName the cookie to be set
  */
-function createFilterButton(HTTPRequestFunction, elementID, localStorageItemName) {
-    const indicatorsArray = HTTPRequestFunction(dataset);
+function createFilterButton(fieldName, elementID, localStorageItemName) {
+    const indicatorsArray = getAllPossibleValuesOfFilterHTTPRequest(fieldName);
     const filtersContainer = document.getElementById(elementID);
     filtersContainer.innerHTML = '';
 
@@ -25,9 +25,9 @@ function createFilterButton(HTTPRequestFunction, elementID, localStorageItemName
  * This function's purpose is to create the filters based on the dataset used.
  */
 function refreshFilters() {
-    createFilterButton(getBMIIndicatorsHTTPRequest, "bodyMassButton", "BMIFilter");
-    createFilterButton(getSexesHTTPRequest, "sexButton", "SexFilter");
-    createFilterButton(getRegionsHTTPRequest, "continentButton", "RegionsFilter");
+    createFilterButton("BMIIndicators", "bodyMassButton", "BMIFilter");
+    createFilterButton("years", "sexButton", "SexFilter");
+    createFilterButton("regions", "continentButton", "RegionsFilter");
     createYearsCheckboxes();
     createCountriesCheckboxes();
 }

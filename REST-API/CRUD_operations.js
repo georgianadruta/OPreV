@@ -31,6 +31,9 @@ const getSelectSQLQueryForFilter = function (filter, database, tableName) {
         case 'sexes': {
             return "SELECT DISTINCT sexes as filter FROM " + tableName;
         }
+        case 'regions': {
+            return "SELECT DISTINCT region as filter FROM " + tableName;
+        }
         case 'BMIIndicators': {
             return "SELECT table_name as filter FROM information_schema.tables WHERE table_schema ='" + database + "'";
         }

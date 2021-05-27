@@ -64,7 +64,7 @@ let getContactMessages = async function (request, response) {
 }
 
 let getFilters = async function (request, response) {
-    let jsonObject = {filter: getCookieValueFromCookies(request, "filter")};
+    let jsonObject = {filter: getCookieValueFromCookies(request, "field")};
     let BMIIndicator = getCookieValueFromCookies(request, "BMIIndicator"); // table name
     let database = getCookieValueFromCookies(request, "dataset");
     try {
@@ -88,15 +88,15 @@ function GET(request, response) {
     switch (path) {
         case "/contact/messages": {
             getContactMessages(request, response);
-            break;
+            return;
         }
         case "/dataset/eurostat": { //      || "/dataset/who"
             getDataset(request, response);
-            break;
+            return;
         }
         case "/dataset/eurostat/filters" : { //     || "/dataset/who/filters"
             getFilters(request, response);
-            break;
+            return;
         }
         default: {
             let regex = new RegExp('/database/eurostat/[0-9]+') //if it's of form /database/eurostat/{some_number}
@@ -139,8 +139,6 @@ function GET(request, response) {
             }
         }
     }
-
-
 }
 
 module.exports.GET = GET;
