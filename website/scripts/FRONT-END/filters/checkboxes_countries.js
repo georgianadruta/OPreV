@@ -70,10 +70,10 @@ function selectAllCountries() {
         chart.data.datasets[2].data = getDatasetData()[2];
     } else {
         const tableData = getTableData();
-        tableData.labels = labels;
-        tableData.data[0] = getDatasetData()[0];
-        tableData.data[1] = getDatasetData()[1];
-        tableData.data[2] = getDatasetData()[2];
+        tableData.tableColumns = labels;
+        tableData.dataset[0] = getDatasetData()[0];
+        tableData.dataset[1] = getDatasetData()[1];
+        tableData.dataset[2] = getDatasetData()[2];
     }
 
     if (page === "chart_bar.html") {
