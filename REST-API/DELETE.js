@@ -40,11 +40,11 @@ function DELETE(request, response) {
             break;
         }
         case "/dataset/who": {
-            deleteFromTableByID(request, response, CRUD.deleteFromTableByID, "who", "TODO")//TODO
+            deleteFromTableByID(request, response, CRUD.deleteFromTableByID, "who", "TODO")
             break;
         }
         case "/dataset/eurostat": {
-            deleteFromTableByID(request, response, CRUD.deleteFromTableByID, "eurostat", "TODO")//TODO
+            deleteFromTableByID(request, response, CRUD.deleteFromTableByID, "eurostat", "TODO")
             break;
         }
         default: {
