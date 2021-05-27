@@ -18,29 +18,33 @@ async function refreshTableData() {
 /**
  * TODO GEORGIANA
  */
-function generateTable() {
+async function generateTable() {
+    await getDatasetHTTPRequest().then(result => {
+        tableInformation = result
+    })
+    console.log(tableInformation)
     const table = document.getElementById("table");
     table.innerHTML = '';
 
     if (tableInformation.dataset.length > 0) {
-        for (let i = 1; i < tableInformation.tableColumns.length; i++) {
+        for (let i = 0; i < tableInformation.dataset.length; i = i + 2) {
             let tr = table.insertRow(-1);
             tr.id = 'country-' + i;
 
             const thLabel = document.createElement("td");
-            thLabel.innerHTML = tableInformation.tableColumns[i];
+            thLabel.innerHTML = tableInformation.dataset[i].country;
             tr.appendChild(thLabel);
 
             const th2008 = document.createElement("td");
-            th2008.innerHTML = tableInformation.dataset[0][i] + '';
+            th2008.innerHTML = tableInformation.dataset[i].BMI_value + '';
             tr.appendChild(th2008);
 
             const th2014 = document.createElement("td");
-            th2014.innerHTML = tableInformation.dataset[1][i] + '';
+            th2014.innerHTML = tableInformation.dataset[i + 1].BMI_value + '';
             tr.appendChild(th2014);
 
             const th2017 = document.createElement("td");
-            th2017.innerHTML = tableInformation.dataset[1][i] + '';
+            th2017.innerHTML = tableInformation.dataset[i + 2].BMI_value + '';
             tr.appendChild(th2017);
 
             table.appendChild(tr);
