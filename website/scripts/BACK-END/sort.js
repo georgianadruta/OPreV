@@ -77,12 +77,12 @@ window.addEventListener("load", function () {
         let path = window.location.pathname;
         let str = path.split("/");
         if (str[str.length - 1] === "chart_table.html") {
-            refreshTableData();
-            generateTable();
+            tableChart.refreshTableData();
+            tableChart.generateTable();
         } else {
             if (str[str.length - 1] === "chart_bar.html") {
-                refreshBarChartData();
-                getBarChart();
+                barChart.refreshChartData();
+                barChart.getBarChart();
             } else {
                 if (str[str.length - 1] === "chart_line.html") {
                     //TODO

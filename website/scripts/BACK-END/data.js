@@ -22,7 +22,6 @@ function loadDataSet(datasetName) {
         window.localStorage.setItem("dataset", 'eurostat');
         console.error("ERROR: wrong call on loadDataSet function: loadDataset(" + datasetName + ").")
     }
-    getDatasetHTTPRequest();
 }
 
 /**
@@ -188,7 +187,7 @@ async function getDatasetHTTPRequest(filters = null) {
                 deleteCookie("filters")
                 if (HTTP.status >= 400) {
                     console.log(HTTP.responseText);
-                    reject();
+                    reject(HTTP.responseText);
                 } else {
                     let data = JSON.parse(HTTP.responseText);
                     if (data.tableColumns.length > 0)
@@ -204,6 +203,10 @@ async function getDatasetHTTPRequest(filters = null) {
     })
 }
 
+
+var barChart;
+var tableChart;
+var lineChart;
 
 /**
  * By default load eurostat.

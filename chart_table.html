@@ -59,11 +59,12 @@
     <link rel="stylesheet" href="website/styles/chart.css"/>
 
     <!--JAVA SCRIPTS-->
+    <script src="website/scripts/BACK-END/charts/modules.js"></script>
+    <script src="website/scripts/BACK-END/charts/chart.js"></script>
+    <script src="website/scripts/BACK-END/charts/chart_table.js"></script>
     <script src="website/scripts/BACK-END/cookies.js"></script>
     <script src="website/scripts/BACK-END/data.js"></script>
     <script src="website/scripts/BACK-END/sort.js"></script>
-    <script src="website/scripts/BACK-END/charts/chart.js"></script>
-    <script src="website/scripts/BACK-END/charts/chart_table.js"></script>
     <script src="website/scripts/BACK-END/buttons/download_csv.js"></script>
     <script src="website/scripts/BACK-END/buttons/download_png.js"></script>
     <script src="website/scripts/BACK-END/buttons/download_svg.js"></script>
@@ -228,7 +229,7 @@
                 <thead>
                 <tr>
                     <th>Country</th>
-                    <th onclick="deleteColumn('2008')">2008</th>
+                    <th onclick="tableChart.deleteColumn('2008')">2008</th>
                     <th>2014</th>
                     <th>2017</th>
                 </tr>

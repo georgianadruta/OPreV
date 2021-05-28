@@ -66,18 +66,23 @@ async function selectAllYears() {
     const path = window.location.pathname;
     const page = path.split("/").pop();
     if (page === "chart_bar.html") {
-        const chart = getBarChart();
+        const chart = barChart.getChart();
         //TODO update bar chart configuration
+    } else if (page === "chart_line.html") {
+        const chart = lineChart.getChart();
+        //TODO update line chart configuration
     } else {
-        const tableData = getTableData();
+        const tableData = tableChart.getTableData();
         //TODO update table columns
     }
 
     if (page === "chart_bar.html") {
-        chart.update();
+        barChart.getChart().update();
+    } else if (page === "chart_line.html") {
+        lineChart.getChart().update();
     } else {
-        refreshTableData();
-        generateTable();
+        tableChart.refreshTableData();
+        tableChart.generateTable();
     }
 
     removedYearsIds = [];
@@ -105,13 +110,16 @@ async function deselectAllYears() {
         const path = window.location.pathname;
         const page = path.split("/").pop();
         if (page === "chart_bar.html") {
-            const chart = getBarChart();
+            const chart = barChart.getChart();
             //refresh bar chart configuration
             chart.update();
-
+        } else if (page === "chart_line.html") {
+            const chart = lineChart.getChart();
+            //refresh bar chart configuration
+            chart.update();
         } else {
             //refresh table's columns
-            generateTable();
+            tableChart.generateTable();
         }
         removedYearsIds = [...Array(years.length).keys()];
     }
@@ -136,11 +144,11 @@ function addOrRemoveYearFromChart(id) {
     const path = window.location.pathname;
     const page = path.split("/").pop();
     if (page === "chart_bar.html") {
-        refreshBarChartData();
-        getBarChart().update();
+        barChart.refreshChartData();
+        barChart.getChart().update();
     } else {
-        refreshTableData();
-        generateTable();
+        tableChart.refreshTableData();
+        tableChart.generateTable();
     }
 }
 

@@ -71,24 +71,24 @@ async function selectAllCountries() {
     // const path = window.location.pathname;
     // const page = path.split("/").pop();
     // if (page === "chart_bar.html") {
-    //     const chart = getBarChart();
+    //     const chart = barChart.getChart();
     //     chart.data.labels = labels;
     //     chart.data.datasets[0].data = getDatasetData()[0];
     //     chart.data.datasets[1].data = getDatasetData()[1];
     //     chart.data.datasets[2].data = getDatasetData()[2];
     // } else {
-    //     const tableData = getTableData();
+    //     const tableData = tableChart.getTableData();
     //     tableData.tableColumns = labels;
     //     tableData.dataset[0] = getDatasetHTTPRequest()[0];
     //     tableData.dataset[1] = getDatasetHTTPRequest()[1];
     //     tableData.dataset[2] = getDatasetHTTPRequest()[2];
     // }
     //
-    // if (page === "chart_bar.html") {
+    // if (page === "chart_bar.html") { TODO CHANGE THIS TO AFFECT LINE CHART TOO
     //     chart.update();
     // } else {
-    //     refreshTableData();
-    //     generateTable();
+    //     tableChart.refreshTableData();
+    //     tableChart.generateTable();
     // }
 
     removeCountryIds = [];
@@ -114,12 +114,15 @@ async function deselectAllCountries() {
         const path = window.location.pathname;
         const page = path.split("/").pop();
         if (page === "chart_bar.html") {
-            const chart = getBarChart();
-            refreshBarChartData();
+            const chart = barChart.getChart();
+            barChart.refreshChartData();
+            chart.update();
+        } else if (page === "chart_line.html") {
+            const chart = lineChart.getChart();
             chart.update();
         } else {
-            refreshTableData();
-            generateTable();
+            tableChart.refreshTableData();
+            tableChart.generateTable();
         }
         removeCountryIds = [...Array(labels.length).keys()];
     }
@@ -144,11 +147,14 @@ function addOrRemoveCountryFromChart(id) {
     const path = window.location.pathname;
     const page = path.split("/").pop();
     if (page === "chart_bar.html") {
-        refreshBarChartData();
-        getBarChart().update();
+        barChart.refreshChartData();
+        barChart.getChart().update();
+    } else if (page === "chart_line.html") {
+        lineChart.refreshChartData();
+        lineChart.getChart().update();
     } else {
-        refreshTableData();
-        generateTable();
+        tableChart.refreshTableData();
+        tableChart.generateTable();
     }
 }
 

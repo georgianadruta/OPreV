@@ -1,3 +1,84 @@
+/**
+ * Class responsible for every tpe of chart(data representation).
+ * Ex:  let barChart=new OPreVChart();
+ */
+class OPreVChart {
+    tableInformation = {
+        tableColumns: Array(String),
+        dataset: Array(Object)
+    }
+
+    /**
+     * The constructor.
+     * It calls a HTTP GET request to get all the dataset.
+     */
+    constructor() {
+        setCookie("dataset", "eurostat");//load eurostat by default
+        getDatasetHTTPRequest().then(result => {
+            this.tableInformation = result;
+        }).catch(error => {
+            console.log(error);
+            alert("FAILED TO GET DATASET");
+        });
+    }
+
+    /**
+     * Method responsible to call HTTP GET request for the dataset.
+     * Filters may be specified as parameter. If not, it will simply get all the dataset from the server.
+     * @param filters the filters ||    TODO decide how this parameter will look
+     */
+    refreshTableInformationWithFilters(filters = null) {
+        if (filters == null)
+            getDatasetHTTPRequest().then(result => {
+                tableInformation = result;
+            }).catch(error => {
+                console.log(error);
+                alert("FAILED TO GET DATASET");
+            });
+        else {
+            setCookie("filters", filters)
+            getDatasetHTTPRequest().then(result => {
+                tableInformation = result;
+                deleteCookie("filters");
+            }).catch(error => {
+                console.log(error);
+                alert("FAILED TO GET DATASET");
+                deleteCookie("filters");
+            });
+        }
+    }
+
+    /**
+     * Getter for the table column names.
+     * @return {*|any[]} Array of Strings
+     */
+    getTableColumns() {
+        return tableInformation.tableColumns;
+    }
+
+    /**
+     * Getter for the table dataset.
+     * @return {*|any[]} Array of JSON objects.
+     */
+    getDataset() {
+        return tableInformation.dataset;
+    }
+
+    /**
+     * Setter for the table column names.
+     */
+    setTableColumns(tableColumns) {
+        tableInformation.tableColumns = tableColumns;
+    }
+
+    /**
+     * Setter for the table dataset.
+     */
+    setDataset(dataset) {
+        tableInformation.dataset = dataset;
+    }
+}
+
 let dataset = {
     labels: null,
     data: Array()
