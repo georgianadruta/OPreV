@@ -6,17 +6,17 @@ class BarChart extends OPreVChart {
             label: 'Year 2008',
             backgroundColor: 'rgb(41, 128, 185)',
             borderColor: 'rgb(41, 128, 185)',
-            data: getDatasetData()[0],
+            data: [],
         }, {
             label: 'Year 2014',
             backgroundColor: 'rgb(39, 174, 96)',
             borderColor: 'rgb(39, 174, 96)',
-            data: getDatasetData()[1],
+            data: [],
         }, {
             label: 'Year 2017',
             backgroundColor: 'rgb(243, 156, 18)',
             borderColor: 'rgb(243, 156, 18)',
-            data: getDatasetData()[2],
+            data: [],
         },
         ]
     };
@@ -37,11 +37,17 @@ class BarChart extends OPreVChart {
 
     constructor() {
         super();
-        getAllPossibleValuesOfFilterHTTPRequest('countries').then(labels => {
-            this.data.labels = labels;
+        applyAllFilters().then(result => {
+            this.data.labels = result.labels;
             this.chart = new Chart(document.getElementById('barChart').getContext('2d'), this.config);
-        });
 
+            for (let i = 0; i < Object.keys(result.years).length; i++) {
+                this.data.datasets[i]['data'] = result.years[Object.keys(result.years)[i]].map(x => x.BMI_value);
+            }
+            this.chart.update();
+        }).catch(err => {
+            console.log(err)
+        })
     }
 
     /**
@@ -50,6 +56,13 @@ class BarChart extends OPreVChart {
      */
     getChart() {
         return this.chart;
+    }
+
+    /** Getter for the chart data object
+     * @returns {*} the chart data object
+     */
+    getChartData() {
+        return this.data;
     }
 
     /**
