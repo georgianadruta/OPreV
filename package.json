@@ -4,7 +4,7 @@
   "description": "This is the package manager. Future npm packages will be easier to track using this file.",
   "main": "/",
   "scripts": {
-    "start": ""
+    "serve": "node REST-API/api.js"
   },
   "repository": {
     "type": "git",
