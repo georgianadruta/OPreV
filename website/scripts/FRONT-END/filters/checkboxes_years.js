@@ -21,14 +21,20 @@ async function createYearsCheckboxes() {
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
         checkbox.id = 'year' + i;
-        checkbox.name = years[i];
+        checkbox.name = 'years';
         checkbox.value = years[i];
         checkbox.checked = false;
 
         removedYearsIds.push(i);//by default all are removed
 
-        checkbox.onclick = function () {
-            addOrRemoveYearFromChart(i);
+        const path = window.location.pathname;
+        const page = path.split("/").pop();
+        if (page === "chart_bar.html") {
+            checkbox.checked = true;
+        } else {
+            checkbox.onclick = function () {
+                addOrRemoveYearFromChart(i);
+            }
         }
 
         const label = document.createElement('label');
@@ -77,7 +83,7 @@ async function selectAllYears() {
     }
 
     if (page === "chart_bar.html") {
-        barChart.getChart().update();
+        // barChart.getChart().update();
     } else if (page === "chart_line.html") {
         lineChart.getChart().update();
     } else {
@@ -110,9 +116,9 @@ async function deselectAllYears() {
         const path = window.location.pathname;
         const page = path.split("/").pop();
         if (page === "chart_bar.html") {
-            const chart = barChart.getChart();
+            // const chart = barChart.getChart();
             //refresh bar chart configuration
-            chart.update();
+            // chart.update();
         } else if (page === "chart_line.html") {
             const chart = lineChart.getChart();
             //refresh bar chart configuration

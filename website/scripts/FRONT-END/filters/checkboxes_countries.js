@@ -19,7 +19,7 @@ async function createCountriesCheckboxes() {
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
         checkbox.id = 'country' + i;
-        checkbox.name = labels[i];
+        checkbox.name = 'countries';
         checkbox.value = labels[i];
         checkbox.checked = false;
 
@@ -31,6 +31,8 @@ async function createCountriesCheckboxes() {
             checkbox.onclick = function () {
                 selectOnlyOneCountryFromChart(i);
             };
+        } else if (page === "chart_bar.html") {
+            checkbox.checked = true;
         } else {
             checkbox.onclick = function () {
                 addOrRemoveCountryFromChart(i);
@@ -114,9 +116,9 @@ async function deselectAllCountries() {
         const path = window.location.pathname;
         const page = path.split("/").pop();
         if (page === "chart_bar.html") {
-            const chart = barChart.getChart();
-            barChart.refreshChartData();
-            chart.update();
+            // const chart = barChart.getChart();
+            // barChart.refreshChartData();
+            // chart.update();
         } else if (page === "chart_line.html") {
             const chart = lineChart.getChart();
             chart.update();
@@ -126,7 +128,7 @@ async function deselectAllCountries() {
         }
         removeCountryIds = [...Array(labels.length).keys()];
     }
-    window.localStorage.setItem("countries", "none");
+    // window.localStorage.setItem("countries", "none");
 }
 
 /**

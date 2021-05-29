@@ -204,9 +204,9 @@ async function getDatasetHTTPRequest(filters = null) {
 }
 
 
-var barChart;
-var tableChart;
-var lineChart;
+let barChart;
+let tableChart;
+let lineChart;
 
 /**
  * By default load eurostat.

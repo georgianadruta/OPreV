@@ -455,6 +455,103 @@ const getFiltersFromDataset = function (database, tableName, filter) {
     });
 }
 
+
+/**
+ * This method is responsible for returning all the filters from the given database table with the filter specified.
+ * @param database the database
+ * @param tableName the table
+ * @param filter the filter
+ */
+const getDataset = async function (database, filter) {
+    return new Promise(async (resolve, reject) => {
+        let result;
+        const massParam = filter.mass == '' ? 'obese' : filter.mass;
+
+        let countriesParam = filter.countries;
+        if (countriesParam.length === 0) {
+            await getFiltersFromDataset(database, massParam, 'countries').then(res => {
+                countriesParam = res;
+            });
+        }
+
+        let allYears = [];
+        await getFiltersFromDataset(database, massParam, 'years').then(res => {
+            allYears = res;
+        });
+
+        let yearsParam = filter.years.length > 0 ? filter.years : allYears;
+
+        await getInternalData(database, massParam, countriesParam, yearsParam, allYears).then(res => {
+            result = res;
+        });
+
+        if (result) {
+            resolve(result);
+        } else {
+            reject("Wrong data!");
+        }
+    });
+}
+
+async function getInternalData(database, mass, countries, years, allYears) {
+    return new Promise(async (resolve, reject) => {
+        let result = {
+            labels: countries,
+            years: {}
+        };
+        for (let i = 0; i < allYears.length; i++) {
+            if (years.indexOf(allYears[i]) > -1) {
+                await getCountryBMIValuePairsByYear(database, mass, countries, allYears[i]).then(res => {
+                    result.years[allYears[i]] = res;
+                }).catch(err => {
+                    console.error(err);
+                })
+            } else {
+                result.years[allYears[i]] = [];
+            }
+        }
+        if (result) {
+            resolve(result);
+        } else {
+            reject(result);
+        }
+    });
+}
+
+async function getCountryBMIValuePairsByYear(database, table, countries, year) {
+    return new Promise(async (resolve, reject) => {
+        let con = getConnection({database: database})
+        con.connect(function (err) {
+            if (err) {
+                console.log(err);
+                reject("Failed to connect to the database.");
+            } else {
+                const sql = "SELECT country, BMI_value FROM " + table + " WHERE country IN (\"" + countries.join('", "') + "\") AND year = " + year;
+                con.query(sql, function (err, results) {
+                    if (err) {
+                        console.log("Failed to select " + year + " from " + table + "." + "\nREASON: " + err.sqlMessage);
+                        reject("Failed to select " + year + " from " + table + ".");
+                    } else {
+                        if (results.length > 0) {
+                            let filtersArray = [];
+                            results.forEach(row => {
+                                filtersArray.push({
+                                    country: row.country,
+                                    BMI_value: row.BMI_value
+                                });
+                            })
+                            resolve(filtersArray);
+                        } else {
+                            console.log("There is no data  filters:" + year + " from " + table + ".");
+                            resolve(null);
+                        }
+                    }
+                });
+            }
+        });
+    });
+}
+
 module.exports.getFiltersFromDataset = getFiltersFromDataset;
 module.exports.modifyDataInDataset = modifyDataInDataset;
 module.exports.getDatasetDataFromTable = getDatasetDataFromTable;
@@ -467,3 +564,4 @@ module.exports.addUserToLoggedUsersTable = addUserToLoggedUsersTable;
 module.exports.clearLoggedUsersTable = clearLoggedUsersTable;
 module.exports.addRegistrationUser = addRegistrationUser;
 module.exports.getUserHashedPassword = getHashedPasswordOfAdminAccount;
+module.exports.getDataset = getDataset;
