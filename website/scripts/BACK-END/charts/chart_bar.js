@@ -2,6 +2,7 @@ class BarChart extends OPreVChart {
     chart;
     data = {
         labels: Array(),
+        //TODO Make datasets dynamic
         datasets: [{
             label: 'Year 2008',
             backgroundColor: 'rgb(41, 128, 185)',

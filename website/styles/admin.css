@@ -145,7 +145,6 @@ table {
 }
 
 table td, table th {
-    border: 1px solid #ddd;
     padding: 8px;
 }
 
@@ -165,11 +164,12 @@ table th {
     display: block;
 }
 
-td.manipulationButtons {
-    display: flex;
-    justify-content: space-evenly;
-    padding-left: 0;
-    padding-right: 0;
+.manipulationButtons {
+    display: table-cell;
+}
+
+td.manipulationButtons .button:not(:last-of-type) {
+    margin-right: 10px;
 }
 
 /* Responsive */
