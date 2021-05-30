@@ -9,7 +9,8 @@ function getConnection(cookie) {
         host: "localhost",
         user: "root",
         password: "parola",
-        database: cookie.database
+        database: cookie.database,
+        multipleStatements: true
     });
 }
 
@@ -309,6 +310,43 @@ const getContactMessagesFromContactMessagesTable = function () {
 }
 
 /**
+ * This method is responsible for getting all requested users from the registration requests table.
+ * @return {Promise<>}
+ */
+const getRequestedUsersFromRegistrationRequestsTable = function () {
+    return new Promise((resolve, reject) => {
+        let con = getConnection({database: "users"})
+        const table = "registration_requests";
+        con.connect(function (err) {
+            if (err) {
+                console.log(err);
+                reject("Failed to connect to the database.");
+            } else {
+                const sql = "SELECT ID, name, email FROM " + table;
+                con.query(sql, function (err, results, fields) {
+                    if (err) {
+                        reject("Failed select all from registration requests table.");
+                    } else {
+                        let jsonArray = [];
+                        results.forEach(rowPacketObject => {
+                                jsonArray.push(
+                                    {
+                                        "id": rowPacketObject.ID,
+                                        "fullName": rowPacketObject.name,
+                                        "email": rowPacketObject.email,
+                                    })
+                            }
+                        )
+                        resolve(jsonArray);
+                    }
+                });
+            }
+        });
+    })
+}
+
+
+/**
  * This method deletes any record from any table by ID
  * @param database the database
  * @param tableName
@@ -442,6 +480,36 @@ const addDataInDataset = function (database, tableName, data) {
                     } else {
                         console.log("Added BMI of " + data.country + " in " + table + ".");
                         resolve("Added BMI of " + data.country + " in " + table + ".");
+                    }
+                });
+            }
+        });
+    })
+}
+
+/**
+ * This method insert a new record in active admins and delete it from requested users
+ * @param data an object that contains the user id
+ * @returns {Promise<>} a new promise
+ */
+const acceptUsers = function (data) {
+    return new Promise((resolve, reject) => {
+        let con = getConnection({database: 'users'})
+        con.connect(function (err) {
+            if (err) {
+                console.log(err);
+                reject("Failed to connect to the database.");
+
+            } else {
+                const sql = "INSERT INTO active_admins (ID, name, password, email) SELECT ID, name, password, email FROM registration_requests WHERE ID =" + data.id + ";" +
+                    "DELETE FROM registration_requests WHERE ID =" + data.id + ";";
+                con.query(sql, function (err) {
+                    if (err) {
+                        console.log("Failed to add user" + "\nREASON: " + err.sqlMessage);
+                        reject("Failed to add user in active_admins.");
+                    } else {
+                        console.log("User added in active_admins.");
+                        resolve("User added in active_admins.");
                     }
                 });
             }
@@ -596,4 +664,6 @@ module.exports.clearLoggedUsersTable = clearLoggedUsersTable;
 module.exports.addRegistrationUser = addRegistrationUser;
 module.exports.getUserHashedPassword = getHashedPasswordOfAdminAccount;
 module.exports.getDataset = getDataset;
+module.exports.acceptUsers = acceptUsers;
 module.exports.addDataInDataset = addDataInDataset;
+module.exports.getRequestedUsersFromRegistrationRequestsTable = getRequestedUsersFromRegistrationRequestsTable;

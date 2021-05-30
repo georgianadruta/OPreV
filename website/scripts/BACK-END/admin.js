@@ -1,6 +1,7 @@
 let tableInformation = {
     tableColumns: Array(),
     dataset: Array(),
+    acceptButton: Boolean,
     deleteButton: Boolean,
     modifyButton: Boolean
 }
@@ -109,15 +110,6 @@ function parseDataset(jsonDataset, message = "No data") {
         jsonDataset.modifyButton = false;
     }
     return jsonDataset;
-}
-
-/**
- * This method is responsible for showing the table with preview content upon clicking one of the options.
- */
-function changePreviewDataset(contentOrigin) {
-    //hide header
-    document.getElementById("datasetPreview-" + contentOrigin).style.display = "flex";
-    document.getElementById("dataManipulationButtons-" + contentOrigin).style.display = "flex";
 }
 
 /**
@@ -254,31 +246,57 @@ async function addData(contentOrigin) {
 
 }
 
+async function acceptUser(id, contentOrigin) {
+    const modal = document.getElementById("myModal");
+    modal.style.display = "none";
+
+    let jsonObject = {
+        id: id,
+    };
+
+    try {
+        alert(await acceptUserHTTPRequest(jsonObject));
+    } catch (err) {
+        alert(err);
+    }
+    await createDataTable(contentOrigin);
+}
+
 /**
  * This method is responsible for calling methods to get data and render all data tables.
  * @param contentOrigin the name of the data to show
  * @return {Promise<void>} unused
  */
 async function createDataTable(contentOrigin) {
-    changePreviewDataset(contentOrigin);
 
     let failMessage = null;
     switch (contentOrigin) {
         case "messages": {
             await getContactMessagesDatasetHTTPRequest().then(data => {
                 tableInformation = parseDataset(data, "No new contact messages.");
+                tableInformation.acceptButton = false;
                 tableInformation.modifyButton = false;
                 tableInformation.tableColumns[0] === "server_messages" ? tableInformation.deleteButton = false : tableInformation.deleteButton = true;
                 window.sessionStorage.setItem("deleteTable", "contact_messages");
             }).catch(fail => {
                 failMessage = fail;
             });
-            document.getElementById("addButton-" + contentOrigin).style.display = "none";
+            break;
+        }
+        case "approve": {
+            await getRequestUsersDatasetHTTPRequest().then(data => {
+                tableInformation = parseDataset(data, "No new user requests.");
+                tableInformation.acceptButton = true;
+                tableInformation.modifyButton = false;
+                tableInformation.tableColumns[0] === "server_messages" ? tableInformation.deleteButton = false : tableInformation.deleteButton = true;
+                window.sessionStorage.setItem("deleteTable", "registration_requests");
+            }).catch(fail => {
+                failMessage = fail;
+            });
             break;
         }
         case "who": {
             setCookie("dataset", contentOrigin);
-            document.getElementById("addButton-" + contentOrigin).style.display = "flex";
             await getDatasetHTTPRequest().then(data => {
                 tableInformation = parseDataset(data);
                 window.sessionStorage.setItem("deleteTable", "who_dataset");
@@ -324,7 +342,7 @@ async function createDataTable(contentOrigin) {
         th.innerHTML = columnName.capitalize();
         thead.append(th);
     })
-    if (tableInformation.deleteButton !== false || tableInformation.modifyButton !== false) {
+    if ((tableInformation.acceptButton !== false || tableInformation.deleteButton !== false || tableInformation.modifyButton !== false) && !tableDataset[0].server_messages) {
         const th = document.createElement('th');
         th.innerHTML = 'Action';
         thead.append(th);
@@ -348,6 +366,13 @@ async function createDataTable(contentOrigin) {
         if (!item.server_messages) {
             const td = document.createElement("td");
             td.classList.add("manipulationButtons");
+            if (tableInformation.acceptButton === true) {
+                const button = document.createElement("button");
+                button.classList.add("button");
+                button.innerHTML = 'Accept';
+                button.setAttribute("onclick", "openModal(" + id + ",'" + contentOrigin + "', 'accept')");
+                td.append(button);
+            }
             if (tableInformation.deleteButton === true) {
                 const button = document.createElement("button");
                 button.classList.add("button");
@@ -389,12 +414,12 @@ function openTab(evt, tab) {
 
     switch (tab) {
         case 'eurostat':
-        case 'who':
+        case 'approve':
         case 'messages': {
             createDataTable(tab).then(x => console.log(x));
             break;
         }
-        case 'approve': {
+        case 'who': {
             break;
         }
     }
@@ -571,6 +596,54 @@ function openModal(id, contentOrigin, action) {
             }
             modalFooter.appendChild(acceptButton);
             modalFooter.appendChild(cancelButton);
+
+            break;
+        }
+        case 'accept': {
+            let values = document.getElementById('trow' + id).getElementsByTagName('td');
+
+            modalTitle.innerHTML = 'Accept';
+
+            const message = document.createElement('p');
+            message.innerHTML = 'Are you sure you want to approve this request?';
+
+            const name = document.createElement('div');
+            name.className = 'form-group';
+            const nameLabel = document.createElement('label');
+            nameLabel.innerHTML = 'Name';
+            const nameValue = document.createElement('p');
+            nameValue.innerHTML = values[1].innerHTML;
+            name.appendChild(nameLabel);
+            name.appendChild(nameValue);
+
+            const email = document.createElement('div');
+            email.className = 'form-group';
+            const emailLabel = document.createElement('label');
+            emailLabel.innerHTML = 'Email';
+            const emailValue = document.createElement('p');
+            emailValue.innerHTML = values[2].innerHTML;
+            email.appendChild(emailLabel);
+            email.appendChild(emailValue);
+
+            modalBody.appendChild(message);
+            modalBody.appendChild(name);
+            modalBody.appendChild(email);
+
+            const acceptButton = document.createElement('button');
+            acceptButton.innerHTML = 'Accept';
+            acceptButton.className = 'button';
+            acceptButton.setAttribute("onclick", "acceptUser(" + id + ",'" + contentOrigin + "')");
+
+            const cancelButton = document.createElement('button');
+            cancelButton.innerHTML = 'Cancel';
+            cancelButton.className = 'button';
+            cancelButton.onclick = function () {
+                modal.style.display = "none";
+            }
+
+            modalFooter.appendChild(acceptButton);
+            modalFooter.appendChild(cancelButton);
+
 
             break;
         }
