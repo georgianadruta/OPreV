@@ -93,13 +93,6 @@ async function addCountriesInSelect() {
 }
 
 /**
- * This method is responsible for calling a HTTP PUT request and hiding the form afterwards.
- */
-function addData() {
-    hideAddForm();
-}
-
-/**
  * This functions returns the needed type for the createTable function
  * @param jsonDataset the array with the data
  * @param message default message
@@ -121,18 +114,16 @@ function parseDataset(jsonDataset, message = "No data") {
 /**
  * This method is responsible for showing the table with preview content upon clicking one of the options.
  */
-function changePreviewDataset() {
+function changePreviewDataset(contentOrigin) {
     //hide header
-    document.getElementById("chooseDataSetHeading").style.display = "none";
-    document.getElementById("datasetPreview").style.display = "flex";
-    document.getElementById("dataManipulationButtons").style.display = "flex";
+    document.getElementById("datasetPreview-" + contentOrigin).style.display = "flex";
+    document.getElementById("dataManipulationButtons-" + contentOrigin).style.display = "flex";
 }
 
 /**
  * This method is responsible for showing the form after pressing the Add button
  */
 function showAddForm() {
-    hideModifyForm();
     generateFormInputFields();
     document.getElementById("addFormContainer").style.display = "flex";
     document.getElementById("addValues").style.display = "flex";
@@ -189,19 +180,14 @@ function showModifyForm() {
 }
 
 /**
- * This method is responsible for hiding the form after finishing the http POST request.
- */
-function hideModifyForm() {
-    document.getElementById("modifyFormContainer").style.display = "none";
-    document.getElementById("modifyValues").style.display = "none";
-}
-
-/**
  * Method that calls HTTP DELETE request with the given id
  * @param id the id to be deleted
  * @param contentOrigin the table to refresh
  */
 async function deleteFunction(id, contentOrigin) {
+    const modal = document.getElementById("myModal");
+    modal.style.display = "none";
+
     let jsonObject = {
         "id": id,
     };
@@ -214,24 +200,14 @@ async function deleteFunction(id, contentOrigin) {
 }
 
 /**
- * This method shows a form where the user can insert the new BMI value for the selected field.
- * @param id the id to be modified
- * @param contentOrigin the table to refresh
- */
-async function modifyFunction(id, contentOrigin) {
-    window.sessionStorage.setItem("id", id);
-    window.sessionStorage.setItem("contentOrigin", contentOrigin);
-    showModifyForm();
-}
-
-/**
  * Method that calls HTTP POST request to modify some data at the given id
  * @return {Promise<void>} unused
  */
-async function modifyData() {
-    let id = window.sessionStorage.getItem("id")
-    let contentOrigin = window.sessionStorage.getItem("contentOrigin");
-    let newBMI = document.querySelector("#newBMI").value;
+async function modifyData(id, contentOrigin) {
+    const modal = document.getElementById("myModal");
+    modal.style.display = "none";
+
+    let newBMI = document.getElementById('newBMIInput' + id).value;
     let jsonObject = {
         "id": id,
         "newBMI": newBMI,
@@ -243,8 +219,39 @@ async function modifyData() {
     } catch (err) {
         alert(err);
     }
-    hideModifyForm();
     await createDataTable(contentOrigin);
+
+}
+
+/**
+ * Method that calls HTTP POST request to add data at the given table
+ * @return {Promise<void>} unused
+ */
+async function addData(contentOrigin) {
+    const modal = document.getElementById("myModal");
+    modal.style.display = "none";
+
+    let country = document.getElementById('countryInput').value;
+    let year = document.getElementById('yearInput').value;
+    let newBMI = document.getElementById('newBMIInput').value;
+    if (country === '' || year === '' || newBMI === '') {
+        alert("Please fill all inputs!");
+        return;
+    }
+    let jsonObject = {
+        country: country,
+        year: year,
+        newBMI: newBMI,
+    };
+    try {
+        //TODO set BMIIndicator cookie
+        //setCookie("BMIIndicator",someValue)
+        alert(await addDataFromAdminPageHTTPRequest(jsonObject));
+    } catch (err) {
+        alert(err);
+    }
+    await createDataTable(contentOrigin);
+
 }
 
 /**
@@ -253,7 +260,7 @@ async function modifyData() {
  * @return {Promise<void>} unused
  */
 async function createDataTable(contentOrigin) {
-    changePreviewDataset();
+    changePreviewDataset(contentOrigin);
 
     let failMessage = null;
     switch (contentOrigin) {
@@ -266,12 +273,12 @@ async function createDataTable(contentOrigin) {
             }).catch(fail => {
                 failMessage = fail;
             });
-            document.getElementById("addButton").style.display = "none";
+            document.getElementById("addButton-" + contentOrigin).style.display = "none";
             break;
         }
         case "who": {
             setCookie("dataset", contentOrigin);
-            document.getElementById("addButton").style.display = "flex";
+            document.getElementById("addButton-" + contentOrigin).style.display = "flex";
             await getDatasetHTTPRequest().then(data => {
                 tableInformation = parseDataset(data);
                 window.sessionStorage.setItem("deleteTable", "who_dataset");
@@ -284,7 +291,7 @@ async function createDataTable(contentOrigin) {
         }
         default: {
             setCookie("dataset", contentOrigin);
-            document.getElementById("addButton").style.display = "flex";
+            document.getElementById("addButton-" + contentOrigin).style.display = "flex";
             await getDatasetHTTPRequest().then(data => {
                 tableInformation = parseDataset(data);
                 window.sessionStorage.setItem("deleteTable", "eurostat_dataset");
@@ -296,7 +303,7 @@ async function createDataTable(contentOrigin) {
         }
     }
 
-    document.getElementById("datasetPreview").innerHTML = '';
+    document.getElementById("datasetPreview-" + contentOrigin).innerHTML = '';
 
     if (failMessage !== null) {
         alert(failMessage);
@@ -314,7 +321,7 @@ async function createDataTable(contentOrigin) {
     thead.append(trow);
     tableColumns.forEach(columnName => {
         const th = document.createElement('th');
-        th.innerHTML = columnName;
+        th.innerHTML = columnName.capitalize();
         thead.append(th);
     })
     if (tableInformation.deleteButton !== false || tableInformation.modifyButton !== false) {
@@ -338,26 +345,235 @@ async function createDataTable(contentOrigin) {
             }
             trow.append(td);
         })
-        const td = document.createElement("td");
-        td.classList.add("manipulationButtons");
-        if (tableInformation.deleteButton === true) {
-            const button = document.createElement("button");
-            button.classList.add("button");
-            button.innerHTML = 'Delete';
-            button.setAttribute("onclick", "deleteFunction(" + id + ",'" + contentOrigin + "')");
-            td.append(button);
+        if (!item.server_messages) {
+            const td = document.createElement("td");
+            td.classList.add("manipulationButtons");
+            if (tableInformation.deleteButton === true) {
+                const button = document.createElement("button");
+                button.classList.add("button");
+                button.innerHTML = 'Delete';
+                button.setAttribute("onclick", "openModal(" + id + ",'" + contentOrigin + "', 'delete')");
+                td.append(button);
+            }
+            if (tableInformation.modifyButton === true) {
+                const button = document.createElement("button");
+                button.classList.add("button");
+                button.innerHTML = 'Modify';
+                button.setAttribute("onclick", "openModal(" + id + ",'" + contentOrigin + "', 'modify')");
+                td.append(button);
+            }
+            trow.append(td);
         }
-        if (tableInformation.modifyButton === true) {
-            const button = document.createElement("button");
-            button.classList.add("button");
-            button.innerHTML = 'Modify';
-            button.setAttribute("onclick", "modifyFunction(" + id + ",'" + contentOrigin + "')");
-            td.append(button);
-        }
-        trow.append(td);
     })
     table.append(tbody);
 
-    let tableContainer = document.getElementById("datasetPreview");
+    let tableContainer = document.getElementById("datasetPreview-" + contentOrigin);
     tableContainer.append(table);
+}
+
+function openTab(evt, tab) {
+    let i, tabContent, tabLinks;
+
+    tabContent = document.getElementsByClassName("tab-content");
+    for (i = 0; i < tabContent.length; i++) {
+        tabContent[i].style.display = "none";
+    }
+
+    tabLinks = document.getElementsByClassName("tab-links");
+    for (i = 0; i < tabLinks.length; i++) {
+        tabLinks[i].className = tabLinks[i].className.replace(" active", "");
+    }
+
+    document.getElementById(tab).style.display = "block";
+    evt.currentTarget.className += " active";
+
+    switch (tab) {
+        case 'eurostat':
+        case 'who':
+        case 'messages': {
+            createDataTable(tab).then(x => console.log(x));
+            break;
+        }
+        case 'approve': {
+            break;
+        }
+    }
+}
+
+// Get the element with id="defaultOpen" and click on it
+document.getElementById("defaultOpen").click();
+
+
+/**
+ * This prototype create a function in String class for capitalizing an existing string
+ * @returns {string}
+ */
+String.prototype.capitalize = function () {
+    return this.charAt(0).toUpperCase() + this.slice(1).toLowerCase();
+}
+
+function openModal(id, contentOrigin, action) {
+    const modal = document.getElementById("myModal");
+    modal.style.display = "block";
+
+    const span = document.getElementsByClassName("close")[0];
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    const modalTitle = document.getElementById('modal-header');
+    modalTitle.innerHTML = '';
+    const modalBody = document.getElementById('modal-body');
+    modalBody.innerHTML = '';
+    const modalFooter = document.getElementById('modal-footer');
+    modalFooter.innerHTML = '';
+
+    switch (action) {
+        case 'add': {
+            modalTitle.innerHTML = 'Add';
+
+            const country = document.createElement('div');
+            country.className = 'form-group';
+            const countryLabel = document.createElement('label');
+            countryLabel.innerHTML = 'Country';
+            const countryInput = document.createElement('input');
+            countryInput.type = 'text';
+            countryInput.id = 'countryInput';
+            country.appendChild(countryLabel);
+            country.appendChild(countryInput);
+
+            const year = document.createElement('div');
+            year.className = 'form-group';
+            const yearLabel = document.createElement('label');
+            yearLabel.innerHTML = 'Year';
+            const yearInput = document.createElement('input');
+            yearInput.type = 'number';
+            yearInput.id = 'yearInput';
+            year.appendChild(yearLabel);
+            year.appendChild(yearInput);
+
+
+            const newBMI = document.createElement('div');
+            newBMI.className = 'form-group';
+            const newBMILabel = document.createElement('label');
+            newBMILabel.innerHTML = 'New BMI';
+            const newBMIInput = document.createElement('input');
+            newBMIInput.type = 'number';
+            newBMIInput.id = 'newBMIInput';
+            newBMI.appendChild(newBMILabel);
+            newBMI.appendChild(newBMIInput);
+
+            modalBody.appendChild(country);
+            modalBody.appendChild(year);
+            modalBody.appendChild(newBMI);
+
+            const acceptButton = document.createElement('button');
+            acceptButton.innerHTML = 'Send';
+            acceptButton.className = 'button';
+            acceptButton.setAttribute("onclick", "addData('" + contentOrigin + "')");
+
+            const cancelButton = document.createElement('button');
+            cancelButton.innerHTML = 'Cancel';
+            cancelButton.className = 'button';
+            cancelButton.onclick = function () {
+                modal.style.display = "none";
+            }
+            modalFooter.appendChild(acceptButton);
+            modalFooter.appendChild(cancelButton);
+
+            break;
+        }
+        case 'modify': {
+            let values = document.getElementById('trow' + id).getElementsByTagName('td');
+
+            modalTitle.innerHTML = 'Modify';
+
+            const country = document.createElement('div');
+            country.className = 'form-group';
+            const countryLabel = document.createElement('label');
+            countryLabel.innerHTML = 'Country';
+            const countryValue = document.createElement('p');
+            countryValue.innerHTML = values[1].innerHTML;
+            country.appendChild(countryLabel);
+            country.appendChild(countryValue);
+
+            const year = document.createElement('div');
+            year.className = 'form-group';
+            const yearLabel = document.createElement('label');
+            yearLabel.innerHTML = 'Year';
+            const yearValue = document.createElement('p');
+            yearValue.innerHTML = values[2].innerHTML;
+            year.appendChild(yearLabel);
+            year.appendChild(yearValue);
+
+            const currentBMI = document.createElement('div');
+            currentBMI.className = 'form-group';
+            const currentBMILabel = document.createElement('label');
+            currentBMILabel.innerHTML = 'Current BMI';
+            const currentBMIValue = document.createElement('p');
+            currentBMIValue.innerHTML = values[3].innerHTML;
+            currentBMI.appendChild(currentBMILabel);
+            currentBMI.appendChild(currentBMIValue);
+
+            const newBMI = document.createElement('div');
+            newBMI.className = 'form-group';
+            const newBMILabel = document.createElement('label');
+            newBMILabel.innerHTML = 'New BMI';
+            const newBMIInput = document.createElement('input');
+            newBMIInput.type = 'number';
+            newBMIInput.id = 'newBMIInput' + id;
+
+            newBMI.appendChild(newBMILabel);
+            newBMI.appendChild(newBMIInput);
+
+            modalBody.appendChild(country);
+            modalBody.appendChild(year);
+            modalBody.appendChild(currentBMI);
+            modalBody.appendChild(newBMI);
+
+            const acceptButton = document.createElement('button');
+            acceptButton.innerHTML = 'Send';
+            acceptButton.className = 'button';
+            acceptButton.setAttribute("onclick", "modifyData(" + id + ", '" + contentOrigin + "')");
+
+            const cancelButton = document.createElement('button');
+            cancelButton.innerHTML = 'Cancel';
+            cancelButton.className = 'button';
+            cancelButton.onclick = function () {
+                modal.style.display = "none";
+            }
+            modalFooter.appendChild(acceptButton);
+            modalFooter.appendChild(cancelButton);
+
+
+            break;
+        }
+        case 'delete': {
+            modalTitle.innerHTML = 'Delete';
+            modalBody.innerHTML = 'Are you sure you want to delete this data row with id ' + id + '?';
+
+            const acceptButton = document.createElement('button');
+            acceptButton.innerHTML = 'Yes';
+            acceptButton.className = 'button';
+            acceptButton.setAttribute("onclick", "deleteFunction(" + id + ",'" + contentOrigin + "')");
+
+            const cancelButton = document.createElement('button');
+            cancelButton.innerHTML = 'Cancel';
+            cancelButton.className = 'button';
+            cancelButton.onclick = function () {
+                modal.style.display = "none";
+            }
+            modalFooter.appendChild(acceptButton);
+            modalFooter.appendChild(cancelButton);
+
+            break;
+        }
+    }
+
 }

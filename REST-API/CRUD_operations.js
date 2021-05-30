@@ -417,6 +417,37 @@ const modifyDataInDataset = function (database, tableName, ID, newBMI) {
     })
 }
 
+/**
+ * This method insert a new record in dataset
+ * @param database the database
+ * @param tableName the name of the table
+ * @param data an object that contains the country, the year and the BMI value
+ * @returns {Promise<>} a new promise
+ */
+const addDataInDataset = function (database, tableName, data) {
+    return new Promise((resolve, reject) => {
+        let con = getConnection({database: database})
+        const table = tableName;
+        con.connect(function (err) {
+            if (err) {
+                console.log(err);
+                reject("Failed to connect to the database.");
+
+            } else {
+                const sql = "INSERT INTO " + table + "(country, year, BMI_value) VALUES ('" + data.country + "', '" + data.year + "', '" + data.newBMI + "')";
+                con.query(sql, function (err) {
+                    if (err) {
+                        console.log("Failed to add BMI of " + data.country + " in " + table + "." + "\nREASON: " + err.sqlMessage);
+                        reject("Failed to add BMI of " + data.country + " in " + table + ".");
+                    } else {
+                        console.log("Added BMI of " + data.country + " in " + table + ".");
+                        resolve("Added BMI of " + data.country + " in " + table + ".");
+                    }
+                });
+            }
+        });
+    })
+}
 
 /**
  * This method is responsible for returning all the filters from the given database table with the filter specified.
@@ -565,3 +596,4 @@ module.exports.clearLoggedUsersTable = clearLoggedUsersTable;
 module.exports.addRegistrationUser = addRegistrationUser;
 module.exports.getUserHashedPassword = getHashedPasswordOfAdminAccount;
 module.exports.getDataset = getDataset;
+module.exports.addDataInDataset = addDataInDataset;

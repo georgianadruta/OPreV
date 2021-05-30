@@ -33,10 +33,6 @@ table th {
     color: white;
 }
 
-table th:hover {
-    background-color: #5834db;
-}
-
 #countries {
     display: flex;
     flex-wrap: wrap;

@@ -168,13 +168,13 @@ let modifyData = function (request, response) {
         body.push(chunk);
     });
     request.on('end', async () => {
-        let sessionID = getCookieValueFromCookies(request,"sessionID");
+        let sessionID = getCookieValueFromCookies(request, "sessionID");
         let jsonObject = JSON.parse(body.toString());
         try {
             await CRUD.selectTokenFromLoggedUsersTable(sessionID).then(async foundToken => {
                 if (foundToken === sessionID) {
                     try {
-                        await CRUD.modifyDataInDataset(getCookieValueFromCookies(request, "dataset"), getCookieValueFromCookies(request,"BMIIndicator"), jsonObject.id, jsonObject.newBMI);
+                        await CRUD.modifyDataInDataset(getCookieValueFromCookies(request, "dataset"), getCookieValueFromCookies(request, "BMIIndicator"), jsonObject.id, jsonObject.newBMI);
                         setSuccessfulRequestResponse(request, response, "Success", 200);
                     } catch (fail) {
                         setFailedRequestResponse(request, response, "Failed to modify data.", 500);
@@ -216,6 +216,28 @@ let getDataset = function (request, response) {
     });
 }
 
+/**
+ * Method responsible for dataset manipulation behaviour
+ * @param request the request
+ * @param response the response
+ */
+let addToDataset = function (request, response) {
+    let body = [];
+    request.on('data', chunk => {
+        body.push(chunk);
+    });
+    request.on('end', async () => {
+        let jsonObject = JSON.parse(body.toString());
+        try {
+            let arrayOfJson = await CRUD.addDataInDataset(getCookieValueFromCookies(request, "dataset"), 'obese', jsonObject);
+            response.writeHead(200, {'Content-Type': 'application/json'});
+            response.end(JSON.stringify(arrayOfJson));
+        } catch (fail) {
+            setFailedRequestResponse(request, response, "Failed to add data.", 500);
+        }
+    });
+}
+
 
 /**
  * Method for the login of any POST request
@@ -241,8 +263,12 @@ function POST(request, response) {
             modifyData(request, response);
             break;
         }
-        case "/dataset" : { //     || "/dataset"
+        case "/dataset" : {
             getDataset(request, response);
+            return;
+        }
+        case "/dataset/add" : {
+            addToDataset(request, response);
             return;
         }
         default: {

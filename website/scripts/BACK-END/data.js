@@ -99,7 +99,34 @@ async function deleteDataFromAdminPageHTTPRequest(jsonObject) {
 }
 
 /**
- *  * This method is responsible for the HTTP POST request to delete a certain message by ID.
+ *  * This method is responsible for the HTTP POST request to add data to dataset.
+ * @return {Promise<>}
+ */
+async function addDataFromAdminPageHTTPRequest(jsonObject) {
+    return await new Promise((resolve, reject) => {
+        const HTTP = new XMLHttpRequest();
+        const url = '/dataset/add';
+
+        HTTP.onreadystatechange = () => {
+            if (HTTP.readyState === HTTP.DONE) {
+                if (HTTP.status >= 400) {
+                    console.error(HTTP.responseText);
+                    reject("Fail")
+                } else {
+                    resolve(HTTP.responseText);
+                }
+            }
+
+        }
+        HTTP.open("POST", url);
+        HTTP.setRequestHeader("Cookies", document.cookie);
+        HTTP.send(JSON.stringify(jsonObject));
+    })
+
+}
+
+/**
+ *  * This method is responsible for the HTTP POST request to modify the data from the dataset.
  * @return {Promise<>}
  */
 async function modifyDataFromAdminPageHTTPRequest(jsonObject) {
@@ -127,6 +154,7 @@ async function modifyDataFromAdminPageHTTPRequest(jsonObject) {
     })
 
 }
+
 
 /**
  * This method is responsible for the HTTP GET request to receive the contact messages.

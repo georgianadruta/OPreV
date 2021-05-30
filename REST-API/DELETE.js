@@ -44,7 +44,7 @@ function DELETE(request, response) {
             break;
         }
         case "/dataset/eurostat": {
-            deleteFromTableByID(request, response, CRUD.deleteFromTableByID, "eurostat", "TODO")
+            deleteFromTableByID(request, response, CRUD.deleteFromTableByID, "eurostat", "obese")
             break;
         }
         default: {
