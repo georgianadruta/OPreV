@@ -56,6 +56,7 @@
     <link rel="stylesheet" href="website/styles/body_footer.css"/>
     <link rel="stylesheet" href="website/styles/admin.css"/>
     <link rel="stylesheet" href="website/styles/buttons.css"/>
+    <link rel="stylesheet" href="website/styles/modal.css"/>
 
     <!--JAVA SCRIPTS-->
     <script src="website/scripts/BACK-END/cookies.js"></script>
@@ -63,7 +64,7 @@
     <script src="website/scripts/BACK-END/data.js"></script>
     <script src="website/scripts/FRONT-END/menu_bar.js"></script>
     <script src="website/scripts/FRONT-END/menu_side_bar.js"></script>
-    <script src="website/scripts/BACK-END/admin.js"></script>
+    <script src="website/scripts/BACK-END/admin.js" defer></script>
 </head>
 
 <body>
@@ -136,55 +137,77 @@
 </header>
 
 <main>
-    <div class="pageContainer">
-        <div class="datasetContainer">
-            <h1 id="chooseDataSetHeading">Choose what to analyse:</h1>
-            <div class="bar-actions">
-                <button class="button" onclick="createDataTable('eurostat')">EuroStat dataset</button>
-                <button class="button" onclick="createDataTable('who')">Who dataset</button>
-                <button class="button" onclick="createDataTable('messages')">Contact messages</button>
+    <div class="page-content">
+        <h1>Choose what to analyse:</h1>
+
+        <div class="tab">
+            <button id="defaultOpen" class="tab-links" onclick="openTab(event, 'eurostat')">EuroStat dataset</button>
+            <button class="tab-links" onclick="openTab(event, 'who')">Who dataset</button>
+            <button class="tab-links" onclick="openTab(event, 'messages')">Contact messages</button>
+            <button class="tab-links" onclick="openTab(event, 'approve')">Approve new user</button>
+        </div>
+
+        <div id="eurostat" class="tab-content">
+            <div id="datasetPreview-eurostat"  class="table-wrapper"></div>
+
+            <div id="dataManipulationButtons-eurostat" class="button-container">
+                <button class="button" id="addButton-eurostat" onclick="showAddForm()">Add</button>
             </div>
 
-            <div id="datasetPreview"></div>
 
-            <div id="dataManipulationButtons">
-                <ul class="dataButtonsList">
-                    <li class="dataButton">
-                        <button class="button" id="addButton" onclick="showAddForm()">Add</button>
-                    </li>
-                </ul>
+        </div>
+
+        <div id="who" class="tab-content">
+            <div id="datasetPreview-who" class="table-wrapper"></div>
+
+            <div id="dataManipulationButtons-who" class="button-container">
+                <button class="button" id="addButton-who" onclick="showAddForm()">Add</button>
             </div>
         </div>
 
-        <div class="dataManipulationContainer" id="dataManipulationForm">
+        <div id="messages" class="tab-content">
+            <div id="datasetPreview-messages" class="table-wrapper"></div>
 
-            <div id="addFormContainer">
-                <h1 id="addValues">Add BMI in the database</h1>
-                <ul class="dataManipulationList" id="addListOfInputs">
-
-                </ul>
+            <div id="dataManipulationButtons-messages" class="button-container">
+                <button class="button" id="addButton-messages" onclick="showAddForm()">Add</button>
             </div>
-
-            <div id="modifyFormContainer">
-                <h1 id="modifyValues">Modify BMI:</h1>
-                <ul class="dataManipulationList">
-                    <li class="countryInput" id="modifyCountry"></li>
-                    <li class="BMI" id="modifyBmi"></li>
-                    <li class="year" id="modifyYear"></li>
-                    <li class="BMI" id="newBMIListItem">
-                        <label for="newBMI"></label><input type="number" id="newBMI" name="newBMI" required
-                                                           placeholder="newBMI"/>
-                    </li>
-                    <li class="finishButtons">
-                        <button onclick="modifyData()" id="modifyButton" class="btn-lrg submit-btn"
-                                type="submit">Send
-                        </button>
-                    </li>
-                </ul>
-            </div>
-
         </div>
+
+        <div id="approve" class="tab-content">
+            <h3>User</h3>
+            <p>Tokyo is the capital of Japan.</p>
+        </div>
+
     </div>
+
+    <div class="dataManipulationContainer" id="dataManipulationForm">
+
+        <div id="addFormContainer">
+            <h1 id="addValues">Add BMI in the database</h1>
+            <ul class="dataManipulationList" id="addListOfInputs">
+
+            </ul>
+        </div>
+
+        <div id="modifyFormContainer">
+            <h1 id="modifyValues">Modify BMI:</h1>
+            <ul class="dataManipulationList">
+                <li class="countryInput" id="modifyCountry"></li>
+                <li class="BMI" id="modifyBmi"></li>
+                <li class="year" id="modifyYear"></li>
+                <li class="BMI" id="newBMIListItem">
+                    <label for="newBMI"></label>
+                    <input type="number" id="newBMI" name="newBMI" required placeholder="newBMI"/>
+                </li>
+                <li class="finishButtons">
+                    <button onclick="modifyData()" id="modifyButton" class="btn-lrg submit-btn" type="submit">Send
+                    </button>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
 </main>
 
 <footer>

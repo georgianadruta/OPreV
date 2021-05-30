@@ -121,11 +121,10 @@ function parseDataset(jsonDataset, message = "No data") {
 /**
  * This method is responsible for showing the table with preview content upon clicking one of the options.
  */
-function changePreviewDataset() {
+function changePreviewDataset(contentOrigin) {
     //hide header
-    document.getElementById("chooseDataSetHeading").style.display = "none";
-    document.getElementById("datasetPreview").style.display = "flex";
-    document.getElementById("dataManipulationButtons").style.display = "flex";
+    document.getElementById("datasetPreview-" + contentOrigin).style.display = "flex";
+    document.getElementById("dataManipulationButtons-" + contentOrigin).style.display = "flex";
 }
 
 /**
@@ -253,7 +252,7 @@ async function modifyData() {
  * @return {Promise<void>} unused
  */
 async function createDataTable(contentOrigin) {
-    changePreviewDataset();
+    changePreviewDataset(contentOrigin);
 
     let failMessage = null;
     switch (contentOrigin) {
@@ -266,12 +265,12 @@ async function createDataTable(contentOrigin) {
             }).catch(fail => {
                 failMessage = fail;
             });
-            document.getElementById("addButton").style.display = "none";
+            document.getElementById("addButton-" + contentOrigin).style.display = "none";
             break;
         }
         case "who": {
             setCookie("dataset", contentOrigin);
-            document.getElementById("addButton").style.display = "flex";
+            document.getElementById("addButton-" + contentOrigin).style.display = "flex";
             await getDatasetHTTPRequest().then(data => {
                 tableInformation = parseDataset(data);
                 window.sessionStorage.setItem("deleteTable", "who_dataset");
@@ -284,7 +283,7 @@ async function createDataTable(contentOrigin) {
         }
         default: {
             setCookie("dataset", contentOrigin);
-            document.getElementById("addButton").style.display = "flex";
+            document.getElementById("addButton-" + contentOrigin).style.display = "flex";
             await getDatasetHTTPRequest().then(data => {
                 tableInformation = parseDataset(data);
                 window.sessionStorage.setItem("deleteTable", "eurostat_dataset");
@@ -296,7 +295,7 @@ async function createDataTable(contentOrigin) {
         }
     }
 
-    document.getElementById("datasetPreview").innerHTML = '';
+    document.getElementById("datasetPreview-" + contentOrigin).innerHTML = '';
 
     if (failMessage !== null) {
         alert(failMessage);
@@ -314,7 +313,7 @@ async function createDataTable(contentOrigin) {
     thead.append(trow);
     tableColumns.forEach(columnName => {
         const th = document.createElement('th');
-        th.innerHTML = columnName;
+        th.innerHTML = columnName.capitalize();
         thead.append(th);
     })
     if (tableInformation.deleteButton !== false || tableInformation.modifyButton !== false) {
@@ -358,6 +357,74 @@ async function createDataTable(contentOrigin) {
     })
     table.append(tbody);
 
-    let tableContainer = document.getElementById("datasetPreview");
+    let tableContainer = document.getElementById("datasetPreview-" + contentOrigin);
     tableContainer.append(table);
+}
+
+function openTab(evt, tab) {
+    let i, tabContent, tabLinks;
+
+    tabContent = document.getElementsByClassName("tab-content");
+    for (i = 0; i < tabContent.length; i++) {
+        tabContent[i].style.display = "none";
+    }
+
+    tabLinks = document.getElementsByClassName("tab-links");
+    for (i = 0; i < tabLinks.length; i++) {
+        tabLinks[i].className = tabLinks[i].className.replace(" active", "");
+    }
+
+    document.getElementById(tab).style.display = "block";
+    evt.currentTarget.className += " active";
+
+    switch (tab) {
+        case 'eurostat':
+        case 'who':
+        case 'messages': {
+            createDataTable(tab).then(x => console.log(x));
+            break;
+        }
+        case 'approve': {
+            break;
+        }
+    }
+}
+
+// Get the element with id="defaultOpen" and click on it
+document.getElementById("defaultOpen").click();
+
+
+/**
+ * This prototype create a function in String class for capitalizing an existing string
+ * @returns {string}
+ */
+String.prototype.capitalize = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1).toLowerCase();
+}
+
+
+// Get the modal
+const modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+const btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+const span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on the button, open the modal
+btn.onclick = function() {
+    modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
 }
