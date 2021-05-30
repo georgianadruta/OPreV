@@ -99,7 +99,6 @@ async function deleteDataFromAdminPageHTTPRequest(jsonObject) {
         HTTP.setRequestHeader("Cookies", document.cookie);
         HTTP.send(JSON.stringify(jsonObject));
     })
-
 }
 
 /**
@@ -126,7 +125,32 @@ async function addDataFromAdminPageHTTPRequest(jsonObject) {
         HTTP.setRequestHeader("Cookies", document.cookie);
         HTTP.send(JSON.stringify(jsonObject));
     })
+}
 
+/**
+ *  * This method is responsible for the HTTP POST request to accept a user.
+ * @return {Promise<>}
+ */
+async function acceptUserHTTPRequest(jsonObject) {
+    return await new Promise((resolve, reject) => {
+        const HTTP = new XMLHttpRequest();
+        const url = '/users/requests';
+
+        HTTP.onreadystatechange = () => {
+            if (HTTP.readyState === HTTP.DONE) {
+                if (HTTP.status >= 400) {
+                    console.error(HTTP.responseText);
+                    reject("Fail")
+                } else {
+                    resolve(HTTP.responseText);
+                }
+            }
+
+        }
+        HTTP.open("POST", url);
+        HTTP.setRequestHeader("Cookies", document.cookie);
+        HTTP.send(JSON.stringify(jsonObject));
+    })
 }
 
 /**

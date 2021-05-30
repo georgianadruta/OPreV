@@ -238,6 +238,39 @@ let addToDataset = function (request, response) {
     });
 }
 
+/**
+ * Method responsible for accepting a new user
+ * @param request the request
+ * @param response the response
+ */
+let acceptUser = function (request, response) {
+    let body = [];
+    request.on('data', chunk => {
+        body.push(chunk);
+    });
+    request.on('end', async () => {
+        let sessionID = getCookieValueFromCookies(request, "sessionID");
+        let jsonObject = JSON.parse(body.toString());
+        try {
+            await CRUD.selectTokenFromLoggedUsersTable(sessionID).then(async foundToken => {
+                if (foundToken === sessionID) {
+                    try {
+                        await CRUD.acceptUsers(jsonObject);
+                        setSuccessfulRequestResponse(request, response, "Success", 200);
+                    } catch (fail) {
+                        setFailedRequestResponse(request, response, "Failed to modify data.", 500);
+                    }
+                } else {
+                    response.setHeader("change-cookie", "logged_in=false");
+                    setSuccessfulRequestResponse(request, response, "User is not logged.", 200);
+                }
+            });
+        } catch (err) {
+            setFailedRequestResponse(request, response, "Failed to check if users is logged or not.", 409);
+        }
+    });
+}
+
 
 /**
  * Method for the login of any POST request
@@ -270,6 +303,10 @@ function POST(request, response) {
         case "/dataset/add" : {
             addToDataset(request, response);
             return;
+        }
+        case "/users/requests": {
+            acceptUser(request, response);
+            break;
         }
         default: {
             setFailedRequestResponse(request, response, "Bad POST request.", 400);

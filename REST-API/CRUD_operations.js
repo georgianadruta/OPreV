@@ -9,7 +9,8 @@ function getConnection(cookie) {
         host: "localhost",
         user: "root",
         password: "parola",
-        database: cookie.database
+        database: cookie.database,
+        multipleStatements: true
     });
 }
 
@@ -487,6 +488,36 @@ const addDataInDataset = function (database, tableName, data) {
 }
 
 /**
+ * This method insert a new record in active admins and delete it from requested users
+ * @param data an object that contains the user id
+ * @returns {Promise<>} a new promise
+ */
+const acceptUsers = function (data) {
+    return new Promise((resolve, reject) => {
+        let con = getConnection({database: 'users'})
+        con.connect(function (err) {
+            if (err) {
+                console.log(err);
+                reject("Failed to connect to the database.");
+
+            } else {
+                const sql = "INSERT INTO active_admins (ID, name, password, email) SELECT ID, name, password, email FROM registration_requests WHERE ID =" + data.id + ";" +
+                    "DELETE FROM registration_requests WHERE ID =" + data.id + ";";
+                con.query(sql, function (err) {
+                    if (err) {
+                        console.log("Failed to add user" + "\nREASON: " + err.sqlMessage);
+                        reject("Failed to add user in active_admins.");
+                    } else {
+                        console.log("User added in active_admins.");
+                        resolve("User added in active_admins.");
+                    }
+                });
+            }
+        });
+    })
+}
+
+/**
  * This method is responsible for returning all the filters from the given database table with the filter specified.
  * @param database the database
  * @param tableName the table
@@ -633,5 +664,6 @@ module.exports.clearLoggedUsersTable = clearLoggedUsersTable;
 module.exports.addRegistrationUser = addRegistrationUser;
 module.exports.getUserHashedPassword = getHashedPasswordOfAdminAccount;
 module.exports.getDataset = getDataset;
+module.exports.acceptUsers = acceptUsers;
 module.exports.addDataInDataset = addDataInDataset;
 module.exports.getRequestedUsersFromRegistrationRequestsTable = getRequestedUsersFromRegistrationRequestsTable;

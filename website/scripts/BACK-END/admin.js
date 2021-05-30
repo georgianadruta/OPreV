@@ -246,13 +246,20 @@ async function addData(contentOrigin) {
 
 }
 
-function acceptUser(contentOrigin) {
+async function acceptUser(id, contentOrigin) {
     const modal = document.getElementById("myModal");
     modal.style.display = "none";
 
-    let country = document.getElementById('countryInput').value;
-    let year = document.getElementById('yearInput').value;
-    let newBMI = document.getElementById('newBMIInput').value;
+    let jsonObject = {
+        id: id,
+    };
+
+    try {
+        alert(await acceptUserHTTPRequest(jsonObject));
+    } catch (err) {
+        alert(err);
+    }
+    await createDataTable(contentOrigin);
 }
 
 /**
@@ -335,7 +342,7 @@ async function createDataTable(contentOrigin) {
         th.innerHTML = columnName.capitalize();
         thead.append(th);
     })
-    if (tableInformation.acceptButton !== false || tableInformation.deleteButton !== false || tableInformation.modifyButton !== false) {
+    if ((tableInformation.acceptButton !== false || tableInformation.deleteButton !== false || tableInformation.modifyButton !== false) && !tableDataset[0].server_messages) {
         const th = document.createElement('th');
         th.innerHTML = 'Action';
         thead.append(th);
@@ -407,13 +414,12 @@ function openTab(evt, tab) {
 
     switch (tab) {
         case 'eurostat':
-        case 'who':
+        case 'approve':
         case 'messages': {
             createDataTable(tab).then(x => console.log(x));
             break;
         }
-        case 'approve': {
-            createDataTable(tab).then(x => console.log(x));
+        case 'who': {
             break;
         }
     }
@@ -596,8 +602,10 @@ function openModal(id, contentOrigin, action) {
         case 'accept': {
             let values = document.getElementById('trow' + id).getElementsByTagName('td');
 
-
             modalTitle.innerHTML = 'Accept';
+
+            const message = document.createElement('p');
+            message.innerHTML = 'Are you sure you want to approve this request?';
 
             const name = document.createElement('div');
             name.className = 'form-group';
@@ -617,7 +625,7 @@ function openModal(id, contentOrigin, action) {
             email.appendChild(emailLabel);
             email.appendChild(emailValue);
 
-            modalBody.innerHTML = 'Are you sure you want to approve this request?';
+            modalBody.appendChild(message);
             modalBody.appendChild(name);
             modalBody.appendChild(email);
 
