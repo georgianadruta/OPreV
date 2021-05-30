@@ -131,7 +131,6 @@ function changePreviewDataset(contentOrigin) {
  * This method is responsible for showing the form after pressing the Add button
  */
 function showAddForm() {
-    hideModifyForm();
     generateFormInputFields();
     document.getElementById("addFormContainer").style.display = "flex";
     document.getElementById("addValues").style.display = "flex";
@@ -188,14 +187,6 @@ function showModifyForm() {
 }
 
 /**
- * This method is responsible for hiding the form after finishing the http POST request.
- */
-function hideModifyForm() {
-    document.getElementById("modifyFormContainer").style.display = "none";
-    document.getElementById("modifyValues").style.display = "none";
-}
-
-/**
  * Method that calls HTTP DELETE request with the given id
  * @param id the id to be deleted
  * @param contentOrigin the table to refresh
@@ -227,10 +218,8 @@ async function modifyFunction(id, contentOrigin) {
  * Method that calls HTTP POST request to modify some data at the given id
  * @return {Promise<void>} unused
  */
-async function modifyData() {
-    let id = window.sessionStorage.getItem("id")
-    let contentOrigin = window.sessionStorage.getItem("contentOrigin");
-    let newBMI = document.querySelector("#newBMI").value;
+async function modifyData(id, contentOrigin) {
+    let newBMI = document.getElementById('newBMIInput' + id).value;
     let jsonObject = {
         "id": id,
         "newBMI": newBMI,
@@ -242,7 +231,6 @@ async function modifyData() {
     } catch (err) {
         alert(err);
     }
-    hideModifyForm();
     await createDataTable(contentOrigin);
 }
 
@@ -350,7 +338,7 @@ async function createDataTable(contentOrigin) {
             const button = document.createElement("button");
             button.classList.add("button");
             button.innerHTML = 'Modify';
-            button.setAttribute("onclick", "modifyFunction(" + id + ",'" + contentOrigin + "')");
+            button.setAttribute("onclick", "openModal(" + id + ",'" + contentOrigin + "', 'modify')");
             td.append(button);
         }
         trow.append(td);
@@ -429,6 +417,68 @@ function openModal(id, contentOrigin, action) {
             break;
         }
         case 'modify': {
+            let values = document.getElementById('trow' + id).getElementsByTagName('td');
+
+            modalTitle.innerHTML = 'Modify';
+
+            const country = document.createElement('div');
+            country.className = 'form-group';
+            const countryLabel = document.createElement('label');
+            countryLabel.innerHTML = 'Country';
+            const countryValue = document.createElement('p');
+            countryValue.innerHTML = values[1].innerHTML;
+            country.appendChild(countryLabel);
+            country.appendChild(countryValue);
+
+            const year = document.createElement('div');
+            year.className = 'form-group';
+            const yearLabel = document.createElement('label');
+            yearLabel.innerHTML = 'Year';
+            const yearValue = document.createElement('p');
+            yearValue.innerHTML = values[2].innerHTML;
+            year.appendChild(yearLabel);
+            year.appendChild(yearValue);
+
+            const currentBMI = document.createElement('div');
+            currentBMI.className = 'form-group';
+            const currentBMILabel = document.createElement('label');
+            currentBMILabel.innerHTML = 'Current BMI';
+            const currentBMIValue = document.createElement('p');
+            currentBMIValue.innerHTML = values[3].innerHTML;
+            currentBMI.appendChild(currentBMILabel);
+            currentBMI.appendChild(currentBMIValue);
+
+            const newBMI = document.createElement('div');
+            newBMI.className = 'form-group';
+            const newBMILabel = document.createElement('label');
+            newBMILabel.innerHTML = 'New BMI';
+            const newBMIInput = document.createElement('input');
+            newBMIInput.type = 'number';
+            newBMIInput.id = 'newBMIInput' + id;
+
+            newBMI.appendChild(newBMILabel);
+            newBMI.appendChild(newBMIInput);
+
+            modalBody.appendChild(country);
+            modalBody.appendChild(year);
+            modalBody.appendChild(currentBMI);
+            modalBody.appendChild(newBMI);
+
+            const acceptButton = document.createElement('button');
+            acceptButton.innerHTML = 'Send';
+            acceptButton.className = 'button';
+            acceptButton.setAttribute("onclick", "modifyData(" + id + ", '" + contentOrigin + "')");
+
+            const cancelButton = document.createElement('button');
+            cancelButton.innerHTML = 'Cancel';
+            cancelButton.className = 'button';
+            cancelButton.onclick = function () {
+                modal.style.display = "none";
+            }
+            modalFooter.appendChild(acceptButton);
+            modalFooter.appendChild(cancelButton);
+
+
             break;
         }
         case 'delete': {
