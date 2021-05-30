@@ -137,6 +137,21 @@
 </header>
 
 <main>
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close">&times;</span>
+                <h2 id="modal-header"></h2>
+            </div>
+            <div id="modal-body" class="modal-body">
+            </div>
+            <div id="modal-footer" class="modal-footer">
+            </div>
+        </div>
+    </div>
+
     <div class="page-content">
         <h1>Choose what to analyse:</h1>
 
@@ -148,13 +163,11 @@
         </div>
 
         <div id="eurostat" class="tab-content">
-            <div id="datasetPreview-eurostat"  class="table-wrapper"></div>
+            <div id="datasetPreview-eurostat" class="table-wrapper"></div>
 
             <div id="dataManipulationButtons-eurostat" class="button-container">
                 <button class="button" id="addButton-eurostat" onclick="showAddForm()">Add</button>
             </div>
-
-
         </div>
 
         <div id="who" class="tab-content">

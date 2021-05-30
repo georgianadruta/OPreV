@@ -66,17 +66,27 @@
 }
 
 .modal-header {
-    padding: 2px 16px;
+    padding: 20px;
     background-color: #ddd;
-    color: white;
 }
 
+.modal-header h2 {
+    margin: 0;
+}
+
+
 .modal-body {
-    padding: 2px 16px;
+    padding: 20px;
 }
 
 .modal-footer {
-    padding: 2px 16px;
+    padding: 20px;
     background-color: #ddd;
     color: white;
+    display: flex;
+    justify-content: center;
+}
+
+.modal-footer .button:not(:last-of-type) {
+    margin-right: 10px;
 }

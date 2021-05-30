@@ -343,7 +343,7 @@ async function createDataTable(contentOrigin) {
             const button = document.createElement("button");
             button.classList.add("button");
             button.innerHTML = 'Delete';
-            button.setAttribute("onclick", "deleteFunction(" + id + ",'" + contentOrigin + "')");
+            button.setAttribute("onclick", "openModal(" + id + ",'" + contentOrigin + "', 'delete')");
             td.append(button);
         }
         if (tableInformation.modifyButton === true) {
@@ -398,33 +398,59 @@ document.getElementById("defaultOpen").click();
  * This prototype create a function in String class for capitalizing an existing string
  * @returns {string}
  */
-String.prototype.capitalize = function() {
+String.prototype.capitalize = function () {
     return this.charAt(0).toUpperCase() + this.slice(1).toLowerCase();
 }
 
-
-// Get the modal
-const modal = document.getElementById("myModal");
-
-// Get the button that opens the modal
-const btn = document.getElementById("myBtn");
-
-// Get the <span> element that closes the modal
-const span = document.getElementsByClassName("close")[0];
-
-// When the user clicks on the button, open the modal
-btn.onclick = function() {
+function openModal(id, contentOrigin, action) {
+    const modal = document.getElementById("myModal");
     modal.style.display = "block";
-}
 
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-    modal.style.display = "none";
-}
-
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-    if (event.target == modal) {
+    const span = document.getElementsByClassName("close")[0];
+    span.onclick = function () {
         modal.style.display = "none";
     }
+
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    const modalTitle = document.getElementById('modal-header');
+    modalTitle.innerHTML = '';
+    const modalBody = document.getElementById('modal-body');
+    modalBody.innerHTML = '';
+    const modalFooter = document.getElementById('modal-footer');
+    modalFooter.innerHTML = '';
+
+    switch (action) {
+        case 'add': {
+            break;
+        }
+        case 'modify': {
+            break;
+        }
+        case 'delete': {
+            modalTitle.innerHTML = 'Delete';
+            modalBody.innerHTML = 'Are you sure you want to delete this data row with id ' + id + '?';
+
+            const acceptButton = document.createElement('button');
+            acceptButton.innerHTML = 'Yes';
+            acceptButton.className = 'button';
+            acceptButton.setAttribute("onclick", "deleteFunction(" + id + ",'" + contentOrigin + "')");
+
+            const cancelButton = document.createElement('button');
+            cancelButton.innerHTML = 'Cancel';
+            cancelButton.className = 'button';
+            cancelButton.onclick = function () {
+                modal.style.display = "none";
+            }
+            modalFooter.appendChild(acceptButton);
+            modalFooter.appendChild(cancelButton);
+
+            break;
+        }
+    }
+
 }
