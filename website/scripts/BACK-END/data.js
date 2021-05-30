@@ -65,12 +65,16 @@ async function deleteDataFromAdminPageHTTPRequest(jsonObject) {
                 url = "/contact/messages";
                 break;
             }
-            case"who_dataset": {
+            case "who_dataset": {
                 url = "/dataset/who";
                 break;
             }
-            case"eurostat_dataset": {
+            case "eurostat_dataset": {
                 url = "/dataset/eurostat";
+                break;
+            }
+            case "registration_requests": {
+                url = "/users/requests";
                 break;
             }
             default: {
@@ -197,8 +201,49 @@ async function getContactMessagesDatasetHTTPRequest() {
 }
 
 /**
+ * This method is responsible for the HTTP GET request to receive the users request.
+ * @return {Promise<>}
+ */
+async function getRequestUsersDatasetHTTPRequest() {
+    return await new Promise((resolve, reject) => {
+        const HTTP = new XMLHttpRequest();
+        const url = "/users/requests";
+
+        HTTP.onreadystatechange = () => {
+            if (HTTP.readyState === HTTP.DONE) {
+                if (HTTP.status >= 400) {
+                } else {
+                    if (HTTP.responseText === "User is not logged.") {
+                        reject(HTTP.responseText);
+                        return;
+                    }
+                    let jsonArray = JSON.parse(HTTP.responseText);
+                    if (jsonArray.length > 0)
+                        resolve({
+                            tableColumns: Object.keys(jsonArray[0]),
+                            dataset: jsonArray,
+                        });
+                    else {
+                        resolve({
+                            tableColumns: [],
+                            dataset: [],
+                        });
+                    }
+                }
+            }
+
+        }
+        HTTP.open("GET", url);
+        HTTP.setRequestHeader("Cookies", document.cookie);
+        HTTP.send();
+    })
+
+}
+
+
+/**
  * This method is responsible for the HTTP GET request to receive the database data.
- * In resolve we return an JSON under the fallowing format:
+ * In resolve we return an JSON under the following format:
  * {
  *     tableColumns: Array(String)      ->  all of the columns from the table
  *     dataset:Array(JSON objects)      ->  all data under JSON format  {column1: data1, column2:data2,..... }

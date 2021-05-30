@@ -47,6 +47,10 @@ function DELETE(request, response) {
             deleteFromTableByID(request, response, CRUD.deleteFromTableByID, "eurostat", "obese")
             break;
         }
+        case "/users/requests": {
+            deleteFromTableByID(request, response, CRUD.deleteFromTableByID, "users", "registration_requests")
+            break;
+        }
         default: {
             setFailedRequestResponse(request, response, "Bad POST request.", 400);
         }

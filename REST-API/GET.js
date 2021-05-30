@@ -63,6 +63,36 @@ let getContactMessages = async function (request, response) {
     }
 }
 
+/**
+ * This methods returns all requested users from the database.
+ * @param request the request
+ * @param response the response
+ * @return {Promise<void>} a promise that resolves in all requested users
+ */
+let getRequestedUsers = async function (request, response) {
+    let sessionID = getCookieValueFromCookies(request, 'sessionID');
+    try {
+        await CRUD.selectTokenFromLoggedUsersTable(sessionID).then(async foundToken => {
+            if (foundToken === sessionID) {
+                try {
+                    //check if user is logged first
+                    let arrayOfJson = await CRUD.getRequestedUsersFromRegistrationRequestsTable();
+                    response.writeHead(200, {'Content-Type': 'application/json'});
+                    response.end(JSON.stringify(arrayOfJson));
+                } catch (failedMessage) {
+                    setFailedRequestResponse(request, response, failedMessage, 404);
+                }
+            } else {
+                response.setHeader("change-cookie", "logged_in=false");
+                setSuccessfulRequestResponse(request, response, "User is not logged.", 200);
+            }
+        });
+    } catch (err) {
+        setFailedRequestResponse(request, response, "Failed to check if users is logged or not.", 409);
+    }
+}
+
+
 let getFilters = async function (request, response) {
     let jsonObject = {filter: getCookieValueFromCookies(request, "field")};
     let BMIIndicator = getCookieValueFromCookies(request, "BMIIndicator"); // table name
@@ -96,6 +126,10 @@ function GET(request, response) {
         }
         case "/dataset/eurostat/filters" : { //     || "/dataset/who/filters"
             getFilters(request, response);
+            return;
+        }
+        case "/users/requests" : { //     || "/dataset/who/filters"
+            getRequestedUsers(request, response);
             return;
         }
         default: {

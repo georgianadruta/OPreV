@@ -309,6 +309,43 @@ const getContactMessagesFromContactMessagesTable = function () {
 }
 
 /**
+ * This method is responsible for getting all requested users from the registration requests table.
+ * @return {Promise<>}
+ */
+const getRequestedUsersFromRegistrationRequestsTable = function () {
+    return new Promise((resolve, reject) => {
+        let con = getConnection({database: "users"})
+        const table = "registration_requests";
+        con.connect(function (err) {
+            if (err) {
+                console.log(err);
+                reject("Failed to connect to the database.");
+            } else {
+                const sql = "SELECT ID, name, email FROM " + table;
+                con.query(sql, function (err, results, fields) {
+                    if (err) {
+                        reject("Failed select all from registration requests table.");
+                    } else {
+                        let jsonArray = [];
+                        results.forEach(rowPacketObject => {
+                                jsonArray.push(
+                                    {
+                                        "id": rowPacketObject.ID,
+                                        "fullName": rowPacketObject.name,
+                                        "email": rowPacketObject.email,
+                                    })
+                            }
+                        )
+                        resolve(jsonArray);
+                    }
+                });
+            }
+        });
+    })
+}
+
+
+/**
  * This method deletes any record from any table by ID
  * @param database the database
  * @param tableName
@@ -597,3 +634,4 @@ module.exports.addRegistrationUser = addRegistrationUser;
 module.exports.getUserHashedPassword = getHashedPasswordOfAdminAccount;
 module.exports.getDataset = getDataset;
 module.exports.addDataInDataset = addDataInDataset;
+module.exports.getRequestedUsersFromRegistrationRequestsTable = getRequestedUsersFromRegistrationRequestsTable;
