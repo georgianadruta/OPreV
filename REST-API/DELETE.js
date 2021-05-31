@@ -32,6 +32,12 @@ async function deleteFromTableByID(request, response, callback, database, table)
     });
 }
 
+/**
+ * Method responsible for all HTTP DELETE requests
+ * @param request
+ * @param response
+ * @constructor
+ */
 function DELETE(request, response) {
     let path = request.url.toString();
     switch (path) {

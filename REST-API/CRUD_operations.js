@@ -592,6 +592,15 @@ const getDataset = async function (database, filter) {
     });
 }
 
+/**
+ * This method is responsible for checking if getCountryBMIValuePairsByYear method needs to be called or not
+ * @param database
+ * @param mass
+ * @param countries
+ * @param years
+ * @param allYears
+ * @returns {Promise<unknown>}
+ */
 async function getInternalData(database, mass, countries, years, allYears) {
     return new Promise(async (resolve, reject) => {
         let result = {
@@ -617,6 +626,14 @@ async function getInternalData(database, mass, countries, years, allYears) {
     });
 }
 
+/**
+ * This method is responsible for returning all the data from tables in order to apply the country and year filters
+ * @param database
+ * @param table
+ * @param countries
+ * @param year
+ * @returns {Promise<unknown>}
+ */
 async function getCountryBMIValuePairsByYear(database, table, countries, year) {
     return new Promise(async (resolve, reject) => {
         let con = getConnection({database: database})
