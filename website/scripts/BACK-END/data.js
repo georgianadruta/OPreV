@@ -215,7 +215,6 @@ async function getContactMessagesDatasetHTTPRequest() {
                     }
                 }
             }
-
         }
         HTTP.open("GET", url);
         HTTP.setRequestHeader("Cookies", document.cookie);
@@ -274,14 +273,12 @@ async function getRequestUsersDatasetHTTPRequest() {
  * }
  * @return Promise<>
  */
-async function getDatasetHTTPRequest(filters = null) {
+async function getDatasetHTTPRequest() {
     return await new Promise((resolve, reject) => {
         const HTTP = new XMLHttpRequest();
         const url = getURLBasedOnCookies();
-        setCookie("filters", filters);
         HTTP.onreadystatechange = () => {
             if (HTTP.readyState === HTTP.DONE) {
-                deleteCookie("filters")
                 if (HTTP.status >= 400) {
                     console.log(HTTP.responseText);
                     reject(HTTP.responseText);
@@ -292,7 +289,6 @@ async function getDatasetHTTPRequest(filters = null) {
                     resolve(data);
                 }
             }
-
         }
         HTTP.open("GET", url);
         HTTP.setRequestHeader("Cookies", document.cookie);

@@ -38,17 +38,19 @@ class BarChart extends OPreVChart {
 
     constructor() {
         super();
-        applyAllFilters().then(result => {
-            this.data.labels = result.labels;
-            this.chart = new Chart(document.getElementById('barChart').getContext('2d'), this.config);
+        //TODO repara ce ai facut aici ca nu stim ce ai vrut sa faci. (ps: add javadoc)
 
-            for (let i = 0; i < Object.keys(result.years).length; i++) {
-                this.data.datasets[i]['data'] = result.years[Object.keys(result.years)[i]].map(x => x.BMI_value);
-            }
-            this.chart.update();
-        }).catch(err => {
-            console.log(err)
-        })
+        // applyAllFilters().then(result => {
+        //     this.data.labels = result.labels;
+        //     this.chart = new Chart(document.getElementById('barChart').getContext('2d'), this.config);
+        //
+        //     for (let i = 0; i < Object.keys(result.years).length; i++) {
+        //         this.data.datasets[i]['data'] = result.years[Object.keys(result.years)[i]].map(x => x.BMI_value);
+        //     }
+        //     this.chart.update();
+        // }).catch(err => {
+        //     console.log(err)
+        // })
     }
 
     /**

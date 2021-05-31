@@ -5,7 +5,12 @@
 class OPreVChart {
     tableInformation = {
         tableColumns: Array(String),
-        dataset: Array(Object)
+        dataset: Array(Object),
+        filters: {
+            mass: String,
+            years: Array(String),
+            countries: Array(String)
+        }
     }
 
     /**
@@ -14,6 +19,7 @@ class OPreVChart {
      */
     constructor() {
         setCookie("dataset", "eurostat");//load eurostat by default
+        refreshFilters();
         getDatasetHTTPRequest().then(result => {
             this.tableInformation = result;
         }).catch(error => {
@@ -46,6 +52,42 @@ class OPreVChart {
                 deleteCookie("filters");
             });
         }
+    }
+
+
+    /**
+     * This function's purpose is to refresh this.filters based on what the user was clicked.
+     */
+    refreshFilters() {
+        let bodyMass = '', years = [], countries = [];
+
+        let bodyMassContainer = document.getElementsByName('bodyMassRadioButton');
+        for (let i = 0; i < bodyMassContainer.length; i++) {
+            if (bodyMassContainer[i].checked) {
+                bodyMass = bodyMassContainer[i].value;
+                break;
+            }
+        }
+
+        let yearsContainer = document.getElementsByName('years');
+        for (let i = 0; i < yearsContainer.length; i++) {
+            if (yearsContainer[i].checked) {
+                years.push(yearsContainer[i].value);
+            }
+        }
+
+        let countriesContainer = document.getElementsByName('countries');
+        for (let i = 0; i < countriesContainer.length; i++) {
+            if (countriesContainer[i].checked) {
+                countries.push(countriesContainer[i].value);
+            }
+        }
+
+        this.tableInformation.filters = {
+            mass: bodyMass,
+            years: years,
+            countries: countries
+        };
     }
 
     /**

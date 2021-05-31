@@ -1,6 +1,7 @@
 class TableChart extends OPreVChart {
     constructor() {
         super();
+        this.generateTable();
     }
 
     getTableData() {
@@ -18,10 +19,7 @@ class TableChart extends OPreVChart {
     /**
      * TODO GEORGIANA
      */
-    async generateTable() {
-        await getDatasetHTTPRequest().then(result => {
-            this.tableInformation = result
-        }).catch(err => console.error(err))
+    generateTable() {
         const table = document.getElementById("table");
         table.innerHTML = '';
 

@@ -195,32 +195,6 @@ let modifyData = function (request, response) {
  * @param request the request
  * @param response the response
  */
-let getDataset = function (request, response) {
-    let body = [];
-    request.on('data', chunk => {
-        body.push(chunk);
-    });
-    request.on('end', async () => {
-        let jsonObject = JSON.parse(body.toString());
-        try {
-            try {
-                let arrayOfJson = await CRUD.getDataset(getCookieValueFromCookies(request, "dataset"), jsonObject);
-                response.writeHead(200, {'Content-Type': 'application/json'});
-                response.end(JSON.stringify(arrayOfJson));
-            } catch (fail) {
-                setFailedRequestResponse(request, response, "Failed to modify data.", 500);
-            }
-        } catch (err) {
-            setFailedRequestResponse(request, response, "Failed to check if users is logged or not.", 409);
-        }
-    });
-}
-
-/**
- * Method responsible for dataset manipulation behaviour
- * @param request the request
- * @param response the response
- */
 let addToDataset = function (request, response) {
     let body = [];
     request.on('data', chunk => {
@@ -295,10 +269,6 @@ function POST(request, response) {
         case "/dataset/eurostat" || "/dataset/who": {
             modifyData(request, response);
             break;
-        }
-        case "/dataset" : {
-            getDataset(request, response);
-            return;
         }
         case "/dataset/add" : {
             addToDataset(request, response);
