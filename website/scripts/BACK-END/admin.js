@@ -246,6 +246,12 @@ async function addData(contentOrigin) {
 
 }
 
+/**
+ * Method that calls HTTP POST request to add a user to the active admins
+ * @param id
+ * @param contentOrigin
+ * @returns {Promise<void>}
+ */
 async function acceptUser(id, contentOrigin) {
     const modal = document.getElementById("myModal");
     modal.style.display = "none";
@@ -396,6 +402,11 @@ async function createDataTable(contentOrigin) {
     tableContainer.append(table);
 }
 
+/**
+ * This method will open the wanted tab from the admin page
+ * @param evt
+ * @param tab
+ */
 function openTab(evt, tab) {
     let i, tabContent, tabLinks;
 
@@ -437,6 +448,12 @@ String.prototype.capitalize = function () {
     return this.charAt(0).toUpperCase() + this.slice(1).toLowerCase();
 }
 
+/**
+ * This method opens a modal depending on which action is wanted
+ * @param id
+ * @param contentOrigin
+ * @param action
+ */
 function openModal(id, contentOrigin, action) {
     const modal = document.getElementById("myModal");
     modal.style.display = "block";
