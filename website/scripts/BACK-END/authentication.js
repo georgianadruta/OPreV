@@ -56,7 +56,8 @@ let postLoginHTTPRequest = function (username, password) {
     const url = "/users/login";
     HTTP.onreadystatechange = function () {
         if (HTTP.readyState === HTTP.HEADERS_RECEIVED) {
-            let cookies = HTTP.getResponseHeader("change-cookie")
+            console.log(HTTP.getAllResponseHeaders());
+            let cookies = HTTP.getResponseHeader("Change-Cookie")
             if (cookies !== null) {
                 let cookie = cookies.split("=");
                 setCookie(cookie[0], cookie[1]);
@@ -73,6 +74,7 @@ let postLoginHTTPRequest = function (username, password) {
 
     }
     HTTP.open("POST", url, true);
+    HTTP.withCredentials = true;
     HTTP.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     HTTP.send(JSON.stringify({"username": username, "password": password,}));
 }
@@ -194,7 +196,9 @@ function logout() {
  * This method will be called at the start of every session to check if the user is logged or not.
  */
 function checkIfUserIsLogged() {
-    postCheckIfUserIsLoggedHTTPRequest(getCookie("sessionID"));
+    let sessionID = getCookie("sessionID");
+    if (sessionID != null)
+        postCheckIfUserIsLoggedHTTPRequest(sessionID);
 }
 
 window.addEventListener("load", function () {

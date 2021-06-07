@@ -427,7 +427,7 @@ function openTab(evt, tab) {
         case 'eurostat':
         case 'approve':
         case 'messages': {
-            createDataTable(tab).then(x => console.log(x));
+            createDataTable(tab);
             break;
         }
         case 'who': {

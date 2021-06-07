@@ -5,6 +5,17 @@ const {setSuccessfulRequestResponse} = require('./REST_utilities')
 const {setFailedRequestResponse} = require('./REST_utilities')
 
 /**
+ * This method's purpose is to create a random sessionID
+ * @return {string} a random sessionID
+ */
+let generateRandomID = function () {
+    // Math.random should be unique because of its seeding algorithm.
+    // Convert it to base 36 (numbers + letters), and grab the first 9 characters
+    // after the decimal.
+    return '_' + Math.random().toString(36).substr(2, 9);
+};
+
+/**
  * This method checks if the parameters check regex patterns.
  * @param username the username to check
  * @param password the password to check
@@ -28,17 +39,13 @@ let checkMatches = function (username, password, email = null) {
     return passwordRegex.test(password) !== false;
 }
 
-
 /**
  * This method is responsible to keep the user logged in.
  */
-let keepUserLoggedIn = async function (request, response) {
+let keepUserLoggedIn = async function (request, response, sessionID) {
     return new Promise(async (resolve, refuse) => {
-        //1. get the session ID from the cookie
-        let sessionID = getCookieValueFromCookies(request, 'sessionID');
-
         let IP = request.socket.localAddress;
-        // 2. store token for user with ip address
+        // 1. store token for user with ip address
         let jsonObject =
             {
                 token: sessionID,
@@ -46,8 +53,8 @@ let keepUserLoggedIn = async function (request, response) {
             }
         try {
             await CRUD.addUserToLoggedUsersTable(jsonObject);
-            // 3. set cookie token user
-            response.setHeader('change-cookie', 'logged_in=true');
+            // 2. set cookie token user
+            response.setHeader('Set-Cookie', 'logged_in=true');
             // this cookie is only a flag
             // to check if it's even worth
             //searching for the user in the logged users database or not
@@ -93,7 +100,14 @@ let login = function (request, response) {
             bcrypt.compare(loginAccount.password, hashedPassword, async function (err, result) {
                 if (result === true) {
                     try {
-                        await keepUserLoggedIn(request, response);
+                        // TODO bypass CORS
+                        // response.setHeader("Access-Control-Allow-Credentials", "true");
+                        // response.setHeader("Access-Control-Allow-Origin", request.headers.origin);
+                        // response.setHeader("Vary", "Origin");
+                        // response.setHeader("Access-Control-Allow-Headers", "Set-Cookie");
+                        let randomID = generateRandomID();//create a random UUID
+                        response.setHeader('Change-Cookie', 'sessionID=' + randomID);//
+                        await keepUserLoggedIn(request, response, randomID);
                         setSuccessfulRequestResponse(request, response, "Login approved.", 202);
                     } catch (err) {
                         setFailedRequestResponse(request, response, "User is already logged in.", 409);

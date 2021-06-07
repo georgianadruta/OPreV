@@ -43,20 +43,8 @@ function deleteCookie(cookieName) {
     document.cookie = cookieName + "= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
 }
 
-/**
- * TODO Change the function. It's not random.
- * This method's purpose is to generate a random ID.
- * @returns {string} random UUID
- */
-let generateRandomID = function () {
-    // Math.random should be unique because of its seeding algorithm.
-    // Convert it to base 36 (numbers + letters), and grab the first 9 characters
-    // after the decimal.
-    return '_' + Math.random().toString(36).substr(2, 9);
-};
 
 window.addEventListener("load", function () {
     if (getCookie("dataset") == null) setCookie("dataset", "eurostat");
-    if (getCookie('sessionID') == null) setCookie("sessionID", generateRandomID());
     if (getCookie('logged_in') == null) setCookie("logged_in", 'false');
 });
