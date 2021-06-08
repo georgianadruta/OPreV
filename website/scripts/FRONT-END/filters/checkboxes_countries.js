@@ -48,7 +48,7 @@ async function createCountriesCheckboxes() {
 
         container.appendChild(parent);
     }
-    window.localStorage.setItem('countries', 'none')
+    window.sessionStorage.setItem('countries', '')
 }
 
 /**
@@ -60,54 +60,27 @@ async function selectAllCountries() {
         countryList = result
     })
     setDatasetLabels(countryList);
-    let localStorageCountries = String();
+    let sessionStorageCountries = String();
     let labels = getDatasetLabels();
     for (let i = 0; i < labels.length; i++) {
         const checkbox = document.getElementById('country' + i);
         checkbox.type = 'checkbox';
         checkbox.checked = true;
-        localStorageCountries += labels[i] + ' ';
+        sessionStorageCountries += labels[i] + ' ';
     }
-    localStorageCountries = localStorageCountries.slice(0, -1);
+    sessionStorageCountries = sessionStorageCountries.slice(0, -1);
     const path = window.location.pathname;
     const page = path.split("/").pop();
     if (page === "chart_bar.html") {
-        // const chart = barChart.getChart();
-        // barChart.refreshChartData();
-        // chart.update();
+        barChart.refreshChartData();
     } else if (page === "chart_line.html") {
         //TODO
     } else {
         tableChart.refreshTableData().then();
         tableChart.generateTable();
     }
-    removeCountryIds = [...Array(labels.length).keys()];
-    // setDatasetData(getDatasetHTTPRequest());
-    // const path = window.location.pathname;
-    // const page = path.split("/").pop();
-    // if (page === "chart_bar.html") {
-    //     const chart = barChart.getChart();
-    //     chart.data.labels = labels;
-    //     chart.data.datasets[0].data = getDatasetData()[0];
-    //     chart.data.datasets[1].data = getDatasetData()[1];
-    //     chart.data.datasets[2].data = getDatasetData()[2];
-    // } else {
-    //     const tableData = tableChart.getTableData();
-    //     tableData.tableColumns = labels;
-    //     tableData.dataset[0] = getDatasetHTTPRequest()[0];
-    //     tableData.dataset[1] = getDatasetHTTPRequest()[1];
-    //     tableData.dataset[2] = getDatasetHTTPRequest()[2];
-    // }
-    //
-    // if (page === "chart_bar.html") {
-    //     chart.update();
-    // } else {
-    //     tableChart.refreshTableData();
-    //     tableChart.generateTable();
-    // }
-
     removeCountryIds = [];
-    window.localStorage.setItem("countries", localStorageCountries);
+    window.sessionStorage.setItem("countries", sessionStorageCountries);
 }
 
 /**
@@ -129,9 +102,7 @@ async function deselectAllCountries() {
         const path = window.location.pathname;
         const page = path.split("/").pop();
         if (page === "chart_bar.html") {
-            // const chart = barChart.getChart();
-            // barChart.refreshChartData();
-            // chart.update();
+            barChart.refreshChartData();
         } else if (page === "chart_line.html") {
             const chart = lineChart.getChart();
             chart.update();
@@ -141,7 +112,7 @@ async function deselectAllCountries() {
         }
         removeCountryIds = [...Array(labels.length).keys()];
     }
-  //  window.localStorage.setItem("countries", "none");
+    window.sessionStorage.setItem("countries", '');
 }
 
 /**
@@ -187,12 +158,7 @@ async function addDataToDatasetByCountryID(id) {
     let newLabels = getDatasetLabels();
     if (newLabels == null) newLabels = Array();
     newLabels.push(labels[id]);
-    let delimiter = ' ';
-    if (window.localStorage.getItem("countries").search("none") !== -1) {
-        window.localStorage.setItem("countries", '');
-        delimiter = '';
-    }
-    window.localStorage.setItem("countries", window.localStorage.getItem("countries") + delimiter + labels[id]);
+    window.sessionStorage.setItem("countries", window.sessionStorage.getItem("countries") + ' ' + labels[id]);
 
     let newData = getDatasetData();
     //if datasetData is empty make datasetData.length arrays
@@ -222,19 +188,12 @@ async function removeDataToDatasetByCountryID(id) {
     let newLabels = getDatasetLabels();
     let index = newLabels.indexOf(country);//delete it
     newLabels.splice(index, 1);
-    window.localStorage.setItem("countries", window.localStorage.getItem("countries").replaceAll(country, ''));
-    window.localStorage.setItem("countries", window.localStorage.getItem("countries").replaceAll("  ", ' '));
+    window.sessionStorage.setItem("countries", window.sessionStorage.getItem("countries").replaceAll(country, ''));
+    window.sessionStorage.setItem("countries", window.sessionStorage.getItem("countries").replaceAll("  ", ' '));
     const regExp = /(\s*[a-zA-Z]+\s*)+/g;
-    if (regExp.test(window.localStorage.getItem("countries")) === false)
-        window.localStorage.setItem("countries", "none");
-    let newData = getDatasetData();
-    //for each element add corresponding data
-    for (let i = 0; i < newData.length; i++) {
-        newData[i].splice(index, 1);
-    }
-    //set the newDataset
-    setDatasetLabels(newLabels);
-    setDatasetData(newData);
+    if (regExp.test(window.sessionStorage.getItem("countries")) === false)
+        window.sessionStorage.setItem("countries", '');
+    //TODO update input for table ...
 }
 
 /**

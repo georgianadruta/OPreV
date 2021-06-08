@@ -34,5 +34,6 @@ class LineChart extends OPreVChart {
 let chart;
 window.addEventListener("load", () => {
     lineChart = chart = new LineChart();
+    refreshFilters();
 })
 

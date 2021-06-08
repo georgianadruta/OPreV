@@ -2,9 +2,10 @@
  * This function's purpose is to create a filter button CGI
  * @param fieldName
  * @param elementID the element id in html code
- * @param localStorageItemName the cookie to be set
+ * @param sessionStorageItemName the session storage item name to be set
+ * @param append
  */
-async function createFilterButton(fieldName, elementID, localStorageItemName) {
+async function createFilterButton(fieldName, elementID, sessionStorageItemName, append = false) {
     const filtersContainer = document.getElementById(elementID);
     if (filtersContainer) {
         let indicatorsArray;
@@ -16,13 +17,21 @@ async function createFilterButton(fieldName, elementID, localStorageItemName) {
         for (let i = 0; i < indicatorsArray.length; i++) {
             const newDiv = document.createElement('div');
             newDiv.className = "dropdown-btn";
-            newDiv.onclick = function () {
-                window.localStorage.setItem(localStorageItemName, indicatorsArray[i]);
+            if (append === true) {
+                newDiv.onclick = function () {
+                    if (window.sessionStorage.getItem(sessionStorageItemName).includes(indicatorsArray[i]) === false) {
+                        window.sessionStorage.setItem(sessionStorageItemName, window.sessionStorage.getItem(sessionStorageItemName) + " " + indicatorsArray[i]);
+                    }
+                }
+            } else {
+                newDiv.onclick = function () {
+                    window.sessionStorage.setItem(sessionStorageItemName, indicatorsArray[i]);
+                }
             }
             newDiv.innerHTML = String(indicatorsArray[i]);
             filtersContainer.appendChild(newDiv);
         }
-        window.localStorage.setItem(localStorageItemName, indicatorsArray[0]);
+        window.sessionStorage.setItem(sessionStorageItemName, indicatorsArray[0]);
     }
 }
 
@@ -57,7 +66,7 @@ async function createRadioGroupButton(fieldName, elementID, localStorageItemName
             parent.appendChild(label);
             filtersContainer.appendChild(parent);
         }
-        window.localStorage.setItem(localStorageItemName, indicatorsArray[0]);
+        window.sessionStorage.setItem(localStorageItemName, indicatorsArray[0]);
     }
 }
 
@@ -65,9 +74,9 @@ async function createRadioGroupButton(fieldName, elementID, localStorageItemName
  * This function's purpose is to create the filters based on the dataset used.
  */
 function refreshFilters() {
-    createFilterButton("BMIIndicators", "bodyMassButton", "BMIFilter").then();
-    createFilterButton("sexes", "sexButton", "SexFilter").then();
-    createFilterButton("regions", "continentButton", "RegionsFilter").then();
+    createFilterButton("BMIIndicators", "bodyMassButton", "BMIFilter", false).then();
+    createFilterButton("sexes", "sexButton", "SexFilter", true).then();
+    createFilterButton("regions", "continentButton", "RegionsFilter", false).then();
 
     createRadioGroupButton("BMIIndicators", "bodyMassRadioButton", "BMIFilter").then();
 
@@ -75,7 +84,7 @@ function refreshFilters() {
     createCountriesCheckboxes().then();
 }
 
-function changeDataset(datasetName) {
+function changeDatasetSpanText(datasetName) {
     const span = document.getElementById("datasetName");
     if (datasetName === "who") {
         span.innerHTML = "Who";
@@ -88,7 +97,6 @@ function changeDataset(datasetName) {
         document.getElementById("eurostat").style.display = "block";
         document.getElementById("who").style.display = "none";
     }
-    loadDataSet(datasetName);
 }
 
 function updateChart() {
@@ -107,7 +115,4 @@ function updateChart() {
     // })
 }
 
-window.addEventListener("load", function () {
-    refreshFilters();
-});
 

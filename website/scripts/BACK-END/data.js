@@ -11,15 +11,14 @@ let getURLBasedOnCookies = function () {
 
 /**
  * This function's purpose is to load the specified dataset.
- * Sets the cookie
+ * Sets the session storage
  * @param datasetName either 'who' or 'eurostat'
  */
 function loadDataSet(datasetName) {
     if (datasetName === 'who' || datasetName === 'eurostat') {
-        window.localStorage.setItem("dataset", datasetName);
-        refreshFilters();
+        window.sessionStorage.setItem("dataset", datasetName);
     } else {
-        window.localStorage.setItem("dataset", 'eurostat');
+        window.sessionStorage.setItem("dataset", 'eurostat');
         console.error("ERROR: wrong call on loadDataSet function: loadDataset(" + datasetName + ").")
     }
 }

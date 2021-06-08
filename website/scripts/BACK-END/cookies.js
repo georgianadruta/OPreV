@@ -44,6 +44,3 @@ function deleteCookie(cookieName) {
 }
 
 
-window.addEventListener("load", function () {
-    if (getCookie("dataset") == null) setCookie("dataset", "eurostat");
-});

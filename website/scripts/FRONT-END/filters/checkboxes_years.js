@@ -44,7 +44,7 @@ async function createYearsCheckboxes() {
 
         container.appendChild(parent);
     }
-    window.localStorage.setItem('years', 'none');
+    window.sessionStorage.setItem('years', '');
 }
 
 /**
@@ -57,15 +57,17 @@ async function selectAllYears() {
     }).catch(err => {
         console.error(err);
     })
-    let localStorageYears = String();
+    let sessionStorageYears = String();
     //tick all boxes
     for (let i = 0; i < years.length; i++) {
         const checkbox = document.getElementById('year' + i);
         checkbox.type = 'checkbox';
         checkbox.checked = true;
-        localStorageYears += years[i] + ' ';
+        sessionStorageYears += years[i] + ' ';
     }
-    localStorageYears = localStorageYears.slice(0, -1);
+    sessionStorageYears = sessionStorageYears.slice(0, -1);
+
+    window.sessionStorage.setItem("years", sessionStorageYears);
 
     const path = window.location.pathname;
     const page = path.split("/").pop();
@@ -81,15 +83,14 @@ async function selectAllYears() {
     }
 
     if (page === "chart_bar.html") {
-        // barChart.getChart().update();
+        barChart.getChart().update();
     } else if (page === "chart_line.html") {
         lineChart.getChart().update();
     } else {
-        tableChart.getChart().update();
+        //tableChart.getChart().update();
     }
 
     removedYearsIds = [];
-    window.localStorage.setItem("years", localStorageYears);
 }
 
 /**
@@ -125,7 +126,7 @@ async function deselectAllYears() {
         }
         removedYearsIds = [...Array(years.length).keys()];
     }
-    window.localStorage.setItem("years", "none");
+    window.sessionStorage.setItem("years", '');
 }
 
 /**
@@ -159,7 +160,6 @@ function addOrRemoveYearFromChart(id) {
  * @param id the id of the year
  */
 async function addYearToActiveYearsByID(id) {
-    //TODO
     let years;
     await getAllPossibleValuesOfFilterHTTPRequest('years').then(yearsArray => {
         years = yearsArray;
@@ -167,12 +167,9 @@ async function addYearToActiveYearsByID(id) {
         console.error(err);
     })
     let year = years[id];
-    let delimiter = ' ';
-    if (window.localStorage.getItem("years").search("none") !== -1) {
-        window.localStorage.setItem("years", '');
-        delimiter = '';
+    if (window.sessionStorage.getItem("years").includes(year) === false) {
+        window.sessionStorage.setItem("years", window.sessionStorage.getItem("years") + ' ' + year);
     }
-    window.localStorage.setItem("years", window.localStorage.getItem("years") + delimiter + year);
 }
 
 /**
@@ -180,7 +177,6 @@ async function addYearToActiveYearsByID(id) {
  * @param id the id of the year
  */
 async function removeYearFromActiveYearsByID(id) {
-    //TODO
     let years;
     await getAllPossibleValuesOfFilterHTTPRequest('years').then(yearsArray => {
         years = yearsArray;
@@ -188,9 +184,9 @@ async function removeYearFromActiveYearsByID(id) {
         console.error(err);
     })
     let year = years[id];
-    window.localStorage.setItem("years", window.localStorage.getItem("years").replaceAll(year, ''));
-    window.localStorage.setItem("years", window.localStorage.getItem("years").replaceAll("  ", ' '));
+    window.sessionStorage.setItem("years", window.sessionStorage.getItem("years").replaceAll(' ' + year, ''));
+    window.sessionStorage.setItem("years", window.sessionStorage.getItem("years").replaceAll("  ", ' '));
     const regExp = /(\s*[0-9]+\s*)+/g;
-    if (regExp.test(window.localStorage.getItem("years")) === false)
-        window.localStorage.setItem("years", "none");
+    if (regExp.test(window.sessionStorage.getItem("years")) === false)
+        window.sessionStorage.setItem("years", '');
 }
