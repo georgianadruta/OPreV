@@ -69,6 +69,19 @@ async function selectAllCountries() {
         localStorageCountries += labels[i] + ' ';
     }
     localStorageCountries = localStorageCountries.slice(0, -1);
+    const path = window.location.pathname;
+    const page = path.split("/").pop();
+    if (page === "chart_bar.html") {
+        // const chart = barChart.getChart();
+        // barChart.refreshChartData();
+        // chart.update();
+    } else if (page === "chart_line.html") {
+        //TODO
+    } else {
+        tableChart.refreshTableData().then();
+        tableChart.generateTable();
+    }
+    removeCountryIds = [...Array(labels.length).keys()];
     // setDatasetData(getDatasetHTTPRequest());
     // const path = window.location.pathname;
     // const page = path.split("/").pop();
@@ -86,7 +99,7 @@ async function selectAllCountries() {
     //     tableData.dataset[2] = getDatasetHTTPRequest()[2];
     // }
     //
-    // if (page === "chart_bar.html") { TODO CHANGE THIS TO AFFECT LINE CHART TOO
+    // if (page === "chart_bar.html") {
     //     chart.update();
     // } else {
     //     tableChart.refreshTableData();
@@ -123,8 +136,8 @@ async function deselectAllCountries() {
             const chart = lineChart.getChart();
             chart.update();
         } else {
-            tableChart.refreshTableData();
-            tableChart.generateTable();
+            const chart = tableChart.getChart();
+            chart.update();
         }
         removeCountryIds = [...Array(labels.length).keys()];
     }
