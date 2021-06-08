@@ -57,6 +57,7 @@
     <link rel="stylesheet" href="website/styles/chart_bar.css"/>
     <link rel="stylesheet" href="website/styles/buttons.css"/>
     <link rel="stylesheet" href="website/styles/chart.css"/>
+    <link rel="stylesheet" href="website/styles/modal.css"/>
 
     <!--JAVA SCRIPTS-->
     <script src="website/scripts/BACK-END/charts/modules.js"></script>
@@ -79,6 +80,12 @@
 
 <body>
 <header>
+    <div id="messageModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p></p>
+        </div>
+    </div>
     <div class="scrollBar">
         <div class="progress-container">
             <div class="progress-bar" id="myScrollBar"></div>

@@ -40,10 +40,22 @@ let checkMatches = function (username, password, email = null) {
 }
 
 /**
- * This method is responsible for visual effects once the user has succesfully logged in.
+ * This method is responsible for visual effects once the user has successfully logged in.
  */
-let successfulLoginEffects = function () {
-    window.location = "/";//go to home page
+let successfulLoginLogoutRegisterEffects = function (message) {
+    let modal = document.getElementById("messageModal");
+    modal.style.display = "block";
+    let div = modal.getElementsByTagName("div")[0];
+    let paragraphText = div.getElementsByTagName("p")[0];
+    if (paragraphText != null) paragraphText.textContent = message;
+    paragraphText.style.display = "flex";
+    paragraphText.style.justifyContent = "center";
+    paragraphText.style.color = "green";
+    paragraphText.style.fontSize = "20px";
+    setTimeout(() => {
+        window.location = "/";//go to home page
+        document.getElementById("messageModal").style.display = "none";
+    }, 2000);
 }
 
 /**
@@ -68,7 +80,7 @@ let postLoginHTTPRequest = function (username, password) {
                 changeSpanText(this.responseText, "red");
             else {
                 changeSpanText(this.responseText, "green");
-                successfulLoginEffects();
+                successfulLoginLogoutRegisterEffects("Successfully logged in. You will be redirected shortly");
             }
         }
 
@@ -98,11 +110,9 @@ let postLogoutHTTPRequest = function (token) {
                 deleteCookie(cookies);
         }
         if (HTTP.readyState === HTTP.DONE) {
-            //TODO implement some effect to know you're logged out so you can login again
             console.error(HTTP.status)
             if (HTTP.status <= 300) {
-                changeMenuBarBasedOnLoginLogout();
-                document.location.href = "/";
+                successfulLoginLogoutRegisterEffects("Successfully logged out. You will be redirected shortly");
             }
         }
 
@@ -125,8 +135,10 @@ let putHTTPRequest = function (username, email, password) {
         if (HTTP.readyState === 4) {
             if (HTTP.status >= 400)
                 changeSpanText(this.responseText, "red");
-            else
+            else {
                 changeSpanText(this.responseText, "green");
+                successfulLoginLogoutRegisterEffects("Successfully sent registration request. You will be redirected shortly");
+            }
         }
     }
     HTTP.open("PUT", url);
@@ -188,9 +200,9 @@ function login() {
  * This method will be called to trigger the logout.
  */
 function logout() {
-    if (getCookie("sessionID") != null)
+    if (getCookie("sessionID") != null) {
         postLogoutHTTPRequest(getCookie("sessionID"));
-    else
+    } else
         alert("You are not logged in. You cannot log out.")
     return false;
 }
