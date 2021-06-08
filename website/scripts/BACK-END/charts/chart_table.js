@@ -10,14 +10,14 @@ class TableChart extends OPreVChart {
 
     async refreshTableData() {
         await getDatasetHTTPRequest().then(data => {
-            this.tableInformation = data;
+            this.tableInformation.dataset = data;
         }).catch(fail => {
             console.error(fail);
         });
     }
 
     /**
-     * TODO GEORGIANA
+     * This function's purpose is to create the table based on data base (now euroStat).
      */
     generateTable() {
         const table = document.getElementById("table");
@@ -50,8 +50,7 @@ class TableChart extends OPreVChart {
     }
 
     /**
-     * TODO TEST IF IT WORKS
-     * helpful method to delete columns from table
+     * This function's purpose is to delete the selected columns.
      */
     deleteColumn(name) {
         let tble = document.getElementById('tbl');
@@ -69,5 +68,7 @@ class TableChart extends OPreVChart {
 
 let chart;
 window.addEventListener("load", () => {
-    tableChart = chart = new TableChart();
+    refreshFilters().then(() => {
+        tableChart = chart = new TableChart();
+    });
 })

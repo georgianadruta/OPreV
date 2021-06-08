@@ -81,8 +81,7 @@ class BarChart extends OPreVChart {
 
 let chart;
 window.addEventListener("load", () => {
-    barChart = chart = new BarChart();
-    refreshFilters();
+    refreshFilters().then(() => barChart = chart = new BarChart())
 })
 
 

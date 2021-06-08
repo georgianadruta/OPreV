@@ -15,6 +15,22 @@ const mimeTypes = {
 };
 
 /**
+ *
+ * @param request
+ * @param paramName
+ */
+function getQueryParamValueByName(request, paramName) {
+    let query = decodeURIComponent(request.url);
+    query = query.substring(query.indexOf('?'));
+    query = query.substring(query.indexOf(paramName + '=') + paramName.length + 1);
+    let index = query.indexOf('&');
+    if (index !== -1) {
+        query = query.substring(0, index);
+    }
+    return query;
+}
+
+/**
  * This method is responsible for returning both datasets as HTML response.
  * @param request the request
  * @param response the response
@@ -22,8 +38,8 @@ const mimeTypes = {
  * @return {Promise<void>} unused promise
  */
 let getDataset = async function (request, response, filters = "1=1") {
-    let BMIIndicator = getCookieValueFromCookies(request, "BMIIndicator"); // table name
-    let database = getCookieValueFromCookies(request, "dataset");
+    let BMIIndicator = getQueryParamValueByName(request, "BMIFilter");
+    let database = getQueryParamValueByName(request, "dataset");
     //todo add filters from cookies
     try {
         let dataset = await CRUD.getDatasetDataFromTable(database, BMIIndicator, filters);
@@ -115,6 +131,9 @@ let getFilters = async function (request, response) {
  */
 function GET(request, response) {
     let path = request.url.toString();
+    if (path.includes('?') === true) {
+        path = path.substring(0, path.indexOf('?'));
+    }
     switch (path) {
         case "/contact/messages": {
             getContactMessages(request, response);

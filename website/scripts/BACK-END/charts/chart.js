@@ -18,7 +18,6 @@ class OPreVChart {
      * It calls a HTTP GET request to get all the dataset.
      */
     constructor() {
-        window.sessionStorage.setItem("dataset", "eurostat"); //by default
         getDatasetHTTPRequest().then(result => {
             this.tableInformation = result;
         }).catch(error => {

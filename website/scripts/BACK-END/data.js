@@ -1,10 +1,43 @@
 /**
+ * This function's purpose is to return an encoded uri session storage item.
+ * @param sessionStorageItemName
+ * @returns {string} encoded uri session storage item
+ */
+function getSessionStorageAsQuery(sessionStorageItemName) {
+    let sessionStorage = window.sessionStorage.getItem(sessionStorageItemName);
+    if (sessionStorage !== null) {
+        return encodeURIComponent(sessionStorage);
+    } else {
+        return '';
+    }
+}
+
+/**
+ * This function returns query params based on session storage filters.
+ */
+function getParamsBasedOnSessionStorage() {
+    let query = "?";
+    query += "dataset=" + getSessionStorageAsQuery("dataset");
+    query += "&";
+    query += "BMIFilter=" + getSessionStorageAsQuery("BMIFilter");
+    query += "&";
+    query += "SexFilter=" + getSessionStorageAsQuery("SexFilter");
+    query += "&";
+    query += "RegionsFilter=" + getSessionStorageAsQuery("RegionsFilter");
+    query += "&";
+    query += "years=" + getSessionStorageAsQuery("years");
+    query += "&";
+    query += "countries=" + getSessionStorageAsQuery("countries");
+    return query;
+}
+
+/**
  * This method's purpose is to return the request URL based on cookies
  * @return {string} the url
  */
-let getURLBasedOnCookies = function () {
+let getURLBasedOnSessionStorage = function () {
     let url = '/dataset';
-    let dataset = getCookie("dataset");
+    let dataset = window.sessionStorage.getItem("dataset");
     url += '/' + dataset;
     return url;
 }
@@ -32,7 +65,7 @@ async function getAllPossibleValuesOfFilterHTTPRequest(fieldName) {
     return await new Promise((resolve, reject) => {
         setCookie("field", fieldName);
         const HTTP = new XMLHttpRequest();
-        const url = getURLBasedOnCookies() + '/filters';
+        const url = getURLBasedOnSessionStorage() + '/filters';
         HTTP.onreadystatechange = () => {
             if (HTTP.readyState === HTTP.DONE) {
                 deleteCookie("field");
@@ -159,7 +192,7 @@ async function acceptUserHTTPRequest(jsonObject) {
 async function modifyDataFromAdminPageHTTPRequest(jsonObject) {
     return await new Promise((resolve, reject) => {
         const HTTP = new XMLHttpRequest();
-        const url = getURLBasedOnCookies();
+        const url = getURLBasedOnSessionStorage();
 
         HTTP.onreadystatechange = () => {
             if (HTTP.readyState === HTTP.DONE) {
@@ -262,7 +295,6 @@ async function getRequestUsersDatasetHTTPRequest() {
 
 }
 
-
 /**
  * This method is responsible for the HTTP GET request to receive the database data.
  * In resolve we return an JSON under the following format:
@@ -275,7 +307,8 @@ async function getRequestUsersDatasetHTTPRequest() {
 async function getDatasetHTTPRequest() {
     return await new Promise((resolve, reject) => {
         const HTTP = new XMLHttpRequest();
-        const url = getURLBasedOnCookies();
+        const url = getURLBasedOnSessionStorage();
+        const params = getParamsBasedOnSessionStorage();
         HTTP.onreadystatechange = () => {
             if (HTTP.readyState === HTTP.DONE) {
                 if (HTTP.status >= 400) {
@@ -289,7 +322,7 @@ async function getDatasetHTTPRequest() {
                 }
             }
         }
-        HTTP.open("GET", url);
+        HTTP.open("GET", url + params);
         HTTP.setRequestHeader("Cookies", document.cookie);
         HTTP.send();
     })

@@ -10,28 +10,29 @@ async function createFilterButton(fieldName, elementID, sessionStorageItemName, 
     if (filtersContainer) {
         let indicatorsArray;
         await getAllPossibleValuesOfFilterHTTPRequest(fieldName).then(indicators => {
-            indicatorsArray = indicators
-        }).catch(err => console.error(err));
-        filtersContainer.innerHTML = '';
+            indicatorsArray = indicators;
+            filtersContainer.innerHTML = '';
 
-        for (let i = 0; i < indicatorsArray.length; i++) {
-            const newDiv = document.createElement('div');
-            newDiv.className = "dropdown-btn";
-            if (append === true) {
-                newDiv.onclick = function () {
-                    if (window.sessionStorage.getItem(sessionStorageItemName).includes(indicatorsArray[i]) === false) {
-                        window.sessionStorage.setItem(sessionStorageItemName, window.sessionStorage.getItem(sessionStorageItemName) + " " + indicatorsArray[i]);
+            for (let i = 0; i < indicatorsArray.length; i++) {
+                const newDiv = document.createElement('div');
+                newDiv.className = "dropdown-btn";
+                if (append === true) {
+                    newDiv.onclick = function () {
+                        if (window.sessionStorage.getItem(sessionStorageItemName).includes(indicatorsArray[i]) === false) {
+                            window.sessionStorage.setItem(sessionStorageItemName, window.sessionStorage.getItem(sessionStorageItemName)
+                                + " " + indicatorsArray[i]);
+                        }
+                    }
+                } else {
+                    newDiv.onclick = function () {
+                        window.sessionStorage.setItem(sessionStorageItemName, indicatorsArray[i]);
                     }
                 }
-            } else {
-                newDiv.onclick = function () {
-                    window.sessionStorage.setItem(sessionStorageItemName, indicatorsArray[i]);
-                }
+                newDiv.innerHTML = String(indicatorsArray[i]);
+                filtersContainer.appendChild(newDiv);
             }
-            newDiv.innerHTML = String(indicatorsArray[i]);
-            filtersContainer.appendChild(newDiv);
-        }
-        window.sessionStorage.setItem(sessionStorageItemName, indicatorsArray[0]);
+            window.sessionStorage.setItem(sessionStorageItemName, indicatorsArray[0]);
+        }).catch(err => console.error(err));
     }
 }
 
@@ -73,15 +74,14 @@ async function createRadioGroupButton(fieldName, elementID, localStorageItemName
 /**
  * This function's purpose is to create the filters based on the dataset used.
  */
-function refreshFilters() {
-    createFilterButton("BMIIndicators", "bodyMassButton", "BMIFilter", false).then();
-    createFilterButton("sexes", "sexButton", "SexFilter", true).then();
-    createFilterButton("regions", "continentButton", "RegionsFilter", false).then();
-
-    createRadioGroupButton("BMIIndicators", "bodyMassRadioButton", "BMIFilter").then();
-
-    createYearsCheckboxes().then();
-    createCountriesCheckboxes().then();
+async function refreshFilters() {
+    window.sessionStorage.setItem("dataset", "eurostat"); //by default
+    await createFilterButton("BMIIndicators", "bodyMassButton", "BMIFilter", false);
+    await createFilterButton("sexes", "sexButton", "SexFilter", true);
+    await createFilterButton("regions", "continentButton", "RegionsFilter", false);
+    await createRadioGroupButton("BMIIndicators", "bodyMassRadioButton", "BMIFilter");
+    await createYearsCheckboxes();
+    await createCountriesCheckboxes();
 }
 
 function changeDatasetSpanText(datasetName) {
