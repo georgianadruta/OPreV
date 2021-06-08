@@ -23,9 +23,7 @@ async function createYearsCheckboxes() {
         checkbox.id = 'year' + i;
         checkbox.name = 'years';
         checkbox.value = years[i];
-        checkbox.checked = false;
-
-        removedYearsIds.push(i);//by default all are removed
+        checkbox.checked = true;
 
         const path = window.location.pathname;
         const page = path.split("/").pop();
@@ -87,8 +85,7 @@ async function selectAllYears() {
     } else if (page === "chart_line.html") {
         lineChart.getChart().update();
     } else {
-        tableChart.refreshTableData();
-        tableChart.generateTable();
+        tableChart.getChart().update();
     }
 
     removedYearsIds = [];
@@ -124,8 +121,7 @@ async function deselectAllYears() {
             //refresh bar chart configuration
             chart.update();
         } else {
-            //refresh table's columns
-            tableChart.generateTable();
+            // TODO update for table chart
         }
         removedYearsIds = [...Array(years.length).keys()];
     }
@@ -153,7 +149,7 @@ function addOrRemoveYearFromChart(id) {
         barChart.refreshChartData();
         barChart.getChart().update();
     } else {
-        tableChart.refreshTableData();
+        tableChart.refreshTableData().then();
         tableChart.generateTable();
     }
 }

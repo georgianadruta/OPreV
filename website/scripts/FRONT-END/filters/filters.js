@@ -65,14 +65,14 @@ async function createRadioGroupButton(fieldName, elementID, localStorageItemName
  * This function's purpose is to create the filters based on the dataset used.
  */
 function refreshFilters() {
-    createFilterButton("BMIIndicators", "bodyMassButton", "BMIFilter");
-    createFilterButton("sexes", "sexButton", "SexFilter");
-    createFilterButton("regions", "continentButton", "RegionsFilter");
+    createFilterButton("BMIIndicators", "bodyMassButton", "BMIFilter").then();
+    createFilterButton("sexes", "sexButton", "SexFilter").then();
+    createFilterButton("regions", "continentButton", "RegionsFilter").then();
 
-    createRadioGroupButton("BMIIndicators", "bodyMassRadioButton", "BMIFilter");
+    createRadioGroupButton("BMIIndicators", "bodyMassRadioButton", "BMIFilter").then();
 
-    createYearsCheckboxes();
-    createCountriesCheckboxes();
+    createYearsCheckboxes().then();
+    createCountriesCheckboxes().then();
 }
 
 function changeDataset(datasetName) {
