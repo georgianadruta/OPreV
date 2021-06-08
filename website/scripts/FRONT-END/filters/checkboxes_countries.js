@@ -121,67 +121,72 @@ async function deselectAllCountries() {
  * @param id the id of the country of which will be removed from the graph
  */
 function addOrRemoveCountryFromChart(id) {
+    let chart;
+    const path = window.location.pathname;
+    const page = path.split("/").pop();
+    if (page === "chart_bar.html") {
+        chart = barChart;
+    } else if (page === "chart_line.html") {
+        chart = lineChart;
+    } else {
+        chart = tableChart;
+    }
     //if it exists in removeCountryIds
     if (removeCountryIds.includes(id)) {
         let index = removeCountryIds.indexOf(id);//delete it
         removeCountryIds.splice(index, 1);
-        addDataToDatasetByCountryID(id).then();
+        addDataToDatasetByCountryID(chart, id).then(() => {
+                if (page === "chart_bar.html") {
+                    barChart.generateBarChart();
+                } else if (page === "chart_line.html") {
+                    lineChart.generateLineChart();
+                } else {
+                    tableChart.generateTable();
+                }
+            }
+        );
     } else {
         removeCountryIds.push(id);//else add it
-        removeDataToDatasetByCountryID(id).then();
-    }
-
-    const path = window.location.pathname;
-    const page = path.split("/").pop();
-    if (page === "chart_bar.html") {
-        barChart.refreshDataset();
-        barChart.getChart().update();
-    } else if (page === "chart_line.html") {
-        lineChart.refreshDataset();
-        lineChart.getChart().update();
-    } else {
-        tableChart.refreshTableData().then();
-        tableChart.generateTable();
+        removeDataToDatasetByCountryID(chart, id).then(() => {
+                if (page === "chart_bar.html") {
+                    barChart.generateBarChart();
+                } else if (page === "chart_line.html") {
+                    lineChart.generateLineChart();
+                } else {
+                    tableChart.generateTable();
+                }
+            }
+        );
     }
 }
 
 /**
  * This function's purpose is to add a country's data to the dataset based on it's id.
+ * @param chart
  * @param id the id of the country
  */
-async function addDataToDatasetByCountryID(id) {
+async function addDataToDatasetByCountryID(chart, id) {
     let labels;
-    await getAllPossibleValuesOfFilterHTTPRequest('countries').then(countriesArray => {
-        labels = countriesArray
+    await getAllPossibleValuesOfFilterHTTPRequest('countries').then(async countriesArray => {
+        labels = countriesArray;
+        let newData = chart.getDataset();
+        window.sessionStorage.setItem("countries", window.sessionStorage.getItem("countries") + ' ' + labels[id]);
+        await getDataForCountryHTTPRequest(labels[id]).then(
+            result => {
+                newData.push(...result.dataset);
+                chart.setDataset(newData);
+            }
+        ).catch(error => console.error(error));
     });
-    const data = getDatasetData();
 
-    let newLabels = getDatasetLabels();
-    if (newLabels == null) newLabels = Array();
-    newLabels.push(labels[id]);
-    window.sessionStorage.setItem("countries", window.sessionStorage.getItem("countries") + ' ' + labels[id]);
-
-    let newData = getDatasetData();
-    //if datasetData is empty make datasetData.length arrays
-    if (newData.length < 1)
-        for (let i = 0; i < data.length; i++) {
-            newData[i] = Array();
-        }
-    //for each element add corresponding data
-    for (let i = 0; i < data.length; i++) {
-        newData[i].push(data[i][id]);
-    }
-
-    //set the newDataset
-    setDatasetLabels(newLabels);
-    setDatasetData(newData);
 }
 
 /**
  * This function's purpose is to remove a country's data to the dataset based on it's id.
+ * @param chart
  * @param id the id of the country
  */
-async function removeDataToDatasetByCountryID(id) {
+async function removeDataToDatasetByCountryID(chart, id) {
     let country;
     await getAllPossibleValuesOfFilterHTTPRequest('countries').then(countriesArray => {
         country = countriesArray[id];

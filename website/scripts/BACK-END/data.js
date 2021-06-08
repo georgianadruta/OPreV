@@ -15,19 +15,27 @@ function getSessionStorageAsQuery(sessionStorageItemName) {
 /**
  * This function returns query params based on session storage filters.
  */
-function getParamsBasedOnSessionStorage() {
+function getParamsBasedOnSessionStorage(querySexes = true, queryRegions = true, queryYears = true, queryCountries = true) {
     let query = "?";
     query += "dataset=" + getSessionStorageAsQuery("dataset");
     query += "&";
     query += "BMIFilter=" + getSessionStorageAsQuery("BMIFilter");
-    query += "&";
-    query += "SexFilter=" + getSessionStorageAsQuery("SexFilter");
-    query += "&";
-    query += "RegionsFilter=" + getSessionStorageAsQuery("RegionsFilter");
-    query += "&";
-    query += "years=" + getSessionStorageAsQuery("years");
-    query += "&";
-    query += "countries=" + getSessionStorageAsQuery("countries");
+    if (querySexes === true) {
+        query += "&";
+        query += "SexFilter=" + getSessionStorageAsQuery("SexFilter");
+    }
+    if (queryRegions === true) {
+        query += "&";
+        query += "RegionsFilter=" + getSessionStorageAsQuery("RegionsFilter");
+    }
+    if (queryYears === true) {
+        query += "&";
+        query += "years=" + getSessionStorageAsQuery("years");
+    }
+    if (queryCountries === true) {
+        query += "&";
+        query += "countries=" + getSessionStorageAsQuery("countries");
+    }
     return query;
 }
 
@@ -328,15 +336,33 @@ async function getDatasetHTTPRequest() {
     })
 }
 
+async function getDataForCountryHTTPRequest(countryName) {
+    return await new Promise((resolve, reject) => {
+        const HTTP = new XMLHttpRequest();
+        const url = getURLBasedOnSessionStorage();
+        let oldSessionStorageCountries = window.sessionStorage.getItem("countries");
+        window.sessionStorage.setItem("countries", countryName);
+        const params = getParamsBasedOnSessionStorage(false, false, false, true);
+        window.sessionStorage.setItem("countries", oldSessionStorageCountries);
+        HTTP.onreadystatechange = () => {
+            if (HTTP.readyState === HTTP.DONE) {
+                if (HTTP.status >= 400) {
+                    console.log(HTTP.responseText);
+                    reject(HTTP.responseText);
+                } else {
+                    let data = JSON.parse(HTTP.responseText);
+                    if (data.tableColumns.length > 0)
+                        data.dataset = JSON.parse(data.dataset);
+                    resolve(data);
+                }
+            }
+        }
+        HTTP.open("GET", url + params);
+        HTTP.setRequestHeader("Cookies", document.cookie);
+        HTTP.send();
+    })
+}
 
 let barChart;
 let tableChart;
 let lineChart;
-
-/**
- * By default load eurostat.
- */
-window.addEventListener("load", function () {
-    if (getCookie("dataset") === null) setCookie("dataset", "eurostat");
-    if (getCookie("BMIIndicator") == null) setCookie("BMIIndicator", "obese");
-});

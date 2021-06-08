@@ -31,16 +31,39 @@ function getQueryParamValueByName(request, paramName) {
 }
 
 /**
+ * THis function's purpose is to create the filters for sql
+ * @param request
+ */
+function createFiltersFromQueryParams(request) {
+    let clause = "1=1";
+    let countries = getQueryParamValueByName(request, "countries");
+    if (countries.length > 0) {
+        clause += " AND country IN (";
+        countries = countries.replaceAll(' ', ", ");
+        clause += countries;
+        clause += ") ";
+    }
+    let years = getQueryParamValueByName(request, "years");
+    if (years.length > 0) {
+        clause += " AND year IN (";
+        years = years.replaceAll(' ', ", ");
+        clause += years;
+        clause += ");";
+    }
+    return clause;
+}
+
+/**
  * This method is responsible for returning both datasets as HTML response.
  * @param request the request
  * @param response the response
  * @param filters the filters used
  * @return {Promise<void>} unused promise
  */
-let getDataset = async function (request, response, filters = "1=1") {
+let getDataset = async function (request, response) {
     let BMIIndicator = getQueryParamValueByName(request, "BMIFilter");
     let database = getQueryParamValueByName(request, "dataset");
-    //todo add filters from cookies
+    let filters = createFiltersFromQueryParams(request);
     try {
         let dataset = await CRUD.getDatasetDataFromTable(database, BMIIndicator, filters);
         response.writeHead(200, {'Content-Type': 'application/json'});

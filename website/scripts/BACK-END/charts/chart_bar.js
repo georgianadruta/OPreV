@@ -68,8 +68,12 @@ class BarChart extends OPreVChart {
         return this.data;
     }
 
+    /**
+     * This function's purpose is to render the new dataset.
+     */
     generateBarChart() {
-        barChart = this.chart = new Chart(document.getElementById('lineChart'), this.config);
+        //     barChart = this.chart = new Chart(document.getElementById('barChart'), this.config);
+        this.chart.update();
     }
 }
 

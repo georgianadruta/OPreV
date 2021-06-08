@@ -30,8 +30,12 @@ class LineChart extends OPreVChart {
         return this.chart;
     }
 
+    /**
+     * This function's purpose is to render the new dataset.
+     */
     generateLineChart() {
-        lineChart = this.chart = new Chart(document.getElementById('lineChart'), this.config);
+        //     lineChart = this.chart = new Chart(document.getElementById('lineChart'), this.config);
+        this.chart.update();
     }
 }
 

@@ -46,7 +46,7 @@ const GET_microservice = http.createServer(function (request, response) {
     const socket = GET_microservice.address();
     const host = socket.address;
     const port = socket.port;
-    console.log('REST GET microservice running at ' + host + ':' + port)
+    console.log('REST GET microservice running at ' + host + ':' + port);
 });
 const DELETE_microservice = http.createServer(function (request, response) {
     console.log("DELETE_ms:    ", request.method, request.url)
@@ -55,7 +55,7 @@ const DELETE_microservice = http.createServer(function (request, response) {
     const socket = DELETE_microservice.address();
     const host = socket.address;
     const port = socket.port;
-    console.log('REST DELETE microservice running at ' + host + ':' + port)
+    console.log('REST DELETE microservice running at ' + host + ':' + port);
 });
 const PUT_microservice = http.createServer(function (request, response) {
     console.log("PUT_ms:    ", request.method, request.url)
@@ -64,7 +64,7 @@ const PUT_microservice = http.createServer(function (request, response) {
     const socket = PUT_microservice.address();
     const host = socket.address;
     const port = socket.port;
-    console.log('REST PUT microservice running at ' + host + ':' + port)
+    console.log('REST PUT microservice running at ' + host + ':' + port);
 });
 const POST_microservice = http.createServer(function (request, response) {
     console.log("POST_ms:    ", request.method, request.url)
@@ -73,7 +73,7 @@ const POST_microservice = http.createServer(function (request, response) {
     const socket = POST_microservice.address();
     const host = socket.address;
     const port = socket.port;
-    console.log('REST POST microservice running at ' + host + ':' + port)
+    console.log('REST POST microservice running at ' + host + ':' + port);
 });
 const server = http.createServer(function (request, response) {
 
@@ -118,7 +118,7 @@ const server = http.createServer(function (request, response) {
     const socket = server.address();
     const host = socket.address;
     const port = socket.port;
-    console.log('Server running at http://' + host + ':' + port)
+    console.log('Server running at http://' + host + ':' + port);
 });
 
 /**
