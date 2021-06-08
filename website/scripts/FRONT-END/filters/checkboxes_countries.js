@@ -136,12 +136,12 @@ async function deselectAllCountries() {
             const chart = lineChart.getChart();
             chart.update();
         } else {
-            const chart = tableChart.getChart();
-            chart.update();
+            tableChart.refreshTableData().then();
+            tableChart.generateTable();
         }
         removeCountryIds = [...Array(labels.length).keys()];
     }
-    // window.localStorage.setItem("countries", "none");
+  //  window.localStorage.setItem("countries", "none");
 }
 
 /**
@@ -153,10 +153,10 @@ function addOrRemoveCountryFromChart(id) {
     if (removeCountryIds.includes(id)) {
         let index = removeCountryIds.indexOf(id);//delete it
         removeCountryIds.splice(index, 1);
-        addDataToDatasetByCountryID(id);
+        addDataToDatasetByCountryID(id).then();
     } else {
         removeCountryIds.push(id);//else add it
-        removeDataToDatasetByCountryID(id);
+        removeDataToDatasetByCountryID(id).then();
     }
 
     const path = window.location.pathname;
@@ -168,7 +168,7 @@ function addOrRemoveCountryFromChart(id) {
         lineChart.refreshChartData();
         lineChart.getChart().update();
     } else {
-        tableChart.refreshTableData();
+        tableChart.refreshTableData().then();
         tableChart.generateTable();
     }
 }
@@ -182,7 +182,7 @@ async function addDataToDatasetByCountryID(id) {
     await getAllPossibleValuesOfFilterHTTPRequest('countries').then(countriesArray => {
         labels = countriesArray
     });
-    const data = getDatasetHTTPRequest();
+    const data = getDatasetData();
 
     let newLabels = getDatasetLabels();
     if (newLabels == null) newLabels = Array();
