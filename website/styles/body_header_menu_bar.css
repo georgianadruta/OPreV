@@ -14,7 +14,7 @@ nav {
     padding-right: 40px;
     padding-top: 10px;
     max-height: 70px;
-    width: 95%;
+    width: 100%;
     position: absolute;
     transition: 0.5s;
     top: -55px;
@@ -30,6 +30,7 @@ nav ul {
     align-items: center;
     justify-content: center;
     padding-left: 0;
+    padding-right: 50px;
     margin-top: 0;
     margin-bottom: 0;
 }
