@@ -10,7 +10,7 @@ class TableChart extends OPreVChart {
 
     async refreshTableData() {
         await getDatasetHTTPRequest().then(data => {
-            this.tableInformation.dataset = data;
+            this.tableInformation = data;
         }).catch(fail => {
             console.error(fail);
         });

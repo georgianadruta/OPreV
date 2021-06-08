@@ -57,30 +57,29 @@ async function createCountriesCheckboxes() {
 async function selectAllCountries() {
     let countryList;
     await getAllPossibleValuesOfFilterHTTPRequest('countries').then(result => {
-        countryList = result
+        countryList = result;
+        let sessionStorageCountries = String();
+        for (let i = 0; i < countryList.length; i++) {
+            const checkbox = document.getElementById('country' + i);
+            checkbox.type = 'checkbox';
+            checkbox.checked = true;
+            sessionStorageCountries += countryList[i] + ' ';
+        }
+        sessionStorageCountries = sessionStorageCountries.slice(0, -1);
+        window.sessionStorage.setItem("countries", sessionStorageCountries);
+        const path = window.location.pathname;
+        const page = path.split("/").pop();
+        if (page === "chart_bar.html") {
+            barChart.refreshDataset();
+            barChart.generateBarChart();
+        } else if (page === "chart_line.html") {
+            lineChart.refreshDataset();
+            lineChart.generateLineChart();
+        } else {
+            tableChart.refreshTableData().then(() => tableChart.generateTable());
+        }
+        removeCountryIds = [];
     })
-    setDatasetLabels(countryList);
-    let sessionStorageCountries = String();
-    let labels = getDatasetLabels();
-    for (let i = 0; i < labels.length; i++) {
-        const checkbox = document.getElementById('country' + i);
-        checkbox.type = 'checkbox';
-        checkbox.checked = true;
-        sessionStorageCountries += labels[i] + ' ';
-    }
-    sessionStorageCountries = sessionStorageCountries.slice(0, -1);
-    const path = window.location.pathname;
-    const page = path.split("/").pop();
-    if (page === "chart_bar.html") {
-        barChart.refreshChartData();
-    } else if (page === "chart_line.html") {
-        //TODO
-    } else {
-        tableChart.refreshTableData().then();
-        tableChart.generateTable();
-    }
-    removeCountryIds = [];
-    window.sessionStorage.setItem("countries", sessionStorageCountries);
 }
 
 /**
@@ -90,29 +89,31 @@ async function deselectAllCountries() {
     let labels;
     await getAllPossibleValuesOfFilterHTTPRequest('countries').then(result => {
         labels = result
+        if (labels !== null) {
+            for (let i = 0; i < labels.length; i++) {
+                const checkbox = document.getElementById('country' + i);
+                checkbox.type = 'checkbox';
+                checkbox.checked = false;
+            }
+            window.sessionStorage.setItem("countries", '');
+            const path = window.location.pathname;
+            const page = path.split("/").pop();
+            if (page === "chart_bar.html") {
+                barChart.setTableColumns([]);
+                barChart.setDataset([]);
+                barChart.generateBarChart();
+            } else if (page === "chart_line.html") {
+                lineChart.setTableColumns([]);
+                lineChart.setDataset([]);
+                lineChart.generateLineChart();
+            } else {
+                tableChart.setTableColumns([]);
+                tableChart.setDataset([]);
+                tableChart.generateTable();
+            }
+            removeCountryIds = [...Array(labels.length).keys()];
+        }
     })
-    if (labels !== null) {
-        for (let i = 0; i < labels.length; i++) {
-            const checkbox = document.getElementById('country' + i);
-            checkbox.type = 'checkbox';
-            checkbox.checked = false;
-        }
-        setDatasetLabels([])
-        setDatasetData([]);
-        const path = window.location.pathname;
-        const page = path.split("/").pop();
-        if (page === "chart_bar.html") {
-            barChart.refreshChartData();
-        } else if (page === "chart_line.html") {
-            const chart = lineChart.getChart();
-            chart.update();
-        } else {
-            tableChart.refreshTableData().then();
-            tableChart.generateTable();
-        }
-        removeCountryIds = [...Array(labels.length).keys()];
-    }
-    window.sessionStorage.setItem("countries", '');
 }
 
 /**
@@ -133,10 +134,10 @@ function addOrRemoveCountryFromChart(id) {
     const path = window.location.pathname;
     const page = path.split("/").pop();
     if (page === "chart_bar.html") {
-        barChart.refreshChartData();
+        barChart.refreshDataset();
         barChart.getChart().update();
     } else if (page === "chart_line.html") {
-        lineChart.refreshChartData();
+        lineChart.refreshDataset();
         lineChart.getChart().update();
     } else {
         tableChart.refreshTableData().then();

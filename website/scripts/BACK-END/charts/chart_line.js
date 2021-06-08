@@ -29,6 +29,10 @@ class LineChart extends OPreVChart {
     getChart() {
         return this.chart;
     }
+
+    generateLineChart() {
+        lineChart = this.chart = new Chart(document.getElementById('lineChart'), this.config);
+    }
 }
 
 let chart;

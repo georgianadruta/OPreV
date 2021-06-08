@@ -27,29 +27,15 @@ class OPreVChart {
     }
 
     /**
-     * Method responsible to call HTTP GET request for the dataset.
-     * Filters may be specified as parameter. If not, it will simply get all the dataset from the server.
-     * @param filters the filters ||    TODO decide how this parameter will look
+     * Method responsible to call HTTP GET request for the dataset with filters from session storage.
      */
-    refreshTableInformationWithFilters(filters = null) {
-        if (filters == null)
-            getDatasetHTTPRequest().then(result => {
-                tableInformation = result;
-            }).catch(error => {
-                console.log(error);
-                alert("FAILED TO GET DATASET");
-            });
-        else {
-            setCookie("filters", filters)
-            getDatasetHTTPRequest().then(result => {
-                tableInformation = result;
-                deleteCookie("filters");
-            }).catch(error => {
-                console.log(error);
-                alert("FAILED TO GET DATASET");
-                deleteCookie("filters");
-            });
-        }
+    refreshDataset() {
+        getDatasetHTTPRequest().then(result => {
+            this.tableInformation = result;
+        }).catch(error => {
+            console.log(error);
+            alert("FAILED TO GET DATASET");
+        });
     }
 
 
@@ -93,7 +79,7 @@ class OPreVChart {
      * @return {*|any[]} Array of Strings
      */
     getTableColumns() {
-        return tableInformation.tableColumns;
+        return this.tableInformation.tableColumns;
     }
 
     /**
@@ -101,23 +87,22 @@ class OPreVChart {
      * @return {*|any[]} Array of JSON objects.
      */
     getDataset() {
-        return tableInformation.dataset;
+        return this.tableInformation.dataset;
     }
 
     /**
      * Setter for the table column names.
      */
     setTableColumns(tableColumns) {
-        tableInformation.tableColumns = tableColumns;
+        this.tableInformation.tableColumns = tableColumns;
     }
 
     /**
      * Setter for the table dataset.
      */
     setDataset(dataset) {
-        tableInformation.dataset = dataset;
+        this.tableInformation.dataset = dataset;
     }
-
 
     sort() {
         window.addEventListener("load", function () {
@@ -194,41 +179,4 @@ class OPreVChart {
             });
         });
     }
-}
-
-let dataset = {
-    labels: null,
-    data: Array()
-}
-
-/**
- * Getter for dataset labels
- * @returns {string[]}
- */
-function getDatasetLabels() {
-    //TODO GET LABELS BY HTTP REQUEST
-    return dataset.labels;
-}
-
-/**
- * Getter for dataset object
- * @returns {any[]} dataset array
- */
-function getDatasetData() {
-    //TODO GET DATASET BY HTTP REQUEST
-    return dataset.data;
-}
-
-/**
- * Setter for dataset.labels object.
- */
-function setDatasetLabels(newLabels) {
-    dataset.labels = newLabels;
-}
-
-/**
- * Setter for dataset.data object.
- */
-function setDatasetData(newData) {
-    dataset.data = newData;
 }

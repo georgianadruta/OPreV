@@ -68,14 +68,8 @@ class BarChart extends OPreVChart {
         return this.data;
     }
 
-    /**
-     * This function's purpose is to refresh the chart data
-     */
-    refreshChartData() {
-        this.data.labels = getDatasetLabels();
-        for (let i = 0; i < this.data.datasets.length; i++) {
-            this.data.datasets[i]['data'] = getDatasetData()[i];
-        }
+    generateBarChart() {
+        barChart = this.chart = new Chart(document.getElementById('lineChart'), this.config);
     }
 }
 
