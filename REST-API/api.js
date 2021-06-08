@@ -77,28 +77,6 @@ const POST_microservice = http.createServer(function (request, response) {
 });
 const server = http.createServer(function (request, response) {
 
-    /*
-    console.log(request.method, request.url);
-    switch (request.method) {
-        case "GET": {
-            GET(request, response);
-            break;
-        }
-        case "POST": {
-            POST(request, response);
-            break;
-        }
-        case "PUT": {
-            PUT(request, response);
-            break;
-        }
-        case "DELETE": {
-            DELETE(request, response);
-            break;
-        }
-    }
-    */
-
     request.setEncoding("utf8");
     const options = createOptionsForRequest(request);
 
@@ -120,7 +98,11 @@ const server = http.createServer(function (request, response) {
                 });
 
                 microServiceResponse.on('end', function () {
-                    response.writeHead(microServiceResponse.statusCode, {'Content-Type': microServiceResponse.headers["content-type"]});
+                    let headers = {};
+                    for (const key of Object.keys(microServiceResponse.headers)) {
+                        headers[key] = microServiceResponse.headers[key];
+                    }
+                    response.writeHead(microServiceResponse.statusCode, headers);
                     response.write(body);
                     response.end();
                 });
