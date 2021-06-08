@@ -93,6 +93,9 @@ let postLogoutHTTPRequest = function (token) {
                 setCookie(cookie[0], "false");
                 alert("Successfully logged out.");
             }
+            cookies = HTTP.getResponseHeader("delete-cookie");
+            if (cookies != null)
+                deleteCookie(cookies);
         }
         if (HTTP.readyState === HTTP.DONE) {
             //TODO implement some effect to know you're logged out so you can login again
@@ -185,7 +188,7 @@ function login() {
  * This method will be called to trigger the logout.
  */
 function logout() {
-    if (getCookie("logged_in") === "true")
+    if (getCookie("sessionID") != null)
         postLogoutHTTPRequest(getCookie("sessionID"));
     else
         alert("You are not logged in. You cannot log out.")

@@ -11,8 +11,9 @@ window.onscroll = function () {
 }
 
 let changeMenuBarBasedOnLoginLogout = function () {
-    let logged_in = getCookie("logged_in");
-    if (logged_in === null || logged_in === "false") {
+    let sessionID = getCookie("sessionID");
+    document.getElementById("navBar").style.display = "none";
+    if (sessionID === null) {
         document.getElementById("logoutAnchor").style.display = "none";
         document.getElementById("adminPageAnchor").style.display = "none";
         document.getElementById("loginPageAnchor").style.display = "flex";
@@ -21,6 +22,7 @@ let changeMenuBarBasedOnLoginLogout = function () {
         document.getElementById("adminPageAnchor").style.display = "flex";
         document.getElementById("loginPageAnchor").style.display = "none";
     }
+    document.getElementById("navBar").style.display = "block";
 }
 
 

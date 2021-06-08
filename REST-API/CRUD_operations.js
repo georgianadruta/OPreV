@@ -258,10 +258,10 @@ const selectTokenFromLoggedUsersTable = function (token) {
                         reject("Failed to select " + token + " from logged users.");
                     } else {
                         if (result.length > 0) {
-                            console.log("Found " + token + " in logged users.");
+                            // console.log("Found " + token + " in logged users.");
                             resolve(token);
                         } else {
-                            console.log("There is no " + token + " in logged users.");
+                            // console.log("There is no " + token + " in logged users.");
                             resolve("There is no " + token + " in logged users.");
                         }
                     }

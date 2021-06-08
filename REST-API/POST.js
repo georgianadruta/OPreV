@@ -45,7 +45,6 @@ let checkMatches = function (username, password, email = null) {
 let keepUserLoggedIn = async function (request, response, sessionID) {
     return new Promise(async (resolve, refuse) => {
         let IP = request.socket.localAddress;
-        // 1. store token for user with ip address
         let jsonObject =
             {
                 token: sessionID,
@@ -53,11 +52,6 @@ let keepUserLoggedIn = async function (request, response, sessionID) {
             }
         try {
             await CRUD.addUserToLoggedUsersTable(jsonObject);
-            // 2. set cookie token user
-            response.setHeader('Set-Cookie', 'logged_in=true');
-            // this cookie is only a flag
-            // to check if it's even worth
-            //searching for the user in the logged users database or not
             resolve("success");
         } catch (err) {
             console.log(err);
@@ -135,7 +129,7 @@ let logout = function (request, response) {
         let token = JSON.parse(body.toString());
         try {
             await CRUD.deleteLoggedUserFromTableByToken(token);
-            response.setHeader("change-cookie", "logged_in=false");
+            response.setHeader('Delete-Cookie', 'sessionID');//
             setSuccessfulRequestResponse(request, response, "Successfully logged out.", 200);
         } catch (err) {
             setFailedRequestResponse(request, response, "Failed to log out.", 409);
@@ -158,10 +152,8 @@ let check = function (request, response) {
         try {
             await CRUD.selectTokenFromLoggedUsersTable(jsonToken.token).then(foundToken => {
                 if (foundToken === jsonToken.token) {
-                    response.setHeader("change-cookie", "logged_in=true");
                     setSuccessfulRequestResponse(request, response, "User is logged.", 200);
                 } else {
-                    response.setHeader("change-cookie", "logged_in=false");
                     setSuccessfulRequestResponse(request, response, "User is not logged.", 200);
                 }
             });
@@ -194,7 +186,6 @@ let modifyData = function (request, response) {
                         setFailedRequestResponse(request, response, "Failed to modify data.", 500);
                     }
                 } else {
-                    response.setHeader("change-cookie", "logged_in=false");
                     setSuccessfulRequestResponse(request, response, "User is not logged.", 200);
                 }
             });
@@ -249,7 +240,6 @@ let acceptUser = function (request, response) {
                         setFailedRequestResponse(request, response, "Failed to modify data.", 500);
                     }
                 } else {
-                    response.setHeader("change-cookie", "logged_in=false");
                     setSuccessfulRequestResponse(request, response, "User is not logged.", 200);
                 }
             });

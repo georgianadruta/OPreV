@@ -46,5 +46,4 @@ function deleteCookie(cookieName) {
 
 window.addEventListener("load", function () {
     if (getCookie("dataset") == null) setCookie("dataset", "eurostat");
-    if (getCookie('logged_in') == null) setCookie("logged_in", 'false');
 });
