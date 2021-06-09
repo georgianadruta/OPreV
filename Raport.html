@@ -1,389 +1,383 @@
 <!DOCTYPE html>
 <html lang="ro">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width"/>
     <title>Raport OPreV</title>
-  </head>
+</head>
 
-  <body>
-    <main>
-      <article resource="#" typeof="schema:ScholarlyArticle">
+<body>
+<main>
+    <article resource="#" typeof="schema:ScholarlyArticle">
         <header>
-          <h1 property="schema:name" style="text-align: center">
-            Obesity Prevalence Visualizer
-          </h1>
+            <h1 property="schema:name" style="text-align: center">
+                Obesity Prevalence Visualizer
+            </h1>
         </header>
         <meta
-          property="schema:accessibilityFeature"
-          content="alternativeText"
+                property="schema:accessibilityFeature"
+                content="alternativeText"
         />
-        <meta property="schema:accessibilityHazard" content="none" />
+        <meta property="schema:accessibilityHazard" content="none"/>
         <div role="contentinfo">
-          <section typeof="sa:AuthorsList">
-            <h2>Membrii echipei</h2>
-            <ul>
-              <li
-                typeof="sa:ContributorRole"
-                property="schema:author"
-                resource="#"
-              >
+            <section typeof="sa:AuthorsList">
+                <h2>Proiect realizat de:</h2>
+                <ul>
+                    <li
+                            typeof="sa:ContributorRole"
+                            property="schema:author"
+                            resource="#"
+                    >
                 <span typeof="schema:Person">
-                  <meta property="schema:givenName" content="Narcis" />
-                  <meta property="shema:additionalName" content="Stefan" />
-                  <meta property="schema:familyName" content="Barat" />
+                  <meta property="schema:givenName" content="Narcis"/>
+                  <meta property="shema:additionalName" content="Stefan"/>
+                  <meta property="schema:familyName" content="Barat"/>
                   <span property="schema:name">Barat Narcis - Stefan, A2</span>
                 </span>
-              </li>
-              <li
-                typeof="sa:ContributorRole"
-                property="schema:author"
-                resource="#"
-              >
+                    </li>
+                    <li
+                            typeof="sa:ContributorRole"
+                            property="schema:author"
+                            resource="#"
+                    >
                 <span typeof="schema:Person">
-                  <meta property="schema:givenName" content="Daniel" />
-                  <meta property="schema:familyName" content="Martonca" />
+                  <meta property="schema:givenName" content="Daniel"/>
+                  <meta property="schema:familyName" content="Martonca"/>
                   <span property="schema:name">Martonca Daniel, A2</span>
                 </span>
-              </li>
-              <li
-                typeof="sa:ContributorRole"
-                property="schema:author"
-                resource="#"
-              >
+                    </li>
+                    <li
+                            typeof="sa:ContributorRole"
+                            property="schema:author"
+                            resource="#"
+                    >
                 <span typeof="schema:Person">
-                  <meta property="schema:givenName" content="Druta" />
-                  <meta property="schema:familyName" content="Georgiana" />
+                  <meta property="schema:givenName" content="Druta"/>
+                  <meta property="schema:familyName" content="Georgiana"/>
                   <span property="schema:name">Druta Georgiana, A2</span>
                 </span>
-              </li>
-            </ul>
-          </section>
+                    </li>
+                </ul>
+            </section>
         </div>
         <section role="doc-toc">
-          <h2>Cuprins</h2>
-          <ol role="directory">
-            <li><a href="#1">Abstract</a></li>
-            <li>
-              <a href="#2">Introducere</a>
-              <ol>
-                <li><a href="#2.1">Descriere</a></li>
-                <li><a href="#2.2">Motivație</a></li>
-              </ol>
-            </li>
-            <li><a href="#3">Tipuri de utilizatori</a></li>
-            <li>
-              <a href="#4">Distribuția pe module funcționale</a>
-              <ol>
+            <h2>Cuprins</h2>
+            <ol role="directory">
+                <li><a href="#1">Abstract</a></li>
                 <li>
-                  <a href="#4.1">Vizualizare informatii despre film/serial</a>
+                    <a href="#2">Introducere</a>
+                    <ol>
+                        <li><a href="#2.1">Detalii Raport</a></li>
+                        <li><a href="#2.2">Scopul și domeniul proiectului</a></li>
+                    </ol>
                 </li>
-                <li><a href="#4.2">Exportare informații</a></li>
-                <li><a href="#4.3">Preferințe</a></li>
-                <li><a href="#4.4">Conectare</a></li>
-              </ol>
-            </li>
-            <li><a href="#5">Tehnologii utilizate</a></li>
-            <li><a href="#6">Ghid de utilizare</a></li>
-            <li><a href="#7">Distribuția sarcinilor</a></li>
-            <li><a href="#8">Concluzii</a></li>
-            <li><a href="#9">Referințe</a></li>
-          </ol>
+                <li><a href="#3">Descriere de ansamblu</a>
+                    <ol>
+                        <li><a href="#3.1">Funcționalitățile aplicației</a></li>
+                        <li><a href="#3.2">Clase de utilizator și caracteristici</a></li>
+                        <li><a href="#3.3">Mediul de operare</a></li>
+                        <li><a href="#3.4">Documentația utilizatoruluie</a></li>
+                        <li><a href="#3.5">Ipoteze si dependente</a></li>
+                    </ol>
+                </li>
+                <li>
+                    <a href="#4">Interfata</a>
+                    <ol>
+                        <li><a href="#4.1">Design</a></li>
+                        <li><a href="#4.2">Tehnologii utilizate</a></li>
+                    </ol>
+                </li>
+                <li><a href="#5">Caracteristicile utilizate</a>
+                    <ol>
+                        <li><a href="#5.1">Pagina principala: Home</a></li>
+                        <li><a href="#5.2">Pagina: Bar Chart</a></li>
+                        <li><a href="#5.3">Pagina: Table Chart</a></li>
+                        <li><a href="#5.4">Pagina: Line Chart</a></li>
+                        <li><a href="#5.5">Pagina: Contact</a></li>
+                        <li><a href="#5.6">Pagina: Login</a></li>
+                        <li><a href="#5.7">Pagina: Admin Page</a></li>
+                        <li><a href="#5.8">Log out</a></li>
+                    </ol>
+                </li>
+                <li><a href="#6">Repartizarea sarcinilor</a></li>
+            </ol>
         </section>
         <section role="doc-abstract">
-          <h2 id="1">1. Abstract</h2>
-          <div>
-            <p>
-              Documentatia aferenta partii de interfata grafica a proiectului
-              realizat de noi la Tehnologii WEB. Vom detalia modul in care am
-              implementat aceasta prima parte.
+            <h2 id="1">1. Abstract</h2>
+            <div>
+                <p>
+                    OPrev este un instrument WEB care ofera
+                    utilizatorului posibilitatea de a vizualiza informatii despre
+                    obezitatea populatiei. In cadrul acesteia, utilizatorul poate
+                    vizualiza informatiile in mai multe maniere si sa descarce
+                    aceste date in mai multe formate.
+                </p>
+            </div>
+        </section>
+        <hr/>
+        <section role="doc-introduction">
+            <h2 id="2">2. Introducere</h2>
+            <div>
+                <section>
+                    <h3 id="2.1">2.1 Detalii Raport</h3>
+                    <p>
+                        Acest document reprezintă raportul aplicației OPreV.
+                        Raportul este realizat pe baza template-ului IEEE System Requirements Specification Template în
+                        format Scholarly HTML .
+                    </p>
+                    <h3 id="2.2">2.2 Detalii Raport</h3>
+                    <p>
+                        Tematica aplicației are legătură cu prezentarea unor statistici ce țin de obezitatea populatiei.
+                    </p>
+                </section>
+            </div>
+        </section>
+        <hr/>
+        <section role="doc-introduction">
+            <h2 id="3">3. Descriere de ansamblu</h2>
+            <div>
+                <section>
+                    <h3 id="3.1">3.1 Funcționalitățile aplicației</h3>
+                    <p>Aplicația pune la dispoziție următoarele funcționalități:</p>
+                    <ul>
+                        <li>creare cont;</li>
+                        <li>logare;</li>
+                        <li>bară de navigare;</li>
+                        <li>vizualizare statistici in diferite modalitati;</li>
+                        <li>filtrare statistici, cat si sortarea acestora;</li>
+                        <li>descarcarea statisticilor in diferite formate;</li>
+                        <li>formular de contact;</li>
+                        <li>manipularea datelor din baza de date de catre utilizatorii logati;</li>
+                        <li>log out.</li>
+
+                    </ul>
+                    <h3 id="3.2">3.2 Clase de utilizator și caracteristici</h3>
+                    <p>
+                        Utilizatorii se împart în două categorii: utilizatori autentificați și utilizatori fără cont.
+                        Pentru a avea acces la la baza de date utilizatorul trebuie să se logheze în cazul în care
+                        acesta are un cont creat, iar dacă nu acesta trebuie să își creeze prima dată un cont,
+                        ca mai apoi unul dintre administratorii aplicatiei web sa-i aprobe cererea.
+                    </p>
+                    <h3 id="3.3">3.3 Mediul de operare</h3>
+                    <p>
+                        Aplicația este accesibilă pentru orice dispozitiv ce are la dispoziție un browser web și o
+                        conexiune de internet stabilă.
+                    </p>
+                    <h3 id="3.4">3.3 Documentația utilizatoruluie</h3>
+                    <p>
+                        Aplicatia se deschide cu pagina de start, de unde utilizatorul poate alege una dintre
+                        modalitatile prezentate
+                        de vizualire a statisticilor despre obezitate: bar chart/table/line chart. Alegand una dintre
+                        aceste modalitati de vizulizare a datelor,
+                        va fi directionat spre o noua pagina care cotnine filtre, modalitati de sortare si mai multe
+                        maniere de descare a datelor (PNG/SVG/CSV).<br>
+                        Sau acesta poate trimite un mesaj administartorilor web site-ului fiind nevoie doar de numele,
+                        prenumele si numarul de telefon al acestuia.<br>
+                        Totodata acesta isi poate crea un cont sau sa se logheze in orice moment dupa acceptarea
+                        acestuia de catre unul din admini.
+                        Dupa autentificare, este redirectionat catre o pagina de manipularea a bazei de date care
+                        contine date despre
+                        statistici legate de obezitatea, mesajele primite de la utilizatori, cat si cererile de
+                        inregistrare.
+                        In aceasta pagina sunt posibile manipularea datelor.<br>
+                    </p>
+                    <h3 id="3.5">3.5 Ipoteze și dependențe</h3>
+                    <p>
+                        Site-ul se bazează pe o interacțiune client-server.
+                        Utilizatorul accesează facilitățile site-ului prin interfață, iar server-ul are grijă să
+                        răspundă corect
+                        cererii clientului și stochează într-o bază de date: datele contului cu care utilizatorul se
+                        loghează, cererea acestuia de inregistrare, mesajele trimise sau modificarile aduse bazei de
+                        date.
+
+                    </p>
+                </section>
+            </div>
+        </section>
+
+        <section role="doc-introduction">
+            <h2 id="4">4. Interfata</h2>
+            <h3 id="4.1">4.1 Design</h3>
+            <p> Pentru toate paginile am hotărât ca fontul pentru text să fie "Popins", importat de pe site-ul
+                <a href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap">https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap</a>.
+                În paginile noastre predomină culorile : negru, alb, gri si albastru.
+                Am decis impreuna ca pagina sa aiba un aspect cat mai ingrjit si simplu.
             </p>
-          </div>
+            <h3 id="4.2">4.2. Tehnologii utilizate</h3>
+            <ul>
+                <li>HTML</li>
+                <li>CSS</li>
+                <li>JavaScript</li>
+
+            </ul>
         </section>
-        <hr />
+        <hr/>
         <section role="doc-introduction">
-          <h2 id="2">2. Introducere</h2>
-          <div>
-            <section>
-              <h3 id="2.1">2.1 Descriere</h3>
-              <p>
-                &emsp;&emsp;OPrev este un instrument WEB care ofera
-                utilizatorului posibilitatea de a vizualiza informatii despre
-                obezitatea populatiei. In cadrul acesteia, utilizatorul poate
-                vizualiza informatiile in mai multe maniere si sa descarce
-                aceste date in mai multe formate.
-              </p>
-            </section>
-          </div>
-        </section>
-        <hr />
-        <section role="doc-introduction">
-          <h2 id="3">3. Tipuri de utilizatori</h2>
-          <ul>
-            <li>
-              <h3>Utilizatorul obisnuit</h3>
-              <p>
-                &emsp;&emsp; Poate intra in aplicatie fara sa se inregistreze.
-              </p>
-            </li>
-            <li>
-              <h3>Administrator</h3>
-              <p>
-                &emsp;&emsp;Isi poate crea cont in aplicatie si poate prelucra
-                datele.
-              </p>
-            </li>
-          </ul>
-        </section>
-        <hr />
-        <section role="doc-introduction">
-          <h2 id="4">4. Distribuția pe module funcționale</h2>
-          <div>
-            <section>
-              <h3 id="4.1">4.1 Vizualizare informatii despre produse</h3>
-              <p>
-                &emsp;&emsp; În cadrul paginii <strong>Home</strong> putem alege
-                cel fel de vizualizare dorim, si putem merge si in paginile de
-                <strong>Contact</strong>, <strong>Login</strong>,
-                <strong>Admin Page</strong>, dar si paginile pentru
-                <strong>Bar-Chart</strong>,
-                <strong>Table-Chart</strong>
-                si <strong>Line-Chart</strong>.
-              </p>
-            </section>
-            <section>
-              <h3 id="4.2">4.2 Exportare informații</h3>
-              <p>
-                &emsp;&emsp; Daca doreste, utilizatorul poate exporta
-                informatiile in formate CSV, PNG sau SVG. Butomul de export se
-                gaseste pe paginile de vizualizare a datelor sub chart-uri.
-              </p>
-            </section>
-            <section>
-              <h3 id="4.4">4.4 Conectare</h3>
-              <p>
-                &emsp;&emsp;Utilizatorul isi poate crea un cont de admin prin
-                intermediul paginii de
-                <strong>Login</strong>, prin intermediul careia se ajunge la
-                pagina
-                <strong>Register</strong>
-                sau daca are deja un cont creat, se poate autentifica prin
-                intermediul paginii de <strong>Login</strong>.
-              </p>
-            </section>
-          </div>
-        </section>
-        <hr />
-        <section role="doc-introduction">
-          <h2 id="5">5. Tehnologii utilizate</h2>
-          <div>
-            <p>
-              &emsp;&emsp;Pentru o buna colaborare, codul este pe un repository
-              pe github. S-au folosit HTML5, CSS3, Javascript si Chart.js pentru
-              charturi.
+            <h2 id="5">5. Caracteristici ale sistemului</h2>
+            <h3 id="5.1">5.1 Pagina principala: Home</h3>
+            <p> Pentru un utilizator nelogat, care nu are încă un cont făcut pe pagină: bara de navigare conține
+                legături către Login și Inregistatre, de asemenea si catre pagina de Contact si paginile corespunzatoare
+                fiecarei caracteristici de vizualizare a statisticilor.
+                <br>
+                Aceasta pagina contine lista de vizualizare a statisticilor sub forma de bar chart, table si line chart.
+                <br>
+                Footer-ul contine o scurta descriere, o adresa si cateva date de contact.
             </p>
-          </div>
-        </section>
-        <hr />
-        <section role="doc-introduction">
-          <h2 id="6">6. Ghid de utilizare</h2>
-          <div>
-            <p>
-              &emsp;&emsp;OPreV pune la dispozitie utilizatorului urmatoarele
-              pagini:
+            <h3 id="5.2">5.2 Pagina: Bar Chart</h3>
+            <p> In aceasta pagina utilizatorul poate vizualiza statisticile despre obezitate sub forma de bar chart,
+                avand posibilitatea sa aplice diferite filtre, sa sorteze datele sau sa descarce chart-ul
+                in diferite formate(PNG, CSV, SVG).
+                Filtrele pe care le poate aplica sunt: alegerea data set-ului (eurostat/who), regiune, sex, tari si ani.
             </p>
-            <ul>
-              <li>
-                <p>
-                  <strong>/</strong> - Pagina principala a aplicatiei, de aici
-                  se poate ajunge catre toate celelalte pagini.
-                </p>
-              </li>
-              <li>
-                <p>
-                  <strong>bar-chart.html</strong> - Aici se pot vizualiza
-                  informatiile sub forma unui bar-chart, si pot fi exportate in
-                  mai multe formate.
-                </p>
-              </li>
-              <li>
-                <p>
-                  <strong>table-chart.html</strong> - Aici se pot vizualiza
-                  informatiile sub forma unui table-chart, si pot fi exportate
-                  in mai multe formate.
-                </p>
-              </li>
-              <li>
-                <p>
-                  <strong>line-chart.html</strong> - Aici se pot vizualiza
-                  informatiile sub forma unui line-chart, si pot fi exportate in
-                  mai multe formate.
-                </p>
-              </li>
-              <li>
-                <p>
-                  <strong>login.html</strong> - Ofera posibilitatea unui
-                  utilizator de a se autentifica pe pagina.
-                </p>
-              </li>
-              <li>
-                <p>
-                  <strong>register.html</strong> - Ofera posibilitatea de a crea
-                  un nou cont pe pagina noastra, introducand adresa de email si
-                  parola.
-                </p>
-              </li>
-              <li>
-                <p>
-                  <strong>contact.html</strong> - Contine un formular prin care
-                  dezvoltatorii aplicatiei pot primi un feedback de la
-                  utilizatori.
-                </p>
-              </li>
-              <li>
-                <p>
-                  <strong>admin.html</strong> - Pagina din care administratorii
-                  pot adauga date referitoare la obezitate.
-                </p>
-              </li>
-            </ul>
-          </div>
-        </section>
-        <hr />
-        <section role="doc-introduction">
-          <h2 id="7">7. Distribuția sarcinilor</h2>
-          <div>
-            <h3>Barat Narcis - Stefan</h3>
-            <ul>
-              <li>
-                <p>
-                  &emsp;&emsp;Realizarea footerului care se afla pe toate
-                  paginile.
-                </p>
-              </li>
-              <li>
-                <p>
-                  &emsp;&emsp;Realizarea paginii care contine reprezentarea sub
-                  forma de bar-chart cu butoane de export functionale.
-                </p>
-              </li>
-              <li>
-                <p>&emsp;&emsp;Redactarea raportului.</p>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h3>Martonca Daniel</h3>
-            <ul>
-              <li>
-                <p>
-                  &emsp;&emsp;Realizarea headerului care se afla pe toate
-                  paginile.
-                </p>
-              </li>
-              <li>
-                <p>
-                  &emsp;&emsp;Realizarea paginii care contine reprezentarea sub
-                  forma de line-chart cu butoane de export functionale.
-                </p>
-              </li>
-              <li>
-                <p>&emsp;&emsp; Realizarea paginii de contact.</p>
-              </li>
-              <li>
-                <p>&emsp;&emsp; Reaizarea paginii pentru admini</p>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h3>Druta Georgiana</h3>
-            <ul>
-              <li>
-                <p>
-                  &emsp;&emsp;Realizarea continutului din home-page care se afla
-                  pe toate paginile.
-                </p>
-              </li>
-              <li>
-                <p>
-                  &emsp;&emsp;Realizarea paginii care contine reprezentarea sub
-                  forma de table-chart cu butoane de export functionale.
-                </p>
-              </li>
-              <li>
-                <p>&emsp;&emsp; Realizarea paginii de contact.</p>
-              </li>
-              <li>
-                <p>&emsp;&emsp; Reaizarea paginilor pentru login si register</p>
-              </li>
-              <li>
-                <p>
-                  &emsp;&emsp; Realizarea unui scroll-indicator prezent pe toate
-                  paginile.
-                </p>
-              </li>
-            </ul>
-          </div>
-        </section>
-        <section role="doc-introduction">
-          <h2 id="8">8. Concluzii</h2>
-          <div>
-            <p>
-              &emsp;&emsp; Acest site are ca ca scop, intr-un mod placut si usor
-              de folosit, oferirea de informatii referitoare la obezitatea
-              populatiei. Aceasta prima parte, cea de interactiune cu
-              utilizatorul, a fost relizata in HTML5, CSS3 si Javascript,
-              alaturi de Chart.js.
+            <h3 id="5.3">5.3 Pagina: Table Chart</h3>
+            <p> In aceasta pagina utilizatorul poate vizualiza statisticile despre obezitate sub forma de tabel, similar
+                cu pagina bar chart.
             </p>
-          </div>
+            <h3 id="5.4">5.4 Pagina: Line Chart</h3>
+            <p> In aceasta pagina utilizatorul poate vizualiza statisticile despre obezitate sub forma de line chart,
+                similar cu pagina bar chart.
+            </p>
+            <h3 id="5.5">5.5 Pagina: Contact</h3>
+            <p> In aceasta pagina utilizatorul poate contacta administratorii fiind nevoie doar de cateva date de
+                completare a
+                fomularului (nume, prenume si numar de telefon).
+            </p>
+            <h3 id="5.6">5.6 Pagina: Login</h3>
+            <p> Aceasta pagina apare doar daca utilizatorul nu s-a logat. In aceasta pagina utilizatorul
+                isi poate crea un nou cont sau se inregistreze. Ca mai apoi sa fie directionat in pagina principala si
+                sa aiba acces la pagina Admin.
+            </p>
+            <h3 id="5.7">5.7 Pagina: Admin Page</h3>
+            <p> Aceasta pagina apare doar daca utilizatorul s-a logat. In aceasta pagina utilizatorul(admin-ul)
+                poate manipula datele din baza de date(sa adauge/sa elimine) sau sa aprobe crearea unui cont.
+            </p>
+            <h3 id="5.8">5.8 Log out</h3>
+            <p> Aceasta pagina apare doar daca utilizatorul s-a logat.
+            </p>
+        </section>
+        <hr/>
+        <section role="doc-introduction">
+            <h2 id="6">6. Repartizarea sarcinilor</h2>
+            <div>
+                <h3>Barat Narcis - Stefan</h3>
+                <ul>
+                    <li>
+                        <p>
+                            &emsp;&emsp;Realizarea footerului care se afla pe toate
+                            paginile.
+                        </p>
+                    </li>
+                    <li>
+                        <p>
+                            &emsp;&emsp;Realizarea paginii care contine reprezentarea sub
+                            forma de bar-chart cu butoane de export functionale.
+                        </p>
+                    </li>
+                    <li>
+                        <p>&emsp;&emsp;Redactarea raportului.</p>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <h3>Martonca Daniel</h3>
+                <ul>
+                    <li>
+                        <p>
+                            &emsp;&emsp;Realizarea headerului care se afla pe toate
+                            paginile.
+                        </p>
+                    </li>
+                    <li>
+                        <p>
+                            &emsp;&emsp;Realizarea paginii care contine reprezentarea sub
+                            forma de line-chart cu butoane de export functionale.
+                        </p>
+                    </li>
+                    <li>
+                        <p>&emsp;&emsp; Realizarea paginii de contact.</p>
+                    </li>
+                    <li>
+                        <p>&emsp;&emsp; Reaizarea paginii pentru admini</p>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <h3>Druta Georgiana</h3>
+                <ul>
+                    <li>
+                        <p>
+                            &emsp;&emsp;Realizarea continutului din home-page care se afla
+                            pe toate paginile.
+                        </p>
+                    </li>
+                    <li>
+                        <p>
+                            &emsp;&emsp;Realizarea paginii care contine reprezentarea sub
+                            forma de table-chart cu butoane de export functionale.
+                        </p>
+                    </li>
+                    <li>
+                        <p>&emsp;&emsp; Realizarea paginii de contact.</p>
+                    </li>
+                    <li>
+                        <p>&emsp;&emsp; Reaizarea paginilor pentru login si register</p>
+                    </li>
+                    <li>
+                        <p>
+                            &emsp;&emsp; Realizarea unui scroll-indicator prezent pe toate
+                            paginile.
+                        </p>
+                    </li>
+                </ul>
+            </div>
         </section>
         <section role="doc-introduction">
-          <h2 id="9">9. Referinte</h2>
-          <ul>
-            <li>
-              <a
-                href="https://docs.npmjs.com/cli/v7/configuring-npm/package-json"
-                target="_blank"
-                >Package Json</a
-              >
-            </li>
-            <li>
-              <a
-                href="https://speckyboy.com/login-pages-html5-css/"
-                target="_blank"
-                >Login Page</a
-              >
-            </li>
-            <li>
-              <a href="https://freefrontend.com/" target="_blank"
-                >Free FrontEnd</a
-              >
-            </li>
-            <li>
-              <a href="https://www.chartjs.org/docs/latest/" target="_blank"
-                >Chart.js</a
-              >
-            </li>
-            <li>
-              <a href="https://profs.info.uaic.ro/~andrei.panu/" target="_blank"
-                >Web Technologies</a
-              >
-            </li>
-            <li>
-              <a
-                href="https://developer.mozilla.org/en-US/docs/Web/HTML"
-                target="_blank"
-                >Developer Mozilla</a
-              >
-            </li>
-            <li>
-              <a href="https://www.w3schools.com/default.asp" target="_blank"
-                >w3schools</a
-              >
-            </li>
-          </ul>
+            <h2 id="7">7. Bibliografie</h2>
+            <ul>
+                <li>
+                    <a
+                            href="https://docs.npmjs.com/cli/v7/configuring-npm/package-json"
+                            target="_blank"
+                    >Package Json</a
+                    >
+                </li>
+                <li>
+                    <a
+                            href="https://speckyboy.com/login-pages-html5-css/"
+                            target="_blank"
+                    >Login Page</a
+                    >
+                </li>
+                <li>
+                    <a href="https://freefrontend.com/" target="_blank"
+                    >Free FrontEnd</a
+                    >
+                </li>
+                <li>
+                    <a href="https://www.chartjs.org/docs/latest/" target="_blank"
+                    >Chart.js</a
+                    >
+                </li>
+                <li>
+                    <a href="https://profs.info.uaic.ro/~andrei.panu/" target="_blank"
+                    >Web Technologies</a
+                    >
+                </li>
+                <li>
+                    <a
+                            href="https://developer.mozilla.org/en-US/docs/Web/HTML"
+                            target="_blank"
+                    >Developer Mozilla</a
+                    >
+                </li>
+                <li>
+                    <a href="https://www.w3schools.com/default.asp" target="_blank"
+                    >w3schools</a
+                    >
+                </li>
+            </ul>
         </section>
-      </article>
-    </main>
-  </body>
+    </article>
+</main>
+</body>
 </html>
