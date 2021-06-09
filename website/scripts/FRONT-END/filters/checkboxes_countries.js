@@ -79,6 +79,7 @@ async function selectAllCountries() {
             tableChart.refreshTableData().then(() => tableChart.generateTable());
         }
         removeCountryIds = [];
+        createSortButtons();
     })
 }
 
@@ -110,6 +111,7 @@ async function deselectAllCountries() {
             }
             removeCountryIds = [...Array(labels.length).keys()];
         }
+        createSortButtons();
     })
 }
 
@@ -176,6 +178,7 @@ async function addDataToDatasetByCountryID(chart, id) {
                     chartDataset.push(...result.dataset);
             }
         ).catch(error => console.error(error));
+        createSortButtons();
     });
 }
 
@@ -203,6 +206,7 @@ async function removeDataToDatasetByCountryID(chart, id) {
             dataset.pop(id);
             tableChart.setDataset(dataset);
         }
+        createSortButtons();
     });
 }
 

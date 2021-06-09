@@ -113,15 +113,6 @@ function parseDataset(jsonDataset, message = "No data") {
 }
 
 /**
- * This method is responsible for showing the form after pressing the Add button
- */
-function showAddForm() {
-    generateFormInputFields();
-    document.getElementById("addFormContainer").style.display = "flex";
-    document.getElementById("addValues").style.display = "flex";
-}
-
-/**
  * This method is responsible for hiding the form after finishing the http PUT request.
  */
 function hideAddForm() {
@@ -129,47 +120,6 @@ function hideAddForm() {
     document.getElementById("addValues").style.display = "none";
 }
 
-/**
- * This method is responsible for showing the form after pressing the Modify button
- */
-function showModifyForm() {
-    hideAddForm();
-    document.getElementById("modifyFormContainer").style.display = "flex";
-    document.getElementById("modifyValues").style.display = "flex";
-    let id = window.sessionStorage.getItem("id");
-    let children = document.getElementById("trow" + id).children;
-    let country = children[1].textContent;
-    let year = children[2].textContent;
-    let BMI = children[3].textContent;
-
-    document.getElementById("modifyCountry").innerHTML = '';
-    document.getElementById("modifyBmi").innerHTML = '';
-    document.getElementById("modifyYear").innerHTML = '';
-
-    let countryLabel = document.createElement("span");
-    countryLabel.textContent = "Country: ";
-    let yearLabel = document.createElement("span");
-    yearLabel.textContent = "Year: ";
-    let BMILabel = document.createElement("span");
-    BMILabel.textContent = "Current BMI: ";
-
-    let countryIndicator = document.createElement("span");
-    countryIndicator.style.fontSize = "20px"
-    countryIndicator.style.marginLeft = "25px";
-    countryIndicator.textContent = country;
-    let yearIndicator = document.createElement("span");
-    yearIndicator.style.fontSize = "30px"
-    yearIndicator.style.marginLeft = "25px";
-    yearIndicator.textContent = year;
-    let BMIIndicator = document.createElement("span");
-    BMIIndicator.style.fontSize = "40px"
-    BMIIndicator.style.marginLeft = "25px";
-    BMIIndicator.textContent = BMI;
-
-    document.getElementById("modifyCountry").append(countryLabel, countryIndicator);
-    document.getElementById("modifyBmi").append(yearLabel, yearIndicator);
-    document.getElementById("modifyYear").append(BMILabel, BMIIndicator);
-}
 
 /**
  * Method that calls HTTP DELETE request with the given id
@@ -191,82 +141,6 @@ async function deleteFunction(id, contentOrigin) {
     await createDataTable(contentOrigin);
 }
 
-/**
- * Method that calls HTTP POST request to modify some data at the given id
- * @return {Promise<void>} unused
- */
-async function modifyData(id, contentOrigin) {
-    const modal = document.getElementById("myModal");
-    modal.style.display = "none";
-
-    let newBMI = document.getElementById('newBMIInput' + id).value;
-    let jsonObject = {
-        "id": id,
-        "newBMI": newBMI,
-    };
-    try {
-        //TODO set BMIIndicator cookie
-        //window.sessionStorage.setItem("BMIIndicator",someValue)
-        alert(await modifyDataFromAdminPageHTTPRequest(jsonObject));
-    } catch (err) {
-        alert(err);
-    }
-    await createDataTable(contentOrigin);
-
-}
-
-/**
- * Method that calls HTTP POST request to add data at the given table
- * @return {Promise<void>} unused
- */
-async function addData(contentOrigin) {
-    const modal = document.getElementById("myModal");
-    modal.style.display = "none";
-
-    let country = document.getElementById('countryInput').value;
-    let year = document.getElementById('yearInput').value;
-    let newBMI = document.getElementById('newBMIInput').value;
-    if (country === '' || year === '' || newBMI === '') {
-        alert("Please fill all inputs!");
-        return;
-    }
-    let jsonObject = {
-        country: country,
-        year: year,
-        newBMI: newBMI,
-    };
-    try {
-        //TODO set BMIIndicator cookie
-        //window.sessionStorage.setItem("BMIIndicator",someValue)
-        alert(await addDataFromAdminPageHTTPRequest(jsonObject));
-    } catch (err) {
-        alert(err);
-    }
-    await createDataTable(contentOrigin);
-
-}
-
-/**
- * Method that calls HTTP POST request to add a user to the active admins
- * @param id
- * @param contentOrigin
- * @returns {Promise<void>}
- */
-async function acceptUser(id, contentOrigin) {
-    const modal = document.getElementById("myModal");
-    modal.style.display = "none";
-
-    let jsonObject = {
-        id: id,
-    };
-
-    try {
-        alert(await acceptUserHTTPRequest(jsonObject));
-    } catch (err) {
-        alert(err);
-    }
-    await createDataTable(contentOrigin);
-}
 
 /**
  * This method is responsible for calling methods to get data and render all data tables.
@@ -304,7 +178,7 @@ async function createDataTable(contentOrigin) {
         case "who": {
             window.sessionStorage.setItem("dataset", contentOrigin);
             window.sessionStorage.setItem("BMIFilter", "obese");//TODO add buttons for each table
-            await getDatasetHTTPRequest().then(data => {
+            await getDatasetHTTPRequest(false).then(data => {
                 tableInformation = parseDataset(data);
                 window.sessionStorage.setItem("deleteTable", "who_dataset");
                 window.sessionStorage.setItem("modifyValue", "who_dataset");
@@ -318,7 +192,7 @@ async function createDataTable(contentOrigin) {
             window.sessionStorage.setItem("dataset", contentOrigin);
             window.sessionStorage.setItem("BMIFilter", "obese");//TODO add buttons for each table
             document.getElementById("addButton-" + contentOrigin).style.display = "flex";
-            await getDatasetHTTPRequest().then(data => {
+            await getDatasetHTTPRequest(false).then(data => {
                 tableInformation = parseDataset(data);
                 window.sessionStorage.setItem("deleteTable", "eurostat_dataset");
                 window.sessionStorage.setItem("modifyValue", "eurostat_dataset");

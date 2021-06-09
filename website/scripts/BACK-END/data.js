@@ -385,11 +385,15 @@ async function getDataForYearsHTTPRequest(year) {
  * }
  * @return Promise<>
  */
-async function getDatasetHTTPRequest() {
+async function getDatasetHTTPRequest(sendQuery = true) {
     return await new Promise((resolve, reject) => {
         const HTTP = new XMLHttpRequest();
         const url = getURLBasedOnSessionStorage();
-        const params = getParamsBasedOnSessionStorage();
+        let params;
+        if (sendQuery === false)
+            params = getParamsBasedOnSessionStorage(false, false, false, false);
+        else
+            params = getParamsBasedOnSessionStorage();
         HTTP.onreadystatechange = () => {
             if (HTTP.readyState === HTTP.DONE) {
                 if (HTTP.status >= 400) {

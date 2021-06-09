@@ -1,77 +1,69 @@
+let asc = true;
+let fieldName = "country";
+
+/**
+ * Setter for asc.
+ * @param ascending
+ */
+function setAsc(ascending) {
+    asc = ascending;
+}
+
+/**
+ * Setter for field name.
+ * @param field_name
+ */
+function setFieldName(field_name) {
+    fieldName = field_name;
+}
+
+/**
+ * This function's purpose is to sort dataset by field name.
+ */
+function callSort() {
+    const path = window.location.pathname;
+    const page = path.split("/").pop();
+    if (page === "chart_line.html") {
+        lineChart.sortDataset(fieldName, asc);
+        //TODO refresh line chart
+    } else if (page === "chart_bar.html") {
+        barChart.sortDataset(fieldName, asc);
+        //TODO refresh bar chart
+    } else {
+        if (fieldName === "country") {
+            tableChart.sortDataset(fieldName, asc);
+        } else {
+            tableChart.sortByYear(fieldName, asc);
+        }
+        tableChart.generateTableBody();
+    }
+}
+
 /**
  * This method's purpose is to sort the data based on lexicographical order of labels.
  */
+function createSortButtons() {
+    let sortSelect = document.getElementById("sortBy");
+    sortSelect.innerHTML = '';
+    let data = window.sessionStorage.getItem("years");
+    let sessionStorageArray;
+    if (data.indexOf(',') !== -1) {
+        sessionStorageArray = data.split(',');
+    } else {
+        sessionStorageArray = Array(data);
+    }
+    sessionStorageArray.sort();
+    if (sessionStorageArray[0].length > 0) {
+        let option = document.createElement("option");
+        option.textContent = "Country";
+        option.value = "country";
+        sortSelect.append(option);
+        sessionStorageArray.forEach(year => {
+            let option = document.createElement("option");
+            option.textContent = year;
+            option.value = year;
+            sortSelect.append(option);
+        })
+    }
+}
 
-// window.addEventListener("load", function () {
-//     const tempLabels = getDatasetLabels();
-//     const tempData = getDatasetData();
-//
-//     let tempDataset = Array();
-//     for (let i = 0; i < tempLabels.length; i++) {
-//         tempDataset.push(
-//             {
-//                 "country": tempLabels[i],
-//                 "first": tempData[0][i],
-//                 "second": tempData[1][i],
-//                 "third": tempData[2][i]
-//             });
-//     }
-//
-//     const sortByDropdown = document.querySelector(".sort-by");
-//     const sortOrderDropdown = document.querySelector(".sort-order");
-//
-//     const ascendingSort = (sortByValue) => {
-//         return tempDataset.sort((a, b) => {
-//             if (a[sortByValue] < b[sortByValue]) return -1;
-//             if (a[sortByValue] > b[sortByValue]) return 1;
-//             return 0;
-//         });
-//     };
-//
-//     const descendingSort = (sortByValue) => {
-//         return tempDataset.sort((a, b) => {
-//             if (a[sortByValue] < b[sortByValue]) return 1;
-//             if (a[sortByValue] > b[sortByValue]) return -1;
-//             return 0;
-//         });
-//     };
-//
-//     sortByDropdown.addEventListener("change", () => {
-//         const sortByValue = sortByDropdown.value; // country or year value
-//         const sortOrderValue = sortOrderDropdown.value; // asc or desc value
-//
-//         const sorted =
-//             sortOrderValue === "desc"
-//                 ? descendingSort(sortByValue)
-//                 : ascendingSort(sortByValue);
-//
-//         let arrayLabels = Array();
-//         let firstData = Array();
-//         let secondData = Array();
-//         let thirdData = Array();
-//         for (let i = 0; i < sorted.length; i++) {
-//             arrayLabels.push(sorted[i].country);
-//             firstData.push(sorted[i].first);
-//             secondData.push(sorted[i].second);
-//             thirdData.push(sorted[i].third);
-//         }
-//         setDatasetLabels(arrayLabels);
-//         let finalData = Array();
-//         finalData.push(firstData);
-//         finalData.push(secondData);
-//         finalData.push(thirdData);
-//         setDatasetData(finalData);
-//         let table = new TableChart();
-//         table.refreshTableData().then();
-//         table.generateTable();
-//
-//     });
-//
-//     sortOrderDropdown.addEventListener("change", () => {
-//         const event = new Event("change");
-//         const sortByValue = sortByDropdown.value;
-//         if (sortByValue) {
-//             sortByDropdown.dispatchEvent(event);
-//         }
-//     });
-// });

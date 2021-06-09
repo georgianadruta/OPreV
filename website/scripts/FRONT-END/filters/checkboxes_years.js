@@ -86,6 +86,7 @@ async function selectAllYears() {
             tableChart.generateTable();
         }
         removedYearsIds = [];
+        createSortButtons();
     }).catch(err => {
         console.error(err);
     })
@@ -121,6 +122,7 @@ async function deselectAllYears() {
             }
             removedYearsIds = [...Array(years.length).keys()];
         }
+        createSortButtons();
         window.sessionStorage.setItem("years", '');
     }).catch(err => {
         console.error(err);
@@ -191,6 +193,7 @@ async function addYearToActiveYearsByID(chart, id) {
                 chartDataset.push(...result.dataset);
             }
         ).catch(error => console.error(error));
+        createSortButtons();
     }).catch(err => {
         console.error(err);
     })
@@ -213,6 +216,7 @@ async function removeYearFromActiveYearsByID(chart, id) {
         const regExp = /(\s*[0-9]+\s*)+/g;
         if (regExp.test(window.sessionStorage.getItem("years")) === false)
             window.sessionStorage.setItem("years", '');
+        createSortButtons();
     }).catch(err => {
         console.error(err);
     })
