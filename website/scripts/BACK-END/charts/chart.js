@@ -5,12 +5,7 @@
 class OPreVChart {
     tableInformation = {
         tableColumns: Array(String),
-        dataset: Array(Object),
-        filters: {
-            mass: String,
-            years: Array(String),
-            countries: Array(String)
-        }
+        dataset: Array(Object)
     }
 
     /**
@@ -18,12 +13,13 @@ class OPreVChart {
      * It calls a HTTP GET request to get all the dataset.
      */
     constructor() {
-        getDatasetHTTPRequest().then(result => {
-            this.tableInformation = result;
-        }).catch(error => {
-            console.log(error);
-            alert("FAILED TO GET DATASET");
-        });
+        this.clearChart();
+        // getDatasetHTTPRequest().then(result => {
+        //     this.tableInformation = result;
+        // }).catch(error => {
+        //     console.log(error);
+        //     alert("FAILED TO GET DATASET");
+        // });
     }
 
     /**
@@ -102,6 +98,14 @@ class OPreVChart {
      */
     setDataset(dataset) {
         this.tableInformation.dataset = dataset;
+    }
+
+    /**
+     * This function's purpose is to clear table information.
+     */
+    clearChart() {
+        this.setTableColumns([]);
+        this.setDataset([]);
     }
 
     sort() {
