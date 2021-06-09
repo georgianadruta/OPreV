@@ -47,6 +47,7 @@ class TableChart extends OPreVChart {
      */
     generateTable() {
         this.generateTableHead();
+        this.sortDataset("country");
         let data = window.sessionStorage.getItem("years");
         let sessionStorageArray;
         if (data.indexOf(',') !== -1) {
@@ -59,12 +60,40 @@ class TableChart extends OPreVChart {
         tableBody.innerHTML = '';
         let alreadyCreatedCountriesRows = Array();
         this.tableInformation.dataset.forEach(rowJson => {
-            console.log(rowJson);
             if (!alreadyCreatedCountriesRows.includes(rowJson.country)) {
                 alreadyCreatedCountriesRows.push(rowJson.country);
+
                 let tr = document.createElement("tr");
-                tr.id = "country=" + rowJson.country;
+
+                let td = document.createElement("td");
+                td.id = "country=" + rowJson.country;
+                tr.append(td);
+                sessionStorageArray.forEach(year => {
+                    let td = document.createElement("td");
+                    td.id = rowJson.country + ":" + year;
+                    tr.append(td);
+                });
+                tableBody.append(tr);
             }
+        });
+
+        this.tableInformation.dataset.forEach(rowJson => {
+            let country = rowJson.country;
+            let year = rowJson.year;
+            let BMIValue = rowJson.BMI_value;
+            document.getElementById(country + ':' + year).textContent = BMIValue;
+            document.getElementById('country=' + country).textContent = country;
+        });
+    }
+
+    /**
+     * This function's purpose it to sort the data set ascending by default.
+     * @param fieldName
+     * @param asc
+     */
+    sortDataset(fieldName, asc = true) {
+        this.tableInformation.dataset.sort((a, b) => {
+            return ((asc === true) ? (a[fieldName].localeCompare(b[fieldName])) : (b[fieldName].localeCompare(a[fieldName])));
         });
     }
 

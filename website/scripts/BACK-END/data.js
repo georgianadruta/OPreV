@@ -364,7 +364,7 @@ async function getDataForYearsHTTPRequest(year) {
                     reject(HTTP.responseText);
                 } else {
                     let data = JSON.parse(HTTP.responseText);
-                    if (data.tableColumns.length > 0)
+                    if (data !== null && data.tableColumns.length > 0)
                         data.dataset = JSON.parse(data.dataset);
                     resolve(data);
                 }
@@ -397,7 +397,7 @@ async function getDatasetHTTPRequest() {
                     reject(HTTP.responseText);
                 } else {
                     let data = JSON.parse(HTTP.responseText);
-                    if (data.tableColumns.length > 0)
+                    if (data !== null && data.tableColumns.length > 0)
                         data.dataset = JSON.parse(data.dataset);
                     resolve(data);
                 }
