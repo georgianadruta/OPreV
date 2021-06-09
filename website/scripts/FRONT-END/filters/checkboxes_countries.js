@@ -99,16 +99,13 @@ async function deselectAllCountries() {
             const path = window.location.pathname;
             const page = path.split("/").pop();
             if (page === "chart_bar.html") {
-                barChart.setTableColumns([]);
-                barChart.setDataset([]);
+                barChart.clearChart();
                 barChart.generateBarChart();
             } else if (page === "chart_line.html") {
-                lineChart.setTableColumns([]);
-                lineChart.setDataset([]);
+                lineChart.clearChart();
                 lineChart.generateLineChart();
             } else {
-                tableChart.setTableColumns([]);
-                tableChart.setDataset([]);
+                tableChart.clearChart();
                 tableChart.generateTable();
             }
             removeCountryIds = [...Array(labels.length).keys()];
@@ -136,24 +133,24 @@ function addOrRemoveCountryFromChart(id) {
         let index = removeCountryIds.indexOf(id);//delete it
         removeCountryIds.splice(index, 1);
         addDataToDatasetByCountryID(chart, id).then(() => {
-                if (page === "chart_bar.html") {
+                if (chart === barChart) {
                     barChart.generateBarChart();
-                } else if (page === "chart_line.html") {
-                    lineChart.generateLineChart();
-                } else {
+                } else if (chart === tableChart) {
                     tableChart.generateTable();
+                } else {
+                    lineChart.generateLineChart();
                 }
             }
         );
     } else {
         removeCountryIds.push(id);//else add it
         removeDataToDatasetByCountryID(chart, id).then(() => {
-                if (page === "chart_bar.html") {
+                if (chart === barChart) {
                     barChart.generateBarChart();
-                } else if (page === "chart_line.html") {
-                    lineChart.generateLineChart();
-                } else {
+                } else if (chart === tableChart) {
                     tableChart.generateTable();
+                } else {
+                    lineChart.generateLineChart();
                 }
             }
         );
@@ -172,17 +169,14 @@ async function addDataToDatasetByCountryID(chart, id) {
         window.sessionStorage.setItem("countries", window.sessionStorage.getItem("countries") + ',' + country);
         if (window.sessionStorage.getItem("countries")[0] === ',')
             window.sessionStorage.setItem("countries", window.sessionStorage.getItem("countries").slice(1));
-
-        // TODO update chart data
-        // let newData = chart.getDataset();
-        // await getDataForCountryHTTPRequest(labels[id]).then(
-        //     result => {
-        //         newData.push(...result.dataset);
-        //         chart.setDataset(newData);
-        //     }
-        // ).catch(error => console.error(error));
+        let chartDataset = chart.getDataset();
+        await getDataForCountryHTTPRequest(country).then(
+            result => {
+                if (result !== null)
+                    chartDataset.push(...result.dataset);
+            }
+        ).catch(error => console.error(error));
     });
-
 }
 
 /**
@@ -204,8 +198,12 @@ async function removeDataToDatasetByCountryID(chart, id) {
         if (regExp.test(window.sessionStorage.getItem("countries")) === false)
             window.sessionStorage.setItem("countries", '');
         //TODO update input for table ...
+        if (chart === tableChart) {
+            let dataset = tableChart.getDataset();
+            dataset.pop(id);
+            tableChart.setDataset(dataset);
+        }
     });
-
 }
 
 /**
