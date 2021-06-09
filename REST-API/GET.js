@@ -40,15 +40,16 @@ function createFiltersFromQueryParams(request) {
     let clause = "1=1";
     let countries = getQueryParamValueByName(request, "countries");
     if (countries.length > 0) {
+        const re = /(,)/g;
+        const subst = '\'$1\'';
         clause += " AND country IN ('";
-        countries = countries.replace(',', "','");
+        countries = countries.replace(re, subst)
         clause += countries;
         clause += "') ";
     }
     let years = getQueryParamValueByName(request, "years");
     if (years.length > 0) {
         clause += " AND year IN (";
-        // years = years.replace(' ', ", ");
         clause += years;
         clause += ");";
     }
