@@ -210,22 +210,15 @@
             <div>
                 Sort By:
                 <label>
-                    <select class="sort-by">
-                        <option value="">Select one</option>
-                        <option value="country">Country</option>
-                        <option value="first">First year</option>
-                        <option value="second">Second year</option>
-                        <option value="third">Third year</option>
-                    </select>
+                    <select onchange="setFieldName(value); callSort()" class="sort-by" id="sortBy"></select>
                 </label>
             </div>
             <div>
                 Sort Order:
                 <label>
-                    <select class="sort-order">
-                        <option value="">Select one</option>
-                        <option value="asc">Ascending</option>
-                        <option value="desc">Descending</option>
+                    <select onchange="setAsc(value); callSort()" class="sort-order">
+                        <option value=true>Ascending</option>
+                        <option value=false>Descending</option>
                     </select>
                 </label>
             </div>

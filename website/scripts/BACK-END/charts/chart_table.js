@@ -43,11 +43,9 @@ class TableChart extends OPreVChart {
     }
 
     /**
-     * This function's purpose is to create the table based on data base (now euroStat).
+     * This function's purpose is to generate table body.
      */
-    generateTable() {
-        this.generateTableHead();
-        this.sortDataset("country");
+    generateTableBody() {
         let data = window.sessionStorage.getItem("years");
         let sessionStorageArray;
         if (data.indexOf(',') !== -1) {
@@ -80,37 +78,31 @@ class TableChart extends OPreVChart {
         this.tableInformation.dataset.forEach(rowJson => {
             let country = rowJson.country;
             let year = rowJson.year;
-            let BMIValue = rowJson.BMI_value;
-            document.getElementById(country + ':' + year).textContent = BMIValue;
+            document.getElementById(country + ':' + year).textContent = rowJson.BMI_value;
             document.getElementById('country=' + country).textContent = country;
         });
     }
 
     /**
-     * This function's purpose it to sort the data set ascending by default.
-     * @param fieldName
-     * @param asc
+     * This function's purpose is to create the table based on data base (now euroStat).
      */
-    sortDataset(fieldName, asc = true) {
-        this.tableInformation.dataset.sort((a, b) => {
-            return ((asc === true) ? (a[fieldName].localeCompare(b[fieldName])) : (b[fieldName].localeCompare(a[fieldName])));
-        });
+    generateTable() {
+        this.generateTableHead();
+        this.sortDataset("country");
+        this.generateTableBody();
     }
 
     /**
-     * This function's purpose is to delete the selected columns.
+     * This function's purpose is to sort dataset by year ascending (by default)
+     * @param year
+     * @param asc
      */
-    deleteColumn(name) {
-        let tble = document.getElementById('tbl');
-        let row = tble.rows;
-        for (let i = 0; i < row[0].cells.length; i++) {
-            let str = row[0].cells[i].innerHTML;
-            if (str.search(name) !== -1) {
-                for (let j = 0; j < row.length; j++) {
-                    row[j].deleteCell(i);
-                }
+    sortByYear(year, asc) {
+        this.tableInformation.dataset.sort((a, b) => {
+            if (a[fieldName] === b[fieldName]) {
+                return ((asc === true) ? (a["BMI_value"] - b["BMI_value"]) : (b["BMI_value"] - a["BMI_value"]));
             }
-        }
+        });
     }
 }
 
