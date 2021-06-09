@@ -206,7 +206,7 @@ async function modifyData(id, contentOrigin) {
     };
     try {
         //TODO set BMIIndicator cookie
-        //setCookie("BMIIndicator",someValue)
+        //window.sessionStorage.setItem("BMIIndicator",someValue)
         alert(await modifyDataFromAdminPageHTTPRequest(jsonObject));
     } catch (err) {
         alert(err);
@@ -237,7 +237,7 @@ async function addData(contentOrigin) {
     };
     try {
         //TODO set BMIIndicator cookie
-        //setCookie("BMIIndicator",someValue)
+        //window.sessionStorage.setItem("BMIIndicator",someValue)
         alert(await addDataFromAdminPageHTTPRequest(jsonObject));
     } catch (err) {
         alert(err);
@@ -302,7 +302,8 @@ async function createDataTable(contentOrigin) {
             break;
         }
         case "who": {
-            setCookie("dataset", contentOrigin);
+            window.sessionStorage.setItem("dataset", contentOrigin);
+            window.sessionStorage.setItem("BMIFilter", "obese");//TODO add buttons for each table
             await getDatasetHTTPRequest().then(data => {
                 tableInformation = parseDataset(data);
                 window.sessionStorage.setItem("deleteTable", "who_dataset");
@@ -314,7 +315,8 @@ async function createDataTable(contentOrigin) {
             break;
         }
         default: {
-            setCookie("dataset", contentOrigin);
+            window.sessionStorage.setItem("dataset", contentOrigin);
+            window.sessionStorage.setItem("BMIFilter", "obese");//TODO add buttons for each table
             document.getElementById("addButton-" + contentOrigin).style.display = "flex";
             await getDatasetHTTPRequest().then(data => {
                 tableInformation = parseDataset(data);
@@ -667,3 +669,4 @@ function openModal(id, contentOrigin, action) {
     }
 
 }
+
