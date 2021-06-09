@@ -115,6 +115,7 @@ async function deleteDataFromAdminPageHTTPRequest(jsonObject) {
     return await new Promise((resolve, reject) => {
         const HTTP = new XMLHttpRequest();
         let url;
+        let params = '';
         switch (window.sessionStorage.getItem('deleteTable')) {
             case "contact_messages": {
                 url = "/contact/messages";
@@ -122,10 +123,12 @@ async function deleteDataFromAdminPageHTTPRequest(jsonObject) {
             }
             case "who_dataset": {
                 url = "/dataset/who";
+                params = getParamsBasedOnSessionStorage(false, false, false, false);
                 break;
             }
             case "eurostat_dataset": {
                 url = "/dataset/eurostat";
+                params = getParamsBasedOnSessionStorage(false, false, false, false);
                 break;
             }
             case "registration_requests": {
@@ -150,7 +153,7 @@ async function deleteDataFromAdminPageHTTPRequest(jsonObject) {
                 }
             }
         }
-        HTTP.open("DELETE", url);
+        HTTP.open("DELETE", url + params);
         HTTP.setRequestHeader("Cookies", document.cookie);
         HTTP.send(JSON.stringify(jsonObject));
     })

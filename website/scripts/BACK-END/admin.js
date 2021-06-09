@@ -144,7 +144,6 @@ async function deleteFunction(id, contentOrigin) {
 function setBMIFilterSessionStorage(BMIIndicator) {
     window.sessionStorage.setItem("BMIFilter", BMIIndicator);
     createDataTable(window.sessionStorage.getItem("dataset"));
-
 }
 
 /**
@@ -326,7 +325,6 @@ function openTab(evt, tab) {
         case 'eurostat': {
             window.sessionStorage.setItem("dataset", "eurostat");
             createBMIDropdown();
-            createDataTable(tab);
             break;
         }
         case 'approve': {
@@ -341,7 +339,6 @@ function openTab(evt, tab) {
         case 'who': {
             // window.sessionStorage.setItem("dataset", "who");
             // createBMIDropdown();
-            //createDataTable(tab);
             break;
         }
     }

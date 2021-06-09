@@ -2,6 +2,7 @@ const CRUD = require('./CRUD_operations')
 const {getCookieValueFromCookies} = require('./REST_utilities')
 const {setSuccessfulRequestResponse} = require('./REST_utilities')
 const {setFailedRequestResponse} = require('./REST_utilities')
+const {getQueryParamValueByName} = require('./REST_utilities')
 
 async function deleteFromTableByID(request, response, callback, database, table) {
     let body = [];
@@ -40,17 +41,20 @@ async function deleteFromTableByID(request, response, callback, database, table)
  */
 function DELETE(request, response) {
     let path = request.url.toString();
+    if (path.includes('?') === true) {
+        path = path.substring(0, path.indexOf('?'));
+    }
     switch (path) {
         case "/contact/messages": {
             deleteFromTableByID(request, response, CRUD.deleteFromTableByID, "contact", "contact_messages")
             break;
         }
         case "/dataset/who": {
-            deleteFromTableByID(request, response, CRUD.deleteFromTableByID, "who", "TODO")
+            deleteFromTableByID(request, response, CRUD.deleteFromTableByID, "who", getQueryParamValueByName(request, "BMIFilter"))
             break;
         }
         case "/dataset/eurostat": {
-            deleteFromTableByID(request, response, CRUD.deleteFromTableByID, "eurostat", "obese")
+            deleteFromTableByID(request, response, CRUD.deleteFromTableByID, "eurostat", getQueryParamValueByName(request, "BMIFilter"))
             break;
         }
         case "/users/requests": {

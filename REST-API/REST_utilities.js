@@ -50,6 +50,24 @@ let getCookieValueFromCookies = function (request, cookieName) {
         return cookieValue;
 }
 
+/**
+ * This function's purpose is to receive a query param's value by name from the request's url.
+ * @param request
+ * @param paramName
+ */
+function getQueryParamValueByName(request, paramName) {
+    let query = decodeURIComponent(request.url);
+    if (query.indexOf(paramName + '=') === -1) return '';
+    query = query.substring(query.indexOf('?'));
+    query = query.substring(query.indexOf(paramName + '=') + paramName.length + 1);
+    let index = query.indexOf('&');
+    if (index !== -1) {
+        query = query.substring(0, index);
+    }
+    return query;
+}
+
+module.exports.getQueryParamValueByName = getQueryParamValueByName;
 module.exports.getCookieValueFromCookies = getCookieValueFromCookies;
 module.exports.setSuccessfulRequestResponse = setSuccessfulRequestResponse;
 module.exports.setFailedRequestResponse = setFailedRequestResponse;

@@ -4,6 +4,7 @@ const CRUD = require("./CRUD_operations");
 const {getCookieValueFromCookies} = require('./REST_utilities')
 const {setSuccessfulRequestResponse} = require('./REST_utilities')
 const {setFailedRequestResponse} = require('./REST_utilities')
+const {getQueryParamValueByName} = require('./REST_utilities')
 const mimeTypes = {
     '.html': 'text/html',
     '.js': 'text/javascript',
@@ -13,23 +14,6 @@ const mimeTypes = {
     '.jpg': 'image/jpg',
     '.ico': 'image/x-icon',
 };
-
-/**
- * This function's purpose is to receive a query param's value by name from the request's url.
- * @param request
- * @param paramName
- */
-function getQueryParamValueByName(request, paramName) {
-    let query = decodeURIComponent(request.url);
-    if (query.indexOf(paramName + '=') === -1) return '';
-    query = query.substring(query.indexOf('?'));
-    query = query.substring(query.indexOf(paramName + '=') + paramName.length + 1);
-    let index = query.indexOf('&');
-    if (index !== -1) {
-        query = query.substring(0, index);
-    }
-    return query;
-}
 
 /**
  * THis function's purpose is to create the filters for the SQL WHERE clause.
