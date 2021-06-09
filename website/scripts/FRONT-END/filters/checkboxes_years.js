@@ -23,7 +23,7 @@ async function createYearsCheckboxes() {
         checkbox.id = 'year' + i;
         checkbox.name = 'years';
         checkbox.value = years[i];
-        checkbox.checked = true;
+        checkbox.checked = false;
 
         const path = window.location.pathname;
         const page = path.split("/").pop();
@@ -63,7 +63,7 @@ async function selectAllYears() {
         const checkbox = document.getElementById('year' + i);
         checkbox.type = 'checkbox';
         checkbox.checked = true;
-        sessionStorageYears += years[i] + ' ';
+        sessionStorageYears += years[i] + ',';
     }
     sessionStorageYears = sessionStorageYears.slice(0, -1);
 
@@ -138,19 +138,18 @@ function addOrRemoveYearFromChart(id) {
     if (removedYearsIds.includes(id)) {
         let index = removedYearsIds.indexOf(id);//delete it
         removedYearsIds.splice(index, 1);
-        addYearToActiveYearsByID(id);
+        removeYearFromActiveYearsByID(id);
     } else {
         removedYearsIds.push(id);//else add it
-        removeYearFromActiveYearsByID(id);
+        addYearToActiveYearsByID(id);
     }
 
     const path = window.location.pathname;
     const page = path.split("/").pop();
     if (page === "chart_bar.html") {
-        barChart.refreshChartData();
-        barChart.getChart().update();
+        //TODO
     } else {
-        tableChart.refreshTableData().then();
+        //TODO
         tableChart.generateTable();
     }
 }
@@ -168,7 +167,9 @@ async function addYearToActiveYearsByID(id) {
     })
     let year = years[id];
     if (window.sessionStorage.getItem("years").includes(year) === false) {
-        window.sessionStorage.setItem("years", window.sessionStorage.getItem("years") + ' ' + year);
+        window.sessionStorage.setItem("years", window.sessionStorage.getItem("years") + ',' + year);
+        if (window.sessionStorage.getItem("years")[0] === ',')
+            window.sessionStorage.setItem("years", window.sessionStorage.getItem("years").slice(1));
     }
 }
 
@@ -184,8 +185,11 @@ async function removeYearFromActiveYearsByID(id) {
         console.error(err);
     })
     let year = years[id];
-    window.sessionStorage.setItem("years", window.sessionStorage.getItem("years").replaceAll(' ' + year, ''));
-    window.sessionStorage.setItem("years", window.sessionStorage.getItem("years").replaceAll("  ", ' '));
+    window.sessionStorage.setItem("years", window.sessionStorage.getItem("years").replaceAll(',' + year, ''));
+    window.sessionStorage.setItem("years", window.sessionStorage.getItem("years").replaceAll(year, ''));
+    if (window.sessionStorage.getItem("years")[0] === ',')
+        window.sessionStorage.setItem("years", window.sessionStorage.getItem("years").slice(1));
+
     const regExp = /(\s*[0-9]+\s*)+/g;
     if (regExp.test(window.sessionStorage.getItem("years")) === false)
         window.sessionStorage.setItem("years", '');

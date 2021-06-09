@@ -15,12 +15,13 @@ const mimeTypes = {
 };
 
 /**
- *
+ * This function's purpose is to receive a query param's value by name from the request's url.
  * @param request
  * @param paramName
  */
 function getQueryParamValueByName(request, paramName) {
     let query = decodeURIComponent(request.url);
+    if (query.indexOf(paramName + '=') === -1) return '';
     query = query.substring(query.indexOf('?'));
     query = query.substring(query.indexOf(paramName + '=') + paramName.length + 1);
     let index = query.indexOf('&');
@@ -31,22 +32,23 @@ function getQueryParamValueByName(request, paramName) {
 }
 
 /**
- * THis function's purpose is to create the filters for sql
- * @param request
+ * THis function's purpose is to create the filters for the SQL WHERE clause.
+ * The default value is 1=1 which is a mock clause since it's always true.
+ * @param request the request
  */
 function createFiltersFromQueryParams(request) {
     let clause = "1=1";
     let countries = getQueryParamValueByName(request, "countries");
     if (countries.length > 0) {
-        clause += " AND country IN (";
-        countries = countries.replaceAll(' ', ", ");
+        clause += " AND country IN ('";
+        countries = countries.replace(',', "','");
         clause += countries;
-        clause += ") ";
+        clause += "') ";
     }
     let years = getQueryParamValueByName(request, "years");
     if (years.length > 0) {
         clause += " AND year IN (";
-        years = years.replaceAll(' ', ", ");
+        // years = years.replace(' ', ", ");
         clause += years;
         clause += ");";
     }
@@ -57,7 +59,6 @@ function createFiltersFromQueryParams(request) {
  * This method is responsible for returning both datasets as HTML response.
  * @param request the request
  * @param response the response
- * @param filters the filters used
  * @return {Promise<void>} unused promise
  */
 let getDataset = async function (request, response) {
@@ -131,11 +132,16 @@ let getRequestedUsers = async function (request, response) {
     }
 }
 
-
+/**
+ * This function's purpose is to set the response to a JSON object Array containing the required fields specified in the query param
+ * @param request the request
+ * @param response the response
+ * @return {Promise<void>} a new Promise
+ */
 let getFilters = async function (request, response) {
-    let jsonObject = {filter: getCookieValueFromCookies(request, "field")};
-    let BMIIndicator = getCookieValueFromCookies(request, "BMIIndicator"); // table name
-    let database = getCookieValueFromCookies(request, "dataset");
+    let jsonObject = {filter: getQueryParamValueByName(request, "field")};
+    let BMIIndicator = getQueryParamValueByName(request, "BMIFilter"); // table name
+    let database = getQueryParamValueByName(request, "dataset");
     try {
         let filters = await CRUD.getFiltersFromDataset(database, BMIIndicator, jsonObject.filter);
         response.writeHead(200, {'Content-Type': 'application/json'});

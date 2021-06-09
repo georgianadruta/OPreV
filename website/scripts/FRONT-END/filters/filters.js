@@ -20,7 +20,9 @@ async function createFilterButton(fieldName, elementID, sessionStorageItemName, 
                     newDiv.onclick = function () {
                         if (window.sessionStorage.getItem(sessionStorageItemName).includes(indicatorsArray[i]) === false) {
                             window.sessionStorage.setItem(sessionStorageItemName, window.sessionStorage.getItem(sessionStorageItemName)
-                                + " " + indicatorsArray[i]);
+                                + ',' + indicatorsArray[i]);
+                            if (window.sessionStorage.getItem(sessionStorageItemName)[0] === ',')
+                                window.sessionStorage.setItem(sessionStorageItemName, window.sessionStorage.getItem(sessionStorageItemName).slice(1));
                         }
                     }
                 } else {
@@ -76,6 +78,7 @@ async function createRadioGroupButton(fieldName, elementID, localStorageItemName
  */
 async function refreshFilters() {
     window.sessionStorage.setItem("dataset", "eurostat"); //by default
+    window.sessionStorage.setItem("BMIFilter", "pre_obese"); //by default
     await createFilterButton("BMIIndicators", "bodyMassButton", "BMIFilter", false);
     await createFilterButton("sexes", "sexButton", "SexFilter", true);
     await createFilterButton("regions", "continentButton", "RegionsFilter", false);
@@ -97,22 +100,6 @@ function changeDatasetSpanText(datasetName) {
         document.getElementById("eurostat").style.display = "block";
         document.getElementById("who").style.display = "none";
     }
-}
-
-function updateChart() {
-
-    // applyAllFilters().then(result => {
-    //     const chart = barChart.getChart();
-    //     const chartData = barChart.getChartData();
-    //
-    //     chartData.labels = result.labels;
-    //     for (let i = 0; i < Object.keys(result.years).length; i++) {
-    //         chartData.datasets[i]['data'] = result.years[Object.keys(result.years)[i]].map(x => x.BMI_value);
-    //     }
-    //     chart.update();
-    // }).catch(err => {
-    //     console.log(err)
-    // })
 }
 
 

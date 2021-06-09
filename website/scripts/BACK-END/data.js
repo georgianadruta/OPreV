@@ -71,12 +71,11 @@ function loadDataSet(datasetName) {
  */
 async function getAllPossibleValuesOfFilterHTTPRequest(fieldName) {
     return await new Promise((resolve, reject) => {
-        setCookie("field", fieldName);
         const HTTP = new XMLHttpRequest();
         const url = getURLBasedOnSessionStorage() + '/filters';
+        const params = getParamsBasedOnSessionStorage(false, false, false, false) + "&field=" + fieldName;
         HTTP.onreadystatechange = () => {
             if (HTTP.readyState === HTTP.DONE) {
-                deleteCookie("field");
                 if (HTTP.status >= 400) {
                     console.log(HTTP.responseText);
                     reject();
@@ -86,7 +85,7 @@ async function getAllPossibleValuesOfFilterHTTPRequest(fieldName) {
                 }
             }
         }
-        HTTP.open("GET", url);
+        HTTP.open("GET", url + params);
         HTTP.setRequestHeader("Cookies", document.cookie);
         HTTP.send();
     })
@@ -223,7 +222,6 @@ async function modifyDataFromAdminPageHTTPRequest(jsonObject) {
 
 }
 
-
 /**
  * This method is responsible for the HTTP GET request to receive the contact messages.
  * @return {Promise<>}
@@ -304,6 +302,38 @@ async function getRequestUsersDatasetHTTPRequest() {
 }
 
 /**
+ * This method is responsible for the HTTP GET request to receive the database data only for a specific country.
+ * @param countryName
+ * @return {Promise<>}
+ */
+async function getDataForCountryHTTPRequest(countryName) {
+    return await new Promise((resolve, reject) => {
+        const HTTP = new XMLHttpRequest();
+        const url = getURLBasedOnSessionStorage();
+        let oldSessionStorageCountries = window.sessionStorage.getItem("countries");
+        window.sessionStorage.setItem("countries", countryName);
+        const params = getParamsBasedOnSessionStorage(false, false, false, true);
+        window.sessionStorage.setItem("countries", oldSessionStorageCountries);
+        HTTP.onreadystatechange = () => {
+            if (HTTP.readyState === HTTP.DONE) {
+                if (HTTP.status >= 400) {
+                    console.log(HTTP.responseText);
+                    reject(HTTP.responseText);
+                } else {
+                    let data = JSON.parse(HTTP.responseText);
+                    if (data.tableColumns.length > 0)
+                        data.dataset = JSON.parse(data.dataset);
+                    resolve(data);
+                }
+            }
+        }
+        HTTP.open("GET", url + params);
+        HTTP.setRequestHeader("Cookies", document.cookie);
+        HTTP.send();
+    })
+}
+
+/**
  * This method is responsible for the HTTP GET request to receive the database data.
  * In resolve we return an JSON under the following format:
  * {
@@ -336,32 +366,6 @@ async function getDatasetHTTPRequest() {
     })
 }
 
-async function getDataForCountryHTTPRequest(countryName) {
-    return await new Promise((resolve, reject) => {
-        const HTTP = new XMLHttpRequest();
-        const url = getURLBasedOnSessionStorage();
-        let oldSessionStorageCountries = window.sessionStorage.getItem("countries");
-        window.sessionStorage.setItem("countries", countryName);
-        const params = getParamsBasedOnSessionStorage(false, false, false, true);
-        window.sessionStorage.setItem("countries", oldSessionStorageCountries);
-        HTTP.onreadystatechange = () => {
-            if (HTTP.readyState === HTTP.DONE) {
-                if (HTTP.status >= 400) {
-                    console.log(HTTP.responseText);
-                    reject(HTTP.responseText);
-                } else {
-                    let data = JSON.parse(HTTP.responseText);
-                    if (data.tableColumns.length > 0)
-                        data.dataset = JSON.parse(data.dataset);
-                    resolve(data);
-                }
-            }
-        }
-        HTTP.open("GET", url + params);
-        HTTP.setRequestHeader("Cookies", document.cookie);
-        HTTP.send();
-    })
-}
 
 let barChart;
 let tableChart;
