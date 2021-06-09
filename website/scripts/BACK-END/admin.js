@@ -141,6 +141,11 @@ async function deleteFunction(id, contentOrigin) {
     await createDataTable(contentOrigin);
 }
 
+function setBMIFilterSessionStorage(BMIIndicator) {
+    window.sessionStorage.setItem("BMIFilter", BMIIndicator);
+    createDataTable(window.sessionStorage.getItem("dataset"));
+
+}
 
 /**
  * This method is responsible for calling methods to get data and render all data tables.
@@ -177,7 +182,6 @@ async function createDataTable(contentOrigin) {
         }
         case "who": {
             window.sessionStorage.setItem("dataset", contentOrigin);
-            window.sessionStorage.setItem("BMIFilter", "obese");//TODO add buttons for each table
             await getDatasetHTTPRequest(false).then(data => {
                 tableInformation = parseDataset(data);
                 window.sessionStorage.setItem("deleteTable", "who_dataset");
@@ -190,7 +194,6 @@ async function createDataTable(contentOrigin) {
         }
         default: {
             window.sessionStorage.setItem("dataset", contentOrigin);
-            window.sessionStorage.setItem("BMIFilter", "obese");//TODO add buttons for each table
             document.getElementById("addButton-" + contentOrigin).style.display = "flex";
             await getDatasetHTTPRequest(false).then(data => {
                 tableInformation = parseDataset(data);
@@ -279,6 +282,24 @@ async function createDataTable(contentOrigin) {
 }
 
 /**
+ * This method creates a dropdown to change the BMIFilter based on the dataset
+ */
+function createBMIDropdown() {
+    let tab = document.getElementById("BMIIndicatorsTab");
+    tab.innerHTML = '';
+    getAllPossibleValuesOfFilterHTTPRequest("BMIIndicators").then(bmiFiltersArray => {
+        bmiFiltersArray.forEach(bmiFilter => {
+            //    <button id="11231" class="tab-links" onclick="">test1</button>-->
+            let newButton = document.createElement("button");
+            newButton.classList.add("tab-links");
+            newButton.setAttribute('onclick', 'setBMIFilterSessionStorage("' + bmiFilter + '");');
+            newButton.textContent = bmiFilter.capitalize();
+            tab.append(newButton);
+        })
+    });
+}
+
+/**
  * This method will open the wanted tab from the admin page
  * @param evt
  * @param tab
@@ -299,14 +320,28 @@ function openTab(evt, tab) {
     document.getElementById(tab).style.display = "block";
     evt.currentTarget.className += " active";
 
+    let bmiTab = document.getElementById("BMIIndicatorsTab");
+    bmiTab.innerHTML = '';
     switch (tab) {
-        case 'eurostat':
-        case 'approve':
+        case 'eurostat': {
+            window.sessionStorage.setItem("dataset", "eurostat");
+            createBMIDropdown();
+            createDataTable(tab);
+            break;
+        }
+        case 'approve': {
+
+            createDataTable(tab);
+            break;
+        }
         case 'messages': {
             createDataTable(tab);
             break;
         }
         case 'who': {
+            // window.sessionStorage.setItem("dataset", "who");
+            // createBMIDropdown();
+            //createDataTable(tab);
             break;
         }
     }
@@ -340,7 +375,7 @@ function openModal(id, contentOrigin, action) {
     }
 
     window.onclick = function (event) {
-        if (event.target == modal) {
+        if (event.target === modal) {
             modal.style.display = "none";
         }
     }
