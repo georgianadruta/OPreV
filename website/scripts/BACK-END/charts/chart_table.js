@@ -17,36 +17,84 @@ class TableChart extends OPreVChart {
     }
 
     /**
+     * This function's purpose is to create the table head based on session storage.
+     */
+    generateTableHead() {
+        const tableHeadRow = document.getElementById("table-head-row");
+        tableHeadRow.innerHTML = '';
+        let data = window.sessionStorage.getItem("years");
+        let sessionStorageArray;
+        if (data.indexOf(',') !== -1) {
+            sessionStorageArray = data.split(',');
+        } else {
+            sessionStorageArray = Array(data);
+        }
+        sessionStorageArray.sort();
+        if (sessionStorageArray[0].length > 0) {
+            let th = document.createElement("th");
+            th.textContent = "Country";
+            tableHeadRow.append(th);
+            sessionStorageArray.forEach(year => {
+                let th = document.createElement("th");
+                th.textContent = year;
+                tableHeadRow.append(th);
+            })
+        }
+    }
+
+    /**
      * This function's purpose is to create the table based on data base (now euroStat).
      */
     generateTable() {
-        const table = document.getElementById("table");
-        table.innerHTML = '';
-
-        if (this.tableInformation.dataset.length > 0) {
-            for (let i = 0; i < this.tableInformation.dataset.length - 3; i = i + 3) {
-                let tr = table.insertRow(-1);
-                tr.id = 'country-' + i;
-
-                const thLabel = document.createElement("td");
-                thLabel.innerHTML = this.tableInformation.dataset[i].country;
-                tr.appendChild(thLabel);
-
-                const th2008 = document.createElement("td");
-                th2008.innerHTML = this.tableInformation.dataset[i].BMI_value + '';
-                tr.appendChild(th2008);
-
-                const th2014 = document.createElement("td");
-                th2014.innerHTML = this.tableInformation.dataset[i + 1].BMI_value + '';
-                tr.appendChild(th2014);
-
-                const th2017 = document.createElement("td");
-                th2017.innerHTML = this.tableInformation.dataset[i + 2].BMI_value + '';
-                tr.appendChild(th2017);
-
-                table.appendChild(tr);
-            }
+        this.generateTableHead();
+        this.sortDataset("country");
+        let data = window.sessionStorage.getItem("years");
+        let sessionStorageArray;
+        if (data.indexOf(',') !== -1) {
+            sessionStorageArray = data.split(',');
+        } else {
+            sessionStorageArray = Array(data);
         }
+
+        let tableBody = document.getElementById("table-body");
+        tableBody.innerHTML = '';
+        let alreadyCreatedCountriesRows = Array();
+        this.tableInformation.dataset.forEach(rowJson => {
+            if (!alreadyCreatedCountriesRows.includes(rowJson.country)) {
+                alreadyCreatedCountriesRows.push(rowJson.country);
+
+                let tr = document.createElement("tr");
+
+                let td = document.createElement("td");
+                td.id = "country=" + rowJson.country;
+                tr.append(td);
+                sessionStorageArray.forEach(year => {
+                    let td = document.createElement("td");
+                    td.id = rowJson.country + ":" + year;
+                    tr.append(td);
+                });
+                tableBody.append(tr);
+            }
+        });
+
+        this.tableInformation.dataset.forEach(rowJson => {
+            let country = rowJson.country;
+            let year = rowJson.year;
+            let BMIValue = rowJson.BMI_value;
+            document.getElementById(country + ':' + year).textContent = BMIValue;
+            document.getElementById('country=' + country).textContent = country;
+        });
+    }
+
+    /**
+     * This function's purpose it to sort the data set ascending by default.
+     * @param fieldName
+     * @param asc
+     */
+    sortDataset(fieldName, asc = true) {
+        this.tableInformation.dataset.sort((a, b) => {
+            return ((asc === true) ? (a[fieldName].localeCompare(b[fieldName])) : (b[fieldName].localeCompare(a[fieldName])));
+        });
     }
 
     /**

@@ -22,19 +22,35 @@ function getParamsBasedOnSessionStorage(querySexes = true, queryRegions = true, 
     query += "BMIFilter=" + getSessionStorageAsQuery("BMIFilter");
     if (querySexes === true) {
         query += "&";
-        query += "SexFilter=" + getSessionStorageAsQuery("SexFilter");
+        if (getSessionStorageAsQuery("SexFilter").length > 1) {
+            query += "SexFilter=" + getSessionStorageAsQuery("SexFilter");
+        } else {
+            query += "SexFilter=" + "none";
+        }
     }
     if (queryRegions === true) {
         query += "&";
-        query += "RegionsFilter=" + getSessionStorageAsQuery("RegionsFilter");
+        if (getSessionStorageAsQuery("RegionsFilter").length > 1) {
+            query += "RegionsFilter=" + getSessionStorageAsQuery("RegionsFilter");
+        } else {
+            query += "RegionsFilter=" + "none";
+        }
     }
     if (queryYears === true) {
         query += "&";
-        query += "years=" + getSessionStorageAsQuery("years");
+        if (getSessionStorageAsQuery("years").length > 1) {
+            query += "years=" + getSessionStorageAsQuery("years");
+        } else {
+            query += "years=" + "0";
+        }
     }
     if (queryCountries === true) {
         query += "&";
-        query += "countries=" + getSessionStorageAsQuery("countries");
+        if (getSessionStorageAsQuery("countries").length > 1) {
+            query += "countries=" + getSessionStorageAsQuery("countries");
+        } else {
+            query += "countries=" + "none";
+        }
     }
     return query;
 }
@@ -312,7 +328,7 @@ async function getDataForCountryHTTPRequest(countryName) {
         const url = getURLBasedOnSessionStorage();
         let oldSessionStorageCountries = window.sessionStorage.getItem("countries");
         window.sessionStorage.setItem("countries", countryName);
-        const params = getParamsBasedOnSessionStorage(false, false, false, true);
+        const params = getParamsBasedOnSessionStorage(true, true, true, true);
         window.sessionStorage.setItem("countries", oldSessionStorageCountries);
         HTTP.onreadystatechange = () => {
             if (HTTP.readyState === HTTP.DONE) {
@@ -321,7 +337,34 @@ async function getDataForCountryHTTPRequest(countryName) {
                     reject(HTTP.responseText);
                 } else {
                     let data = JSON.parse(HTTP.responseText);
-                    if (data.tableColumns.length > 0)
+                    if (data !== null && data.tableColumns.length > 0)
+                        data.dataset = JSON.parse(data.dataset);
+                    resolve(data);
+                }
+            }
+        }
+        HTTP.open("GET", url + params);
+        HTTP.setRequestHeader("Cookies", document.cookie);
+        HTTP.send();
+    })
+}
+
+async function getDataForYearsHTTPRequest(year) {
+    return await new Promise((resolve, reject) => {
+        const HTTP = new XMLHttpRequest();
+        const url = getURLBasedOnSessionStorage();
+        let oldSessionStorageCountries = window.sessionStorage.getItem("years");
+        window.sessionStorage.setItem("years", year);
+        const params = getParamsBasedOnSessionStorage(true, true, true, true);
+        window.sessionStorage.setItem("years", oldSessionStorageCountries);
+        HTTP.onreadystatechange = () => {
+            if (HTTP.readyState === HTTP.DONE) {
+                if (HTTP.status >= 400) {
+                    console.log(HTTP.responseText);
+                    reject(HTTP.responseText);
+                } else {
+                    let data = JSON.parse(HTTP.responseText);
+                    if (data !== null && data.tableColumns.length > 0)
                         data.dataset = JSON.parse(data.dataset);
                     resolve(data);
                 }
@@ -354,7 +397,7 @@ async function getDatasetHTTPRequest() {
                     reject(HTTP.responseText);
                 } else {
                     let data = JSON.parse(HTTP.responseText);
-                    if (data.tableColumns.length > 0)
+                    if (data !== null && data.tableColumns.length > 0)
                         data.dataset = JSON.parse(data.dataset);
                     resolve(data);
                 }
