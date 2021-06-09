@@ -93,22 +93,49 @@ class TableChart extends OPreVChart {
     }
 
     /**
+     * This function's purpose is to interchange two countries in dataset
+     */
+    swap(i, j) {
+        let years = window.sessionStorage.getItem("years");
+        years = years.split(',');
+        for (let k = 0; k < years.length; k++) {
+            let aux = this.tableInformation.dataset[i + k];
+            this.tableInformation.dataset[i + k] = this.tableInformation.dataset[j + k];
+            this.tableInformation.dataset[j + k] = aux;
+        }
+    }
+
+    /**
      * This function's purpose is to sort dataset by year ascending (by default)
      * @param year
      * @param asc
      */
     sortByYear(year, asc) {
-        this.tableInformation.dataset.sort((a, b) => {
-            if (a[fieldName] === b[fieldName]) {
-                return ((asc === true) ? (a["BMI_value"] - b["BMI_value"]) : (b["BMI_value"] - a["BMI_value"]));
+        if (this.tableInformation.dataset.length > 1) {
+            for (let i = 0; i < this.tableInformation.dataset.length - 1; i++) {
+                for (let j = i + 1; j < this.tableInformation.dataset.length; j++) {
+                    if (this.tableInformation.dataset[i]["year"] === this.tableInformation.dataset[j]["year"]
+                        && this.tableInformation.dataset[j]["year"] === year) {
+                        if (asc === true && this.tableInformation.dataset[i]["BMI_value"] > this.tableInformation.dataset[j]["BMI_value"]) {
+                            console.log(this.tableInformation.dataset[i],this.tableInformation.dataset[j])
+                            this.swap(i, j);
+                        } else {
+                            if (asc === false && this.tableInformation.dataset[i]["BMI_value"] < this.tableInformation.dataset[j]["BMI_value"]) {
+                                this.swap(i, j);
+                            }
+                        }
+                    }
+                }
             }
-        });
+        }
     }
 }
 
 let chart;
 window.addEventListener("load", () => {
     refreshFilters().then(() => {
-        tableChart = chart = new TableChart();
-    });
+            tableChart = chart = new TableChart();
+        }
+    )
+    ;
 })

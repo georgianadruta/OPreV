@@ -70,7 +70,6 @@ class OPreVChart {
      * @param asc
      */
     sortDataset(fieldName, asc = true) {
-        console.log(this.tableInformation.dataset);
         this.tableInformation.dataset.sort((a, b) => {
             return ((asc === true) ? (a[fieldName].localeCompare(b[fieldName])) : (b[fieldName].localeCompare(a[fieldName])));
         });
