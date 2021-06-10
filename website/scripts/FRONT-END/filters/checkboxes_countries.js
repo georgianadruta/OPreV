@@ -25,21 +25,9 @@ async function createCountriesCheckboxes() {
 
         removeCountryIds.push(i);//by default all are removed
 
-        const path = window.location.pathname;
-        const page = path.split("/").pop();
-        if (page === "chart_line.html") {
-            checkbox.onclick = function () {
-                selectOnlyOneCountryFromChart(i);
-            };
-        }
-            // else if (page === "chart_bar.html") {
-            //     checkbox.checked = true;
-        // }
-        else {
-            checkbox.onclick = function () {
-                addOrRemoveCountryFromChart(i);
-            };
-        }
+        checkbox.onclick = function () {
+            addOrRemoveCountryFromChart(i);
+        };
 
         const label = document.createElement('label');
         label.htmlFor = 'country' + i;
@@ -74,7 +62,6 @@ async function selectAllCountries() {
         if (page === "chart_bar.html") {
             barChart.refreshDataset().then(() => barChart.generateChartBar());
         } else if (page === "chart_line.html") {
-            lineChart.refreshDataset();
             lineChart.generateLineChart();
         } else {
             tableChart.refreshTableData().then(() => tableChart.generateTable());
@@ -103,7 +90,6 @@ async function deselectAllCountries() {
                 barChart.clearChart();
                 barChart.generateChartBar();
             } else if (chart === lineChart) {
-                lineChart.clearChart();
                 lineChart.generateLineChart();
             } else {
                 tableChart.clearChart();
@@ -201,9 +187,7 @@ async function removeDataToDatasetByCountryID(chart, id) {
                 }
             }
         ).catch(error => console.error(error));
-        createSortButtons();
 
-        //TODO update input for table ...
         if (chart === barChart) {
             barChart.generateChartBar();
         } else {
@@ -211,7 +195,7 @@ async function removeDataToDatasetByCountryID(chart, id) {
                 tableChart.removeCountry(country);
                 tableChart.generateTableBody();
             } else {
-
+                lineChart.generateLineChart();
             }
         }
         createSortButtons();
