@@ -38,19 +38,7 @@ class BarChart extends OPreVChart {
 
     constructor() {
         super();
-        //TODO repara ce ai facut aici ca nu stim ce ai vrut sa faci. (ps: add javadoc)
-
-        // applyAllFilters().then(result => {
-        //     this.data.labels = result.labels;
-        //     this.chart = new Chart(document.getElementById('barChart').getContext('2d'), this.config);
-        //
-        //     for (let i = 0; i < Object.keys(result.years).length; i++) {
-        //         this.data.datasets[i]['data'] = result.years[Object.keys(result.years)[i]].map(x => x.BMI_value);
-        //     }
-        //     this.chart.update();
-        // }).catch(err => {
-        //     console.log(err)
-        // })
+        this.generateChartBar();
     }
 
     /**
@@ -71,10 +59,35 @@ class BarChart extends OPreVChart {
     /**
      * This function's purpose is to render the new dataset.
      */
-    generateBarChart() {
-        //     barChart = this.chart = new Chart(document.getElementById('barChart'), this.config);
-        this.chart.update();
+    generateChartBar() {
+        if (this.chart === undefined) {
+            this.chart = new Chart(document.getElementById('barChart'), this.config);
+        } else {
+            let labels = this.tableInformation.dataset.map(data => data.country).filter(onlyUnique);
+
+            let data2008 = this.tableInformation.dataset.filter(data => data.year === "2008").map(data => data.BMI_value);
+            let data2014 = this.tableInformation.dataset.filter(data => data.year === "2014").map(data => data.BMI_value);
+            let data2017 = this.tableInformation.dataset.filter(data => data.year === "2017").map(data => data.BMI_value);
+
+            this.chart.data.labels = labels;
+            this.chart.data.datasets[0].data = data2008;
+            this.chart.data.datasets[1].data = data2014;
+            this.chart.data.datasets[2].data = data2017;
+
+            this.chart.update();
+        }
     }
+}
+
+/**
+ * This function filter object to retain only unique values
+ * @param value
+ * @param index
+ * @param self
+ * @returns {boolean}
+ */
+function onlyUnique(value, index, self) {
+    return self.indexOf(value) === index;
 }
 
 let chart;
