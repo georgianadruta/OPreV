@@ -70,6 +70,7 @@
     <script src="website/scripts/BACK-END/buttons/download_png.js"></script>
     <script src="website/scripts/BACK-END/buttons/download_svg.js"></script>
     <script src="website/scripts/BACK-END/authentication.js"></script>
+    <script src="website/scripts/BACK-END/buttons/search.js"></script>
     <script src="website/scripts/FRONT-END/button_download.js"></script>
     <script src="website/scripts/FRONT-END/button_download.js"></script>
     <script src="website/scripts/FRONT-END/button_dataset.js"></script>
@@ -132,10 +133,10 @@
             </li>
             <li class="search-bar-container">
                 <label>
-                    <input type="search" placeholder="Search"/>
+                    <input type="search" placeholder="Search" id="searchInput"/>
                 </label>
                 <label class="icon">
-                    <i class="fas fa-search"></i>
+                    <i class="fas fa-search" onclick="searchOnGoogle()"></i>
                 </label>
             </li>
         </ul>
