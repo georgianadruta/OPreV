@@ -120,6 +120,14 @@ function hideAddForm() {
     document.getElementById("addValues").style.display = "none";
 }
 
+/**
+ * This method will be used by the BMI indicators buttons. It is set dynamically to the onclick function of those tab buttons.
+ * @param BMIIndicator the BMIIndicator to set the onclick of
+ */
+function setBMIFilterSessionStorage(BMIIndicator) {
+    window.sessionStorage.setItem("BMIFilter", BMIIndicator);
+    createDataTable(window.sessionStorage.getItem("dataset"));
+}
 
 /**
  * Method that calls HTTP DELETE request with the given id
@@ -142,12 +150,27 @@ async function deleteFunction(id, contentOrigin) {
 }
 
 /**
- * This method will be used by the BMI indicators buttons. It is set dynamically to the onclick function of those tab buttons.
- * @param BMIIndicator the BMIIndicator to set the onclick of
+ * Method that calls HTTP POST request to modify some data at the given id
+ * @return {Promise<void>} unused
  */
-function setBMIFilterSessionStorage(BMIIndicator) {
-    window.sessionStorage.setItem("BMIFilter", BMIIndicator);
-    createDataTable(window.sessionStorage.getItem("dataset"));
+async function modifyData(id, contentOrigin) {
+    const modal = document.getElementById("myModal");
+    modal.style.display = "none";
+
+    let newBMI = document.getElementById('newBMIInput' + id).value;
+    let jsonObject = {
+        "id": id,
+        "newBMI": newBMI,
+    };
+    try {
+        //TODO set BMIIndicator cookie
+        //setCookie("BMIIndicator",someValue)
+        alert(await modifyDataFromAdminPageHTTPRequest(jsonObject));
+    } catch (err) {
+        alert(err);
+    }
+    await createDataTable(contentOrigin);
+
 }
 
 /**

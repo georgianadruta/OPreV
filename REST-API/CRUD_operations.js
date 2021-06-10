@@ -196,10 +196,13 @@ const addUserToLoggedUsersTable = function (jsonUser) {
                 con.query(sql, function (err) {
                     if (err) {
                         console.log("Failed to add " + jsonUser.token + " to logged users." + "\nREASON: " + err.sqlMessage);
-                        reject("Failed to add " + jsonUser.token + " to logged users.");
+                        if (err.sqlMessage.toString().includes("Duplicate"))
+                            resolve("User is already logged.")
+                        else
+                            reject("Failed to add " + jsonUser.token + " to logged users.");
                     } else {
                         console.log("Added " + jsonUser.token + " to logged users.");
-                        resolve("Added " + jsonUser.token + " to logged users.");
+                        resolve("Successfully logged in.");
                     }
                 });
             }
