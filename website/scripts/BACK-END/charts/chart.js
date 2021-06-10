@@ -70,9 +70,11 @@ class OPreVChart {
      * @param asc
      */
     sortDataset(fieldName, asc = true) {
-        this.tableInformation.dataset.sort((a, b) => {
-            return ((asc === true) ? (a[fieldName].localeCompare(b[fieldName])) : (b[fieldName].localeCompare(a[fieldName])));
-        });
+        if (this.tableInformation.dataset !== null) {
+            this.tableInformation.dataset.sort((a, b) => {
+                return ((asc === true) ? (a[fieldName].localeCompare(b[fieldName])) : (b[fieldName].localeCompare(a[fieldName])));
+            });
+        }
     }
 
     /**
@@ -111,5 +113,19 @@ class OPreVChart {
     clearChart() {
         this.setTableColumns([]);
         this.setDataset([]);
+    }
+
+    /**
+     * This function's purpose is to remove data for a given country from tableInformation.
+     * @param country
+     */
+    removeCountry(country) {
+        for (let i = 0; i < this.tableInformation.dataset.length; i++) {
+            let a = this.tableInformation.dataset[i];
+            if (a.country === country) {
+                this.tableInformation.dataset.splice(i, 1);
+                i--;
+            }
+        }
     }
 }
