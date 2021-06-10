@@ -7,22 +7,27 @@ let tableInformation = {
 }
 
 /**
+ * This method is responsible for visual effects once the user has executed an operations succesfully.
+ */
+let successfulOperationEffects = function (message) {
+    let modal = document.getElementById("messageModal");
+    modal.style.display = "block";
+    let div = modal.getElementsByTagName("div")[0];
+    let paragraphText = div.getElementsByTagName("p")[0];
+    if (paragraphText != null) paragraphText.textContent = message;
+    paragraphText.style.display = "flex";
+    paragraphText.style.justifyContent = "center";
+    paragraphText.style.color = "green";
+    paragraphText.style.fontSize = "20px";
+    setTimeout(() => {
+        document.getElementById("messageModal").style.display = "none";
+    }, 3000);
+}
+
+/**
  * This method is responsible for dynamically generating the input fields for add form based on the cookie 'dataset'
  */
 function generateFormInputFields() {
-    /*
-     <li class="countryInput">
-         <label>Country:</label>
-         <label for="country"></label>
-         <select id="country" name="country"></select>
-      </li>
-      <li class="year">
-          <label for="year"></label>
-          <input type="number" id="year" name="year" required placeholder="Choose the year"/>
-      </li>
-    */
-
-
     let ul = document.getElementById("addListOfInputs");
     if (ul === null) return;
 
@@ -142,7 +147,7 @@ async function deleteFunction(id, contentOrigin) {
         "id": id,
     };
     try {
-        alert(await deleteDataFromAdminPageHTTPRequest(jsonObject));
+        successfulOperationEffects(await deleteDataFromAdminPageHTTPRequest(jsonObject));
     } catch (err) {
         alert(err);
     }
@@ -163,9 +168,7 @@ async function modifyData(id, contentOrigin) {
         "newBMI": newBMI,
     };
     try {
-        //TODO set BMIIndicator cookie
-        //setCookie("BMIIndicator",someValue)
-        alert(await modifyDataFromAdminPageHTTPRequest(jsonObject));
+        successfulOperationEffects(await modifyDataFromAdminPageHTTPRequest(jsonObject));
     } catch (err) {
         alert(err);
     }

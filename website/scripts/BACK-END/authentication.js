@@ -102,7 +102,7 @@ let postLogoutHTTPRequest = function (token) {
             if (cookies != null) {
                 let cookie = cookies.split("=");
                 setCookie(cookie[0], "false");
-                alert("Successfully logged out.");
+                successfulLoginLogoutRegisterEffects("Successfully logged out.");
             }
             cookies = HTTP.getResponseHeader("delete-cookie");
             if (cookies != null)
@@ -174,7 +174,7 @@ let postCheckIfUserIsLoggedHTTPRequest = function (token) {
 }
 
 /**
- * TODO change alert to some display in html
+ * This method is called to trigger the register request.
  */
 function register() {
     const username = (document.querySelector("#username").value);
