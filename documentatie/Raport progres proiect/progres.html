@@ -94,7 +94,11 @@
         3. Partea de back-end si microserviciile
     </h2>
     <p>
-        ...
+        La inceput am decis de comun acord sa lucram cu HTTP cookies. Dar dupa ce am facut un research mai amanuntit am ales
+        session storage (avantajele fiind ca datele sunt "eliminate" odata cu inchiderea browser-ului si datele pot fi citite
+        numai din partea server-ului).
+        Initial am implementat HTTP request methods, iar la crearea microserviciilor a trebuit doar sa modularizam codul in functie de
+        metoda (POST/GET/PUT/DELETE).
     </p>
 </section>
 <section role="doc-part">
@@ -104,7 +108,7 @@
         În această secțiune vor fi doar amintite, grupate (deci fără detalii), funcționalitățile finale ale
         aplicației (aplicație web + 4 microservicii), mai multe detalii găsindu-se în <a
             href="../Ghidul de utilizare a aplicatiei/ghid.html">ghidul de utilizare</a> și <a
-            href="../Raport interfata/Raport.html">raportul privind interfața și
+            href="../Raport%20interfata/raport.html">raportul privind interfața și
         interacțiunea cu utilizatorul</a>
     </p>
     <ul>
@@ -185,7 +189,7 @@
             <ul>
                 <li property="schema:roleContactPoint" typeof="schema:ContactPoint">
                     <a href="mailto:emailGeorgiana@gmail.com"
-                       property="schema:email">emailGeorgiana@gmail.com</a>
+                       property="schema:email">drtgeorgiana@gmail.com</a>
                 </li>
             </ul>
         </li>
@@ -198,7 +202,7 @@
                 </span>
             <ul>
                 <li property="schema:roleContactPoint" typeof="schema:ContactPoint">
-                    <a href="mailto:emailDaniel@gmail.com" property="schema:email">emailDaniel@gmail.com</a>
+                    <a href="mailto:emailDaniel@gmail.com" property="schema:email">martonca.daniel@gmail.com</a>
                 </li>
             </ul>
         </li>
