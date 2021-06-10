@@ -31,9 +31,11 @@ async function createCountriesCheckboxes() {
             checkbox.onclick = function () {
                 selectOnlyOneCountryFromChart(i);
             };
-        } else if (page === "chart_bar.html") {
-            checkbox.checked = true;
-        } else {
+        }
+            // else if (page === "chart_bar.html") {
+            //     checkbox.checked = true;
+        // }
+        else {
             checkbox.onclick = function () {
                 addOrRemoveCountryFromChart(i);
             };
@@ -70,8 +72,7 @@ async function selectAllCountries() {
         const path = window.location.pathname;
         const page = path.split("/").pop();
         if (page === "chart_bar.html") {
-            barChart.refreshDataset();
-            barChart.generateBarChart();
+            barChart.refreshDataset().then(() => barChart.generateChartBar());
         } else if (page === "chart_line.html") {
             lineChart.refreshDataset();
             lineChart.generateLineChart();
@@ -100,7 +101,7 @@ async function deselectAllCountries() {
             let chart = getChart();
             if (chart === barChart) {
                 barChart.clearChart();
-                barChart.generateBarChart();
+                barChart.generateChartBar();
             } else if (chart === lineChart) {
                 lineChart.clearChart();
                 lineChart.generateLineChart();
@@ -126,7 +127,7 @@ function addOrRemoveCountryFromChart(id) {
         removeCountryIds.splice(index, 1);
         addDataToDatasetByCountryID(chart, id).then(() => {
                 if (chart === barChart) {
-                    barChart.generateBarChart();
+                    barChart.generateChartBar();
                 } else if (chart === tableChart) {
                     tableChart.generateTable();
                 } else {
@@ -138,7 +139,7 @@ function addOrRemoveCountryFromChart(id) {
         removeCountryIds.push(id);//else add it
         removeDataToDatasetByCountryID(chart, id).then(() => {
                 if (chart === barChart) {
-                    barChart.generateBarChart();
+                    barChart.generateChartBar();
                 } else if (chart === tableChart) {
                     tableChart.generateTable();
                 } else {
@@ -153,8 +154,7 @@ function addOrRemoveCountryFromChart(id) {
  * This function's purpose is to add a country's data to the dataset based on it's id.
  * @param chart
  * @param id the id of the country
- */
-async function addDataToDatasetByCountryID(chart, id) {
+ */async function addDataToDatasetByCountryID(chart, id) {
     let country;
     await getAllPossibleValuesOfFilterHTTPRequest('countries').then(async countriesArray => {
         country = countriesArray[id];
@@ -179,7 +179,7 @@ async function addDataToDatasetByCountryID(chart, id) {
  */
 async function removeDataToDatasetByCountryID(chart, id) {
     let country;
-    await getAllPossibleValuesOfFilterHTTPRequest("countries").then(countriesArray => {
+    await getAllPossibleValuesOfFilterHTTPRequest("countries").then(async countriesArray => {
         country = countriesArray[id];
         window.sessionStorage.setItem("countries", window.sessionStorage.getItem("countries").replaceAll(',' + country, ''));
         window.sessionStorage.setItem("countries", window.sessionStorage.getItem("countries").replaceAll(country, ''));
@@ -190,9 +190,22 @@ async function removeDataToDatasetByCountryID(chart, id) {
         const regExp = /(\s*[a-zA-Z]+\s*)+/g;
         if (regExp.test(window.sessionStorage.getItem("countries")) === false)
             window.sessionStorage.setItem("countries", '');
+
+        let chartDataset = chart.getDataset();
+        await getDataForCountryHTTPRequest(country).then(
+            result => {
+                if (result !== null) {
+                    let resultIds = result.dataset.map(x => x.ID);
+                    let newChartDataset = chartDataset.filter(x => !resultIds.includes(x.ID));
+                    chart.setDataset(newChartDataset);
+                }
+            }
+        ).catch(error => console.error(error));
+        createSortButtons();
+
         //TODO update input for table ...
         if (chart === barChart) {
-
+            barChart.generateChartBar();
         } else {
             if (chart === tableChart) {
                 tableChart.removeCountry(country);

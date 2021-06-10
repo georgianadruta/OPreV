@@ -19,8 +19,8 @@ class OPreVChart {
     /**
      * Method responsible to call HTTP GET request for the dataset with filters from session storage.
      */
-    refreshDataset() {
-        getDatasetHTTPRequest().then(result => {
+    async refreshDataset() {
+        await getDatasetHTTPRequest().then(result => {
             this.tableInformation = result;
         }).catch(error => {
             console.log(error);
@@ -55,6 +55,14 @@ class OPreVChart {
      */
     getDataset() {
         return this.tableInformation.dataset;
+    }
+
+    /**
+     * Setter for the table dataset.
+     * @return {*|any[]} Array of JSON objects.
+     */
+    setDataset(dataset) {
+        this.tableInformation.dataset = dataset;
     }
 
     /**

@@ -280,7 +280,7 @@ td.manipulationButtons .button:not(:last-of-type) {
 }
 
 .table-wrapper {
-    height: 520px;
+    height: 470px;
     overflow-y: auto;
     overflow-x: hidden;
 }

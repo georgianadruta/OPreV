@@ -157,19 +157,46 @@
     <div class="page-content">
         <h1>Bar chart</h1>
         <h4>Obesity rate by body mass index (BMI)</h4>
-        <div class="dropdown-container">
-            <div class="dropdown">
-                <button class="dropbtn">Choose dataset</button>
-                <div class="dropdown-content" id="datasetButton">
-                    <div class="dropdown-btn" onclick="loadDataSet('eurostat'); changeDatasetSpanText('eurostat')">Eurostat</div>
-                    <div class="dropdown-btn" onclick="loadDataSet('who'); changeDatasetSpanText('who')">Who</div>
-                </div>
-            </div>
-        </div>
-        <h3>Dataset: <span id="datasetName">Eurostat</span></h3>
+        <!--        <div class="dropdown-container">-->
+        <!--            <div class="dropdown">-->
+        <!--                <button class="dropbtn">Choose dataset</button>-->
+        <!--                <div class="dropdown-content" id="datasetButton">-->
+        <!--                    <div class="dropdown-btn" onclick="loadDataSet('eurostat'); changeDatasetSpanText('eurostat')">-->
+        <!--                        Eurostat-->
+        <!--                    </div>-->
+        <!--                    <div class="dropdown-btn" onclick="loadDataSet('who'); changeDatasetSpanText('who')">Who</div>-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--        </div>-->
+        <!--        <h3>Dataset: <span id="datasetName">Eurostat</span></h3>-->
         <div id="eurostat">
             <div class="bar-controller">
-                <div class="radio-group" id="bodyMassRadioButton">
+                <div class="dropdown-container">
+                    <div class="dropdown">
+                        <button class="dropbtn">Choose dataset</button>
+                        <div class="dropdown-content" id="datasetButton">
+                            <a class="dropdown-btn" onclick="loadDataSet('eurostat')">Eurostat</a>
+                            <a class="dropdown-btn" onclick="loadDataSet('who')">Who</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class=" dropdown-container">
+                    <div class="dropdown">
+                        <button class="dropbtn">Body Mass Indicator</button>
+                        <div class="dropdown-content" id="bodyMassButton">
+                        </div>
+                    </div>
+                    <div class="dropdown">
+                        <button class="dropbtn">Sex</button>
+                        <div class="dropdown-content" id="sexButton">
+                        </div>
+                    </div>
+                    <div class="dropdown">
+                        <button class="dropbtn">Region</button>
+                        <div class="dropdown-content" id="continentButton">
+                        </div>
+                    </div>
                 </div>
 
                 <h3 class="bar-title">Choose the years:</h3>
@@ -190,28 +217,19 @@
                 <div>
                     Sort By:
                     <label>
-                        <select class="sort-by">
-                            <option value="">Select one</option>
-                            <option value="country">Country</option>
-                            <option value="first">First year</option>
-                            <option value="second">Second year</option>
-                            <option value="third">Third year</option>
-                        </select>
+                        <select onchange="setFieldName(value); callSort()" class="sort-by" id="sortBy"></select>
                     </label>
                 </div>
                 <div>
                     Sort Order:
                     <label>
-                        <select class="sort-order">
-                            <option value="">Select one</option>
-                            <option value="asc">Ascending</option>
-                            <option value="desc">Descending</option>
+                        <select onchange="setAsc(value); callSort()" class="sort-order">
+                            <option value=true>Ascending</option>
+                            <option value=false>Descending</option>
                         </select>
                     </label>
                 </div>
             </div>
-
-            <button class="button" onclick="updateChart()">Apply all filters</button>
 
             <div class="chart-container">
                 <canvas id="barChart"></canvas>
