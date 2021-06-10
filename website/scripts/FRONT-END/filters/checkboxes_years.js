@@ -21,6 +21,8 @@ async function createYearsCheckboxes() {
             checkbox.value = years[i];
             checkbox.checked = false;
 
+            currentYearCheckboxId.push(i);
+
             const path = window.location.pathname;
             const page = path.split("/").pop();
             if (page === "chart_bar.html") {
@@ -156,7 +158,6 @@ function addOrRemoveYearFromChart(id) {
  * @param id the id of the year
  */
 async function addYearToActiveYearsByID(chart, id) {
-    let years;
     await getAllPossibleValuesOfFilterHTTPRequest('years').then(async yearsArray => {
         let year = yearsArray[id];
         window.sessionStorage.setItem("years", window.sessionStorage.getItem("years") + ',' + year);
