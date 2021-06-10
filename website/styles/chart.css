@@ -3,7 +3,7 @@
     flex: 0 0 25%;
 }
 
-#countries .country{
+#countries .country {
     text-align: left;
 }
 
@@ -13,6 +13,7 @@
     padding-left: 0;
 }
 
- #yearsCheckboxContainer {
+#yearsCheckboxContainer {
     justify-content: space-evenly;
+    margin-top: 10px;
 }
