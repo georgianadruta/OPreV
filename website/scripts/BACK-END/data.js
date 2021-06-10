@@ -407,6 +407,11 @@ async function getDatasetHTTPRequest(sendQuery = true) {
                     let data = JSON.parse(HTTP.responseText);
                     if (data !== null && data.tableColumns.length > 0)
                         data.dataset = JSON.parse(data.dataset);
+                    if (data == null)
+                        data = {
+                            tableColumns: [],
+                            dataset: [],
+                        }
                     resolve(data);
                 }
             }

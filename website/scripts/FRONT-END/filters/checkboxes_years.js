@@ -166,9 +166,10 @@ async function addYearToActiveYearsByID(chart, id) {
         let chartDataset = chart.getDataset();
         await getDataForYearsHTTPRequest(year).then(
             result => {
-                if (result.dataset !== null) {
-                    chartDataset.push(...result.dataset);
-                }
+                if (result != null)
+                    if (result.dataset !== null) {
+                        chartDataset.push(...result.dataset);
+                    }
             }
         ).catch(error => console.error(error));
         createSortButtons();
