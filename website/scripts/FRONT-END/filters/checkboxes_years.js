@@ -24,7 +24,7 @@ async function createYearsCheckboxes() {
             removedYearsIds.push(i);
 
             checkbox.onclick = function () {
-                addOrRemoveYearFromChart(i);
+                addOrRemoveYearFromChart(i, years[i]);
             }
 
             const label = document.createElement('label');
@@ -112,13 +112,13 @@ async function deselectAllYears() {
  * This function's purpose is to remove a certain year from the chart for bar and table charts
  * @param id the id of the year of which will be removed from the graph
  */
-function addOrRemoveYearFromChart(id) {
+function addOrRemoveYearFromChart(id, value) {
     let chart = getChart();
     //if it exists in removeCountryIds
     if (removedYearsIds.includes(id)) {
         let index = removedYearsIds.indexOf(id);//delete it
         removedYearsIds.splice(index, 1);
-        addYearToActiveYearsByID(chart, id).then(async () => {
+        addYearToActiveYearsByID(chart, id, value).then(async () => {
             if (chart === barChart) {
                 barChart.generateChartBar();
             } else {
@@ -131,7 +131,7 @@ function addOrRemoveYearFromChart(id) {
         });
     } else {
         removedYearsIds.push(id);//else add it
-        removeYearFromActiveYearsByID(chart, id).then(() => {
+        removeYearFromActiveYearsByID(chart, id, value).then(() => {
             if (chart === barChart) {
                 barChart.generateChartBar();
             } else {
@@ -150,17 +150,18 @@ function addOrRemoveYearFromChart(id) {
  * @param chart
  * @param id the id of the year
  */
-async function addYearToActiveYearsByID(chart, id) {
+async function addYearToActiveYearsByID(chart, id, value) {
     await getAllPossibleValuesOfFilterHTTPRequest('years').then(async yearsArray => {
-        let year = yearsArray[id];
+        let year = value;
         window.sessionStorage.setItem("years", window.sessionStorage.getItem("years") + ',' + year);
         if (window.sessionStorage.getItem("years")[0] === ',')
             window.sessionStorage.setItem("years", window.sessionStorage.getItem("years").slice(1));
-        let chartDataset = chart.getDataset();
         await getDataForYearsHTTPRequest(year).then(
             result => {
                 if (result != null && result.dataset !== null) {
-                    chartDataset.push(...result.dataset);
+                    chart.setDataset(result.dataset);
+                } else {
+                    chart.setDataset([]);
                 }
             }
         ).catch(error => console.error(error));
@@ -173,10 +174,10 @@ async function addYearToActiveYearsByID(chart, id) {
  * @param chart
  * @param id the id of the year
  */
-async function removeYearFromActiveYearsByID(chart, id) {
+async function removeYearFromActiveYearsByID(chart, id, value) {
     let year;
     await getAllPossibleValuesOfFilterHTTPRequest("years").then(async yearsArray => {
-        year = yearsArray[id];
+        year = value;
         window.sessionStorage.setItem("years", window.sessionStorage.getItem("years").replaceAll(',' + year, ''));
         window.sessionStorage.setItem("years", window.sessionStorage.getItem("years").replaceAll(year, ''));
 
@@ -191,9 +192,9 @@ async function removeYearFromActiveYearsByID(chart, id) {
         await getDataForYearsHTTPRequest(year).then(
             result => {
                 if (result != null && result.dataset !== null) {
-                    let resultIds = result.dataset.map(x => x.ID);
-                    let newChartDataset = chartDataset.filter(x => !resultIds.includes(x.ID));
-                    chart.setDataset(newChartDataset);
+                    chart.setDataset(result.dataset);
+                } else {
+                    chart.setDataset([]);
                 }
             }
         ).catch(error => console.error(error));

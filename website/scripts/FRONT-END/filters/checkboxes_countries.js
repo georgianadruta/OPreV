@@ -140,18 +140,21 @@ function addOrRemoveCountryFromChart(id) {
  * This function's purpose is to add a country's data to the dataset based on it's id.
  * @param chart
  * @param id the id of the country
- */async function addDataToDatasetByCountryID(chart, id) {
+ */
+async function addDataToDatasetByCountryID(chart, id) {
     let country;
     await getAllPossibleValuesOfFilterHTTPRequest('countries').then(async countriesArray => {
         country = countriesArray[id];
         window.sessionStorage.setItem("countries", window.sessionStorage.getItem("countries") + ',' + country);
         if (window.sessionStorage.getItem("countries")[0] === ',')
             window.sessionStorage.setItem("countries", window.sessionStorage.getItem("countries").slice(1));
-        let chartDataset = chart.getDataset();
-        await getDataForCountryHTTPRequest(country).then(
+        await getDataForCountriesHTTPRequest(country).then(
             result => {
-                if (result !== null)
-                    chartDataset.push(...result.dataset);
+                if (result !== null) {
+                    chart.setDataset(result.dataset);
+                } else {
+                    chart.setDataset([]);
+                }
             }
         ).catch(error => console.error(error));
         createSortButtons();
@@ -177,13 +180,12 @@ async function removeDataToDatasetByCountryID(chart, id) {
         if (regExp.test(window.sessionStorage.getItem("countries")) === false)
             window.sessionStorage.setItem("countries", '');
 
-        let chartDataset = chart.getDataset();
-        await getDataForCountryHTTPRequest(country).then(
+        await getDataForCountriesHTTPRequest(country).then(
             result => {
                 if (result !== null) {
-                    let resultIds = result.dataset.map(x => x.ID);
-                    let newChartDataset = chartDataset.filter(x => !resultIds.includes(x.ID));
-                    chart.setDataset(newChartDataset);
+                    chart.setDataset(result.dataset);
+                } else {
+                    chart.setDataset([]);
                 }
             }
         ).catch(error => console.error(error));

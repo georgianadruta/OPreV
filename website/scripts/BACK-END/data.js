@@ -323,16 +323,43 @@ async function getRequestUsersDatasetHTTPRequest() {
 }
 
 /**
- * This method is responsible for the HTTP GET request to receive the database data only for a specific country.
+ * This method is responsible for the HTTP GET request to receive the database data only for a specific BMI.
+ * @return {Promise<>}
+ */
+async function getDataForBMIHTTPRequest() {
+    return await new Promise((resolve, reject) => {
+        const HTTP = new XMLHttpRequest();
+        const url = getURLBasedOnSessionStorage();
+        const params = getParamsBasedOnSessionStorage(true, true, true, true);
+        HTTP.onreadystatechange = () => {
+            if (HTTP.readyState === HTTP.DONE) {
+                if (HTTP.status >= 400) {
+                    console.log(HTTP.responseText);
+                    reject(HTTP.responseText);
+                } else {
+                    let data = JSON.parse(HTTP.responseText);
+                    if (data !== null && data.tableColumns.length > 0)
+                        data.dataset = JSON.parse(data.dataset);
+                    resolve(data);
+                }
+            }
+        }
+        HTTP.open("GET", url + params);
+        HTTP.setRequestHeader("Cookies", document.cookie);
+        HTTP.send();
+    })
+}
+
+/**
+ * This method is responsible for the HTTP GET request to receive the database data for a country list.
  * @param countryName
  * @return {Promise<>}
  */
-async function getDataForCountryHTTPRequest(countryName) {
+async function getDataForCountriesHTTPRequest(countryName) {
     return await new Promise((resolve, reject) => {
         const HTTP = new XMLHttpRequest();
         const url = getURLBasedOnSessionStorage();
         let oldSessionStorageCountries = window.sessionStorage.getItem("countries");
-        window.sessionStorage.setItem("countries", countryName);
         const params = getParamsBasedOnSessionStorage(true, true, true, true);
         window.sessionStorage.setItem("countries", oldSessionStorageCountries);
         HTTP.onreadystatechange = () => {
@@ -354,12 +381,16 @@ async function getDataForCountryHTTPRequest(countryName) {
     })
 }
 
+/**
+ * This method is responsible for the HTTP GET request to receive the database data for a years list.
+ * @param countryName
+ * @return {Promise<>}
+ */
 async function getDataForYearsHTTPRequest(year) {
     return await new Promise((resolve, reject) => {
         const HTTP = new XMLHttpRequest();
         const url = getURLBasedOnSessionStorage();
         let oldSessionStorageCountries = window.sessionStorage.getItem("years");
-        window.sessionStorage.setItem("years", year);
         const params = getParamsBasedOnSessionStorage(true, true, true, true);
         window.sessionStorage.setItem("years", oldSessionStorageCountries);
         HTTP.onreadystatechange = () => {
