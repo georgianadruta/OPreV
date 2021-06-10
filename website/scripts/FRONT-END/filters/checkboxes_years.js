@@ -25,7 +25,7 @@ async function createYearsCheckboxes() {
 
             let chart = getChart();
             if (chart === barChart) {
-                checkbox.checked = true;
+                // checkbox.checked = true;
             } else {
                 checkbox.onclick = function () {
                     addOrRemoveYearFromChart(i);
