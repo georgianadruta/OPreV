@@ -129,8 +129,17 @@ class OPreVChart {
         }
     }
 
-
+    /**
+     * This function's purpose is to remove data for a given year from tableInformation.
+     * @param year
+     */
     removeYear(year) {
-       // for(let i)
+        for (let i = 0; i < this.tableInformation.dataset.length; i++) {
+            let a = this.tableInformation.dataset[i];
+            if (a.year === year) {
+                this.tableInformation.dataset.splice(i, 1);
+                i--;
+            }
+        }
     }
 }

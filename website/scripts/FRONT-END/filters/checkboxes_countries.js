@@ -97,12 +97,11 @@ async function deselectAllCountries() {
                 checkbox.checked = false;
             }
             window.sessionStorage.setItem("countries", '');
-            const path = window.location.pathname;
-            const page = path.split("/").pop();
-            if (page === "chart_bar.html") {
+            let chart = getChart();
+            if (chart === barChart) {
                 barChart.clearChart();
                 barChart.generateBarChart();
-            } else if (page === "chart_line.html") {
+            } else if (chart === lineChart) {
                 lineChart.clearChart();
                 lineChart.generateLineChart();
             } else {
@@ -120,16 +119,7 @@ async function deselectAllCountries() {
  * @param id the id of the country of which will be removed from the graph
  */
 function addOrRemoveCountryFromChart(id) {
-    let chart;
-    const path = window.location.pathname;
-    const page = path.split("/").pop();
-    if (page === "chart_bar.html") {
-        chart = barChart;
-    } else if (page === "chart_line.html") {
-        chart = lineChart;
-    } else {
-        chart = tableChart;
-    }
+    let chart = getChart();
     //if it exists in removeCountryIds
     if (removeCountryIds.includes(id)) {
         let index = removeCountryIds.indexOf(id);//delete it
@@ -189,7 +179,7 @@ async function addDataToDatasetByCountryID(chart, id) {
  */
 async function removeDataToDatasetByCountryID(chart, id) {
     let country;
-    await getAllPossibleValuesOfFilterHTTPRequest('countries').then(countriesArray => {
+    await getAllPossibleValuesOfFilterHTTPRequest("countries").then(countriesArray => {
         country = countriesArray[id];
         window.sessionStorage.setItem("countries", window.sessionStorage.getItem("countries").replaceAll(',' + country, ''));
         window.sessionStorage.setItem("countries", window.sessionStorage.getItem("countries").replaceAll(country, ''));
@@ -201,9 +191,15 @@ async function removeDataToDatasetByCountryID(chart, id) {
         if (regExp.test(window.sessionStorage.getItem("countries")) === false)
             window.sessionStorage.setItem("countries", '');
         //TODO update input for table ...
-        if (chart === tableChart) {
-            tableChart.removeCountry(country);
-            tableChart.generateTableBody();
+        if (chart === barChart) {
+
+        } else {
+            if (chart === tableChart) {
+                tableChart.removeCountry(country);
+                tableChart.generateTableBody();
+            } else {
+
+            }
         }
         createSortButtons();
     });
