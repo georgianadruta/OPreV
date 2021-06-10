@@ -171,7 +171,7 @@
             <button class="tab-links" onclick="openTab(event, 'approve')">Approve new user</button>
         </div>
         <div class="tab" id="BMIIndicatorsTab">
-<!--            <button id="11231" class="tab-links" onclick="">test1</button>-->
+            <!--            <button id="11231" class="tab-links" onclick="">test1</button>-->
         </div>
 
         <div id="eurostat" class="tab-content">
@@ -183,8 +183,10 @@
         </div>
 
         <div id="who" class="tab-content">
-            <!--            <div id="datasetPreview-who" class="table-wrapper"></div>-->
-            <h3>Not implemented table...</h3>
+            <div id="datasetPreview-who" class="table-wrapper"></div>
+            <div id="dataManipulationButtons-who" class="button-container">
+                <button class="button" id="addButton-who" onclick="openModal(null, 'who', 'add')">Add</button>
+            </div>
         </div>
 
         <div id="messages" class="tab-content">
