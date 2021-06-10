@@ -417,6 +417,21 @@ async function getDatasetHTTPRequest(sendQuery = true) {
     })
 }
 
+/**
+ * This function's purpose is to return the current chart.
+ * @returns {*} barChart/tableChart/lineChart
+ */
+function getChart() {
+    const path = window.location.pathname;
+    const page = path.split("/").pop();
+    if (page === "chart_bar.html") {
+        return barChart;
+    }
+    if (page === "chart_line.html") {
+        return lineChart;
+    }
+    return tableChart;
+}
 
 let barChart;
 let tableChart;
