@@ -75,12 +75,14 @@ class TableChart extends OPreVChart {
             }
         });
 
-        this.tableInformation.dataset.forEach(rowJson => {
-            let country = rowJson.country;
-            let year = rowJson.year;
-            document.getElementById(country + ':' + year).textContent = rowJson.BMI_value;
-            document.getElementById('country=' + country).textContent = country;
-        });
+        if (this.tableInformation.dataset !== null) {
+            this.tableInformation.dataset.forEach(rowJson => {
+                let country = rowJson.country;
+                let year = rowJson.year;
+                document.getElementById(country + ':' + year).textContent = rowJson.BMI_value;
+                document.getElementById('country=' + country).textContent = country;
+            });
+        }
     }
 
     /**

@@ -68,17 +68,6 @@ async function selectAllYears() {
         const path = window.location.pathname;
         const page = path.split("/").pop();
         if (page === "chart_bar.html") {
-            const chart = barChart.getChart();
-            //TODO update bar chart configuration
-        } else if (page === "chart_line.html") {
-            const chart = lineChart.getChart();
-            //TODO update line chart configuration
-        } else {
-            const tableData = tableChart.getTableData();
-            //TODO update table columns
-        }
-
-        if (page === "chart_bar.html") {
             barChart.getChart().update();
         } else if (page === "chart_line.html") {
             lineChart.getChart().update();
@@ -110,15 +99,14 @@ async function deselectAllYears() {
             const path = window.location.pathname;
             const page = path.split("/").pop();
             if (page === "chart_bar.html") {
-                // const chart = barChart.getChart();
-                //refresh bar chart configuration
-                // chart.update();
+
             } else if (page === "chart_line.html") {
-                const chart = lineChart.getChart();
-                //refresh bar chart configuration
-                chart.update();
+
             } else {
-                // TODO update for table chart
+                sessionStorage.setItem("years", '');
+                tableChart.clearChart();
+                tableChart.generateTable();
+                deselectAllCountries();
             }
             removedYearsIds = [...Array(years.length).keys()];
         }
@@ -154,8 +142,11 @@ function addOrRemoveYearFromChart(id) {
             if (page === "chart_bar.html") {
                 //TODO
             } else {
-                //TODO
-                tableChart.generateTable();
+                if (page === "line_chart.html") {
+                    //TODO
+                } else {
+                    tableChart.generateTable();
+                }
             }
         });
     } else {
@@ -201,6 +192,7 @@ async function addYearToActiveYearsByID(chart, id) {
 
 /**
  * This function's purpose is to remove a year's data to the dataset based on it's id.
+ * @param chart
  * @param id the id of the year
  */
 async function removeYearFromActiveYearsByID(chart, id) {
