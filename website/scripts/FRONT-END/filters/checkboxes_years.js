@@ -21,7 +21,7 @@ async function createYearsCheckboxes() {
             checkbox.value = years[i];
             checkbox.checked = false;
 
-            currentYearCheckboxId.push(i);
+            removedYearsIds.push(i);
 
             let chart = getChart();
             if (chart === barChart) {
