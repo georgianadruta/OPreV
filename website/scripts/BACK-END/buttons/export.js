@@ -1,11 +1,27 @@
 function exportPNG() {
     const a = document.createElement("a");
-    //a.href = myChart.toBase64Image("image/jpeg", 1);
-    a.href = document.getElementById("barChart").toDataURL();
-    a.download = "barChart.png";
 
-    // Trigger the download
-    a.click();
+    let chart = getChart();
+    if (chart === barChart) {
+        a.href = document.getElementById("barChart").toDataURL();
+        a.download = "barChart.png";
+        a.click();
+
+    }
+    if (chart === tableChart) {
+        const table = document.getElementById("table-container");
+        html2canvas(table).then(function (canvas) {
+            a.href = canvas.toDataURL("image/png");
+            a.download = 'table.png';
+            a.click();
+        });
+    }
+    if (chart === lineChart) {
+        a.href = document.getElementById("lineChart").toDataURL();
+        a.download = "lineChart.png";
+        a.click();
+
+    }
 }
 
 function exportSVG() {
@@ -18,32 +34,36 @@ function exportSVG() {
 }
 
 function exportCSV() {
-    let dataset;
-    const year = document.getElementById("year").value;
-    switch (year) {
-        case "2008": {
-            dataset = dataset2008;
-            break;
-        }
-        case "2014": {
-            dataset = dataset2014;
-            break;
-        }
-        case "2017": {
-            dataset = dataset2017;
-            break;
-        }
+    let chart = getChart();
+    let chartName;
+    if (chart === barChart) {
+        chartName = "barChart";
+    }
+    if (chart === tableChart) {
+        chartName = "tableChart";
+    }
+    if (chart === lineChart) {
+        chartName = "lineChart";
     }
 
-    const rows = [labels, dataset];
+    let labels = ["ID", "country", "year", "BMI_value"];
+    let dataset = chart.tableInformation.dataset;
 
+    const csvString = [
+        labels,
+        ...dataset.map(item => [
+            item.ID,
+            item.country,
+            item.year,
+            item.BMI_value,
+        ])].map(e => e.join(",")).join("\n");
     let csvContent =
-        "data:text/csv;charset=utf-8," + rows.map((e) => e.join(",")).join("\n");
+        "data:text/csv;charset=utf-8," + csvString;
 
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
     link.setAttribute("href", encodedUri);
-    link.setAttribute("download", "barChart.csv");
+    link.setAttribute("download", chartName + ".csv");
     document.body.appendChild(link);
 
     link.click();
