@@ -43,6 +43,9 @@ function callSort() {
  */
 function createSortButtons() {
     let sortSelect = document.getElementById("sortBy");
+    if (sortSelect === null) {
+        return;
+    }
     sortSelect.innerHTML = '';
     let data = window.sessionStorage.getItem("years");
     let sessionStorageArray;
