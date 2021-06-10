@@ -68,7 +68,6 @@ let postLoginHTTPRequest = function (username, password) {
     const url = "/users/login";
     HTTP.onreadystatechange = function () {
         if (HTTP.readyState === HTTP.HEADERS_RECEIVED) {
-            console.log(HTTP.getAllResponseHeaders());
             let cookies = HTTP.getResponseHeader("Change-Cookie")
             if (cookies !== null) {
                 let cookie = cookies.split("=");
@@ -128,7 +127,7 @@ let postLogoutHTTPRequest = function (token) {
  * @param email the email to register with
  * @param password the password to register with
  */
-let putHTTPRequest = function (username, email, password) {
+let putRegisterHTTPRequest = function (username, email, password) {
     const HTTP = new XMLHttpRequest();
     const url = "/users";
     HTTP.onreadystatechange = function () {
@@ -163,11 +162,14 @@ let postCheckIfUserIsLoggedHTTPRequest = function (token) {
         if (HTTP.readyState === HTTP.DONE) {
             if (HTTP.status < 300) {
                 changeMenuBarBasedOnLoginLogout();
+                if (HTTP.responseText !== "User is logged.")
+                    deleteCookie("sessionID");
             }
         }
     }
     HTTP.open("POST", url, true);
     HTTP.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    HTTP.setRequestHeader("Cookies", document.cookie);
     HTTP.send(JSON.stringify({"token": token}));
 }
 
@@ -180,7 +182,7 @@ function register() {
     const email = (document.querySelector("#email").value);
 
     if (checkMatches(username, password, email) !== false) {
-        putHTTPRequest(username, email, password);
+        putRegisterHTTPRequest(username, email, password);
     }
 }
 
