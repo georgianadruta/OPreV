@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ro">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords"
+          content="project, infoiasi, web, single-page-application, microservices, statistics app, jwt, REST Api">
+    <title>Progresul proiectului - OPreV</title>
+    <link rel="stylesheet" href="../Rapoarte stiluri si fonturi/css/scholarly.min.css">
+</head>
+
+<body prefix="schema: http://schema.org">
+<header>
+    <h1>OPreV - Progresul proiectului</h1>
+</header>
+<section role="doc-toc">
+    <h2>
+        Cuprins
+    </h2>
+    <ol>
+        <li>Introducere</li>
+        <li>Pagina de prezentare și o primă variantă a aplicației web</li>
+        <li>Partea de back-end si microserviciile</li>
+        <li>Funcționalitățile finale ale proiectului</li>
+        <li>Maniera de folosire a GitHub-ului</li>
+        <li>Membrii echipei</li>
+        <li>Concluzie</li>
+        <li>Referințe și biblioteci utilizate</li>
+    </ol>
+</section>
+<section role="doc-introduction">
+    <h2>
+        1. Introducere
+    </h2>
+    <p>
+        În acest raport va fi prezentat progresul proiectului OPreV, realizat de către studenții Barat Narcis Stefan,
+        Druta Georgiana și Martonca Daniel Antonel, în timpul celui de-al doilea semestru al anului
+        universitar 2020-2021, Facultatea de Informatică Iași.
+    </p>
+    <p>
+        În realizarea acestui raport vor fi folosite date și/sau informații preluate din istoricul commit-urilor de
+        pe <a href="https://github.com/georgianadruta/OPreV">pagina GitHub a proiectului</a>.
+    </p>
+    <p>
+        Privind acum în urmă, lucrul nostru la proiect poate fi împărțit în 2 etape, fiecare dintre acestea urmând a
+        fi descrise într-o secțiune separată a acestui document. Totuși, nu se poate trece la descrierea etapei de
+        dezvoltare a aplicației fără să fie oferite detalii despre modul în care aceasta a fost gândită înainte de
+        începerea implementării.
+    </p>
+    <p>
+        În urma unor discuții ce au avut loc înainte de publicarea temelor pentru proiecte, am decis să mergem pe
+        dezvoltarea unei aplicații web moderne: serverul (care mai apoi a fost divizat în 4, deci putem vorbi în
+        acest moment despre o arhitectură a back-endului ce utilizează microservicii) să ofere endpoint-uri ce pot
+        fi apelate prin HTTP, nu și pagini statice, utilizatorul interacționând cu aplicația prin intermediul unui
+        web-app scris în Javascript care să utilizeze, prin intermediul AJAX, serviciile puse la dispoziție de
+        servere.
+    </p>
+</section>
+<section role="doc-part">
+    <h2>
+        2. Pagina de prezentare și o primă variantă a aplicației web
+    </h2>
+    <p>
+        După cum a fost precizat și în introducere, clientul interacționează cu aplicația noastră prin intermediul
+        web-app-ului (la care se va face referire în continuare prin "aplicație web"), iar în această etapă a fost
+        implementată o primă variantă a acesteia (niște sisteme simple pentru rutare a paginilor și templating).
+    </p>
+    <p>
+        Deși nu era în cerință, am ajuns la concluzia că adăugarea unei pagini de logare, ar
+        îmbogăți experiența celui ce folosește aplicația. Astfel, în această primă etapă am făcut designul
+        și am implementat implementat aceasta pagina ca o pagină statică, urmând ca mai apoi să fie integrată în
+        structura aplicației web.
+    </p>
+    <p>
+        Pentru a oferi utilizatorului pagini cu informații cât mai diverse, am hotărât să avem în aplicație trei pagini
+        în care să fie afișate toate datele sub in diverse moduri, fiecare dintr noi avand in "grija" cate o astfel de
+        pagina, Narcis Barat pentru pagina cu "barchart", Druta Georgiana pentru pagina cu "tablechart" si Martonca
+        Daniel pentru pagina cu "line chart".
+    </p>
+    <p>
+        In aceasta etapa au fost implementate(au fost apoi îmbunătățite/ modificate) si elementele care se afla pe toate
+        paginile din aplicatie: header-ul(cu logo-ul si meniu) si footer-ul(cu descriere si toate butoanele pentru
+        retelel sociale, locatie, numarul de telefon si adresa de email).
+    </p>
+    <p>
+        Alte pagini care au fost implementate în această etapă (pagini ce au fost apoi îmbunătățite/ modificate): o
+        primă variantă a formularului pentru contact, o primă variantă a paginii de autentificare și o primă
+        variantă a paginii în care pot fi modificate datele de catre admini.
+    </p>
+</section>
+<section role="doc-part">
+    <h2>
+        3. Partea de back-end si microserviciile
+    </h2>
+    <p>
+        ...
+    </p>
+</section>
+<section role="doc-part">
+    <h2>4. Funcționalitățile finale ale proiectului
+    </h2>
+    <p>
+        În această secțiune vor fi doar amintite, grupate (deci fără detalii), funcționalitățile finale ale
+        aplicației (aplicație web + 4 microservicii), mai multe detalii găsindu-se în <a
+            href="../Ghidul de utilizare a aplicatiei/ghid.html">ghidul de utilizare</a> și <a
+            href="../Raport interfata/Raport.html">raportul privind interfața și
+        interacțiunea cu utilizatorul</a>
+    </p>
+    <ul>
+        <li>
+            Pagina principala, care este prima pagina cu care interactioneaza utilizatorul.
+        </li>
+        <li>
+            O pagină de logare de pe care utilizatorul își poate crea un cont sau se poate loga.
+        </li>
+        <li>
+            Trei pagini dedicate funcționalității principale a site-ului, vizualizarea și generarea de statistici
+            pe baza mai multor criterii:
+            <ol>
+                <li>
+                    O pagină de vizualizare sub forma de "barchart" în care utilizatorul poate specifica o mulțime de
+                    criterii pe baza cărora să fie filtrate atacurile din baza de date.
+                </li>
+                <li>
+                    O pagină de vizualizare sub forma de "tablechart" în care utilizatorul poate specifica o mulțime de
+                    criterii pe baza cărora să fie filtrate atacurile din baza de date.
+                </li>
+                <li>
+                    O pagină de vizualizare sub forma de "linechart" în care utilizatorul poate specifica o mulțime de
+                    criterii pe baza cărora să fie filtrate atacurile din baza de date.
+                </li>
+            </ol>
+        </li>
+        <li>
+            O pagină de contact in care utilizatorii pot transmite un mesaj dezvoltatorilor.
+        </li>
+        <li>
+            O pagină „Admin Page” din care adminii pot gestiona datele despre obezitate stocate, measjele primite de la
+            utilizatori si cererile de admin.
+        </li>
+    </ul>
+</section>
+<section role="doc-part">
+    <h2>5. Maniera de folosire a GitHub-ului
+    </h2>
+    <p>
+        Echipa noastră a folosit GitHub, iar modul în care am procedat a fost următorul: deși inițial ne-am
+        gandit să lucrăm fiecare pe un branch separat, am hotarat sa lucram pe pe acelasi branch, si in unele
+        cazuri speciale sa cream cate un branch separat pentru anumite functionalitati mai importante.
+    </p>
+    <p>
+        Echipa noastră a depus efort constant, asta se poate observa in numarul de linii de cod adaugate saptamanal,
+        fiecare a lucrat in propriul fel, commit-uri mai dese si cu mai putine functionalitati adaugate sau buguri
+        rezolvate, sau commit-uri
+        mai rare care au continut functionalitati mai mari/importante sau buguri rezolvate.
+    </p>
+    <p>
+        Desi pe parcurs au aparut anumite conflicte in cod sau de decizie privind interfata, am reusit sa ne axam asupra
+        unor idei comune pe care ulterior le-am si implementat.
+    </p>
+</section>
+<section typeof="sa:AuthorsList">
+    <h2>6. Membrii echipei</h2>
+    <ul>
+        <li typeof="sa:ContributorRole" property="schema:author">
+                <span typeof="schema:Person">
+                    <meta property="schema:givenName" content="Narcis">
+                    <meta property="schema:additionalName" content="Stefan">
+                    <meta property="schema:familyName" content="Barat">
+                    <span property="schema:name">Barat Narcis Stefan</span>
+                </span>
+            <ul>
+                <li property="schema:roleContactPoint" typeof="schema:ContactPoint">
+                    <a href="mailto:barat.narcis@gmail.com" property="schema:email">barat.narcis@gmail.com</a>
+                </li>
+            </ul>
+        </li>
+        <li typeof="sa:ContributorRole" property="schema:author">
+                <span typeof="schema:Person">
+                    <meta property="schema:givenName" content="Georgiana">
+                    <meta property="schema:familyName" content="Druta">
+                    <span property="schema:name">Georgiana Druta</span>
+                </span>
+            <ul>
+                <li property="schema:roleContactPoint" typeof="schema:ContactPoint">
+                    <a href="mailto:emailGeorgiana@gmail.com"
+                       property="schema:email">emailGeorgiana@gmail.com</a>
+                </li>
+            </ul>
+        </li>
+        <li typeof="sa:ContributorRole" property="schema:author">
+                <span typeof="schema:Person">
+                    <meta property="schema:givenName" content="Daniel">
+                    <meta property="schema:additionalName" content="Antonel">
+                    <meta property="schema:familyName" content="Martonca">
+                    <span property="schema:name">Martonca Daniel Antonel</span>
+                </span>
+            <ul>
+                <li property="schema:roleContactPoint" typeof="schema:ContactPoint">
+                    <a href="mailto:emailDaniel@gmail.com" property="schema:email">emailDaniel@gmail.com</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section role="doc-conclusion">
+    <h2>7. Concluzie</h2>
+    <p>
+        Datorită faptului că echipa a fost formată doar din studenți motivați să lucreze și pasionați de ceea ce
+        fac, proiectul a evoluat constant (după cum se poate vedea și din cele descrierea progresului de mai sus)
+        și am reusit sa livram un produs, credem noi, pe placul utilizatorilor.
+</section>
+<section role="doc-bibliography">
+    <h2>10. Referințe și biblioteci utilizate</h2>
+    <ul>
+        <li typeof="schema:WebPage" role="doc-biblioentry" resource="https://profs.info.uaic.ro/~andrei.panu/"
+            property="schema:citation">
+            <cite property="schema:name">
+                <a href="https://profs.info.uaic.ro/~andrei.panu/">Web Technologies - Dr. Andrei Panu</a>
+            </cite>
+        </li>
+        <li typeof="schema:WebPage" role="doc-biblioentry"
+            resource="https://profs.info.uaic.ro/~busaco/teach/courses/web/"
+            property="schema:citation">
+            <cite property="schema:name">
+                <a href="https://profs.info.uaic.ro/~busaco/teach/courses/web/">Web Technologies - Conf.dr. Buraga Sabin
+                    Corneliu</a>
+            </cite>
+        </li>
+        <li typeof="schema:WebPage" role="doc-biblioentry" resource="https://www.codingnepalweb.com/"
+            property="schema:citation">
+            <cite property="schema:name">
+                <a href="https://www.codingnepalweb.com/">CodingNepal</a>
+            </cite>
+        </li>
+        <li typeof="schema:WebPage" role="doc-biblioentry" resource="https://www.chartjs.org/"
+            property="schema:citation">
+            <cite property="schema:name">
+                <a href="https://www.chartjs.org/">Chart.js</a>
+            </cite>
+        </li>
+        <li typeof="schema:WebPage" role="doc-biblioentry"
+            resource="https://ec.europa.eu/eurostat/databrowser/view/sdg_02_10/default/table?lang=en"
+            property="schema:citation">
+            <cite property="schema:name">
+                <a href="https://ec.europa.eu/eurostat/databrowser/view/sdg_02_10/default/table?lang=en">Eurostat
+                    data</a>
+            </cite>
+        </li>
+        <li typeof="schema:WebPage" role="doc-biblioentry"
+            resource="https://www.who.int/data/gho/data/themes/theme-details/GHO/body-mass-index-(bmi)?introPage=intro_3.html"
+            property="schema:citation">
+            <cite property="schema:name">
+                <a href="https://www.who.int/data/gho/data/themes/theme-details/GHO/body-mass-index-(bmi)?introPage=intro_3.html">WHO
+                    data</a>
+            </cite>
+        </li>
+        <li typeof="schema:WebPage" role="doc-biblioentry" resource="https://github.com/eligrey/FileSaver.js/"
+            property="schema:citation">
+            <cite property="schema:name">
+                <a href="https://github.com/eligrey/FileSaver.js/">FileSaver.js</a>
+            </cite>
+        </li>
+        <li typeof="schema:WebPage" role="doc-biblioentry" resource="https://fontawesome.com/"
+            property="schema:citation">
+            <cite property="schema:name">
+                <a href="https://fontawesome.com/">Font awesome icons</a>
+            </cite>
+        </li>
+        <li typeof="schema:WebPage" role="doc-biblioentry" resource="https://plotly.com/javascript/"
+            property="schema:citation">
+            <cite property="schema:name">
+                <a href="https://plotly.com/javascript/">Plotly Javascript</a>
+            </cite>
+        </li>
+        <li typeof="schema:WebPage" role="doc-biblioentry" resource="https://www.npmjs.com/package/jsonwebtoken"
+            property="schema:citation">
+            <cite property="schema:name">
+                <a href="https://www.npmjs.com/package/jsonwebtoken">jsonwebtoken</a>
+            </cite>
+        </li>
+        <li typeof="schema:WebPage" role="doc-biblioentry" resource="https://www.npmjs.com/package/mysql2"
+            property="schema:citation">
+            <cite property="schema:name">
+                <a href="https://www.npmjs.com/package/mysql2">mysql2 - npm</a>
+            </cite>
+        </li>
+        <li typeof="schema:WebPage" role="doc-biblioentry" resource="https://www.w3schools.com/"
+            property="schema:citation">
+            <cite property="schema:name">
+                <a href="https://www.w3schools.com/">W3Schools</a>
+            </cite>
+        </li>
+    </ul>
+</section>
+</body>
+
+</html>
