@@ -33,10 +33,14 @@ class OPreVChart {
      * @param fieldName
      * @param asc
      */
-    sortDataset(fieldName, asc = true) {
+    sortDataset(fieldName, asc = "true") {
         if (this.tableInformation.dataset !== null) {
             this.tableInformation.dataset.sort((a, b) => {
-                return ((asc === true) ? (a[fieldName].localeCompare(b[fieldName])) : (b[fieldName].localeCompare(a[fieldName])));
+                if (asc === "true") {
+                    return a[fieldName].localeCompare(b[fieldName]);
+                } else {
+                    return b[fieldName].localeCompare(a[fieldName]);
+                }
             });
         }
     }
