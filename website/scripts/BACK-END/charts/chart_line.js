@@ -1,5 +1,5 @@
 class LineChart extends OPreVChart {
-    chart;
+    chart = null;
     data = {
         labels: Array(),
         datasets: [{
@@ -21,7 +21,7 @@ class LineChart extends OPreVChart {
         super();
         getAllPossibleValuesOfFilterHTTPRequest("years").then(result => {
             this.data.labels = result;
-            this.chart = new Chart(document.getElementById("lineChart").getContext("2d"), this.config);
+            this.generateLineChart();
         });
     }
 
@@ -33,35 +33,19 @@ class LineChart extends OPreVChart {
         return this.chart;
     }
 
+    generateLabels() {
+        this.data.labels = window.sessionStorage.getItem("years").split(',');
+    }
+
     /**
      * This function's purpose is to render the new dataset.
      */
     generateLineChart() {
-        lineChart = this.chart = new Chart(document.getElementById('lineChart'), this.config);
-    }
-
-    /**
-     * This function's purpose is to add a new label to dataset.
-     * @param label
-     * @param data
-     */
-    addData(label, data) {
-        this.chart.data.labels.push(label);
-        this.chart.data.datasets.forEach((dataset) => {
-            dataset.data.push(data);
-        });
-        this.chart.update();
-    }
-
-    /**
-     * This function's purpose is to remove data from chart.
-     */
-    removeData() {
-        this.chart.data.labels.pop();
-        this.chart.data.datasets.forEach((dataset) => {
-            dataset.data.pop();
-        });
-        this.chart.update();
+        this.generateLabels();
+        if (this.chart !== null) {
+            this.chart.destroy();
+        }
+        this.chart = new Chart(document.getElementById('lineChart'), this.config);
     }
 }
 

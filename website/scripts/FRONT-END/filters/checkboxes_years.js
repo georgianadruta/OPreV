@@ -65,7 +65,7 @@ async function selectAllYears() {
         if (chart === barChart) {
             barChart.refreshDataset().then(() => barChart.generateChartBar());
         } else if (chart === lineChart) {
-            lineChart.getChart().update();
+            lineChart.generateLineChart();
         } else {
             tableChart.refreshTableData().then(() => tableChart.generateTable());
         }
@@ -89,14 +89,13 @@ async function deselectAllYears() {
                 checkbox.type = 'checkbox';
                 checkbox.checked = false;
             }
-            //TODO remove years from charts
-
+            window.sessionStorage.setItem("years", '');
             let chart = getChart();
             if (chart === barChart) {
                 barChart.clearChart();
                 barChart.generateChartBar();
             } else if (chart === lineChart) {
-
+                lineChart.generateLineChart();
             } else {
                 tableChart.generateTable();
                 deselectAllCountries();
@@ -104,7 +103,6 @@ async function deselectAllYears() {
             removedYearsIds = [...Array(years.length).keys()];
         }
         createSortButtons();
-        window.sessionStorage.setItem("years", '');
     }).catch(err => {
         console.error(err);
     })
@@ -125,7 +123,7 @@ function addOrRemoveYearFromChart(id) {
                 barChart.generateChartBar();
             } else {
                 if (chart === lineChart) {
-                    //TODO
+                    lineChart.generateLineChart();
                 } else {
                     tableChart.generateTable();
                 }
@@ -161,10 +159,9 @@ async function addYearToActiveYearsByID(chart, id) {
         let chartDataset = chart.getDataset();
         await getDataForYearsHTTPRequest(year).then(
             result => {
-                if (result != null)
-                    if (result.dataset !== null) {
-                        chartDataset.push(...result.dataset);
-                    }
+                if (result != null && result.dataset !== null) {
+                    chartDataset.push(...result.dataset);
+                }
             }
         ).catch(error => console.error(error));
         createSortButtons();
@@ -193,12 +190,11 @@ async function removeYearFromActiveYearsByID(chart, id) {
         let chartDataset = chart.getDataset();
         await getDataForYearsHTTPRequest(year).then(
             result => {
-                if (result != null)
-                    if (result.dataset !== null) {
-                        let resultIds = result.dataset.map(x => x.ID);
-                        let newChartDataset = chartDataset.filter(x => !resultIds.includes(x.ID));
-                        chart.setDataset(newChartDataset);
-                    }
+                if (result != null && result.dataset !== null) {
+                    let resultIds = result.dataset.map(x => x.ID);
+                    let newChartDataset = chartDataset.filter(x => !resultIds.includes(x.ID));
+                    chart.setDataset(newChartDataset);
+                }
             }
         ).catch(error => console.error(error));
         createSortButtons();
@@ -210,7 +206,7 @@ async function removeYearFromActiveYearsByID(chart, id) {
                 tableChart.removeYear(year);
                 tableChart.generateTableBody();
             } else {
-
+                lineChart.generateLineChart();
             }
         }
         createSortButtons();
