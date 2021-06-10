@@ -74,6 +74,7 @@ let getURLBasedOnSessionStorage = function () {
 function loadDataSet(datasetName) {
     if (datasetName === 'who' || datasetName === 'eurostat') {
         window.sessionStorage.setItem("dataset", datasetName);
+        refreshFilters();
     } else {
         window.sessionStorage.setItem("dataset", 'eurostat');
         console.error("ERROR: wrong call on loadDataSet function: loadDataset(" + datasetName + ").")
@@ -89,7 +90,11 @@ async function getAllPossibleValuesOfFilterHTTPRequest(fieldName) {
     return await new Promise((resolve, reject) => {
         const HTTP = new XMLHttpRequest();
         const url = getURLBasedOnSessionStorage() + '/filters';
-        const params = getParamsBasedOnSessionStorage(false, false, false, false) + "&field=" + fieldName;
+        let params;
+        if (fieldName === 'countries')
+            params = getParamsBasedOnSessionStorage(false, true, false, false) + "&field=" + fieldName;
+        else
+            params = getParamsBasedOnSessionStorage(false, false, false, false) + "&field=" + fieldName;
         HTTP.onreadystatechange = () => {
             if (HTTP.readyState === HTTP.DONE) {
                 if (HTTP.status >= 400) {

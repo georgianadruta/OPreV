@@ -525,8 +525,9 @@ const acceptUsers = function (data) {
  * @param database the database
  * @param tableName the table
  * @param filter the filter
+ * @param regionsClause
  */
-const getFiltersFromDataset = function (database, tableName, filter) {
+const getFiltersFromDataset = function (database, tableName, filter, regionsClause) {
     return new Promise(async (resolve, reject) => {
         let con = getConnection({database: database})
         con.connect(function (err) {
@@ -534,7 +535,7 @@ const getFiltersFromDataset = function (database, tableName, filter) {
                 console.log(err);
                 reject("Failed to connect to the database.");
             } else {
-                const sql = getSelectSQLQueryForFilter(filter, database, tableName);
+                const sql = getSelectSQLQueryForFilter(filter, database, tableName)+regionsClause;
                 con.query(sql, function (err, results) {
                     if (err) {
                         console.log("Failed to select " + filter + " from " + tableName + "." + "\nREASON: " + err.sqlMessage);

@@ -1,4 +1,6 @@
 function updateChart() {
+    createYearsCheckboxes();
+    createCountriesCheckboxes();
     let chart = getChart();
     chart.refreshDataset().then(() => {
         if (chart === barChart) {
@@ -94,10 +96,10 @@ async function createRadioGroupButton(fieldName, elementID, localStorageItemName
  * This function's purpose is to create the filters based on the dataset used.
  */
 async function refreshFilters() {
-    window.sessionStorage.setItem("dataset", "eurostat"); //by default
-    window.sessionStorage.setItem("BMIFilter", "pre_obese"); //by default
+    if (window.sessionStorage.getItem("dataset") == null) window.sessionStorage.setItem("dataset", "eurostat"); //by default
+    if (window.sessionStorage.getItem("BMIFilter") == null) window.sessionStorage.setItem("BMIFilter", "pre_obese"); //by default
     await createFilterButton("BMIIndicators", "bodyMassButton", "BMIFilter", false);
-    await createFilterButton("sexes", "sexButton", "SexFilter", true);
+    await createFilterButton("sexes", "sexButton", "SexFilter", false);
     await createFilterButton("regions", "continentButton", "RegionsFilter", false);
     await createRadioGroupButton("BMIIndicators", "bodyMassRadioButton", "BMIFilter");
     await createYearsCheckboxes();
