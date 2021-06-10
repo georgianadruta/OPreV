@@ -23,7 +23,6 @@ class LineChart extends OPreVChart {
             this.data.labels = labels;
             this.chart = new Chart(document.getElementById('lineChart').getContext('2d'), this.config);
         });
-
     }
 
     getChart() {

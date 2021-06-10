@@ -127,11 +127,9 @@ class TableChart extends OPreVChart {
                         && this.tableInformation.dataset[j]["year"] === year) {
                         if (asc === "true" && this.tableInformation.dataset[i]["BMI_value"] > this.tableInformation.dataset[j]["BMI_value"]) {
                             this.swap(year, i, j);
-                            return;
                         }
                         if (asc === "false" && this.tableInformation.dataset[i]["BMI_value"] < this.tableInformation.dataset[j]["BMI_value"]) {
                             this.swap(year, i, j);
-                            return;
                         }
                     }
                 }
