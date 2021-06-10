@@ -1,3 +1,18 @@
+function updateChart() {
+    let chart = getChart();
+    chart.refreshDataset().then(() => {
+        if (chart === barChart) {
+            barChart.generateChartBar();
+        } else {
+            if (chart === tableChart) {
+                tableChart.generateTable();
+            } else {
+                lineChart.generateLineChart();
+            }
+        }
+    });
+}
+
 /**
  * This function's purpose is to create a filter button CGI
  * @param fieldName
@@ -24,10 +39,12 @@ async function createFilterButton(fieldName, elementID, sessionStorageItemName, 
                             if (window.sessionStorage.getItem(sessionStorageItemName)[0] === ',')
                                 window.sessionStorage.setItem(sessionStorageItemName, window.sessionStorage.getItem(sessionStorageItemName).slice(1));
                         }
+                        updateChart();
                     }
                 } else {
                     newDiv.onclick = function () {
                         window.sessionStorage.setItem(sessionStorageItemName, indicatorsArray[i]);
+                        updateChart();
                     }
                 }
                 newDiv.innerHTML = String(indicatorsArray[i]);
