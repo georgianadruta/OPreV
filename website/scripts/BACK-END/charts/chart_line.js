@@ -4,7 +4,7 @@ class LineChart extends OPreVChart {
         labels: Array(),
         datasets: [{
             label: 'All countries',
-            data: getDatasetData()[0],
+            data: this.tableInformation.dataset,
             fill: false,
             backgroundColor: 'rgb(39, 174, 96)',
             borderColor: 'rgb(39, 174, 96)',
@@ -41,6 +41,6 @@ class LineChart extends OPreVChart {
 
 let chart;
 window.addEventListener("load", () => {
-    refreshFilters().then(() => lineChart = chart = new BarChart())
+    refreshFilters().then(() => lineChart = chart = new LineChart())
 })
 

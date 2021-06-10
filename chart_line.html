@@ -80,6 +80,7 @@
     <script src="node_modules/html2canvas/dist/html2canvas.js"></script>
     <script src="node_modules/file-saver/src/FileSaver.js"></script>
     <script src="node_modules/canvas2svg/canvas2svg.js"></script>
+
 </head>
 
 <body>
@@ -160,7 +161,9 @@
 <main>
     <div class="page-content">
         <h1>Line chart</h1>
+
         <h4>Obesity rate by body mass index (BMI)</h4>
+
         <div class="bar-controller">
             <div class="dropdown-container">
                 <div class="dropdown">
@@ -209,40 +212,31 @@
             <div>
                 Sort By:
                 <label>
-                    <select class="sort-by">
-                        <option value="">Select one</option>
-                        <option value="country">Country</option>
-                        <option value="first">First year</option>
-                        <option value="second">Second year</option>
-                        <option value="third">Third year</option>
-                    </select>
+                    <select onchange="setFieldName(value); callSort()" class="sort-by" id="sortBy"></select>
                 </label>
             </div>
             <div>
                 Sort Order:
                 <label>
-                    <select class="sort-order">
-                        <option value="">Select one</option>
-                        <option value="asc">Ascending</option>
-                        <option value="desc">Descending</option>
+                    <select onchange="setAsc(value); callSort()" class="sort-order">
+                        <option value=true>Ascending</option>
+                        <option value=false>Descending</option>
                     </select>
                 </label>
             </div>
         </div>
+
         <canvas id="lineChart"></canvas>
 
-        <div class="dropdown-actions">
-            <div class="dropdown-container">
-                <div class="dropdown">
-                    <button class="dropbtn">Download data</button>
-                    <div class="dropdown-content">
-                        <div class="dropdown-btn" onclick="exportCSV()">CSV</div>
-                        <div class="dropdown-btn" onclick="exportPNG()">PNG</div>
-                        <div class="dropdown-btn" onclick="exportSVG()">SVG</div>
-                    </div>
+        <div class="dropdown-container">
+            <div class="dropdown">
+                <button class="dropbtn">Download data</button>
+                <div class="dropdown-content">
+                    <div class="dropdown-btn" onclick="exportCSV()">CSV</div>
+                    <div class="dropdown-btn" onclick="exportPNG()">PNG</div>
+                    <div class="dropdown-btn" onclick="exportSVG()">SVG</div>
                 </div>
             </div>
-
         </div>
     </div>
 </main>
