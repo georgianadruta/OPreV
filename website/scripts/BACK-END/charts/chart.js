@@ -128,4 +128,9 @@ class OPreVChart {
             }
         }
     }
+
+
+    removeYear(year) {
+       // for(let i)
+    }
 }
