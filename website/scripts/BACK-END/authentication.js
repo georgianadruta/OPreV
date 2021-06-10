@@ -205,7 +205,7 @@ function logout() {
     if (getCookie("sessionID") != null) {
         postLogoutHTTPRequest(getCookie("sessionID"));
     } else
-        alert("You are not logged in. You cannot log out.")
+        successfulLoginLogoutRegisterEffects("You were not logged in. Redirecting you to the main page");
     return false;
 }
 

@@ -3,6 +3,7 @@ const CRUD = require('./CRUD_operations')
 const {getCookieValueFromCookies} = require('./REST_utilities')
 const {setSuccessfulRequestResponse} = require('./REST_utilities')
 const {setFailedRequestResponse} = require('./REST_utilities')
+const {getQueryParamValueByName} = require('./REST_utilities')
 
 /**
  * This method's purpose is to create a random sessionID
@@ -170,7 +171,9 @@ let modifyData = function (request, response) {
             await CRUD.selectTokenFromLoggedUsersTable(sessionID).then(async foundToken => {
                 if (foundToken === sessionID) {
                     try {
-                        await CRUD.modifyDataInDataset(getCookieValueFromCookies(request, "dataset"), getCookieValueFromCookies(request, "BMIIndicator"), jsonObject.id, jsonObject.newBMI);
+                        let dataset = getQueryParamValueByName(request, "dataset");
+                        let BMIIndicator = getQueryParamValueByName(request, "BMIFilter");
+                        await CRUD.modifyDataInDataset(dataset, BMIIndicator, jsonObject.id, jsonObject.newBMI);
                         setSuccessfulRequestResponse(request, response, "Success", 200);
                     } catch (fail) {
                         setFailedRequestResponse(request, response, "Failed to modify data.", 500);
@@ -247,6 +250,9 @@ let acceptUser = function (request, response) {
  */
 function POST(request, response) {
     let path = request.url.toString();
+    if (path.includes('?') === true) {
+        path = path.substring(0, path.indexOf('?'));
+    }
     switch (path) {
         case "/users/login": {
             login(request, response)

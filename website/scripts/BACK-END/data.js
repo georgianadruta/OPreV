@@ -219,6 +219,7 @@ async function modifyDataFromAdminPageHTTPRequest(jsonObject) {
     return await new Promise((resolve, reject) => {
         const HTTP = new XMLHttpRequest();
         const url = getURLBasedOnSessionStorage();
+        const params = getParamsBasedOnSessionStorage(false, false, false, false);
 
         HTTP.onreadystatechange = () => {
             if (HTTP.readyState === HTTP.DONE) {
@@ -234,7 +235,7 @@ async function modifyDataFromAdminPageHTTPRequest(jsonObject) {
             }
 
         }
-        HTTP.open("POST", url);
+        HTTP.open("POST", url + params);
         HTTP.setRequestHeader("Cookies", document.cookie);
         HTTP.send(JSON.stringify(jsonObject));
     })
