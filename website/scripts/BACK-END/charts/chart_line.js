@@ -3,7 +3,7 @@ class LineChart extends OPreVChart {
     data = {
         labels: Array(),
         datasets: [{
-            label: 'All countries',
+            label: '',
             data: this.tableInformation.dataset,
             fill: false,
             backgroundColor: 'rgb(39, 174, 96)',
@@ -19,12 +19,16 @@ class LineChart extends OPreVChart {
 
     constructor() {
         super();
-        getAllPossibleValuesOfFilterHTTPRequest('countries').then(labels => {
-            this.data.labels = labels;
-            this.chart = new Chart(document.getElementById('lineChart').getContext('2d'), this.config);
+        getAllPossibleValuesOfFilterHTTPRequest("years").then(result => {
+            this.data.labels = result;
+            this.chart = new Chart(document.getElementById("lineChart").getContext("2d"), this.config);
         });
     }
 
+    /**
+     * Getter
+     * @returns {*}
+     */
     getChart() {
         return this.chart;
     }
@@ -33,7 +37,30 @@ class LineChart extends OPreVChart {
      * This function's purpose is to render the new dataset.
      */
     generateLineChart() {
-        //     lineChart = this.chart = new Chart(document.getElementById('lineChart'), this.config);
+        lineChart = this.chart = new Chart(document.getElementById('lineChart'), this.config);
+    }
+
+    /**
+     * This function's purpose is to add a new label to dataset.
+     * @param label
+     * @param data
+     */
+    addData(label, data) {
+        this.chart.data.labels.push(label);
+        this.chart.data.datasets.forEach((dataset) => {
+            dataset.data.push(data);
+        });
+        this.chart.update();
+    }
+
+    /**
+     * This function's purpose is to remove data from chart.
+     */
+    removeData() {
+        this.chart.data.labels.pop();
+        this.chart.data.datasets.forEach((dataset) => {
+            dataset.data.pop();
+        });
         this.chart.update();
     }
 }

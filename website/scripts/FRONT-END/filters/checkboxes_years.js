@@ -39,7 +39,7 @@ async function createYearsCheckboxes() {
         window.sessionStorage.setItem('years', '');
     }).catch(err => {
         console.error(err);
-    })
+    });
 }
 
 /**
