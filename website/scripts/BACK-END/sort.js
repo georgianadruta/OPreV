@@ -25,7 +25,6 @@ function callSort() {
     const page = path.split("/").pop();
     if (page === "chart_line.html") {
         lineChart.sortDataset(fieldName, asc);
-        //TODO refresh line chart
     } else if (page === "chart_bar.html") {
         barChart.sortDataset(fieldName, asc);
         //TODO refresh bar chart
@@ -44,7 +43,7 @@ function callSort() {
  */
 function createSortButtons() {
     let sortSelect = document.getElementById("sortBy");
-    if (sortSelect == null) {
+    if (sortSelect === null) {
         return;
     }
     sortSelect.innerHTML = '';

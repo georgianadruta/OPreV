@@ -1,3 +1,18 @@
+function updateChart() {
+    let chart = getChart();
+    chart.refreshDataset().then(() => {
+        if (chart === barChart) {
+            barChart.generateChartBar();
+        } else {
+            if (chart === tableChart) {
+                tableChart.generateTable();
+            } else {
+                lineChart.generateLineChart();
+            }
+        }
+    });
+}
+
 /**
  * This function's purpose is to create a filter button CGI
  * @param fieldName
@@ -5,7 +20,7 @@
  * @param sessionStorageItemName the session storage item name to be set
  * @param append
  */
-async function createFilterButton(fieldName, elementID, sessionStorageItemName, append = false, regenerateChart = false) {
+async function createFilterButton(fieldName, elementID, sessionStorageItemName, append = false) {
     const filtersContainer = document.getElementById(elementID);
     if (filtersContainer) {
         let indicatorsArray;
@@ -24,32 +39,12 @@ async function createFilterButton(fieldName, elementID, sessionStorageItemName, 
                             if (window.sessionStorage.getItem(sessionStorageItemName)[0] === ',')
                                 window.sessionStorage.setItem(sessionStorageItemName, window.sessionStorage.getItem(sessionStorageItemName).slice(1));
                         }
+                        updateChart();
                     }
                 } else {
-                    newDiv.onclick = async function () {
+                    newDiv.onclick = function () {
                         window.sessionStorage.setItem(sessionStorageItemName, indicatorsArray[i]);
-                        if (regenerateChart === true) {
-                            await getDataForBMIHTTPRequest().then(
-                                result => {
-                                    if (result != null && result.dataset !== null) {
-                                        chart.setDataset(result.dataset);
-                                    } else {
-                                        chart.setDataset([]);
-                                    }
-                                }
-                            ).catch(error => console.error(error));
-                            createSortButtons();
-
-                            if (chart === barChart) {
-                                barChart.generateChartBar();
-                            } else {
-                                if (chart === tableChart) {
-                                    tableChart.generateTableBody();
-                                } else {
-                                    lineChart.generateLineChart();
-                                }
-                            }
-                        }
+                        updateChart();
                     }
                 }
                 newDiv.innerHTML = String(indicatorsArray[i]);
@@ -101,7 +96,7 @@ async function createRadioGroupButton(fieldName, elementID, localStorageItemName
 async function refreshFilters() {
     window.sessionStorage.setItem("dataset", "eurostat"); //by default
     window.sessionStorage.setItem("BMIFilter", "pre_obese"); //by default
-    await createFilterButton("BMIIndicators", "bodyMassButton", "BMIFilter", false, true);
+    await createFilterButton("BMIIndicators", "bodyMassButton", "BMIFilter", false);
     await createFilterButton("sexes", "sexButton", "SexFilter", true);
     await createFilterButton("regions", "continentButton", "RegionsFilter", false);
     await createRadioGroupButton("BMIIndicators", "bodyMassRadioButton", "BMIFilter");
