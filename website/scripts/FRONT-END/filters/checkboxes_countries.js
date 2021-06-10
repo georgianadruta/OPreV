@@ -204,6 +204,8 @@ async function removeDataToDatasetByCountryID(chart, id) {
         if (chart === tableChart) {
             let dataset = tableChart.getDataset();
             dataset.pop(id);
+            dataset.pop(id + 1);
+            dataset.pop(id + 2);
             tableChart.setDataset(dataset);
         }
         createSortButtons();
