@@ -62,16 +62,6 @@ let keepUserLoggedIn = async function (request, response, sessionID) {
 }
 
 /**
- * This function checks whether the user with the given token is logged in or not
- * @param token the token to check the existence of in logged users table
- * @return true if user is logged in, false otherwise   !ATTENTION then return value of this function will be placed in .then function
- */
-let isUserLoggedIn = async function (token) {
-    const selectValue = await CRUD.selectTokenFromLoggedUsersTable(token);
-    return token === selectValue;
-}
-
-/**
  * Method responsible for login behaviour
  * @param request the request
  * @param response the response

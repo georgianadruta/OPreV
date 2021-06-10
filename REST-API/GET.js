@@ -5,6 +5,8 @@ const {getCookieValueFromCookies} = require('./REST_utilities')
 const {setSuccessfulRequestResponse} = require('./REST_utilities')
 const {setFailedRequestResponse} = require('./REST_utilities')
 const {getQueryParamValueByName} = require('./REST_utilities')
+const {isUserLoggedIn} = require('./REST_utilities')
+
 const mimeTypes = {
     '.html': 'text/html',
     '.js': 'text/javascript',
@@ -166,18 +168,6 @@ function GET(request, response) {
             return;
         }
         default: {
-            let regex = new RegExp('/database/eurostat/[0-9]+') //if it's of form /database/eurostat/{some_number}
-            if (regex.test(path)) {
-                //TODO logic for /database/eurostat/2
-                return;
-            }
-
-            regex = new RegExp('/database/who/[0-9]+')//if it's of form /database/who/{some_number}
-            if (regex.test(path)) {
-                //TODO logic for /database/eurostat/2
-                return;
-            }
-
             //create file path
             let filePath = '.' + request.url;
             if (filePath === './')
@@ -188,15 +178,34 @@ function GET(request, response) {
                 if (fs.existsSync(filePath)) {
                     const extname = String(PATH.extname(filePath)).toLowerCase();
                     const contentType = mimeTypes[extname] || 'application/octet-stream';// octet-stream is the default value if no mimeTypes is found
-                    fs.readFile(filePath, function (error, content) {
-                        if (error) {
-                            console.log("ERROR reading the file: " + filePath);
-                            setFailedRequestResponse(request, response, content, 404);
-                        } else {
-                            response.writeHead(200, {'Content-Type': contentType});
-                            response.end(content, 'utf-8');
-                        }
-                    });
+                    if (filePath === "./admin.html") {
+                        let sessionID = getCookieValueFromCookies(request, "sessionID");
+                        if (sessionID != null && sessionID.length > 0)
+                            isUserLoggedIn(sessionID).then(r => {
+                                if (r === true)
+                                    fs.readFile(filePath, function (error, content) {
+                                        if (error) {
+                                            console.log("ERROR reading the file: " + filePath);
+                                            setFailedRequestResponse(request, response, content, 404);
+                                        } else {
+                                            response.writeHead(200, {'Content-Type': contentType});
+                                            response.end(content, 'utf-8');
+                                        }
+                                    });
+                                else
+                                    setFailedRequestResponse(request, response, "You are not logged in. You cannot access admin page.", 403);
+                            });
+                    } else {
+                        fs.readFile(filePath, function (error, content) {
+                            if (error) {
+                                console.log("ERROR reading the file: " + filePath);
+                                setFailedRequestResponse(request, response, content, 404);
+                            } else {
+                                response.writeHead(200, {'Content-Type': contentType});
+                                response.end(content, 'utf-8');
+                            }
+                        });
+                    }
                 } else {    //if the file doesn't exist then it's a bad REQUEST
                     setFailedRequestResponse(request, response, "BAD GET REQUEST", 400);
                 }

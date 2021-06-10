@@ -141,6 +141,10 @@ async function deleteFunction(id, contentOrigin) {
     await createDataTable(contentOrigin);
 }
 
+/**
+ * This method will be used by the BMI indicators buttons. It is set dynamically to the onclick function of those tab buttons.
+ * @param BMIIndicator the BMIIndicator to set the onclick of
+ */
 function setBMIFilterSessionStorage(BMIIndicator) {
     window.sessionStorage.setItem("BMIFilter", BMIIndicator);
     createDataTable(window.sessionStorage.getItem("dataset"));
