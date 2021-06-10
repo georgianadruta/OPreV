@@ -164,6 +164,28 @@ async function addData(contentOrigin) {
 }
 
 /**
+ * Method that calls HTTP POST request to add a user to the active admins
+ * @param id
+ * @param contentOrigin
+ * @returns {Promise<void>}
+ */
+async function acceptUser(id, contentOrigin) {
+    const modal = document.getElementById("myModal");
+    modal.style.display = "none";
+
+    let jsonObject = {
+        id: id,
+    };
+
+    try {
+        successfulOperationEffects(await acceptUserHTTPRequest(jsonObject));
+    } catch (err) {
+        alert(err);
+    }
+    await createDataTable(contentOrigin);
+}
+
+/**
  * Method that calls HTTP DELETE request with the given id
  * @param id the id to be deleted
  * @param contentOrigin the table to refresh
