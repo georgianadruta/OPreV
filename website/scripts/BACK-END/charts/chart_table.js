@@ -95,18 +95,25 @@ class TableChart extends OPreVChart {
     /**
      * This function's purpose is to interchange two countries in dataset
      */
-    swap(i, j) {
+    swap(year, i, j) {
         let years = window.sessionStorage.getItem("years");
         years = years.split(',');
+        let count;
+        for (let a = 0; a < years.length; a++) {
+            if (years[a] === year) {
+                count = a;
+                break;
+            }
+        }
         for (let k = 0; k < years.length; k++) {
-            let aux = this.tableInformation.dataset[i + k];
-            this.tableInformation.dataset[i + k] = this.tableInformation.dataset[j + k];
-            this.tableInformation.dataset[j + k] = aux;
+            let aux = this.tableInformation.dataset[i + k - count];
+            this.tableInformation.dataset[i + k - count] = this.tableInformation.dataset[j + k - count];
+            this.tableInformation.dataset[j + k - count] = aux;
         }
     }
 
     /**
-     * This function's purpose is to sort dataset by year ascending (by default)
+     * This function's purpose is to sort ascending (by default) dataset by BMI value for selected year
      * @param year
      * @param asc
      */
@@ -116,13 +123,13 @@ class TableChart extends OPreVChart {
                 for (let j = i + 1; j < this.tableInformation.dataset.length; j++) {
                     if (this.tableInformation.dataset[i]["year"] === this.tableInformation.dataset[j]["year"]
                         && this.tableInformation.dataset[j]["year"] === year) {
-                        if (asc === true && this.tableInformation.dataset[i]["BMI_value"] > this.tableInformation.dataset[j]["BMI_value"]) {
-                            console.log(this.tableInformation.dataset[i],this.tableInformation.dataset[j])
-                            this.swap(i, j);
-                        } else {
-                            if (asc === false && this.tableInformation.dataset[i]["BMI_value"] < this.tableInformation.dataset[j]["BMI_value"]) {
-                                this.swap(i, j);
-                            }
+                        if (asc === "true" && this.tableInformation.dataset[i]["BMI_value"] > this.tableInformation.dataset[j]["BMI_value"]) {
+                            this.swap(year, i, j);
+                            return;
+                        }
+                        if (asc === "false" && this.tableInformation.dataset[i]["BMI_value"] < this.tableInformation.dataset[j]["BMI_value"]) {
+                            this.swap(year, i, j);
+                            return;
                         }
                     }
                 }
