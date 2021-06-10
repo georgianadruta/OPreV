@@ -65,11 +65,10 @@ async function selectAllYears() {
 
         window.sessionStorage.setItem("years", sessionStorageYears);
 
-        const path = window.location.pathname;
-        const page = path.split("/").pop();
-        if (page === "chart_bar.html") {
+        let chart = getChart();
+        if (chart === barChart) {
             barChart.getChart().update();
-        } else if (page === "chart_line.html") {
+        } else if (chart === lineChart) {
             lineChart.getChart().update();
         } else {
             tableChart.generateTable();
@@ -94,17 +93,14 @@ async function deselectAllYears() {
                 checkbox.type = 'checkbox';
                 checkbox.checked = false;
             }
-            //TODO remove years from charts/tables
+            //TODO remove years from charts
 
-            const path = window.location.pathname;
-            const page = path.split("/").pop();
-            if (page === "chart_bar.html") {
+            let chart = getChart();
+            if (chart === barChart) {
 
-            } else if (page === "chart_line.html") {
+            } else if (chart === lineChart) {
 
             } else {
-                sessionStorage.setItem("years", '');
-                tableChart.clearChart();
                 tableChart.generateTable();
                 deselectAllCountries();
             }
@@ -122,27 +118,16 @@ async function deselectAllYears() {
  * @param id the id of the year of which will be removed from the graph
  */
 function addOrRemoveYearFromChart(id) {
-    let chart;
-    const path = window.location.pathname;
-    const page = path.split("/").pop();
-    if (page === "chart_bar.html") {
-        chart = barChart;
-    } else if (page === "chart_line.html") {
-        chart = lineChart;
-    } else {
-        chart = tableChart;
-    }
+    let chart = getChart();
     //if it exists in removeCountryIds
     if (removedYearsIds.includes(id)) {
         let index = removedYearsIds.indexOf(id);//delete it
         removedYearsIds.splice(index, 1);
-        removeYearFromActiveYearsByID(chart, id).then(() => {
-            const path = window.location.pathname;
-            const page = path.split("/").pop();
-            if (page === "chart_bar.html") {
+        addYearToActiveYearsByID(chart, id).then(async () => {
+            if (chart === barChart) {
                 //TODO
             } else {
-                if (page === "line_chart.html") {
+                if (chart === lineChart) {
                     //TODO
                 } else {
                     tableChart.generateTable();
@@ -151,14 +136,15 @@ function addOrRemoveYearFromChart(id) {
         });
     } else {
         removedYearsIds.push(id);//else add it
-        addYearToActiveYearsByID(chart, id).then(() => {
-            const path = window.location.pathname;
-            const page = path.split("/").pop();
-            if (page === "chart_bar.html") {
+        removeYearFromActiveYearsByID(chart, id).then(() => {
+            if (chart === barChart) {
                 //TODO
             } else {
-                //TODO
-                tableChart.generateTable();
+                if (chart === lineChart) {
+                    //TODO
+                } else {
+                    tableChart.generateTable();
+                }
             }
         });
     }
@@ -166,28 +152,26 @@ function addOrRemoveYearFromChart(id) {
 
 /**
  * This function's purpose is to add a year's data to the dataset based on it's id.
+ * @param chart
  * @param id the id of the year
  */
 async function addYearToActiveYearsByID(chart, id) {
     let years;
     await getAllPossibleValuesOfFilterHTTPRequest('years').then(async yearsArray => {
-        years = yearsArray;
-        let year = years[id];
-        if (window.sessionStorage.getItem("years").includes(year) === false) {
-            window.sessionStorage.setItem("years", window.sessionStorage.getItem("years") + ',' + year);
-            if (window.sessionStorage.getItem("years")[0] === ',')
-                window.sessionStorage.setItem("years", window.sessionStorage.getItem("years").slice(1));
-        }
+        let year = yearsArray[id];
+        window.sessionStorage.setItem("years", window.sessionStorage.getItem("years") + ',' + year);
+        if (window.sessionStorage.getItem("years")[0] === ',')
+            window.sessionStorage.setItem("years", window.sessionStorage.getItem("years").slice(1));
         let chartDataset = chart.getDataset();
         await getDataForYearsHTTPRequest(year).then(
             result => {
-                chartDataset.push(...result.dataset);
+                if (result.dataset !== null) {
+                    chartDataset.push(...result.dataset);
+                }
             }
         ).catch(error => console.error(error));
         createSortButtons();
-    }).catch(err => {
-        console.error(err);
-    })
+    });
 }
 
 /**
@@ -196,18 +180,28 @@ async function addYearToActiveYearsByID(chart, id) {
  * @param id the id of the year
  */
 async function removeYearFromActiveYearsByID(chart, id) {
-    let years;
-    await getAllPossibleValuesOfFilterHTTPRequest('years').then(yearsArray => {
-        years = yearsArray;
-        let year = years[id];
+    let year;
+    await getAllPossibleValuesOfFilterHTTPRequest("years").then(yearsArray => {
+        year = yearsArray[id];
         window.sessionStorage.setItem("years", window.sessionStorage.getItem("years").replaceAll(',' + year, ''));
         window.sessionStorage.setItem("years", window.sessionStorage.getItem("years").replaceAll(year, ''));
+
         if (window.sessionStorage.getItem("years")[0] === ',')
             window.sessionStorage.setItem("years", window.sessionStorage.getItem("years").slice(1));
 
         const regExp = /(\s*[0-9]+\s*)+/g;
         if (regExp.test(window.sessionStorage.getItem("years")) === false)
             window.sessionStorage.setItem("years", '');
+        if (chart === barChart) {
+
+        } else {
+            if (chart === tableChart) {
+                tableChart.removeYear(year);
+                tableChart.generateTableBody();
+            } else {
+
+            }
+        }
         createSortButtons();
     }).catch(err => {
         console.error(err);
