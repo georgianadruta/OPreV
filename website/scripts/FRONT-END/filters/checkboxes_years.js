@@ -23,9 +23,10 @@ async function createYearsCheckboxes() {
 
             removedYearsIds.push(i);
 
-            let chart = getChart();
-            if (chart === barChart) {
-                // checkbox.checked = true;
+            const path = window.location.pathname;
+            const page = path.split("/").pop();
+            if (page === "chart_bar.html") {
+                checkbox.checked = true;
             } else {
                 checkbox.onclick = function () {
                     addOrRemoveYearFromChart(i);
@@ -165,10 +166,9 @@ async function addYearToActiveYearsByID(chart, id) {
         let chartDataset = chart.getDataset();
         await getDataForYearsHTTPRequest(year).then(
             result => {
-                if (result != null)
-                    if (result.dataset !== null) {
-                        chartDataset.push(...result.dataset);
-                    }
+                if (result !== null && result.dataset !== null) {
+                    chartDataset.push(...result.dataset);
+                }
             }
         ).catch(error => console.error(error));
         createSortButtons();
@@ -207,4 +207,18 @@ async function removeYearFromActiveYearsByID(chart, id) {
     }).catch(err => {
         console.error(err);
     })
+}
+
+/**
+ * This function's purpose is to checked only one year (helpful method for line chart page).
+ * @param id
+ */
+function selectOnlyThis(id) {
+    let years = window.sessionStorage.getItem("years");
+    for (let i = 1; i <= years.length; i++) {
+        document.getElementById("year" + i).checked = false;
+    }
+    document.getElementById("year" + id).checked = true;
+    removedYearsIds.pop();
+    removedYearsIds.push(id);
 }
