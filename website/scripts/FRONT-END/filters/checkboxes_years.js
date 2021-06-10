@@ -23,9 +23,8 @@ async function createYearsCheckboxes() {
 
             removedYearsIds.push(i);
 
-            const path = window.location.pathname;
-            const page = path.split("/").pop();
-            if (page === "chart_bar.html") {
+            let chart = getChart();
+            if (chart === barChart) {
                 checkbox.checked = true;
             } else {
                 checkbox.onclick = function () {

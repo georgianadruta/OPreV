@@ -1,11 +1,11 @@
-window.onscroll = function() {
+window.onscroll = function () {
     myFunction();
 };
 
 
 function myFunction() {
-    var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-    var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-    var scrolled = (winScroll / height) * 100;
+    let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    let scrolled = (winScroll / height) * 100;
     document.getElementById("myScrollBar").style.width = scrolled + "%";
 }
