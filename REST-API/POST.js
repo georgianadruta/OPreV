@@ -201,7 +201,9 @@ let addToDataset = function (request, response) {
     request.on('end', async () => {
         let jsonObject = JSON.parse(body.toString());
         try {
-            let arrayOfJson = await CRUD.addDataInDataset(getCookieValueFromCookies(request, "dataset"), 'obese', jsonObject);
+            let dataset=getQueryParamValueByName(request,"dataset")
+            let BMIIndicator=getQueryParamValueByName(request,"BMIFilter")
+            let arrayOfJson = await CRUD.addDataInDataset(dataset, BMIIndicator, jsonObject);
             response.writeHead(200, {'Content-Type': 'application/json'});
             response.end(JSON.stringify(arrayOfJson));
         } catch (fail) {

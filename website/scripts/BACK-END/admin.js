@@ -135,6 +135,35 @@ function setBMIFilterSessionStorage(BMIIndicator) {
 }
 
 /**
+ * Method that calls HTTP POST request to add data at the given table
+ * @return {Promise<void>} unused
+ */
+async function addData(contentOrigin) {
+    const modal = document.getElementById("myModal");
+    modal.style.display = "none";
+
+    let country = document.getElementById('countryInput').value;
+    let year = document.getElementById('yearInput').value;
+    let newBMI = document.getElementById('newBMIInput').value;
+    if (country === '' || year === '' || newBMI === '') {
+        successfulOperationEffects("Please fill all inputs!");
+        return;
+    }
+    let jsonObject = {
+        country: country,
+        year: year,
+        newBMI: newBMI,
+    };
+    try {
+        successfulOperationEffects(await addDataFromAdminPageHTTPRequest(jsonObject));
+    } catch (err) {
+        alert(err);
+    }
+    await createDataTable(contentOrigin);
+
+}
+
+/**
  * Method that calls HTTP DELETE request with the given id
  * @param id the id to be deleted
  * @param contentOrigin the table to refresh
