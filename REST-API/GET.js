@@ -155,15 +155,17 @@ function GET(request, response) {
             getContactMessages(request, response);
             return;
         }
-        case "/dataset/eurostat": { //      || "/dataset/who"
+        case "/dataset/eurostat":
+        case "/dataset/who": {
             getDataset(request, response);
             return;
         }
-        case "/dataset/eurostat/filters" : { //     || "/dataset/who/filters"
+        case "/dataset/eurostat/filters":
+        case "/dataset/who/filters": {
             getFilters(request, response);
             return;
         }
-        case "/users/requests" : { //     || "/dataset/who/filters"
+        case "/users/requests" : {
             getRequestedUsers(request, response);
             return;
         }

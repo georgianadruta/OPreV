@@ -418,8 +418,8 @@ function openTab(evt, tab) {
             break;
         }
         case 'who': {
-            // window.sessionStorage.setItem("dataset", "who");
-            // createBMIDropdown();
+            window.sessionStorage.setItem("dataset", "who");
+            createBMIDropdown();
             break;
         }
     }
