@@ -130,6 +130,12 @@ function hideAddForm() {
  * @param BMIIndicator the BMIIndicator to set the onclick of
  */
 function setBMIFilterSessionStorage(BMIIndicator) {
+    let sublinks = document.getElementsByClassName("tab-sublinks");
+    for (let i = 0; i < sublinks.length; i++) {
+        sublinks[i].className = sublinks[i].className.replace(" active", "");
+    }
+    let currentTab = document.getElementById(BMIIndicator);
+    currentTab.className += " active";
     window.sessionStorage.setItem("BMIFilter", BMIIndicator);
     createDataTable(window.sessionStorage.getItem("dataset"));
 }
@@ -368,14 +374,18 @@ function createBMIDropdown() {
     let tab = document.getElementById("BMIIndicatorsTab");
     tab.innerHTML = '';
     getAllPossibleValuesOfFilterHTTPRequest("BMIIndicators").then(bmiFiltersArray => {
-        bmiFiltersArray.forEach(bmiFilter => {
-            //    <button id="11231" class="tab-links" onclick="">test1</button>-->
+        for (let i = 0; i < bmiFiltersArray.length; i++) {
             let newButton = document.createElement("button");
+            newButton.id = bmiFiltersArray[i];
             newButton.classList.add("tab-links");
-            newButton.setAttribute('onclick', 'setBMIFilterSessionStorage("' + bmiFilter + '");');
-            newButton.textContent = bmiFilter.capitalize();
+            newButton.classList.add("tab-sublinks");
+            newButton.setAttribute('onclick', 'setBMIFilterSessionStorage("' + bmiFiltersArray[i] + '");');
+            newButton.textContent = bmiFiltersArray[i].capitalize();
             tab.append(newButton);
-        })
+            if (i === 0) {
+                newButton.click();
+            }
+        }
     });
 }
 
