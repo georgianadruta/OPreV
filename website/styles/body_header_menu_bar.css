@@ -152,6 +152,10 @@ nav ul li ul.items a {
         display: none;
     }
 
+    nav {
+        margin-top: 8px;
+    }
+
     nav ul li.btn {
         display: flex;
     }
@@ -160,6 +164,9 @@ nav ul li ul.items a {
 @media screen and (max-width: 430px) {
     nav {
         padding-bottom: 17px;
+    }
+    nav {
+        margin-top: 8px;
     }
 
     nav ul li {
