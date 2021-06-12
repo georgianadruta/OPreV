@@ -2,23 +2,7 @@ class BarChart extends OPreVChart {
     chart;
     data = {
         labels: Array(),
-        //TODO Make datasets dynamic
-        datasets: [{
-            label: 'Year 2008',
-            backgroundColor: 'rgb(41, 128, 185)',
-            borderColor: 'rgb(41, 128, 185)',
-            data: [],
-        }, {
-            label: 'Year 2014',
-            backgroundColor: 'rgb(39, 174, 96)',
-            borderColor: 'rgb(39, 174, 96)',
-            data: [],
-        }, {
-            label: 'Year 2017',
-            backgroundColor: 'rgb(243, 156, 18)',
-            borderColor: 'rgb(243, 156, 18)',
-            data: [],
-        },
+        datasets: [
         ]
     };
     config = {
@@ -28,9 +12,10 @@ class BarChart extends OPreVChart {
             maintainAspectRatio: false,
             scales: {
                 x: {
-                    ticks: {
-                        display: true
-                    }
+                    stacked: true,
+                },
+                y: {
+                    stacked: true
                 }
             }
         }
@@ -56,6 +41,11 @@ class BarChart extends OPreVChart {
         return this.data;
     }
 
+    random_rgba() {
+        let o = Math.round, r = Math.random, s = 255;
+        return 'rgba(' + o(r() * s) + ',' + o(r() * s) + ',' + o(r() * s) + ',' + r().toFixed(1) + ')';
+    }
+
     /**
      * This function's purpose is to render the new dataset.
      */
@@ -63,17 +53,47 @@ class BarChart extends OPreVChart {
         if (this.chart === undefined) {
             this.chart = new Chart(document.getElementById('barChart'), this.config);
         } else {
-            let labels = this.tableInformation.dataset.map(data => data.country).filter(onlyUnique);
+            this.chart.data.labels = [];
+            this.chart.data.datasets = [];
 
-            let data2008 = this.tableInformation.dataset.filter(data => data.year === "2008").map(data => data.BMI_value);
-            let data2014 = this.tableInformation.dataset.filter(data => data.year === "2014").map(data => data.BMI_value);
-            let data2017 = this.tableInformation.dataset.filter(data => data.year === "2017").map(data => data.BMI_value);
+            let countries = this.tableInformation.dataset.map(data => data.country).filter(onlyUnique);
+            let years = this.tableInformation.dataset.map(data => data.year).filter(onlyUnique);
 
-            this.chart.data.labels = labels;
-            this.chart.data.datasets[0].data = data2008;
-            this.chart.data.datasets[1].data = data2014;
-            this.chart.data.datasets[2].data = data2017;
+            let dataset = [];
+            let sexFilter = window.sessionStorage.getItem("SexFilter");
 
+            for (let i = 0; i < countries.length; i++) {
+                if (dataset.filter(x => x.country !== countries[i])) {
+
+                    let datasetYears = [];
+                    for (let j = 0; j < years.length; j++) {
+                        datasetYears[years[j]] = this.tableInformation.dataset.find(x =>
+                            x.country === countries[i] && x.year === years[j] && x.sex === sexFilter).BMI_value;
+                    }
+
+                    dataset.push({
+                        country: countries[i],
+                        years: datasetYears
+                    });
+                }
+            }
+
+            console.log(dataset);
+
+            this.chart.data.labels = countries;
+
+            for (let j = 0; j < years.length; j++) {
+
+                let data = [];
+                for (let i = 0; i < countries.length; i++) {
+                    data.push(dataset.find(x => x.country === countries[i]).years[years[j]]);
+                }
+                this.chart.data.datasets.push({
+                    label: years[j],
+                    data: data,
+                    backgroundColor: this.random_rgba(),
+                });
+            }
             this.chart.update();
         }
     }

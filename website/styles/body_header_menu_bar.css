@@ -10,17 +10,11 @@ nav {
     border-bottom: none;
     border-left: none;
     border-right: none;
-    padding: 10px 40px 20px;
+    padding: 10px 40px;
     max-height: 70px;
     width: 100%;
     position: absolute;
     transition: 0.5s;
-    top: -55px;
-}
-
-nav:hover {
-    top: 0;
-    padding-bottom: 0;
 }
 
 nav ul {
