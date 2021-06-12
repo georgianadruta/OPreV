@@ -1,32 +1,36 @@
 .bar-controller {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
 }
 
 .bar-title {
-  margin: 0;
-  font-weight: 700;
+    margin: 0;
+    font-weight: 700;
 }
 
 .bar-actions {
-  margin-top: 10px;
-  margin-bottom: 20px;
+    margin-top: 10px;
+    margin-bottom: 20px;
 }
 
 .chart-container {
-  position: relative;
-  height: 40vh;
-  width: 60vw;
-  margin: auto;
+    position: relative;
+    height: 40vh;
+    width: 60vw;
+    margin: auto;
 }
 
 #who {
-  display: none;
+    display: none;
 }
 
-.radio-group{
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
+.radio-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.dropdown.d-none {
+    display: none;
 }

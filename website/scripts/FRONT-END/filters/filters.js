@@ -34,6 +34,7 @@ async function createFilterButton(fieldName, elementID, sessionStorageItemName, 
             for (let i = 0; i < indicatorsArray.length; i++) {
                 const newDiv = document.createElement('div');
                 newDiv.className = "dropdown-btn";
+                let dataset = window.sessionStorage.getItem("dataset");
                 if (append === true) {
                     newDiv.onclick = function () {
                         if (window.sessionStorage.getItem(sessionStorageItemName).includes(indicatorsArray[i]) === false) {

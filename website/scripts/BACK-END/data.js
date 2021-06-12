@@ -79,6 +79,14 @@ function loadDataSet(datasetName) {
         window.sessionStorage.setItem("dataset", 'eurostat');
         console.error("ERROR: wrong call on loadDataSet function: loadDataset(" + datasetName + ").")
     }
+
+    if (datasetName === "eurostat") {
+        document.getElementById("continentButton-container").style.display = "none";
+        document.getElementById("sexButton-container").style.display = "none";
+    } else {
+        document.getElementById("continentButton-container").style.display = "inline-block";
+        document.getElementById("sexButton-container").style.display = "inline-block";
+    }
 }
 
 /**
