@@ -535,7 +535,10 @@ const getFiltersFromDataset = function (database, tableName, filter, regionsClau
                 console.log(err);
                 reject("Failed to connect to the database.");
             } else {
-                const sql = getSelectSQLQueryForFilter(filter, database, tableName)+regionsClause;
+                let sql = getSelectSQLQueryForFilter(filter, database, tableName)
+                if (regionsClause !== '' && database !== 'eurostat') {
+                    sql += regionsClause;
+                }
                 con.query(sql, function (err, results) {
                     if (err) {
                         console.log("Failed to select " + filter + " from " + tableName + "." + "\nREASON: " + err.sqlMessage);

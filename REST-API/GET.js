@@ -130,8 +130,9 @@ let getFilters = async function (request, response) {
     let BMIIndicator = getQueryParamValueByName(request, "BMIFilter"); // table name
     let database = getQueryParamValueByName(request, "dataset");
     let region = getQueryParamValueByName(request, "RegionsFilter")
-    if (region !== '')
+    if (region !== '' && database !== 'eurostat') {
         region = " WHERE region IN('" + region + "')";
+    }
     try {
         let filters = await CRUD.getFiltersFromDataset(database, BMIIndicator, jsonObject.filter, region);
         response.writeHead(200, {'Content-Type': 'application/json'});

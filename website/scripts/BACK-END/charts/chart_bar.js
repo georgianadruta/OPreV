@@ -2,8 +2,7 @@ class BarChart extends OPreVChart {
     chart;
     data = {
         labels: Array(),
-        datasets: [
-        ]
+        datasets: []
     };
     config = {
         type: 'bar',
@@ -60,6 +59,7 @@ class BarChart extends OPreVChart {
             let years = this.tableInformation.dataset.map(data => data.year).filter(onlyUnique);
 
             let dataset = [];
+            let database = window.sessionStorage.getItem("dataset");
             let sexFilter = window.sessionStorage.getItem("SexFilter");
 
             for (let i = 0; i < countries.length; i++) {
@@ -67,8 +67,15 @@ class BarChart extends OPreVChart {
 
                     let datasetYears = [];
                     for (let j = 0; j < years.length; j++) {
-                        datasetYears[years[j]] = this.tableInformation.dataset.find(x =>
-                            x.country === countries[i] && x.year === years[j] && x.sex === sexFilter).BMI_value;
+                        if (database === "eurostat") {
+                            let data = this.tableInformation.dataset.find(x =>
+                                x.country === countries[i] && x.year === years[j]);
+                            datasetYears[years[j]] = data ? data.BMI_value : 0;
+                        } else {
+                            let data = this.tableInformation.dataset.find(x =>
+                                x.country === countries[i] && x.year === years[j] && x.sex === sexFilter);
+                            datasetYears[years[j]] = data ? data.BMI_value : 0;
+                        }
                     }
 
                     dataset.push({
@@ -77,11 +84,7 @@ class BarChart extends OPreVChart {
                     });
                 }
             }
-
-            console.log(dataset);
-
             this.chart.data.labels = countries;
-
             for (let j = 0; j < years.length; j++) {
 
                 let data = [];

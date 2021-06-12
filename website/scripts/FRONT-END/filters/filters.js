@@ -4,7 +4,8 @@ function updateChart() {
     let chart = getChart();
     chart.refreshDataset().then(() => {
         if (chart === barChart) {
-            barChart.generateChartBar();
+            barChart.clearChart();
+            barChart.generateChartBar()
         } else {
             if (chart === tableChart) {
                 tableChart.generateTable();
