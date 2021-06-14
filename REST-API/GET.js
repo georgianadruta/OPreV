@@ -27,11 +27,11 @@ function createFiltersFromQueryParams(request) {
     let countries = getQueryParamValueByName(request, "countries");
     if (countries.length > 0) {
         const re = /(,)/g;
-        const subst = '\'$1\'';
-        clause += " AND country IN ('";
+        const subst = '"$1"';
+        clause += " AND country IN (\"";
         countries = countries.replace(re, subst)
         clause += countries;
-        clause += "') ";
+        clause += "\") ";
     }
     let years = getQueryParamValueByName(request, "years");
     if (years.length > 0) {
