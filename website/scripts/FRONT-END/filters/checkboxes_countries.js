@@ -5,6 +5,7 @@ let currentCountryCheckboxId = 0;
  * This function's purpose is to create the checkboxes for the countries
  */
 async function createCountriesCheckboxes() {
+    removeCountryIds = [];
     let labels = null;
     await getAllPossibleValuesOfFilterHTTPRequest('countries').then(result => {
         labels = result

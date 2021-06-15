@@ -5,6 +5,7 @@ let currentYearCheckboxId = 0;
  * This function's purpose is to create the checkboxes for the years
  */
 async function createYearsCheckboxes() {
+    removedYearsIds = [];
     let years;
     await getAllPossibleValuesOfFilterHTTPRequest('years').then(yearsArray => {
         years = yearsArray;

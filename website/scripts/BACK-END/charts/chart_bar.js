@@ -40,9 +40,9 @@ class BarChart extends OPreVChart {
         return this.data;
     }
 
-    random_rgba() {
+    random_rgb() {
         let o = Math.round, r = Math.random, s = 255;
-        return 'rgba(' + o(r() * s) + ',' + o(r() * s) + ',' + o(r() * s) + ',' + r().toFixed(1) + ')';
+        return 'rgb(' + o(r() * s) + ',' + o(r() * s) + ',' + o(r() * s)  + ')';
     }
 
     /**
@@ -94,7 +94,7 @@ class BarChart extends OPreVChart {
                 this.chart.data.datasets.push({
                     label: years[j],
                     data: data,
-                    backgroundColor: this.random_rgba(),
+                    backgroundColor: this.random_rgb(),
                 });
             }
             this.chart.update();
